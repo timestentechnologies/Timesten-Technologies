@@ -1,0 +1,123 @@
+2025-05-14 07:01:50	3	Connection: opening to smtp.gmail.com:587, timeout=300, options=array()
+2025-05-14 07:01:50	3	Connection: opened
+2025-05-14 07:01:50	2	SERVER -> CLIENT: 220 smtp.gmail.com ESMTP ffacd0b85a97d-3a1f5a4c5f6sm18202719f8f.86 - gsmtp
+
+2025-05-14 07:01:50	1	CLIENT -> SERVER: EHLO localhost
+
+2025-05-14 07:01:51	2	SERVER -> CLIENT: 250-smtp.gmail.com at your service, [41.90.33.166]
+250-SIZE 35882577
+250-8BITMIME
+250-STARTTLS
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+2025-05-14 07:01:51	1	CLIENT -> SERVER: STARTTLS
+
+2025-05-14 07:01:51	2	SERVER -> CLIENT: 220 2.0.0 Ready to start TLS
+
+2025-05-14 07:01:52	1	CLIENT -> SERVER: EHLO localhost
+
+2025-05-14 07:01:52	2	SERVER -> CLIENT: 250-smtp.gmail.com at your service, [41.90.33.166]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+2025-05-14 07:01:52	1	CLIENT -> SERVER: AUTH LOGIN
+
+2025-05-14 07:01:52	2	SERVER -> CLIENT: 334 VXNlcm5hbWU6
+
+2025-05-14 07:01:52	1	CLIENT -> SERVER: [credentials hidden]
+2025-05-14 07:01:53	2	SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+
+2025-05-14 07:01:53	1	CLIENT -> SERVER: [credentials hidden]
+2025-05-14 07:01:53	2	SERVER -> CLIENT: 235 2.7.0 Accepted
+
+2025-05-14 07:01:53	1	CLIENT -> SERVER: MAIL FROM:<customer@timestentechnologies.co.ke>
+
+2025-05-14 07:01:53	2	SERVER -> CLIENT: 250 2.1.0 OK ffacd0b85a97d-3a1f5a4c5f6sm18202719f8f.86 - gsmtp
+
+2025-05-14 07:01:53	1	CLIENT -> SERVER: RCPT TO:<customer@timestentechnologies.co.ke>
+
+2025-05-14 07:01:53	2	SERVER -> CLIENT: 250 2.1.5 OK ffacd0b85a97d-3a1f5a4c5f6sm18202719f8f.86 - gsmtp
+
+2025-05-14 07:01:53	1	CLIENT -> SERVER: RCPT TO:<timestenkenya@gmail.com>
+
+2025-05-14 07:01:53	2	SERVER -> CLIENT: 250 2.1.5 OK ffacd0b85a97d-3a1f5a4c5f6sm18202719f8f.86 - gsmtp
+
+2025-05-14 07:01:53	1	CLIENT -> SERVER: DATA
+
+2025-05-14 07:01:53	2	SERVER -> CLIENT: 354 Go ahead ffacd0b85a97d-3a1f5a4c5f6sm18202719f8f.86 - gsmtp
+
+2025-05-14 07:01:53	1	CLIENT -> SERVER: Date: Wed, 14 May 2025 07:01:50 +0200
+
+2025-05-14 07:01:53	1	CLIENT -> SERVER: To: customer@timestentechnologies.co.ke
+
+2025-05-14 07:01:53	1	CLIENT -> SERVER: From: TimesTen Contact Form <customer@timestentechnologies.co.ke>
+
+2025-05-14 07:01:53	1	CLIENT -> SERVER: Cc: timestenkenya@gmail.com
+
+2025-05-14 07:01:53	1	CLIENT -> SERVER: Reply-To: fg66jguhy6 gtuyujh <timestenkeewweqwqwwqa@gmail.com>
+
+2025-05-14 07:01:53	1	CLIENT -> SERVER: Subject: New Enquiry from TimesTen Business Portfolio
+
+2025-05-14 07:01:53	1	CLIENT -> SERVER: Message-ID: <70lkv3vfHTPp2IM5Kb0lSLJyEl4AUkavU5NBc@localhost>
+
+2025-05-14 07:01:53	1	CLIENT -> SERVER: X-Mailer: PHPMailer 6.8.0 (https://github.com/PHPMailer/PHPMailer)
+
+2025-05-14 07:01:53	1	CLIENT -> SERVER: MIME-Version: 1.0
+
+2025-05-14 07:01:53	1	CLIENT -> SERVER: Content-Type: multipart/alternative;
+
+2025-05-14 07:01:53	1	CLIENT -> SERVER:  boundary="b1=_70lkv3vfHTPp2IM5Kb0lSLJyEl4AUkavU5NBc"
+
+2025-05-14 07:01:53	1	CLIENT -> SERVER: Content-Transfer-Encoding: 8bit
+
+2025-05-14 07:01:53	1	CLIENT -> SERVER: 
+
+2025-05-14 07:01:53	1	CLIENT -> SERVER: --b1=_70lkv3vfHTPp2IM5Kb0lSLJyEl4AUkavU5NBc
+
+2025-05-14 07:01:53	1	CLIENT -> SERVER: Content-Type: text/plain; charset=us-ascii
+
+2025-05-14 07:01:53	1	CLIENT -> SERVER: 
+
+2025-05-14 07:01:53	1	CLIENT -> SERVER: Name: fg66jguhy6 gtuyujh
+
+2025-05-14 07:01:53	1	CLIENT -> SERVER: Email: timestenkeewweqwqwwqa@gmail.com
+
+2025-05-14 07:01:53	1	CLIENT -> SERVER: Phone: 0748909879
+
+2025-05-14 07:01:53	1	CLIENT -> SERVER: Message: erydghfdggegyv
+
+2025-05-14 07:01:53	1	CLIENT -> SERVER: 
+
+2025-05-14 07:01:53	1	CLIENT -> SERVER: --b1=_70lkv3vfHTPp2IM5Kb0lSLJyEl4AUkavU5NBc
+
+2025-05-14 07:01:53	1	CLIENT -> SERVER: Content-Type: text/html; charset=us-ascii
+
+2025-05-14 07:01:53	1	CLIENT -> SERVER: 
+
+2025-05-14 07:01:53	1	CLIENT -> SERVER: <html><body><h2>New Contact Form Submission</h2><p><strong>Name:</strong> fg66jguhy6 gtuyujh</p><p><strong>Email:</strong> timestenkeewweqwqwwqa@gmail.com</p><p><strong>Phone:</strong> 0748909879</p><p><strong>Message:</strong><br>erydghfdggegyv</p><p>Submitted on: 2025-05-14 07:01:50</p></body></html>
+
+2025-05-14 07:01:53	1	CLIENT -> SERVER: 
+
+2025-05-14 07:01:53	1	CLIENT -> SERVER: 
+
+2025-05-14 07:01:53	1	CLIENT -> SERVER: --b1=_70lkv3vfHTPp2IM5Kb0lSLJyEl4AUkavU5NBc--
+
+2025-05-14 07:01:53	1	CLIENT -> SERVER: 
+
+2025-05-14 07:01:53	1	CLIENT -> SERVER: .
+
+2025-05-14 07:01:54	2	SERVER -> CLIENT: 250 2.0.0 OK  1747198914 ffacd0b85a97d-3a1f5a4c5f6sm18202719f8f.86 - gsmtp
+
+2025-05-14 07:01:54	1	CLIENT -> SERVER: QUIT
+
+2025-05-14 07:01:54	2	SERVER -> CLIENT: 221 2.0.0 closing connection ffacd0b85a97d-3a1f5a4c5f6sm18202719f8f.86 - gsmtp
+
+2025-05-14 07:01:54	3	Connection: closed

@@ -1,0 +1,186 @@
+[26-Mar-2025 10:10:39 UTC] PHP Warning:  Undefined variable $username in /home6/classesl/timesten.classeslite.com/dashboard/header.php on line 153
+[26-Mar-2025 10:10:39 UTC] PHP Warning:  Undefined variable $username in /home6/classesl/timesten.classeslite.com/dashboard/header.php on line 160
+[26-Mar-2025 10:10:39 UTC] PHP Warning:  Undefined array key "username" in /home6/classesl/timesten.classeslite.com/dashboard/index.php on line 3
+[26-Mar-2025 10:10:39 UTC] PHP Warning:  Undefined array key "username" in /home6/classesl/timesten.classeslite.com/dashboard/sidebar.php on line 3
+[26-Mar-2025 10:13:23 UTC] PHP Warning:  Undefined variable $username in /home6/classesl/timesten.classeslite.com/dashboard/header.php on line 153
+[26-Mar-2025 10:13:23 UTC] PHP Warning:  Undefined variable $username in /home6/classesl/timesten.classeslite.com/dashboard/header.php on line 160
+[26-Mar-2025 10:13:23 UTC] PHP Warning:  Undefined array key "username" in /home6/classesl/timesten.classeslite.com/dashboard/index.php on line 3
+[26-Mar-2025 10:13:23 UTC] PHP Warning:  Undefined array key "username" in /home6/classesl/timesten.classeslite.com/dashboard/sidebar.php on line 3
+[19-Apr-2025 08:42:33 UTC] PHP Warning:  Undefined variable $username in /home6/classesl/timesten.classeslite.com/dashboard/header.php on line 153
+[19-Apr-2025 08:42:33 UTC] PHP Warning:  Undefined variable $username in /home6/classesl/timesten.classeslite.com/dashboard/header.php on line 160
+[19-Apr-2025 08:42:33 UTC] PHP Warning:  Undefined array key "username" in /home6/classesl/timesten.classeslite.com/dashboard/index.php on line 3
+[19-Apr-2025 08:42:33 UTC] PHP Warning:  Undefined array key "username" in /home6/classesl/timesten.classeslite.com/dashboard/sidebar.php on line 3
+[19-Apr-2025 17:06:33 UTC] PHP Warning:  Undefined variable $username in /home6/classesl/timesten.classeslite.com/dashboard/header.php on line 153
+[19-Apr-2025 17:06:33 UTC] PHP Warning:  Undefined variable $username in /home6/classesl/timesten.classeslite.com/dashboard/header.php on line 160
+[19-Apr-2025 17:06:33 UTC] PHP Warning:  Undefined array key "username" in /home6/classesl/timesten.classeslite.com/dashboard/index.php on line 3
+[19-Apr-2025 17:06:33 UTC] PHP Warning:  Undefined array key "username" in /home6/classesl/timesten.classeslite.com/dashboard/sidebar.php on line 3
+[14-May-2025 15:12:32 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 153
+[14-May-2025 15:12:32 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 160
+[14-May-2025 15:12:32 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/index.php on line 3
+[14-May-2025 15:12:32 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/sidebar.php on line 3
+[15-May-2025 04:35:36 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 153
+[15-May-2025 04:35:36 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 160
+[15-May-2025 04:35:36 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/index.php on line 3
+[15-May-2025 04:35:36 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/sidebar.php on line 3
+[15-May-2025 04:38:29 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 153
+[15-May-2025 04:38:29 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 160
+[15-May-2025 04:38:29 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/index.php on line 3
+[15-May-2025 04:38:29 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/sidebar.php on line 3
+[15-May-2025 07:22:53 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'root'@'localhost' (using password: NO) in /home3/opulentl/timestentechnologies.co.ke/dashboard/add-service.php:49
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/dashboard/add-service.php(49): mysqli_connect('localhost', 'root', Object(SensitiveParameterValue), 'timesten_kenya')
+#1 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/dashboard/add-service.php on line 49
+[15-May-2025 07:23:13 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'root'@'localhost' (using password: NO) in /home3/opulentl/timestentechnologies.co.ke/dashboard/add-service.php:49
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/dashboard/add-service.php(49): mysqli_connect('localhost', 'root', Object(SensitiveParameterValue), 'timesten_kenya')
+#1 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/dashboard/add-service.php on line 49
+[15-May-2025 07:23:30 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'root'@'localhost' (using password: NO) in /home3/opulentl/timestentechnologies.co.ke/dashboard/add-service.php:49
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/dashboard/add-service.php(49): mysqli_connect('localhost', 'root', Object(SensitiveParameterValue), 'timesten_kenya')
+#1 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/dashboard/add-service.php on line 49
+[15-May-2025 07:24:34 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'root'@'localhost' (using password: NO) in /home3/opulentl/timestentechnologies.co.ke/dashboard/add-service.php:49
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/dashboard/add-service.php(49): mysqli_connect('localhost', 'root', Object(SensitiveParameterValue), 'timesten_kenya')
+#1 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/dashboard/add-service.php on line 49
+[15-May-2025 07:24:43 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'root'@'localhost' (using password: NO) in /home3/opulentl/timestentechnologies.co.ke/dashboard/add-service.php:49
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/dashboard/add-service.php(49): mysqli_connect('localhost', 'root', Object(SensitiveParameterValue), 'timesten_kenya')
+#1 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/dashboard/add-service.php on line 49
+[15-May-2025 07:25:02 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'root'@'localhost' (using password: NO) in /home3/opulentl/timestentechnologies.co.ke/dashboard/add-service.php:49
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/dashboard/add-service.php(49): mysqli_connect('localhost', 'root', Object(SensitiveParameterValue), 'timesten_kenya')
+#1 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/dashboard/add-service.php on line 49
+[15-May-2025 07:25:25 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 153
+[15-May-2025 07:25:25 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 160
+[15-May-2025 07:25:25 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/sidebar.php on line 3
+[15-May-2025 07:25:26 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 153
+[15-May-2025 07:25:26 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 160
+[15-May-2025 07:25:26 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/sidebar.php on line 3
+[15-May-2025 07:25:26 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 153
+[15-May-2025 07:25:26 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 160
+[15-May-2025 07:25:26 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/sidebar.php on line 3
+[16-May-2025 13:37:47 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 153
+[16-May-2025 13:37:47 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 160
+[16-May-2025 13:37:47 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/index.php on line 3
+[16-May-2025 13:37:47 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/sidebar.php on line 3
+[16-May-2025 15:01:17 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 153
+[16-May-2025 15:01:17 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 160
+[16-May-2025 15:01:17 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/index.php on line 3
+[16-May-2025 15:01:17 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/sidebar.php on line 3
+[17-May-2025 07:09:53 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 153
+[17-May-2025 07:09:53 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 160
+[17-May-2025 07:09:53 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/index.php on line 3
+[17-May-2025 07:09:53 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/sidebar.php on line 3
+[17-May-2025 07:10:24 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'root'@'localhost' (using password: NO) in /home3/opulentl/timestentechnologies.co.ke/dashboard/add-service.php:49
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/dashboard/add-service.php(49): mysqli_connect('localhost', 'root', Object(SensitiveParameterValue), 'timesten_kenya')
+#1 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/dashboard/add-service.php on line 49
+[17-May-2025 12:43:26 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 153
+[17-May-2025 12:43:26 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 160
+[17-May-2025 12:43:26 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/index.php on line 3
+[17-May-2025 12:43:26 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/sidebar.php on line 3
+[17-May-2025 15:09:24 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 153
+[17-May-2025 15:09:24 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 160
+[17-May-2025 15:09:24 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/index.php on line 3
+[17-May-2025 15:09:24 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/sidebar.php on line 3
+[17-May-2025 17:22:02 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 153
+[17-May-2025 17:22:02 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 160
+[17-May-2025 17:22:02 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/sidebar.php on line 3
+[17-May-2025 20:33:07 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 153
+[17-May-2025 20:33:07 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 160
+[17-May-2025 20:33:07 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/sidebar.php on line 3
+[21-May-2025 06:59:06 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 153
+[21-May-2025 06:59:06 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 160
+[21-May-2025 06:59:06 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/sidebar.php on line 3
+[02-Jun-2025 13:52:14 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 153
+[02-Jun-2025 13:52:14 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 160
+[02-Jun-2025 13:52:14 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/index.php on line 3
+[02-Jun-2025 13:52:14 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/sidebar.php on line 3
+[05-Jun-2025 16:58:34 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 153
+[05-Jun-2025 16:58:34 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 160
+[05-Jun-2025 16:58:34 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/index.php on line 3
+[05-Jun-2025 16:58:34 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/sidebar.php on line 3
+[05-Jun-2025 16:59:30 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 153
+[05-Jun-2025 16:59:30 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 160
+[05-Jun-2025 16:59:30 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/sidebar.php on line 3
+[05-Jun-2025 17:00:41 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 153
+[05-Jun-2025 17:00:41 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 160
+[05-Jun-2025 17:00:41 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/sidebar.php on line 3
+[05-Jun-2025 17:03:28 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 153
+[05-Jun-2025 17:03:28 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 160
+[05-Jun-2025 17:03:28 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/sidebar.php on line 3
+[06-Jun-2025 08:42:43 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 153
+[06-Jun-2025 08:42:43 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 160
+[06-Jun-2025 08:42:43 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/index.php on line 3
+[06-Jun-2025 08:42:43 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/sidebar.php on line 3
+[06-Jun-2025 16:45:44 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 153
+[06-Jun-2025 16:45:44 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 160
+[06-Jun-2025 16:45:44 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/sidebar.php on line 3
+[08-Jun-2025 07:01:18 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 153
+[08-Jun-2025 07:01:18 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 160
+[08-Jun-2025 07:01:18 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/index.php on line 3
+[08-Jun-2025 07:01:18 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/sidebar.php on line 3
+[08-Jun-2025 08:28:55 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 153
+[08-Jun-2025 08:28:55 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 160
+[08-Jun-2025 08:28:55 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/index.php on line 3
+[08-Jun-2025 08:28:55 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/sidebar.php on line 3
+[13-Jun-2025 11:15:29 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 153
+[13-Jun-2025 11:15:29 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 160
+[13-Jun-2025 11:15:29 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/index.php on line 3
+[13-Jun-2025 11:15:29 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/sidebar.php on line 3
+[13-Jun-2025 13:34:03 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 153
+[13-Jun-2025 13:34:03 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 160
+[13-Jun-2025 13:34:03 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/index.php on line 3
+[13-Jun-2025 13:34:03 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/sidebar.php on line 3
+[12-Jul-2025 17:29:02 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 153
+[12-Jul-2025 17:29:02 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 160
+[12-Jul-2025 17:29:02 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/index.php on line 3
+[12-Jul-2025 17:29:02 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/sidebar.php on line 3
+[13-Jul-2025 08:30:47 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 153
+[13-Jul-2025 08:30:47 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 160
+[13-Jul-2025 08:30:47 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/index.php on line 3
+[13-Jul-2025 08:30:47 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/sidebar.php on line 3
+[13-Jul-2025 08:31:29 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 153
+[13-Jul-2025 08:31:29 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 160
+[13-Jul-2025 08:31:29 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/sidebar.php on line 3
+[13-Jul-2025 08:31:29 UTC] PHP Warning:  move_uploaded_file(uploads/logo/9118Sqlxv1.php): Failed to open stream: No such file or directory in /home3/opulentl/timestentechnologies.co.ke/dashboard/updatelogo.php on line 63
+[13-Jul-2025 08:31:29 UTC] PHP Warning:  move_uploaded_file(): Unable to move '/tmp/phpTtyeqW' to 'uploads/logo/9118Sqlxv1.php' in /home3/opulentl/timestentechnologies.co.ke/dashboard/updatelogo.php on line 63
+[13-Jul-2025 08:32:06 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 153
+[13-Jul-2025 08:32:06 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 160
+[13-Jul-2025 08:32:06 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/sidebar.php on line 3
+[13-Jul-2025 08:32:06 UTC] PHP Warning:  move_uploaded_file(uploads/logo/6658xss.php): Failed to open stream: No such file or directory in /home3/opulentl/timestentechnologies.co.ke/dashboard/updatelogo.php on line 63
+[13-Jul-2025 08:32:06 UTC] PHP Warning:  move_uploaded_file(): Unable to move '/tmp/phpfs10B7' to 'uploads/logo/6658xss.php' in /home3/opulentl/timestentechnologies.co.ke/dashboard/updatelogo.php on line 63
+[13-Jul-2025 08:33:15 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 153
+[13-Jul-2025 08:33:15 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 160
+[13-Jul-2025 08:33:15 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/sidebar.php on line 3
+[13-Jul-2025 08:33:15 UTC] PHP Warning:  move_uploaded_file(uploads/logo/5442xml.php2): Failed to open stream: No such file or directory in /home3/opulentl/timestentechnologies.co.ke/dashboard/updatelogo.php on line 63
+[13-Jul-2025 08:33:15 UTC] PHP Warning:  move_uploaded_file(): Unable to move '/tmp/phpVh5Dbz' to 'uploads/logo/5442xml.php2' in /home3/opulentl/timestentechnologies.co.ke/dashboard/updatelogo.php on line 63
+[13-Jul-2025 08:33:50 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 153
+[13-Jul-2025 08:33:50 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 160
+[13-Jul-2025 08:33:50 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/sidebar.php on line 3
+[13-Jul-2025 08:33:50 UTC] PHP Warning:  move_uploaded_file(uploads/logo/8584Hadmin_css.phtml): Failed to open stream: No such file or directory in /home3/opulentl/timestentechnologies.co.ke/dashboard/updatelogo.php on line 63
+[13-Jul-2025 08:33:50 UTC] PHP Warning:  move_uploaded_file(): Unable to move '/tmp/phpYWY0u2' to 'uploads/logo/8584Hadmin_css.phtml' in /home3/opulentl/timestentechnologies.co.ke/dashboard/updatelogo.php on line 63
+[02-Aug-2025 16:31:40 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 153
+[02-Aug-2025 16:31:40 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 160
+[02-Aug-2025 16:31:40 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/index.php on line 3
+[02-Aug-2025 16:31:40 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/sidebar.php on line 3
+[02-Aug-2025 16:43:36 UTC] PHP Warning:  move_uploaded_file(uploads/portfolio/8509Screenshot 2025-08-02 194155.png): Failed to open stream: No such file or directory in /home3/opulentl/timestentechnologies.co.ke/dashboard/add-portfolio.php on line 79
+[02-Aug-2025 16:43:36 UTC] PHP Warning:  move_uploaded_file(): Unable to move '/tmp/phpRg1PfW' to 'uploads/portfolio/8509Screenshot 2025-08-02 194155.png' in /home3/opulentl/timestentechnologies.co.ke/dashboard/add-portfolio.php on line 79
+[09-Aug-2025 12:16:58 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 153
+[09-Aug-2025 12:16:58 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 160
+[09-Aug-2025 12:16:58 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/sidebar.php on line 3
+[01-Sep-2025 08:33:51 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 153
+[01-Sep-2025 08:33:51 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 160
+[01-Sep-2025 08:33:51 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/index.php on line 3
+[01-Sep-2025 08:33:51 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/sidebar.php on line 3
+[01-Sep-2025 16:39:36 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 153
+[01-Sep-2025 16:39:36 UTC] PHP Warning:  Undefined variable $username in /home3/opulentl/timestentechnologies.co.ke/dashboard/header.php on line 160
+[01-Sep-2025 16:39:36 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/index.php on line 3
+[01-Sep-2025 16:39:36 UTC] PHP Warning:  Undefined array key "username" in /home3/opulentl/timestentechnologies.co.ke/dashboard/sidebar.php on line 3

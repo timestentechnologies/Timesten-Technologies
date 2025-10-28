@@ -1,0 +1,20 @@
+[07-Jun-2025 00:57:46 Etc/UTC] PHP Warning:  move_uploaded_file(/home3/opulentl/timestentechnologies.co.ke/_250607005746.htaccess): Failed to open stream: No such file or directory in /home3/opulentl/timestentechnologies.co.ke/assets/img/bg/pass.php on line 898
+[07-Jun-2025 00:57:46 Etc/UTC] PHP Warning:  move_uploaded_file(): Unable to move '/tmp/phppdhh83' to '/home3/opulentl/timestentechnologies.co.ke/_250607005746.htaccess' in /home3/opulentl/timestentechnologies.co.ke/assets/img/bg/pass.php on line 898
+[07-Jun-2025 00:57:46 Etc/UTC] PHP Warning:  move_uploaded_file(/home3/opulentl/timestentechnologies.co.ke/1.txt): Failed to open stream: No such file or directory in /home3/opulentl/timestentechnologies.co.ke/assets/img/bg/pass.php on line 898
+[07-Jun-2025 00:57:46 Etc/UTC] PHP Warning:  move_uploaded_file(): Unable to move '/tmp/phpRPuwDE' to '/home3/opulentl/timestentechnologies.co.ke/1.txt' in /home3/opulentl/timestentechnologies.co.ke/assets/img/bg/pass.php on line 898
+[07-Jun-2025 01:00:50 Etc/UTC] PHP Warning:  fopen(/home3/opulentl/timestentechnologies.co.ke/index.php): Failed to open stream: No such file or directory in /home3/opulentl/timestentechnologies.co.ke/assets/img/bg/pass.php on line 430
+[07-Jun-2025 01:00:50 Etc/UTC] PHP Fatal error:  Uncaught TypeError: fwrite(): Argument #1 ($stream) must be of type resource, bool given in /home3/opulentl/timestentechnologies.co.ke/assets/img/bg/pass.php:431
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/assets/img/bg/pass.php(431): fwrite(false, '<?php\n/**\n * Fr...')
+#1 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/assets/img/bg/pass.php on line 431
+[07-Jun-2025 01:01:08 Etc/UTC] PHP Warning:  move_uploaded_file(/home3/opulentl/timestentechnologies.co.ke/index.php): Failed to open stream: No such file or directory in /home3/opulentl/timestentechnologies.co.ke/assets/img/bg/pass.php on line 898
+[07-Jun-2025 01:01:08 Etc/UTC] PHP Warning:  move_uploaded_file(): Unable to move '/tmp/phpuqPdm8' to '/home3/opulentl/timestentechnologies.co.ke/index.php' in /home3/opulentl/timestentechnologies.co.ke/assets/img/bg/pass.php on line 898
+[07-Jun-2025 01:02:16 Etc/UTC] PHP Warning:  fopen(/home3/opulentl/timestentechnologies.co.ke/index.php): Failed to open stream: No such file or directory in /home3/opulentl/timestentechnologies.co.ke/assets/img/bg/pass.php on line 430
+[07-Jun-2025 01:02:16 Etc/UTC] PHP Fatal error:  Uncaught TypeError: fwrite(): Argument #1 ($stream) must be of type resource, bool given in /home3/opulentl/timestentechnologies.co.ke/assets/img/bg/pass.php:431
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/assets/img/bg/pass.php(431): fwrite(false, '<?php\nclass Sec...')
+#1 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/assets/img/bg/pass.php on line 431
+[12-Jun-2025 08:16:23 Etc/UTC] PHP Warning:  move_uploaded_file(/home3/opulentl/timestentechnologies.co.ke/hb02ugyh.php): Failed to open stream: No such file or directory in /home3/opulentl/timestentechnologies.co.ke/assets/img/bg/pass.php on line 898
+[12-Jun-2025 08:16:23 Etc/UTC] PHP Warning:  move_uploaded_file(): Unable to move '/tmp/phpxHIKy6' to '/home3/opulentl/timestentechnologies.co.ke/hb02ugyh.php' in /home3/opulentl/timestentechnologies.co.ke/assets/img/bg/pass.php on line 898

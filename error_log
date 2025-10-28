@@ -1,0 +1,209 @@
+[03-Apr-2025 13:34:08 UTC] PHP Warning:  Undefined array key "id" in /home6/classesl/timesten.classeslite.com/portdetail.php on line 3
+[03-Apr-2025 13:34:08 UTC] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home6/classesl/timesten.classeslite.com/portdetail.php on line 3
+[03-Apr-2025 13:34:08 UTC] PHP Warning:  Trying to access array offset on value of type null in /home6/classesl/timesten.classeslite.com/portdetail.php on line 29
+[03-Apr-2025 13:34:08 UTC] PHP Warning:  Trying to access array offset on value of type null in /home6/classesl/timesten.classeslite.com/portdetail.php on line 30
+[03-Apr-2025 13:34:08 UTC] PHP Warning:  Trying to access array offset on value of type null in /home6/classesl/timesten.classeslite.com/portdetail.php on line 31
+[14-May-2025 13:27:54 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 19
+[14-May-2025 13:27:54 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 21
+[14-May-2025 13:27:54 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 22
+[14-May-2025 13:27:54 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 19
+[14-May-2025 13:27:54 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 21
+[14-May-2025 13:27:54 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 22
+[14-May-2025 13:27:55 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home3/opulentl/timestentechnologies.co.ke/send_email.php:19) in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 310
+[14-May-2025 13:27:55 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home3/opulentl/timestentechnologies.co.ke/send_email.php:19) in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 310
+[14-May-2025 13:32:15 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 19
+[14-May-2025 13:32:15 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 21
+[14-May-2025 13:32:15 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 22
+[14-May-2025 13:32:15 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 19
+[14-May-2025 13:32:15 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 21
+[14-May-2025 13:32:15 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 22
+[14-May-2025 13:32:16 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home3/opulentl/timestentechnologies.co.ke/send_email.php:19) in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 310
+[14-May-2025 13:32:16 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home3/opulentl/timestentechnologies.co.ke/send_email.php:19) in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 310
+[14-May-2025 13:36:44 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 19
+[14-May-2025 13:36:44 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 21
+[14-May-2025 13:36:44 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 22
+[14-May-2025 13:36:44 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 19
+[14-May-2025 13:36:44 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 21
+[14-May-2025 13:36:44 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 22
+[14-May-2025 13:36:44 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home3/opulentl/timestentechnologies.co.ke/send_email.php:19) in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 310
+[14-May-2025 13:36:44 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home3/opulentl/timestentechnologies.co.ke/send_email.php:19) in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 310
+[14-May-2025 13:37:11 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 19
+[14-May-2025 13:37:11 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 21
+[14-May-2025 13:37:11 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 22
+[14-May-2025 13:37:11 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 19
+[14-May-2025 13:37:11 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 21
+[14-May-2025 13:37:11 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 22
+[14-May-2025 13:37:12 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home3/opulentl/timestentechnologies.co.ke/send_email.php:19) in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 310
+[14-May-2025 13:37:12 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home3/opulentl/timestentechnologies.co.ke/send_email.php:19) in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 310
+[14-May-2025 13:48:28 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 36
+[14-May-2025 13:48:28 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 38
+[14-May-2025 13:48:28 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 39
+[14-May-2025 13:48:28 UTC] PHP Warning:  mkdir(): File exists in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 11
+[14-May-2025 13:48:28 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 36
+[14-May-2025 13:48:28 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 38
+[14-May-2025 13:48:28 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 39
+[14-May-2025 13:48:29 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home3/opulentl/timestentechnologies.co.ke/send_email.php:36) in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 341
+[14-May-2025 13:48:29 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home3/opulentl/timestentechnologies.co.ke/send_email.php:11) in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 341
+[14-May-2025 13:48:44 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 36
+[14-May-2025 13:48:44 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 38
+[14-May-2025 13:48:44 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 39
+[14-May-2025 13:48:44 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 36
+[14-May-2025 13:48:44 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 38
+[14-May-2025 13:48:44 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 39
+[14-May-2025 13:48:45 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home3/opulentl/timestentechnologies.co.ke/send_email.php:36) in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 341
+[14-May-2025 13:48:45 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home3/opulentl/timestentechnologies.co.ke/send_email.php:36) in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 341
+[14-May-2025 13:52:16 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 36
+[14-May-2025 13:52:16 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 38
+[14-May-2025 13:52:16 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 39
+[14-May-2025 13:52:16 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function mail() in /home3/opulentl/timestentechnologies.co.ke/send_email.php:168
+Stack trace:
+#0 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 168
+[14-May-2025 13:52:16 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 36
+[14-May-2025 13:52:16 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 38
+[14-May-2025 13:52:16 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 39
+[14-May-2025 13:52:16 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function mail() in /home3/opulentl/timestentechnologies.co.ke/send_email.php:168
+Stack trace:
+#0 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 168
+[14-May-2025 15:16:00 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function mail() in /home3/opulentl/timestentechnologies.co.ke/index.php:436
+Stack trace:
+#0 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/index.php on line 436
+[14-May-2025 15:16:19 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function mail() in /home3/opulentl/timestentechnologies.co.ke/index.php:436
+Stack trace:
+#0 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/index.php on line 436
+[14-May-2025 15:16:48 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function mail() in /home3/opulentl/timestentechnologies.co.ke/index.php:436
+Stack trace:
+#0 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/index.php on line 436
+[14-May-2025 15:17:38 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 36
+[14-May-2025 15:17:38 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 38
+[14-May-2025 15:17:38 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 39
+[14-May-2025 15:17:38 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 36
+[14-May-2025 15:17:38 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 38
+[14-May-2025 15:17:38 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 39
+[14-May-2025 15:17:39 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home3/opulentl/timestentechnologies.co.ke/send_email.php:36) in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 341
+[14-May-2025 15:17:39 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home3/opulentl/timestentechnologies.co.ke/send_email.php:36) in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 341
+[14-May-2025 15:17:45 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 36
+[14-May-2025 15:17:45 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 36
+[14-May-2025 15:17:45 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 38
+[14-May-2025 15:17:45 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 39
+[14-May-2025 15:17:45 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 38
+[14-May-2025 15:17:45 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 39
+[14-May-2025 15:17:46 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home3/opulentl/timestentechnologies.co.ke/send_email.php:36) in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 341
+[14-May-2025 15:17:46 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home3/opulentl/timestentechnologies.co.ke/send_email.php:36) in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 341
+[14-May-2025 15:18:23 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function mail() in /home3/opulentl/timestentechnologies.co.ke/blog.php:215
+Stack trace:
+#0 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/blog.php on line 215
+[15-May-2025 06:23:14 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 36
+[15-May-2025 06:23:14 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 38
+[15-May-2025 06:23:14 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 39
+[15-May-2025 06:23:14 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 36
+[15-May-2025 06:23:14 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 38
+[15-May-2025 06:23:14 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 39
+[15-May-2025 06:23:15 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home3/opulentl/timestentechnologies.co.ke/send_email.php:36) in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 341
+[15-May-2025 06:23:16 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home3/opulentl/timestentechnologies.co.ke/send_email.php:36) in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 341
+[16-May-2025 13:35:22 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 36
+[16-May-2025 13:35:22 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 38
+[16-May-2025 13:35:22 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 39
+[16-May-2025 13:35:22 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 36
+[16-May-2025 13:35:22 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 38
+[16-May-2025 13:35:22 UTC] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 39
+[16-May-2025 13:35:22 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home3/opulentl/timestentechnologies.co.ke/send_email.php:36) in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 341
+[16-May-2025 13:35:23 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home3/opulentl/timestentechnologies.co.ke/send_email.php:36) in /home3/opulentl/timestentechnologies.co.ke/send_email.php on line 341
+[16-May-2025 13:36:12 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function mail() in /home3/opulentl/timestentechnologies.co.ke/portfolio.php:212
+Stack trace:
+#0 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/portfolio.php on line 212
+[16-May-2025 13:48:11 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function mail() in /home3/opulentl/timestentechnologies.co.ke/services.php:227
+Stack trace:
+#0 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/services.php on line 227
+[16-May-2025 13:55:30 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function mail() in /home3/opulentl/timestentechnologies.co.ke/servicedetail.php:139
+Stack trace:
+#0 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/servicedetail.php on line 139
+[16-May-2025 13:57:17 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function mail() in /home3/opulentl/timestentechnologies.co.ke/index.php:436
+Stack trace:
+#0 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/index.php on line 436
+[19-May-2025 17:22:39 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'opulentl_timestentech.chat_responses' doesn't exist in /home3/opulentl/timestentechnologies.co.ke/smart-chat.php:11
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/smart-chat.php(11): mysqli_query(Object(mysqli), 'SELECT category...')
+#1 /home3/opulentl/timestentechnologies.co.ke/smart-chat.php(25): getCustomResponses()
+#2 /home3/opulentl/timestentechnologies.co.ke/footer.php(403): include('/home3/opulentl...')
+#3 /home3/opulentl/timestentechnologies.co.ke/index.php(572): include('/home3/opulentl...')
+#4 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/smart-chat.php on line 11
+[19-May-2025 17:22:54 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'opulentl_timestentech.chat_responses' doesn't exist in /home3/opulentl/timestentechnologies.co.ke/smart-chat.php:11
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/smart-chat.php(11): mysqli_query(Object(mysqli), 'SELECT category...')
+#1 /home3/opulentl/timestentechnologies.co.ke/smart-chat.php(25): getCustomResponses()
+#2 /home3/opulentl/timestentechnologies.co.ke/footer.php(403): include('/home3/opulentl...')
+#3 /home3/opulentl/timestentechnologies.co.ke/index.php(572): include('/home3/opulentl...')
+#4 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/smart-chat.php on line 11
+[19-May-2025 17:41:24 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'opulentl_timestentech.chat_responses' doesn't exist in /home3/opulentl/timestentechnologies.co.ke/smart-chat.php:11
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/smart-chat.php(11): mysqli_query(Object(mysqli), 'SELECT category...')
+#1 /home3/opulentl/timestentechnologies.co.ke/smart-chat.php(25): getCustomResponses()
+#2 /home3/opulentl/timestentechnologies.co.ke/footer.php(403): include('/home3/opulentl...')
+#3 /home3/opulentl/timestentechnologies.co.ke/index.php(572): include('/home3/opulentl...')
+#4 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/smart-chat.php on line 11
+[19-May-2025 17:41:26 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'opulentl_timestentech.chat_responses' doesn't exist in /home3/opulentl/timestentechnologies.co.ke/smart-chat.php:11
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/smart-chat.php(11): mysqli_query(Object(mysqli), 'SELECT category...')
+#1 /home3/opulentl/timestentechnologies.co.ke/smart-chat.php(25): getCustomResponses()
+#2 /home3/opulentl/timestentechnologies.co.ke/footer.php(403): include('/home3/opulentl...')
+#3 /home3/opulentl/timestentechnologies.co.ke/index.php(572): include('/home3/opulentl...')
+#4 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/smart-chat.php on line 11
+[07-Jun-2025 06:39:33 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function mail() in /home3/opulentl/timestentechnologies.co.ke/index.php:436
+Stack trace:
+#0 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/index.php on line 436
+[07-Jun-2025 06:39:56 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function mail() in /home3/opulentl/timestentechnologies.co.ke/index.php:436
+Stack trace:
+#0 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/index.php on line 436
+[01-Sep-2025 08:30:47 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'opulent_timesten'@'localhost' (using password: YES) in /home3/opulentl/timestentechnologies.co.ke/z_db.php:2
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/z_db.php(2): mysqli->__construct('localhost', 'opulent_timeste...', Object(SensitiveParameterValue), 'opulentl_timest...')
+#1 /home3/opulentl/timestentechnologies.co.ke/header.php(1): include('/home3/opulentl...')
+#2 /home3/opulentl/timestentechnologies.co.ke/index.php(1): include('/home3/opulentl...')
+#3 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/z_db.php on line 2
+[01-Sep-2025 08:30:47 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'opulent_timesten'@'localhost' (using password: YES) in /home3/opulentl/timestentechnologies.co.ke/z_db.php:2
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/z_db.php(2): mysqli->__construct('localhost', 'opulent_timeste...', Object(SensitiveParameterValue), 'opulentl_timest...')
+#1 /home3/opulentl/timestentechnologies.co.ke/header.php(1): include('/home3/opulentl...')
+#2 /home3/opulentl/timestentechnologies.co.ke/blog.php(1): include('/home3/opulentl...')
+#3 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/z_db.php on line 2
+[01-Sep-2025 08:30:48 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'opulent_timesten'@'localhost' (using password: YES) in /home3/opulentl/timestentechnologies.co.ke/z_db.php:2
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/z_db.php(2): mysqli->__construct('localhost', 'opulent_timeste...', Object(SensitiveParameterValue), 'opulentl_timest...')
+#1 /home3/opulentl/timestentechnologies.co.ke/header.php(1): include('/home3/opulentl...')
+#2 /home3/opulentl/timestentechnologies.co.ke/index.php(1): include('/home3/opulentl...')
+#3 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/z_db.php on line 2
+[02-Oct-2025 03:53:35 UTC] PHP Warning:  Trying to access array offset on value of type null in /home3/opulentl/timestentechnologies.co.ke/portdetail.php on line 29
+[02-Oct-2025 03:53:35 UTC] PHP Warning:  Trying to access array offset on value of type null in /home3/opulentl/timestentechnologies.co.ke/portdetail.php on line 30
+[02-Oct-2025 03:53:35 UTC] PHP Warning:  Trying to access array offset on value of type null in /home3/opulentl/timestentechnologies.co.ke/portdetail.php on line 31
+[07-Oct-2025 19:27:19 UTC] PHP Warning:  Trying to access array offset on value of type null in /home3/opulentl/timestentechnologies.co.ke/portdetail.php on line 29
+[07-Oct-2025 19:27:19 UTC] PHP Warning:  Trying to access array offset on value of type null in /home3/opulentl/timestentechnologies.co.ke/portdetail.php on line 30
+[07-Oct-2025 19:27:19 UTC] PHP Warning:  Trying to access array offset on value of type null in /home3/opulentl/timestentechnologies.co.ke/portdetail.php on line 31
+[09-Oct-2025 23:27:24 UTC] PHP Warning:  Trying to access array offset on value of type null in /home3/opulentl/timestentechnologies.co.ke/portdetail.php on line 29
+[09-Oct-2025 23:27:24 UTC] PHP Warning:  Trying to access array offset on value of type null in /home3/opulentl/timestentechnologies.co.ke/portdetail.php on line 30
+[09-Oct-2025 23:27:24 UTC] PHP Warning:  Trying to access array offset on value of type null in /home3/opulentl/timestentechnologies.co.ke/portdetail.php on line 31
+[19-Oct-2025 05:35:53 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: No such file or directory in /home3/opulentl/timestentechnologies.co.ke/z_db.php:2
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/z_db.php(2): mysqli->__construct('localhost', 'opulentl_timest...', Object(SensitiveParameterValue), 'opulentl_timest...')
+#1 /home3/opulentl/timestentechnologies.co.ke/header.php(1): include('/home3/opulentl...')
+#2 /home3/opulentl/timestentechnologies.co.ke/index.php(1): include('/home3/opulentl...')
+#3 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/z_db.php on line 2
