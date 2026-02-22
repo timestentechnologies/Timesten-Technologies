@@ -1067,9 +1067,50 @@ header {
     position: fixed;
     width: 100%;
     top: 0;
-    padding: 20px 25px;
-    pointer-events: initial;
+    left: 0;
     z-index: 2;
+}
+
+@media (min-width: 469px) {
+    .navbar-expand .container.header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: nowrap;
+        gap: 16px;
+    }
+
+    .navbar-expand .navbar-brand {
+        flex: 0 0 auto;
+        margin-right: 0;
+    }
+
+    .navbar-expand .navbar-nav.items {
+        display: flex;
+        flex: 1 1 auto;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: nowrap;
+        gap: 6px;
+        white-space: nowrap;
+    }
+
+    .navbar-expand .navbar-nav.icons,
+    .navbar-expand .navbar-nav.action {
+        display: flex;
+        align-items: center;
+        flex-wrap: nowrap;
+        white-space: nowrap;
+    }
+
+    .navbar-expand .navbar-nav.icons {
+        gap: 6px;
+        margin-left: 0;
+    }
+
+    .navbar-expand .navbar-nav.action {
+        margin-left: 0;
+    }
 }
 
 .navbar-expand.relative {
