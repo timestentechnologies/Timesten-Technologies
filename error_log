@@ -207,3 +207,138 @@ Stack trace:
 #2 /home3/opulentl/timestentechnologies.co.ke/index.php(1): include('/home3/opulentl...')
 #3 {main}
   thrown in /home3/opulentl/timestentechnologies.co.ke/z_db.php on line 2
+[06-Nov-2025 07:41:33 UTC] PHP Warning:  Trying to access array offset on value of type null in /home3/opulentl/timestentechnologies.co.ke/portdetail.php on line 29
+[06-Nov-2025 07:41:33 UTC] PHP Warning:  Trying to access array offset on value of type null in /home3/opulentl/timestentechnologies.co.ke/portdetail.php on line 30
+[06-Nov-2025 07:41:33 UTC] PHP Warning:  Trying to access array offset on value of type null in /home3/opulentl/timestentechnologies.co.ke/portdetail.php on line 31
+[09-Nov-2025 10:34:20 UTC] PHP Warning:  Trying to access array offset on value of type null in /home3/opulentl/timestentechnologies.co.ke/portdetail.php on line 29
+[09-Nov-2025 10:34:20 UTC] PHP Warning:  Trying to access array offset on value of type null in /home3/opulentl/timestentechnologies.co.ke/portdetail.php on line 30
+[09-Nov-2025 10:34:20 UTC] PHP Warning:  Trying to access array offset on value of type null in /home3/opulentl/timestentechnologies.co.ke/portdetail.php on line 31
+[14-Nov-2025 17:43:38 UTC] PHP Warning:  Trying to access array offset on value of type null in /home3/opulentl/timestentechnologies.co.ke/portdetail.php on line 29
+[14-Nov-2025 17:43:38 UTC] PHP Warning:  Trying to access array offset on value of type null in /home3/opulentl/timestentechnologies.co.ke/portdetail.php on line 30
+[14-Nov-2025 17:43:38 UTC] PHP Warning:  Trying to access array offset on value of type null in /home3/opulentl/timestentechnologies.co.ke/portdetail.php on line 31
+[16-Nov-2025 21:19:22 UTC] PHP Warning:  Undefined variable $errormsg in /home3/opulentl/timestentechnologies.co.ke/index.php on line 474
+[16-Nov-2025 21:19:24 UTC] PHP Warning:  Undefined variable $errormsg in /home3/opulentl/timestentechnologies.co.ke/index.php on line 474
+[11-Dec-2025 13:00:58 UTC] PHP Warning:  Undefined variable $errormsg in /home3/opulentl/timestentechnologies.co.ke/index.php on line 474
+[11-Dec-2025 13:00:59 UTC] PHP Warning:  Undefined variable $errormsg in /home3/opulentl/timestentechnologies.co.ke/index.php on line 474
+[14-Dec-2025 19:39:20 UTC] PHP Warning:  Undefined variable $errormsg in /home3/opulentl/timestentechnologies.co.ke/index.php on line 474
+[14-Dec-2025 19:39:20 UTC] PHP Warning:  Undefined variable $errormsg in /home3/opulentl/timestentechnologies.co.ke/index.php on line 474
+[14-Dec-2025 19:39:20 UTC] PHP Warning:  Undefined variable $errormsg in /home3/opulentl/timestentechnologies.co.ke/index.php on line 474
+[14-Dec-2025 19:39:20 UTC] PHP Warning:  Undefined variable $errormsg in /home3/opulentl/timestentechnologies.co.ke/index.php on line 474
+[15-Dec-2025 10:03:38 UTC] PHP Warning:  Undefined variable $errormsg in /home3/opulentl/timestentechnologies.co.ke/index.php on line 474
+[15-Dec-2025 10:03:38 UTC] PHP Warning:  Undefined variable $errormsg in /home3/opulentl/timestentechnologies.co.ke/index.php on line 474
+[16-Dec-2025 14:19:49 UTC] PHP Warning:  Trying to access array offset on value of type null in /home3/opulentl/timestentechnologies.co.ke/portdetail.php on line 29
+[16-Dec-2025 14:19:49 UTC] PHP Warning:  Trying to access array offset on value of type null in /home3/opulentl/timestentechnologies.co.ke/portdetail.php on line 30
+[16-Dec-2025 14:19:49 UTC] PHP Warning:  Trying to access array offset on value of type null in /home3/opulentl/timestentechnologies.co.ke/portdetail.php on line 31
+[18-Dec-2025 10:10:13 UTC] PHP Warning:  Undefined variable $errormsg in /home3/opulentl/timestentechnologies.co.ke/index.php on line 474
+[18-Dec-2025 10:10:13 UTC] PHP Warning:  Undefined variable $errormsg in /home3/opulentl/timestentechnologies.co.ke/index.php on line 474
+[09-Jan-2026 02:26:56 UTC] PHP Warning:  Trying to access array offset on value of type null in /home3/opulentl/timestentechnologies.co.ke/portdetail.php on line 29
+[09-Jan-2026 02:26:56 UTC] PHP Warning:  Trying to access array offset on value of type null in /home3/opulentl/timestentechnologies.co.ke/portdetail.php on line 30
+[09-Jan-2026 02:26:56 UTC] PHP Warning:  Trying to access array offset on value of type null in /home3/opulentl/timestentechnologies.co.ke/portdetail.php on line 31
+[28-Jan-2026 17:22:59 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: No such file or directory in /home3/opulentl/timestentechnologies.co.ke/z_db.php:2
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/z_db.php(2): mysqli->__construct('localhost', 'opulentl_timest...', Object(SensitiveParameterValue), 'opulentl_timest...')
+#1 /home3/opulentl/timestentechnologies.co.ke/header.php(1): include('/home3/opulentl...')
+#2 /home3/opulentl/timestentechnologies.co.ke/index.php(1): include('/home3/opulentl...')
+#3 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/z_db.php on line 2
+[28-Jan-2026 17:23:00 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: No such file or directory in /home3/opulentl/timestentechnologies.co.ke/z_db.php:2
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/z_db.php(2): mysqli->__construct('localhost', 'opulentl_timest...', Object(SensitiveParameterValue), 'opulentl_timest...')
+#1 /home3/opulentl/timestentechnologies.co.ke/header.php(1): include('/home3/opulentl...')
+#2 /home3/opulentl/timestentechnologies.co.ke/index.php(1): include('/home3/opulentl...')
+#3 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/z_db.php on line 2
+[28-Jan-2026 17:23:00 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: No such file or directory in /home3/opulentl/timestentechnologies.co.ke/z_db.php:2
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/z_db.php(2): mysqli->__construct('localhost', 'opulentl_timest...', Object(SensitiveParameterValue), 'opulentl_timest...')
+#1 /home3/opulentl/timestentechnologies.co.ke/header.php(1): include('/home3/opulentl...')
+#2 /home3/opulentl/timestentechnologies.co.ke/index.php(1): include('/home3/opulentl...')
+#3 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/z_db.php on line 2
+[28-Jan-2026 17:23:00 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: No such file or directory in /home3/opulentl/timestentechnologies.co.ke/z_db.php:2
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/z_db.php(2): mysqli->__construct('localhost', 'opulentl_timest...', Object(SensitiveParameterValue), 'opulentl_timest...')
+#1 /home3/opulentl/timestentechnologies.co.ke/header.php(1): include('/home3/opulentl...')
+#2 /home3/opulentl/timestentechnologies.co.ke/index.php(1): include('/home3/opulentl...')
+#3 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/z_db.php on line 2
+[28-Jan-2026 17:23:00 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: No such file or directory in /home3/opulentl/timestentechnologies.co.ke/z_db.php:2
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/z_db.php(2): mysqli->__construct('localhost', 'opulentl_timest...', Object(SensitiveParameterValue), 'opulentl_timest...')
+#1 /home3/opulentl/timestentechnologies.co.ke/header.php(1): include('/home3/opulentl...')
+#2 /home3/opulentl/timestentechnologies.co.ke/index.php(1): include('/home3/opulentl...')
+#3 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/z_db.php on line 2
+[28-Jan-2026 17:23:00 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: No such file or directory in /home3/opulentl/timestentechnologies.co.ke/z_db.php:2
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/z_db.php(2): mysqli->__construct('localhost', 'opulentl_timest...', Object(SensitiveParameterValue), 'opulentl_timest...')
+#1 /home3/opulentl/timestentechnologies.co.ke/header.php(1): include('/home3/opulentl...')
+#2 /home3/opulentl/timestentechnologies.co.ke/index.php(1): include('/home3/opulentl...')
+#3 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/z_db.php on line 2
+[28-Jan-2026 17:23:00 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: No such file or directory in /home3/opulentl/timestentechnologies.co.ke/z_db.php:2
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/z_db.php(2): mysqli->__construct('localhost', 'opulentl_timest...', Object(SensitiveParameterValue), 'opulentl_timest...')
+#1 /home3/opulentl/timestentechnologies.co.ke/header.php(1): include('/home3/opulentl...')
+#2 /home3/opulentl/timestentechnologies.co.ke/index.php(1): include('/home3/opulentl...')
+#3 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/z_db.php on line 2
+[28-Jan-2026 17:23:00 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: No such file or directory in /home3/opulentl/timestentechnologies.co.ke/z_db.php:2
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/z_db.php(2): mysqli->__construct('localhost', 'opulentl_timest...', Object(SensitiveParameterValue), 'opulentl_timest...')
+#1 /home3/opulentl/timestentechnologies.co.ke/header.php(1): include('/home3/opulentl...')
+#2 /home3/opulentl/timestentechnologies.co.ke/index.php(1): include('/home3/opulentl...')
+#3 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/z_db.php on line 2
+[28-Jan-2026 17:23:01 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: No such file or directory in /home3/opulentl/timestentechnologies.co.ke/z_db.php:2
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/z_db.php(2): mysqli->__construct('localhost', 'opulentl_timest...', Object(SensitiveParameterValue), 'opulentl_timest...')
+#1 /home3/opulentl/timestentechnologies.co.ke/header.php(1): include('/home3/opulentl...')
+#2 /home3/opulentl/timestentechnologies.co.ke/index.php(1): include('/home3/opulentl...')
+#3 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/z_db.php on line 2
+[28-Jan-2026 17:23:01 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: No such file or directory in /home3/opulentl/timestentechnologies.co.ke/z_db.php:2
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/z_db.php(2): mysqli->__construct('localhost', 'opulentl_timest...', Object(SensitiveParameterValue), 'opulentl_timest...')
+#1 /home3/opulentl/timestentechnologies.co.ke/header.php(1): include('/home3/opulentl...')
+#2 /home3/opulentl/timestentechnologies.co.ke/index.php(1): include('/home3/opulentl...')
+#3 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/z_db.php on line 2
+[28-Jan-2026 17:23:15 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: No such file or directory in /home3/opulentl/timestentechnologies.co.ke/z_db.php:2
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/z_db.php(2): mysqli->__construct('localhost', 'opulentl_timest...', Object(SensitiveParameterValue), 'opulentl_timest...')
+#1 /home3/opulentl/timestentechnologies.co.ke/header.php(1): include('/home3/opulentl...')
+#2 /home3/opulentl/timestentechnologies.co.ke/index.php(1): include('/home3/opulentl...')
+#3 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/z_db.php on line 2
+[28-Jan-2026 17:23:15 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: No such file or directory in /home3/opulentl/timestentechnologies.co.ke/z_db.php:2
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/z_db.php(2): mysqli->__construct('localhost', 'opulentl_timest...', Object(SensitiveParameterValue), 'opulentl_timest...')
+#1 /home3/opulentl/timestentechnologies.co.ke/header.php(1): include('/home3/opulentl...')
+#2 /home3/opulentl/timestentechnologies.co.ke/index.php(1): include('/home3/opulentl...')
+#3 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/z_db.php on line 2
+[28-Jan-2026 17:23:16 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: No such file or directory in /home3/opulentl/timestentechnologies.co.ke/z_db.php:2
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/z_db.php(2): mysqli->__construct('localhost', 'opulentl_timest...', Object(SensitiveParameterValue), 'opulentl_timest...')
+#1 /home3/opulentl/timestentechnologies.co.ke/header.php(1): include('/home3/opulentl...')
+#2 /home3/opulentl/timestentechnologies.co.ke/index.php(1): include('/home3/opulentl...')
+#3 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/z_db.php on line 2
+[28-Jan-2026 17:23:16 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: No such file or directory in /home3/opulentl/timestentechnologies.co.ke/z_db.php:2
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/z_db.php(2): mysqli->__construct('localhost', 'opulentl_timest...', Object(SensitiveParameterValue), 'opulentl_timest...')
+#1 /home3/opulentl/timestentechnologies.co.ke/header.php(1): include('/home3/opulentl...')
+#2 /home3/opulentl/timestentechnologies.co.ke/index.php(1): include('/home3/opulentl...')
+#3 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/z_db.php on line 2
+[28-Jan-2026 17:23:16 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: No such file or directory in /home3/opulentl/timestentechnologies.co.ke/z_db.php:2
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/z_db.php(2): mysqli->__construct('localhost', 'opulentl_timest...', Object(SensitiveParameterValue), 'opulentl_timest...')
+#1 /home3/opulentl/timestentechnologies.co.ke/header.php(1): include('/home3/opulentl...')
+#2 /home3/opulentl/timestentechnologies.co.ke/index.php(1): include('/home3/opulentl...')
+#3 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/z_db.php on line 2
+[10-Feb-2026 11:27:58 UTC] PHP Warning:  Trying to access array offset on value of type null in /home3/opulentl/timestentechnologies.co.ke/portdetail.php on line 29
+[10-Feb-2026 11:27:58 UTC] PHP Warning:  Trying to access array offset on value of type null in /home3/opulentl/timestentechnologies.co.ke/portdetail.php on line 30
+[10-Feb-2026 11:27:58 UTC] PHP Warning:  Trying to access array offset on value of type null in /home3/opulentl/timestentechnologies.co.ke/portdetail.php on line 31
