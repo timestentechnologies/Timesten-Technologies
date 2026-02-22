@@ -84,10 +84,10 @@ if (strlen(trim($impact_text)) < 1) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     <!-- Style css -->
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/style.css?v=<?php print @filemtime('assets/css/style.css'); ?>">
 
     <!-- Responsive css -->
-    <link rel="stylesheet" href="assets/css/responsive.css">
+    <link rel="stylesheet" href="assets/css/responsive.css?v=<?php print @filemtime('assets/css/responsive.css'); ?>">
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
