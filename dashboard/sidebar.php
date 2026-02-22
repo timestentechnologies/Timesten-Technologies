@@ -97,6 +97,22 @@ $ufile = $r[0];
                         </li>
 
                         <li class="nav-item">
+                            <a class="nav-link menu-link" href="#sidebarCareers" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="sidebarCareers">
+                                <i class="ri-briefcase-4-line"></i> <span data-key="t-landing">Manage Careers</span>
+                            </a>
+                            <div class="menu-dropdown collapse" id="sidebarCareers" style="">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="createjob" class="nav-link" data-key="t-one-page"> Add Job </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="jobs" class="nav-link" data-key="t-nft-landing"> Jobs List </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarSl" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="sidebarLanding">
                                 <i class="ri-image-fill"></i> <span data-key="t-landing">Manage Slider</span>
                             </a>

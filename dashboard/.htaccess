@@ -36,3 +36,9 @@ RewriteRule    ^contact/?$    updatecontact.php    [NC,L]
 
 RewriteRule    ^testimony/?$    testimonylist.php    [NC,L]
 RewriteRule    ^newtestimony/?$    add-testimony.php    [NC,L]
+
+RewriteRule    ^jobs/?$    jobs.php    [NC,L]
+RewriteRule    ^createjob/?$    add-job.php    [NC,L]
+RewriteRule    ^editjob/([A-Za-z0-9-]+)/?$    edit-job.php?id=$1    [NC,L]
+RewriteRule    ^jobquestions/([A-Za-z0-9-]+)/?$    job-questions.php?job_id=$1    [NC,L]
+RewriteRule    ^jobapplications/([A-Za-z0-9-]+)/?$    job-applications.php?job_id=$1    [NC,L]
