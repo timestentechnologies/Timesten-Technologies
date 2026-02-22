@@ -264,15 +264,10 @@ print "
                                 <a href='portdetail.php?id=$id' class='d-block position-relative overflow-hidden rounded-3'>
                                     <img src='dashboard/uploads/portfolio/$ufile' alt='$port_title' class='w-100 h-100 object-fit-cover' style='aspect-ratio: 16/9;'>
                                 </a>
-                                <div class='text-center mt-2'>
-                                    <h5 class='fw-bold mb-0'>$port_title</h5>
+                                <div class='text-center mt-2 px-2 pb-3'>
+                                    <h5 class='fw-bold mb-1'>$port_title</h5>
+                                    <p class='mb-0 small'>$port_desc</p>
                                 </div>
-                                <a href='portdetail.php?id=$id' class='case-studies-overlay rounded-3'>
-                                    <span class='overlay-text text-center p-3'>
-                                        <h3 class='text-white mb-3 fs-5'>$port_title</h3>
-                                        <p class='text-white mb-0 small'>$port_desc</p>
-                                    </span>
-                                </a>
                             </div>
                         </div>
                         ";
