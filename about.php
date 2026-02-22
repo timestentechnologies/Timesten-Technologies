@@ -65,7 +65,30 @@
                             <div class="col-12 col-lg-6">
                                 <div class="single-service p-4 h-100">
                                     <h3 class="mb-3">Core Values</h3>
-                                    <p><?php echo nl2br($values_text); ?></p>
+                                    <?php
+                                        $values_lines = preg_split("/\r\n|\r|\n/", trim($values_text));
+                                        $values_items = array();
+                                        foreach ($values_lines as $line) {
+                                            $line = trim($line);
+                                            if (strlen($line) < 1) {
+                                                continue;
+                                            }
+                                            $values_items[] = $line;
+                                        }
+                                    ?>
+                                    <ol class="mb-0" style="padding-left: 1.25rem;">
+                                        <?php foreach ($values_items as $item) { ?>
+                                            <?php
+                                                $item_clean = preg_replace('/^\d+\.?\s*/', '', $item);
+                                                $parts = explode(' - ', $item_clean, 2);
+                                                $label = trim($parts[0]);
+                                                $desc = isset($parts[1]) ? trim($parts[1]) : '';
+                                            ?>
+                                            <li class="mb-3">
+                                                <strong><?php print $label; ?></strong><?php if (strlen($desc) > 0) { ?> - <?php print $desc; ?><?php } ?>
+                                            </li>
+                                        <?php } ?>
+                                    </ol>
                                 </div>
                             </div>
 
