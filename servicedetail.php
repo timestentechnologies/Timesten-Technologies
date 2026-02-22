@@ -28,6 +28,7 @@ $todo= mysqli_real_escape_string($con,$_GET["id"]);
     $tr = mysqli_fetch_array($rt);
     $service_title = "$tr[service_title]";
     $service_detail = "$tr[service_detail]";
+    $service_url = "$tr[service_url]";
     $updated_at = "$tr[updated_at]";
     $ufile = "$tr[ufile]";
 ?>
@@ -49,6 +50,9 @@ $todo= mysqli_real_escape_string($con,$_GET["id"]);
                         <div class="about-content section-heading text-center text-lg-left pl-md-4 mt-5 mt-lg-0 mb-0">
                             <h2 class="mb-3"><?php print $service_title?></h2>
                             <p><?php print $service_detail;?></p>
+                            <?php if(!empty($service_url)) { ?>
+                                <a class="btn btn-bordered mt-4" href="<?php print $service_url; ?>" target="_blank" rel="noopener noreferrer">Visit Website</a>
+                            <?php } ?>
                             <!-- Counter Area -->
 
                         </div>

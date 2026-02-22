@@ -56,6 +56,7 @@
                             $service_title = mysqli_real_escape_string($con, $_POST['service_title']);
                             $service_desc = mysqli_real_escape_string($con, $_POST['service_desc']);
                             $service_detail = mysqli_real_escape_string($con, $_POST['service_detail']);
+                            $service_url = mysqli_real_escape_string($con, $_POST['service_url']);
 
                             if (strlen($service_title) < 5) {
                                 $msg .= "Service Title Must Be More Than 5 Char Length.<br>";
@@ -67,6 +68,11 @@
                             }
                             if (strlen($service_detail) < 15) {
                                 $msg .= "Service Detail Must Be More Than 15 Char Length.<br>";
+                                $status = "NOTOK";
+                            }
+
+                            if (strlen($service_url) > 255) {
+                                $msg .= "Service URL Must Be Less Than 255 Char Length.<br>";
                                 $status = "NOTOK";
                             }
 
@@ -86,7 +92,7 @@
                             }
 
                             if ($status == "OK") {
-                                $query = "INSERT INTO service (service_title, service_desc, service_detail, ufile) VALUES ('$service_title', '$service_desc', '$service_detail', '$new_file_name')";
+                                $query = "INSERT INTO service (service_title, service_desc, service_detail, service_url, ufile) VALUES ('$service_title', '$service_desc', '$service_detail', '$service_url', '$new_file_name')";
                                 $qb = mysqli_query($con, $query);
 
                                 if ($qb) {
@@ -143,6 +149,13 @@
                                                 <div class="mb-3">
                                                     <label for="firstnameInput" class="form-label">Service Detail</label>
                                                     <textarea class="form-control" id="exampleFormControlTextarea5" name="service_detail" rows="3"></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+                                                    <label for="serviceUrlInput" class="form-label">Website URL</label>
+                                                    <input type="url" class="form-control" id="serviceUrlInput" name="service_url" placeholder="https://example.com">
                                                 </div>
                                             </div>
 

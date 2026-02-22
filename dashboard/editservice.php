@@ -13,6 +13,7 @@ $row = mysqli_fetch_assoc($result);
 $service_title = $row['service_title'];
 $service_desc = $row['service_desc'];
 $service_detail = $row['service_detail'];
+$service_url = isset($row['service_url']) ? $row['service_url'] : '';
 $existing_file = $row['ufile'];
 
 $status = "OK";
@@ -24,6 +25,7 @@ if (isset($_POST['save'])) {
     $service_title = mysqli_real_escape_string($con, $_POST['service_title']);
     $service_desc = mysqli_real_escape_string($con, $_POST['service_desc']);
     $service_detail = mysqli_real_escape_string($con, $_POST['service_detail']);
+    $service_url = mysqli_real_escape_string($con, $_POST['service_url']);
 
     $update_image_sql = "";
     $new_file_name = "";
@@ -53,7 +55,7 @@ if (isset($_POST['save'])) {
 
     // Run update query
     if ($status == "OK") {
-        $sql = "UPDATE service SET service_title='$service_title', service_desc='$service_desc', service_detail='$service_detail' $update_image_sql WHERE id='$todo'";
+        $sql = "UPDATE service SET service_title='$service_title', service_desc='$service_desc', service_detail='$service_detail', service_url='$service_url' $update_image_sql WHERE id='$todo'";
         $qb = mysqli_query($con, $sql);
 
         if ($qb) {
@@ -138,6 +140,13 @@ if (isset($_POST['save'])) {
                                                 <div class="mb-3">
                                                     <label class="form-label">Service Detail</label>
                                                     <textarea class="form-control" name="service_detail" rows="3" required><?php echo $service_detail; ?></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Website URL</label>
+                                                    <input type="url" class="form-control" name="service_url" value="<?php echo $service_url; ?>" placeholder="https://example.com">
                                                 </div>
                                             </div>
 
