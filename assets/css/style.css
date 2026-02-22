@@ -2081,6 +2081,11 @@ body.dark,
     transform: translateY(0px);
 }
 
+.portfolio-area .single-case-studies:hover img {
+    -webkit-filter: none !important;
+    filter: none !important;
+}
+
 .portfolio-area.style-two .single-case-studies:hover .case-studies-overlay,
 .portfolio-area.style-two .single-case-studies:hover > a > img {
     -webkit-transform: inherit;
