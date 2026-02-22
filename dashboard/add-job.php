@@ -32,6 +32,9 @@
                             $deadline = mysqli_real_escape_string($con,$_POST['deadline']);
                             $job_status = mysqli_real_escape_string($con,$_POST['status']);
 
+                            $question_texts = isset($_POST['question_text']) && is_array($_POST['question_text']) ? $_POST['question_text'] : array();
+                            $question_required = isset($_POST['question_required']) && is_array($_POST['question_required']) ? $_POST['question_required'] : array();
+
                             if(strlen($job_title) < 5){ $msg .= "Job title must be more than 5 characters.<br>"; $status = "NOTOK"; }
                             if(strlen($short_desc) < 5){ $msg .= "Short description is required.<br>"; $status = "NOTOK"; }
                             if(strlen($job_desc) < 10){ $msg .= "Job description is required.<br>"; $status = "NOTOK"; }
@@ -42,6 +45,15 @@
                             if($status=="OK"){
                                 $qb = mysqli_query($con,"INSERT INTO jobs (job_title, short_desc, job_desc, requirements, location, job_type, deadline, status, created_at) VALUES ('$job_title', '$short_desc', '$job_desc', '$requirements', '$location', '$job_type', '$deadline', '$job_status', NOW())");
                                 if($qb){
+                                    $new_job_id = mysqli_insert_id($con);
+                                    foreach ($question_texts as $idx => $qt_raw) {
+                                        $qt = mysqli_real_escape_string($con, $qt_raw);
+                                        if (strlen(trim($qt)) < 1) {
+                                            continue;
+                                        }
+                                        $req = isset($question_required[(string)$idx]) ? 1 : 0;
+                                        mysqli_query($con, "INSERT INTO job_questions (job_id, question_text, is_required) VALUES ('$new_job_id', '$qt', '$req')");
+                                    }
                                     $errormsg = "<div class='alert alert-success alert-dismissible alert-outline fade show'>Job added successfully.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
                                 } else {
                                     $errormsg = "<div class='alert alert-danger alert-dismissible alert-outline fade show'>Failed to add job.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
@@ -117,6 +129,62 @@
                                                     <textarea class="form-control" name="requirements" rows="4" required></textarea>
                                                 </div>
                                             </div>
+
+                                            <div class="col-lg-12">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Application Questions</label>
+                                                    <div id="jobQuestionsWrapper" class="vstack gap-2">
+                                                        <div class="row g-2 align-items-start" data-index="0">
+                                                            <div class="col-12 col-lg-9">
+                                                                <input type="text" class="form-control" name="question_text[0]" placeholder="Question">
+                                                            </div>
+                                                            <div class="col-8 col-lg-2">
+                                                                <div class="form-check mt-2">
+                                                                    <input class="form-check-input" type="checkbox" id="question_required_0" name="question_required[0]" value="1">
+                                                                    <label class="form-check-label" for="question_required_0">Required</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-4 col-lg-1 text-end">
+                                                                <button type="button" class="btn btn-soft-danger btn-sm" onclick="removeJobQuestion(this)">X</button>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row g-2 align-items-start" data-index="1">
+                                                            <div class="col-12 col-lg-9">
+                                                                <input type="text" class="form-control" name="question_text[1]" placeholder="Question">
+                                                            </div>
+                                                            <div class="col-8 col-lg-2">
+                                                                <div class="form-check mt-2">
+                                                                    <input class="form-check-input" type="checkbox" id="question_required_1" name="question_required[1]" value="1">
+                                                                    <label class="form-check-label" for="question_required_1">Required</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-4 col-lg-1 text-end">
+                                                                <button type="button" class="btn btn-soft-danger btn-sm" onclick="removeJobQuestion(this)">X</button>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row g-2 align-items-start" data-index="2">
+                                                            <div class="col-12 col-lg-9">
+                                                                <input type="text" class="form-control" name="question_text[2]" placeholder="Question">
+                                                            </div>
+                                                            <div class="col-8 col-lg-2">
+                                                                <div class="form-check mt-2">
+                                                                    <input class="form-check-input" type="checkbox" id="question_required_2" name="question_required[2]" value="1">
+                                                                    <label class="form-check-label" for="question_required_2">Required</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-4 col-lg-1 text-end">
+                                                                <button type="button" class="btn btn-soft-danger btn-sm" onclick="removeJobQuestion(this)">X</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="mt-2">
+                                                        <button type="button" class="btn btn-soft-primary btn-sm" onclick="addJobQuestion()">Add Question</button>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="col-lg-12">
                                                 <div class="hstack gap-2 justify-content-end">
                                                     <button type="submit" name="save" class="btn btn-primary">Add Job</button>
@@ -124,6 +192,49 @@
                                             </div>
                                         </div>
                                     </form>
+
+                                    <script>
+                                        function addJobQuestion() {
+                                            var wrapper = document.getElementById('jobQuestionsWrapper');
+                                            var rows = wrapper.querySelectorAll('[data-index]');
+                                            var maxIndex = -1;
+                                            rows.forEach(function (r) {
+                                                var idx = parseInt(r.getAttribute('data-index') || '-1', 10);
+                                                if (!isNaN(idx) && idx > maxIndex) {
+                                                    maxIndex = idx;
+                                                }
+                                            });
+                                            var newIndex = maxIndex + 1;
+
+                                            var row = document.createElement('div');
+                                            row.className = 'row g-2 align-items-start';
+                                            row.setAttribute('data-index', newIndex);
+
+                                            row.innerHTML = "\
+                                                <div class='col-12 col-lg-9'>\
+                                                    <input type='text' class='form-control' name='question_text[" + newIndex + "]' placeholder='Question'>\
+                                                </div>\
+                                                <div class='col-8 col-lg-2'>\
+                                                    <div class='form-check mt-2'>\
+                                                        <input class='form-check-input' type='checkbox' id='question_required_" + newIndex + "' name='question_required[" + newIndex + "]' value='1'>\
+                                                        <label class='form-check-label' for='question_required_" + newIndex + "'>Required</label>\
+                                                    </div>\
+                                                </div>\
+                                                <div class='col-4 col-lg-1 text-end'>\
+                                                    <button type='button' class='btn btn-soft-danger btn-sm' onclick='removeJobQuestion(this)'>X</button>\
+                                                </div>\
+                                            ";
+
+                                            wrapper.appendChild(row);
+                                        }
+
+                                        function removeJobQuestion(btn) {
+                                            var row = btn.closest('[data-index]');
+                                            if (row) {
+                                                row.remove();
+                                            }
+                                        }
+                                    </script>
                                 </div>
                             </div>
                         </div>
