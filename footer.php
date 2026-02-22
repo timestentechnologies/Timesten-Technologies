@@ -71,6 +71,12 @@ print "
 ?>
 
                                 </ul>
+
+                                <ul class="list-inline pt-3 mb-0">
+                                    <li class="list-inline-item px-2"><a class="text-black-50" href="privacy">Privacy</a></li>
+                                    <li class="list-inline-item px-2"><a class="text-black-50" href="cookie">Cookie</a></li>
+                                    <li class="list-inline-item px-2"><a class="text-black-50" href="terms">Terms</a></li>
+                                </ul>
                             </div>
                         </div>
                     </div>

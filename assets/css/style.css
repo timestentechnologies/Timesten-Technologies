@@ -2165,6 +2165,45 @@ body.dark,
     width: 100%;
 }
 
+.careers-page .section-heading h2 {
+    letter-spacing: -0.6px;
+}
+
+.careers-page .careers-card {
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.careers-page .careers-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.10);
+}
+
+.careers-page .careers-card h3 {
+    font-size: 20px;
+    line-height: 1.25;
+    letter-spacing: -0.3px;
+}
+
+.careers-page .careers-meta {
+    color: #666;
+    font-size: 14px;
+}
+
+.careers-page .careers-desc {
+    color: #444;
+    margin-top: 10px;
+    margin-bottom: 14px;
+}
+
+.careers-page .careers-btn.btn.btn-bordered {
+    border-radius: 999px;
+    padding: 10px 16px;
+}
+
 @media (max-width: 767px) {
     .jobdetail-page .jobdetail-card {
         border-radius: 12px;

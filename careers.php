@@ -15,7 +15,7 @@
             </div>
         </section>
 
-        <section class="section ptb_100">
+        <section class="section ptb_100 careers-page">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-12 col-md-10 col-lg-8">
@@ -26,7 +26,7 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row careers-grid">
                     <?php
                         $q = "SELECT * FROM jobs WHERE status='open' ORDER BY created_at DESC";
                         $r = mysqli_query($con, $q);
@@ -41,13 +41,13 @@
 
                                 print "
                                 <div class='col-12 col-md-6 col-lg-4 mb-4'>
-                                    <div class='single-service p-4 h-100' style='border: solid 1px #788282;'>
+                                    <div class='single-service p-4 h-100 careers-card'>
                                         <h3 class='my-2'>$title</h3>
-                                        <p class='mb-2'><strong>Location:</strong> $location</p>
-                                        <p class='mb-2'><strong>Type:</strong> $job_type</p>
-                                        <p>$short_desc</p>
-                                        <p class='mb-3'><strong>Deadline:</strong> $deadline</p>
-                                        <a class='service-btn mt-2' href='jobdetail.php?id=$id'>View & Apply</a>
+                                        <p class='mb-2 careers-meta'><strong>Location:</strong> $location</p>
+                                        <p class='mb-2 careers-meta'><strong>Type:</strong> $job_type</p>
+                                        <p class='careers-desc'>$short_desc</p>
+                                        <p class='mb-3 careers-meta'><strong>Deadline:</strong> $deadline</p>
+                                        <a class='btn btn-bordered mt-2 careers-btn' href='jobdetail.php?id=$id'>View & Apply</a>
                                     </div>
                                 </div>
                                 ";
