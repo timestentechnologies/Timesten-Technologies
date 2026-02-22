@@ -232,6 +232,7 @@ if (isset($_POST['apply'])) {
                 var btnNext = document.getElementById('jobQuestionNext');
                 var nav = document.getElementById('jobQuestionsNav');
                 var btnSubmit = document.getElementById('jobApplySubmit');
+                var form = wizard.closest('form');
 
                 if (elTotal) elTotal.textContent = String(total);
 
@@ -280,6 +281,9 @@ if (isset($_POST['apply'])) {
 
                 if (btnNext) {
                     btnNext.addEventListener('click', function () {
+                        if (form && typeof form.reportValidity === 'function') {
+                            if (!form.reportValidity()) return;
+                        }
                         if (current < total - 1) {
                             current += 1;
                             render();
