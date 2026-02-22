@@ -53,6 +53,7 @@ $msg="";
 $port_title = mysqli_real_escape_string($con,$_POST['port_title']);
 $port_desc = mysqli_real_escape_string($con,$_POST['port_desc']);
 $port_detail = mysqli_real_escape_string($con,$_POST['port_detail']);
+ $port_url = mysqli_real_escape_string($con,$_POST['port_url']);
 
  if ( strlen($port_title) < 5 ){
 $msg=$msg."Portfolio Title Must Be More Than 5 Char Length.<BR>";
@@ -64,6 +65,10 @@ $status= "NOTOK";}
 if ( strlen($port_detail) < 15 ){
   $msg=$msg."Portfolio Detail Must Be More Than 15 Char Length.<BR>";
   $status= "NOTOK";}
+
+ if ( strlen($port_url) > 255 ){
+   $msg=$msg."Portfolio URL Must Be Less Than 255 Char Length.<BR>";
+   $status= "NOTOK";}
 
 
 
@@ -80,7 +85,7 @@ $uploads_dir = 'uploads/portfolio';
 
 if($status=="OK")
 {
-$qb=mysqli_query($con,"INSERT INTO portfolio (port_title, port_desc, port_detail,ufile) VALUES ('$port_title', '$port_desc', '$port_detail', '$new_file_name')");
+$qb=mysqli_query($con,"INSERT INTO portfolio (port_title, port_desc, port_detail, port_url, ufile) VALUES ('$port_title', '$port_desc', '$port_detail', '$port_url', '$new_file_name')");
 
 
 		if($qb){
@@ -147,6 +152,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                                                         <div class="mb-3">
                                                             <label for="firstnameInput" class="form-label"> Portfolio Detail</label>
                                                             <textarea class="form-control" id="exampleFormControlTextarea5" name="port_detail" rows="3"></textarea>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-3">
+                                                            <label for="portUrlInput" class="form-label">Website URL</label>
+                                                            <input type="url" class="form-control" id="portUrlInput" name="port_url" placeholder="https://example.com">
                                                         </div>
                                                     </div>
 

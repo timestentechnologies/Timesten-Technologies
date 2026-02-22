@@ -28,6 +28,7 @@ $todo= mysqli_real_escape_string($con,$_GET["id"]);
     $tr = mysqli_fetch_array($rt);
     $port_title = "$tr[port_title]";
     $port_detail = "$tr[port_detail]";
+    $port_url = "$tr[port_url]";
     $ufile = "$tr[ufile]";
 ?>
 
@@ -47,6 +48,9 @@ $todo= mysqli_real_escape_string($con,$_GET["id"]);
                         <div class="about-content section-heading text-center text-lg-left pl-md-4 mt-5 mt-lg-0 mb-0">
                             <h2 class="mb-3"><?php print $port_title?></h2>
                             <p><?php print $port_detail;?></p>
+                            <?php if(!empty($port_url)) { ?>
+                                <a class="btn btn-bordered mt-4" href="<?php print $port_url; ?>" target="_blank" rel="noopener noreferrer">Visit Website</a>
+                            <?php } ?>
                             <!-- Counter Area -->
 
                         </div>

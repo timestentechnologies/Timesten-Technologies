@@ -39,6 +39,7 @@ while($row = mysqli_fetch_array($result))
  $port_title="$row[port_title]";
  $port_desc="$row[port_desc]";
  $port_detail="$row[port_detail]";
+ $port_url="$row[port_url]";
  $current_image="$row[ufile]";
 }
 ?>
@@ -69,6 +70,7 @@ $msg="";
 $service_title = mysqli_real_escape_string($con,$_POST['service_title']);
 $service_desc = mysqli_real_escape_string($con,$_POST['service_desc']);
 $service_detail = mysqli_real_escape_string($con,$_POST['service_detail']);
+ $port_url_new = mysqli_real_escape_string($con,$_POST['port_url']);
  $new_file_name = $current_image;
  if(!empty($_FILES["ufile"]["name"])) {
      $uploads_dir = 'uploads/portfolio';
@@ -79,7 +81,7 @@ $service_detail = mysqli_real_escape_string($con,$_POST['service_detail']);
      move_uploaded_file($tmp_name, "$uploads_dir/$new_file_name");
  }
  if($status=="OK") {
-     $qb=mysqli_query($con,"update portfolio set port_title='$service_title', port_desc='$service_desc', port_detail='$service_detail', ufile='$new_file_name' where id='$todo'");
+     $qb=mysqli_query($con,"update portfolio set port_title='$service_title', port_desc='$service_desc', port_detail='$service_detail', port_url='$port_url_new', ufile='$new_file_name' where id='$todo'");
      if($qb){
          $errormsg= "<div class='alert alert-success alert-dismissible alert-outline fade show'>Portfolio Updated successfully.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
      }
@@ -121,6 +123,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                                                         <div class="mb-3">
                                                             <label for="firstnameInput" class="form-label">Portfolio Detail</label>
                                                             <textarea class="form-control" id="exampleFormControlTextarea5" name="service_detail" rows="3"><?php print $port_detail ?></textarea>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-3">
+                                                            <label for="portUrlInput" class="form-label">Website URL</label>
+                                                            <input type="url" class="form-control" id="portUrlInput" name="port_url" value="<?php print $port_url ?>" placeholder="https://example.com">
                                                         </div>
                                                     </div>
 
