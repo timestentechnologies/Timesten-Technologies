@@ -54,6 +54,10 @@ $about_title = mysqli_real_escape_string($con,$_POST['about_title']);
 $about_text = mysqli_real_escape_string($con,$_POST['about_text']);
 $why_title = mysqli_real_escape_string($con,$_POST['why_title']);
 $why_text = mysqli_real_escape_string($con,$_POST['why_text']);
+$vision_text = mysqli_real_escape_string($con,$_POST['vision_text']);
+$mission_text = mysqli_real_escape_string($con,$_POST['mission_text']);
+$values_text = mysqli_real_escape_string($con,$_POST['values_text']);
+$impact_text = mysqli_real_escape_string($con,$_POST['impact_text']);
 $service_title = mysqli_real_escape_string($con,$_POST['service_title']);
 $service_text = mysqli_real_escape_string($con,$_POST['service_text']);
 $port_title = mysqli_real_escape_string($con,$_POST['port_title']);
@@ -87,7 +91,7 @@ $uploads_dir = 'uploads';
 
 if($status=="OK")
 {
-$qb=mysqli_query($con,"update section_title set about_title='$about_title', about_text='$about_text', why_title='$why_title',why_text='$why_text',service_title='$service_title',service_text='$service_text',port_title='$port_title',port_text='$port_text',test_title='$test_title',test_text='$test_text',contact_title='$contact_title',contact_text='$contact_text',enquiry_title='$enquiry_title',enquiry_text='$enquiry_text' where id=1");
+$qb=mysqli_query($con,"update section_title set about_title='$about_title', about_text='$about_text', why_title='$why_title',why_text='$why_text', vision_text='$vision_text', mission_text='$mission_text', values_text='$values_text', impact_text='$impact_text', service_title='$service_title',service_text='$service_text',port_title='$port_title',port_text='$port_text',test_title='$test_title',test_text='$test_text',contact_title='$contact_title',contact_text='$contact_text',enquiry_title='$enquiry_title',enquiry_text='$enquiry_text' where id=1");
 
 		if($qb){
 		    	$errormsg= "
@@ -137,6 +141,10 @@ while($row = mysqli_fetch_array($result))
 	$about_text="$row[about_text]";
   $why_title="$row[why_title]";
   $why_text="$row[why_text]";
+  $vision_text="$row[vision_text]";
+  $mission_text="$row[mission_text]";
+  $values_text="$row[values_text]";
+  $impact_text="$row[impact_text]";
   $service_title="$row[service_title]";
   $service_text="$row[service_text]";
   $port_title="$row[port_title]";
@@ -149,6 +157,24 @@ while($row = mysqli_fetch_array($result))
   $enquiry_text="$row[enquiry_text]";
 }
   ?>
+
+<?php
+if (strlen(trim($vision_text)) < 1) {
+    $vision_text = "To be the leading technology company in Africa and beyond, empowering businesses through innovative, reliable, and transformative digital solutions.";
+}
+
+if (strlen(trim($mission_text)) < 1) {
+    $mission_text = "To provide high-end technology solutions that streamline business operations, enhance effectiveness and productivity, and optimize costs, enabling our clients to thrive in a digital-first world.";
+}
+
+if (strlen(trim($values_text)) < 1) {
+    $values_text = "1. Integrity - We act with honesty, transparency, and accountability in all our interactions.\n\n2. Excellence - We strive for high-quality solutions that exceed client expectations.\n\n3. Innovation - We continuously embrace new ideas, technologies, and approaches to drive business transformation.\n\n4. Customer-Centricity - Our clients’ success is our top priority; we deliver solutions tailored to their needs.\n\n5. Collaboration & Teamwork - We believe in the power of partnerships, teamwork, and knowledge sharing to achieve superior results.\n\n6. Ethics & Responsibility - We conduct business responsibly, respecting people, society, and the environment.";
+}
+
+if (strlen(trim($impact_text)) < 1) {
+    $impact_text = "By leveraging cutting-edge technology, Timesten Technologies empowers businesses to operate more efficiently, reduce operational costs, and scale sustainably, contributing to economic growth and digital transformation across Africa and beyond.";
+}
+?>
 
 
 
@@ -189,6 +215,35 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                                                         <div class="mb-3">
                                                             <label for="firstnameInput" class="form-label"> Why Us Text</label>
                                                             <textarea class="form-control" id="exampleFormControlTextarea5" name="why_text" rows="2"><?php print $why_text ?></textarea>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-3">
+                                                            <label for="visionTextInput" class="form-label">Vision</label>
+                                                            <textarea class="form-control" id="visionTextInput" name="vision_text" rows="3"><?php print $vision_text ?></textarea>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-3">
+                                                            <label for="missionTextInput" class="form-label">Mission</label>
+                                                            <textarea class="form-control" id="missionTextInput" name="mission_text" rows="3"><?php print $mission_text ?></textarea>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-3">
+                                                            <label for="valuesTextInput" class="form-label">Core Values</label>
+                                                            <textarea class="form-control" id="valuesTextInput" name="values_text" rows="6"><?php print $values_text ?></textarea>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-3">
+                                                            <label for="impactTextInput" class="form-label">Impact Statement</label>
+                                                            <textarea class="form-control" id="impactTextInput" name="impact_text" rows="6"><?php print $impact_text ?></textarea>
                                                         </div>
                                                     </div>
 

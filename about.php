@@ -43,6 +43,44 @@
         </section>
         <!-- ***** About Area End ***** -->
 
+        <section class="section ptb_100">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-12">
+                        <div class="row g-4">
+                            <div class="col-12 col-lg-6">
+                                <div class="single-service p-4 h-100">
+                                    <h3 class="mb-3">Vision</h3>
+                                    <p><?php print $vision_text; ?></p>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-lg-6">
+                                <div class="single-service p-4 h-100">
+                                    <h3 class="mb-3">Mission</h3>
+                                    <p><?php print $mission_text; ?></p>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-lg-6">
+                                <div class="single-service p-4 h-100">
+                                    <h3 class="mb-3">Core Values</h3>
+                                    <p><?php echo nl2br($values_text); ?></p>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-lg-6">
+                                <div class="single-service p-4 h-100">
+                                    <h3 class="mb-3">Impact</h3>
+                                    <p><?php print $impact_text; ?></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
 
         <!-- ***** Our Goal Area End ***** -->
 

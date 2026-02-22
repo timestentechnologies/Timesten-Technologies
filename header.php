@@ -19,6 +19,27 @@ $why_title="$rs[why_title]";
 $why_text="$rs[why_text]";
 $about_title="$rs[about_title]";
 $about_text="$rs[about_text]";
+
+$vision_text = isset($rs['vision_text']) ? $rs['vision_text'] : '';
+$mission_text = isset($rs['mission_text']) ? $rs['mission_text'] : '';
+$values_text = isset($rs['values_text']) ? $rs['values_text'] : '';
+$impact_text = isset($rs['impact_text']) ? $rs['impact_text'] : '';
+
+if (strlen(trim($vision_text)) < 1) {
+    $vision_text = "To be the leading technology company in Africa and beyond, empowering businesses through innovative, reliable, and transformative digital solutions.";
+}
+
+if (strlen(trim($mission_text)) < 1) {
+    $mission_text = "To provide high-end technology solutions that streamline business operations, enhance effectiveness and productivity, and optimize costs, enabling our clients to thrive in a digital-first world.";
+}
+
+if (strlen(trim($values_text)) < 1) {
+    $values_text = "1. Integrity - We act with honesty, transparency, and accountability in all our interactions.\n\n2. Excellence - We strive for high-quality solutions that exceed client expectations.\n\n3. Innovation - We continuously embrace new ideas, technologies, and approaches to drive business transformation.\n\n4. Customer-Centricity - Our clients’ success is our top priority; we deliver solutions tailored to their needs.\n\n5. Collaboration & Teamwork - We believe in the power of partnerships, teamwork, and knowledge sharing to achieve superior results.\n\n6. Ethics & Responsibility - We conduct business responsibly, respecting people, society, and the environment.";
+}
+
+if (strlen(trim($impact_text)) < 1) {
+    $impact_text = "By leveraging cutting-edge technology, Timesten Technologies empowers businesses to operate more efficiently, reduce operational costs, and scale sustainably, contributing to economic growth and digital transformation across Africa and beyond.";
+}
 ?>
 
 
