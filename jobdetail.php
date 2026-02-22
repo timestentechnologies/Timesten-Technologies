@@ -99,7 +99,7 @@ if (isset($_POST['apply'])) {
             </div>
         </section>
 
-        <section class="section ptb_100">
+        <section class="section ptb_100 jobdetail-page">
             <div class="container">
                 <?php if (!empty($errormsg)) { print $errormsg; } ?>
 
@@ -116,7 +116,7 @@ if (isset($_POST['apply'])) {
                 <?php } else { ?>
                     <div class="row">
                         <div class="col-12 col-lg-7">
-                            <div class="single-service p-4" style="border: solid 1px #788282;">
+                            <div class="single-service p-4 jobdetail-card jobdetail-card--details" style="border: solid 1px #788282;">
                                 <h2 class="mb-2"><?php print $job['job_title']; ?></h2>
                                 <p class="mb-2"><strong>Location:</strong> <?php print $job['location']; ?></p>
                                 <p class="mb-2"><strong>Type:</strong> <?php print $job['job_type']; ?></p>
@@ -131,7 +131,7 @@ if (isset($_POST['apply'])) {
                         </div>
 
                         <div class="col-12 col-lg-5 mt-4 mt-lg-0">
-                            <div class="single-service p-4" style="border: solid 1px #788282;">
+                            <div class="single-service p-4 jobdetail-card jobdetail-card--apply" style="border: solid 1px #788282;">
                                 <h3 class="mb-3">Apply for this role</h3>
                                 <form method="post" enctype="multipart/form-data">
                                     <div class="form-group mb-3">

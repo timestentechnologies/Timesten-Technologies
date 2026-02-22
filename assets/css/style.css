@@ -2107,6 +2107,74 @@ body.dark,
     overflow: initial !important;
 }
 
+.jobdetail-page .jobdetail-card {
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    background: #fff;
+}
+
+.jobdetail-page .jobdetail-card h2 {
+    font-size: 32px;
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+}
+
+.jobdetail-page .jobdetail-card h3 {
+    font-size: 22px;
+    line-height: 1.25;
+    letter-spacing: -0.3px;
+}
+
+.jobdetail-page .jobdetail-card h4 {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.jobdetail-page .jobdetail-card hr {
+    opacity: 0.08;
+}
+
+.jobdetail-page .jobdetail-card--details p {
+    color: #555;
+}
+
+.jobdetail-page .jobdetail-card--details p strong {
+    color: #222;
+}
+
+.jobdetail-page .jobdetail-card--apply .form-control {
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    padding: 12px 14px;
+    box-shadow: none;
+}
+
+.jobdetail-page .jobdetail-card--apply .form-control:focus {
+    border-color: rgba(252, 87, 59, 0.6);
+    box-shadow: 0 0 0 0.2rem rgba(252, 87, 59, 0.15);
+}
+
+.jobdetail-page .jobdetail-card--apply label {
+    color: #222;
+}
+
+.jobdetail-page .jobdetail-card--apply .btn.btn-bordered {
+    border-radius: 999px;
+    padding: 12px 18px;
+    width: 100%;
+}
+
+@media (max-width: 767px) {
+    .jobdetail-page .jobdetail-card {
+        border-radius: 12px;
+    }
+
+    .jobdetail-page .jobdetail-card h2 {
+        font-size: 26px;
+    }
+}
+
 /* Improved Portfolio Layout */
 .portfolio-items {
     margin: 0;
