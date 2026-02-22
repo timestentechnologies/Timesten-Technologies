@@ -20,7 +20,7 @@
         <!-- ***** Breadcrumb Area End ***** -->
 
         <!-- ***** About Area Start ***** -->
-        <section class="section about-area ptb_100">
+        <section class="section about-area pt_100 pb-50">
             <div class="container">
                 <div class="row justify-content-between align-items-center">
                     <div class="col-12 col-lg-6">
@@ -32,7 +32,7 @@
                     <div class="col-12 col-lg-6">
                         <!-- About Content -->
                         <div class="about-content section-heading text-center text-lg-left pl-md-4 mt-5 mt-lg-0 mb-0">
-                            <h2 class="mb-3"><?php print $about_title?></h2>
+                            <h2 class="mb-3 text-capitalize"><?php print $about_title?></h2>
                             <p><?php print $about_text;?></p>
                             <!-- Counter Area -->
 
@@ -43,7 +43,7 @@
         </section>
         <!-- ***** About Area End ***** -->
 
-        <section class="section ptb_100">
+        <section class="section pt-50 pb_100">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-12">
