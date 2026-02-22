@@ -133,6 +133,15 @@ if (isset($_POST['apply'])) {
                         <div class="col-12 col-lg-5 mt-4 mt-lg-0">
                             <div class="single-service p-4 jobdetail-card jobdetail-card--apply" style="border: solid 1px #788282;">
                                 <h3 class="mb-3">Apply for this role</h3>
+                                <style>
+                                    .job-questions-wizard{border-top:1px solid rgba(120,130,130,.35);margin-top:14px;padding-top:14px}
+                                    .job-questions-header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+                                    .job-questions-header .job-questions-count{font-size:13px;opacity:.85}
+                                    .job-question-step{display:none}
+                                    .job-question-step.is-active{display:block}
+                                    .job-questions-nav{display:flex;gap:10px;justify-content:space-between;margin-top:10px}
+                                    .job-questions-nav .btn{flex:1}
+                                </style>
                                 <form method="post" enctype="multipart/form-data">
                                     <div class="form-group mb-3">
                                         <input type="text" class="form-control" name="full_name" placeholder="Full Name" required>
@@ -152,23 +161,52 @@ if (isset($_POST['apply'])) {
                                     </div>
 
                                     <?php
-                                        $questions = mysqli_query($con, "SELECT * FROM job_questions WHERE job_id='$todo' ORDER BY id ASC");
-                                        if ($questions) {
-                                            while ($qrow = mysqli_fetch_assoc($questions)) {
-                                                $qid = $qrow['id'];
-                                                $qtext = $qrow['question_text'];
-                                                $required = $qrow['is_required'] == 1 ? 'required' : '';
-                                                print "
-                                                <div class='form-group mb-3'>
-                                                    <label class='mb-2'><strong>$qtext</strong></label>
-                                                    <textarea class='form-control' name='question_$qid' rows='3' $required></textarea>
-                                                </div>
-                                                ";
+                                        $questions_rs = mysqli_query($con, "SELECT * FROM job_questions WHERE job_id='$todo' ORDER BY id ASC");
+                                        $job_questions = [];
+                                        if ($questions_rs) {
+                                            while ($qrow = mysqli_fetch_assoc($questions_rs)) {
+                                                $job_questions[] = $qrow;
                                             }
                                         }
+                                        $job_questions_count = count($job_questions);
                                     ?>
 
-                                    <button type="submit" name="apply" class="btn btn-bordered active btn-block mt-2">
+                                    <div class="job-questions-wizard" data-total="<?php echo (int)$job_questions_count; ?>">
+                                        <div class="job-questions-header">
+                                            <div class="job-questions-title"><strong>Questions</strong></div>
+                                            <div class="job-questions-count">
+                                                <span id="jobQuestionStepCurrent">1</span> / <span id="jobQuestionStepTotal"><?php echo (int)$job_questions_count; ?></span>
+                                            </div>
+                                        </div>
+
+                                        <?php
+                                            if ($job_questions_count > 0) {
+                                                $stepIndex = 0;
+                                                foreach ($job_questions as $qrow) {
+                                                    $qid = $qrow['id'];
+                                                    $qtext = $qrow['question_text'];
+                                                    $is_required = (int)$qrow['is_required'] === 1 ? '1' : '0';
+                                                    $activeClass = $stepIndex === 0 ? ' is-active' : '';
+                                                    print "
+                                                    <div class='form-group mb-3 job-question-step$activeClass' data-step='$stepIndex'>
+                                                        <label class='mb-2'><strong>$qtext</strong></label>
+                                                        <textarea class='form-control' name='question_$qid' rows='3' data-required='$is_required'></textarea>
+                                                    </div>
+                                                    ";
+                                                    $stepIndex++;
+                                                }
+                                            } else {
+                                                print "<div class='form-group mb-3'><em>No additional questions for this role.</em></div>";
+                                            }
+                                        ?>
+
+                                        <div class="job-questions-nav" id="jobQuestionsNav">
+                                            <button type="button" class="btn btn-bordered" id="jobQuestionPrev">Previous</button>
+                                            <button type="button" class="btn btn-bordered active" id="jobQuestionNext">Next</button>
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" name="apply" class="btn btn-bordered active btn-block mt-2" id="jobApplySubmit">
                                         <span class="text-white pr-3"><i class="fas fa-paper-plane"></i></span>Submit Application
                                     </button>
                                 </form>
@@ -178,5 +216,79 @@ if (isset($_POST['apply'])) {
                 <?php } ?>
             </div>
         </section>
+
+        <script>
+            (function () {
+                var wizard = document.querySelector('.job-questions-wizard');
+                if (!wizard) return;
+
+                var steps = Array.prototype.slice.call(document.querySelectorAll('.job-question-step'));
+                var total = steps.length;
+                var current = 0;
+
+                var elCurrent = document.getElementById('jobQuestionStepCurrent');
+                var elTotal = document.getElementById('jobQuestionStepTotal');
+                var btnPrev = document.getElementById('jobQuestionPrev');
+                var btnNext = document.getElementById('jobQuestionNext');
+                var nav = document.getElementById('jobQuestionsNav');
+                var btnSubmit = document.getElementById('jobApplySubmit');
+
+                if (elTotal) elTotal.textContent = String(total);
+
+                function setRequiredForActiveStep(activeIdx) {
+                    steps.forEach(function (stepEl, idx) {
+                        var textarea = stepEl.querySelector('textarea');
+                        if (!textarea) return;
+                        textarea.required = false;
+                        if (idx === activeIdx) {
+                            textarea.required = textarea.getAttribute('data-required') === '1';
+                        }
+                    });
+                }
+
+                function render() {
+                    if (total === 0) {
+                        if (nav) nav.style.display = 'none';
+                        if (btnSubmit) btnSubmit.style.display = '';
+                        if (elCurrent) elCurrent.textContent = '0';
+                        return;
+                    }
+
+                    steps.forEach(function (stepEl, idx) {
+                        if (idx === current) stepEl.classList.add('is-active');
+                        else stepEl.classList.remove('is-active');
+                    });
+
+                    if (elCurrent) elCurrent.textContent = String(current + 1);
+                    if (btnPrev) btnPrev.disabled = current === 0;
+
+                    var isLast = current === total - 1;
+                    if (nav) nav.style.display = isLast ? 'none' : 'flex';
+                    if (btnSubmit) btnSubmit.style.display = isLast ? '' : 'none';
+
+                    setRequiredForActiveStep(current);
+                }
+
+                if (btnPrev) {
+                    btnPrev.addEventListener('click', function () {
+                        if (current > 0) {
+                            current -= 1;
+                            render();
+                        }
+                    });
+                }
+
+                if (btnNext) {
+                    btnNext.addEventListener('click', function () {
+                        if (current < total - 1) {
+                            current += 1;
+                            render();
+                        }
+                    });
+                }
+
+                render();
+            })();
+        </script>
 
 <?php include "footer.php"; ?>
