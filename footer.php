@@ -37,6 +37,8 @@ print "
 }
 ?>
 
+<li class='py-2'><a class='text-black-50' href='careers'>Careers</a></li>
+
 
                                 </ul>
                             </div>
@@ -127,6 +129,9 @@ print "
                                     </li>
                                     <li class="nav-item">
                                         <a href="blog" class="nav-link">Blog</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="careers" class="nav-link">Careers</a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="contact" class="nav-link">Contact Us</a>

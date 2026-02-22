@@ -320,6 +320,10 @@ if (strlen(trim($impact_text)) < 1) {
                             <a href="blog" class="nav-link">Blog</a>
                         </li>
 
+                        <li class="nav-item">
+                            <a href="careers" class="nav-link">Careers</a>
+                        </li>
+
                     </ul>
                     <!-- Navbar Icons -->
                     <ul class="navbar-nav icons">
