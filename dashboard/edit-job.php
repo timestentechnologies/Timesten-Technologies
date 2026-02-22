@@ -18,9 +18,42 @@ if(isset($_POST['save'])){
     $deadline = mysqli_real_escape_string($con,$_POST['deadline']);
     $job_status = mysqli_real_escape_string($con,$_POST['status']);
 
+    $existing_questions = isset($_POST['existing_question']) && is_array($_POST['existing_question']) ? $_POST['existing_question'] : array();
+    $existing_required = isset($_POST['existing_required']) && is_array($_POST['existing_required']) ? $_POST['existing_required'] : array();
+    $delete_existing = isset($_POST['delete_existing']) && is_array($_POST['delete_existing']) ? $_POST['delete_existing'] : array();
+
+    $new_questions = isset($_POST['new_question_text']) && is_array($_POST['new_question_text']) ? $_POST['new_question_text'] : array();
+    $new_required = isset($_POST['new_question_required']) && is_array($_POST['new_question_required']) ? $_POST['new_question_required'] : array();
+
     $qb = mysqli_query($con, "UPDATE jobs SET job_title='$job_title', short_desc='$short_desc', job_desc='$job_desc', requirements='$requirements', location='$location', job_type='$job_type', deadline='$deadline', status='$job_status' WHERE id='$todo'");
 
     if($qb){
+        foreach ($existing_questions as $qid => $qtext_raw) {
+            $qid_clean = mysqli_real_escape_string($con, $qid);
+
+            if (isset($delete_existing[(string)$qid])) {
+                mysqli_query($con, "DELETE FROM job_questions WHERE id='$qid_clean' AND job_id='$todo'");
+                continue;
+            }
+
+            $qtext = mysqli_real_escape_string($con, $qtext_raw);
+            if (strlen(trim($qtext)) < 1) {
+                continue;
+            }
+
+            $req = isset($existing_required[(string)$qid]) ? 1 : 0;
+            mysqli_query($con, "UPDATE job_questions SET question_text='$qtext', is_required='$req' WHERE id='$qid_clean' AND job_id='$todo'");
+        }
+
+        foreach ($new_questions as $idx => $qtext_raw) {
+            $qtext = mysqli_real_escape_string($con, $qtext_raw);
+            if (strlen(trim($qtext)) < 1) {
+                continue;
+            }
+            $req = isset($new_required[(string)$idx]) ? 1 : 0;
+            mysqli_query($con, "INSERT INTO job_questions (job_id, question_text, is_required) VALUES ('$todo', '$qtext', '$req')");
+        }
+
         $errormsg = "<div class='alert alert-success alert-dismissible alert-outline fade show'>Job updated successfully.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
         $query = mysqli_query($con, "SELECT * FROM jobs WHERE id='$todo' LIMIT 1");
         $row = $query ? mysqli_fetch_assoc($query) : $row;
@@ -107,6 +140,64 @@ if(isset($_POST['save'])){
                                                     <textarea class="form-control" name="requirements" rows="4" required><?php echo $row['requirements']; ?></textarea>
                                                 </div>
                                             </div>
+
+                                            <div class="col-lg-12">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Application Questions</label>
+
+                                                    <div class="table-responsive mb-3">
+                                                        <table class="table table-bordered align-middle">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Question</th>
+                                                                    <th style="width: 120px;">Required</th>
+                                                                    <th style="width: 120px;">Delete</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <?php
+                                                                    $qq = mysqli_query($con, "SELECT * FROM job_questions WHERE job_id='$todo' ORDER BY id ASC");
+                                                                    while($qr = mysqli_fetch_assoc($qq)){
+                                                                        $qid = $qr['id'];
+                                                                        $qt = $qr['question_text'];
+                                                                        $req_checked = $qr['is_required'] == 1 ? 'checked' : '';
+                                                                        print "<tr>
+                                                                            <td><input type='text' class='form-control' name='existing_question[$qid]' value=\"$qt\"></td>
+                                                                            <td class='text-center'>
+                                                                                <input class='form-check-input' type='checkbox' name='existing_required[$qid]' value='1' $req_checked>
+                                                                            </td>
+                                                                            <td class='text-center'>
+                                                                                <input class='form-check-input' type='checkbox' name='delete_existing[$qid]' value='1'>
+                                                                            </td>
+                                                                        </tr>";
+                                                                    }
+                                                                ?>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+
+                                                    <div id="newQuestionsWrapper" class="vstack gap-2">
+                                                        <div class="row g-2 align-items-start" data-new-index="0">
+                                                            <div class="col-12 col-lg-9">
+                                                                <input type="text" class="form-control" name="new_question_text[0]" placeholder="New question">
+                                                            </div>
+                                                            <div class="col-8 col-lg-2">
+                                                                <div class="form-check mt-2">
+                                                                    <input class="form-check-input" type="checkbox" id="new_question_required_0" name="new_question_required[0]" value="1">
+                                                                    <label class="form-check-label" for="new_question_required_0">Required</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-4 col-lg-1 text-end">
+                                                                <button type="button" class="btn btn-soft-danger btn-sm" onclick="removeNewQuestion(this)">X</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="mt-2">
+                                                        <button type="button" class="btn btn-soft-primary btn-sm" onclick="addNewQuestion()">Add New Question</button>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="col-lg-12">
                                                 <div class="hstack gap-2 justify-content-end">
                                                     <button type="submit" name="save" class="btn btn-primary">Update Job</button>
@@ -115,6 +206,49 @@ if(isset($_POST['save'])){
                                             </div>
                                         </div>
                                     </form>
+
+                                    <script>
+                                        function addNewQuestion() {
+                                            var wrapper = document.getElementById('newQuestionsWrapper');
+                                            var rows = wrapper.querySelectorAll('[data-new-index]');
+                                            var maxIndex = -1;
+                                            rows.forEach(function (r) {
+                                                var idx = parseInt(r.getAttribute('data-new-index') || '-1', 10);
+                                                if (!isNaN(idx) && idx > maxIndex) {
+                                                    maxIndex = idx;
+                                                }
+                                            });
+                                            var newIndex = maxIndex + 1;
+
+                                            var row = document.createElement('div');
+                                            row.className = 'row g-2 align-items-start';
+                                            row.setAttribute('data-new-index', newIndex);
+
+                                            row.innerHTML = "\
+                                                <div class='col-12 col-lg-9'>\
+                                                    <input type='text' class='form-control' name='new_question_text[" + newIndex + "]' placeholder='New question'>\
+                                                </div>\
+                                                <div class='col-8 col-lg-2'>\
+                                                    <div class='form-check mt-2'>\
+                                                        <input class='form-check-input' type='checkbox' id='new_question_required_" + newIndex + "' name='new_question_required[" + newIndex + "]' value='1'>\
+                                                        <label class='form-check-label' for='new_question_required_" + newIndex + "'>Required</label>\
+                                                    </div>\
+                                                </div>\
+                                                <div class='col-4 col-lg-1 text-end'>\
+                                                    <button type='button' class='btn btn-soft-danger btn-sm' onclick='removeNewQuestion(this)'>X</button>\
+                                                </div>\
+                                            ";
+
+                                            wrapper.appendChild(row);
+                                        }
+
+                                        function removeNewQuestion(btn) {
+                                            var row = btn.closest('[data-new-index]');
+                                            if (row) {
+                                                row.remove();
+                                            }
+                                        }
+                                    </script>
                                     <?php } ?>
                                 </div>
                             </div>
