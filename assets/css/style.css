@@ -1995,6 +1995,38 @@ body.dark,
     box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.08);
 }
 
+.core-values-list {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.core-values-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.core-values-number {
+    flex: 0 0 auto;
+    width: 34px;
+    height: 34px;
+    border: 2px solid #fc573b;
+    border-radius: 50%;
+    color: #fc573b;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 1;
+}
+
+.core-values-content {
+    flex: 1 1 auto;
+}
+
 /* ******************************
 :: 12.0 PORTFOLIO AREA CSS
 ****************************** */

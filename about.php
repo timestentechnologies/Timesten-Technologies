@@ -76,7 +76,8 @@
                                             $values_items[] = $line;
                                         }
                                     ?>
-                                    <ol class="mb-0" style="padding-left: 1.25rem;">
+                                    <ol class="core-values-list mb-0">
+                                        <?php $value_index = 1; ?>
                                         <?php foreach ($values_items as $item) { ?>
                                             <?php
                                                 $item_clean = preg_replace('/^\d+\.?\s*/', '', $item);
@@ -84,9 +85,13 @@
                                                 $label = trim($parts[0]);
                                                 $desc = isset($parts[1]) ? trim($parts[1]) : '';
                                             ?>
-                                            <li class="mb-3">
-                                                <strong><?php print $label; ?></strong><?php if (strlen($desc) > 0) { ?> - <?php print $desc; ?><?php } ?>
+                                            <li class="core-values-item">
+                                                <span class="core-values-number"><?php print $value_index; ?></span>
+                                                <span class="core-values-content">
+                                                    <strong><?php print $label; ?></strong><?php if (strlen($desc) > 0) { ?> - <?php print $desc; ?><?php } ?>
+                                                </span>
                                             </li>
+                                            <?php $value_index++; ?>
                                         <?php } ?>
                                     </ol>
                                 </div>
