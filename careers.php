@@ -39,6 +39,13 @@
                                 $short_desc = $row['short_desc'];
                                 $deadline = $row['deadline'];
 
+                                $salary = isset($row['salary']) ? $row['salary'] : '';
+                                $salary_html = '';
+                                if (strlen(trim($salary)) > 0) {
+                                    $salary_safe = htmlspecialchars($salary);
+                                    $salary_html = "<p class='mb-2 careers-meta'><strong>Salary:</strong> $salary_safe</p>";
+                                }
+
                                 $cover_image = isset($row['cover_image']) ? $row['cover_image'] : '';
                                 $cover_html = '';
                                 if (strlen(trim($cover_image)) > 0) {
@@ -54,6 +61,7 @@
                                         <h3 class='my-2'>$title</h3>
                                         <p class='mb-2 careers-meta'><strong>Location:</strong> $location</p>
                                         <p class='mb-2 careers-meta'><strong>Type:</strong> $job_type</p>
+                                        $salary_html
                                         <p class='careers-desc'>$short_desc</p>
                                         <p class='mb-3 careers-meta'><strong>Deadline:</strong> $deadline</p>
                                         <a class='btn btn-bordered mt-2 careers-btn' href='jobdetail.php?id=$id'>View & Apply</a>

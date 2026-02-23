@@ -29,6 +29,7 @@
                             $requirements = mysqli_real_escape_string($con,$_POST['requirements']);
                             $location = mysqli_real_escape_string($con,$_POST['location']);
                             $job_type = mysqli_real_escape_string($con,$_POST['job_type']);
+                            $salary = isset($_POST['salary']) ? mysqli_real_escape_string($con, $_POST['salary']) : '';
                             $deadline = mysqli_real_escape_string($con,$_POST['deadline']);
                             $job_status = mysqli_real_escape_string($con,$_POST['status']);
 
@@ -86,11 +87,29 @@
                                     $has_cover_col = true;
                                 }
 
-                                if ($has_cover_col) {
-                                    $qb = mysqli_query($con,"INSERT INTO jobs (job_title, short_desc, job_desc, requirements, location, job_type, deadline, status, cover_image, created_at) VALUES ('$job_title', '$short_desc', '$job_desc', '$requirements', '$location', '$job_type', '$deadline', '$job_status', '$cover_image_sql', NOW())");
-                                } else {
-                                    $qb = mysqli_query($con,"INSERT INTO jobs (job_title, short_desc, job_desc, requirements, location, job_type, deadline, status, created_at) VALUES ('$job_title', '$short_desc', '$job_desc', '$requirements', '$location', '$job_type', '$deadline', '$job_status', NOW())");
+                                $has_salary_col = false;
+                                $col_rs_salary = mysqli_query($con, "SHOW COLUMNS FROM jobs LIKE 'salary'");
+                                if ($col_rs_salary && mysqli_num_rows($col_rs_salary) > 0) {
+                                    $has_salary_col = true;
                                 }
+
+                                $cols = "job_title, short_desc, job_desc, requirements, location, job_type, deadline, status";
+                                $vals = "'$job_title', '$short_desc', '$job_desc', '$requirements', '$location', '$job_type', '$deadline', '$job_status'";
+
+                                if ($has_salary_col) {
+                                    $cols .= ", salary";
+                                    $vals .= ", '$salary'";
+                                }
+
+                                if ($has_cover_col) {
+                                    $cols .= ", cover_image";
+                                    $vals .= ", '$cover_image_sql'";
+                                }
+
+                                $cols .= ", created_at";
+                                $vals .= ", NOW()";
+
+                                $qb = mysqli_query($con, "INSERT INTO jobs ($cols) VALUES ($vals)");
                                 if($qb){
                                     $new_job_id = mysqli_insert_id($con);
                                     foreach ($question_texts as $idx => $qt_raw) {
@@ -147,6 +166,12 @@
                                                 <div class="mb-3">
                                                     <label class="form-label">Job Type</label>
                                                     <input type="text" class="form-control" name="job_type" placeholder="Full-time / Part-time / Contract" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Salary</label>
+                                                    <input type="text" class="form-control" name="salary" placeholder="Amount / Commission / Voluntary / Confidential">
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">

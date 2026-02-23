@@ -120,6 +120,9 @@ if (isset($_POST['apply'])) {
                                 <h2 class="mb-2"><?php print $job['job_title']; ?></h2>
                                 <p class="mb-2"><strong>Location:</strong> <?php print $job['location']; ?></p>
                                 <p class="mb-2"><strong>Type:</strong> <?php print $job['job_type']; ?></p>
+                                <?php if (isset($job['salary']) && strlen(trim($job['salary'])) > 0) { ?>
+                                    <p class="mb-2"><strong>Salary:</strong> <?php print htmlspecialchars($job['salary']); ?></p>
+                                <?php } ?>
                                 <p class="mb-2"><strong>Deadline:</strong> <?php print $job['deadline']; ?></p>
                                 <hr>
                                 <h4 class="mb-2">Overview</h4>

@@ -15,6 +15,7 @@ if(isset($_POST['save'])){
     $requirements = mysqli_real_escape_string($con,$_POST['requirements']);
     $location = mysqli_real_escape_string($con,$_POST['location']);
     $job_type = mysqli_real_escape_string($con,$_POST['job_type']);
+    $salary = isset($_POST['salary']) ? mysqli_real_escape_string($con, $_POST['salary']) : '';
     $deadline = mysqli_real_escape_string($con,$_POST['deadline']);
     $job_status = mysqli_real_escape_string($con,$_POST['status']);
 
@@ -68,7 +69,17 @@ if(isset($_POST['save'])){
         $cover_update_sql = ", cover_image='$cover_image_sql'";
     }
 
-    $qb = mysqli_query($con, "UPDATE jobs SET job_title='$job_title', short_desc='$short_desc', job_desc='$job_desc', requirements='$requirements', location='$location', job_type='$job_type', deadline='$deadline', status='$job_status'$cover_update_sql WHERE id='$todo'");
+    $salary_update_sql = "";
+    $has_salary_col = false;
+    $col_rs_salary = mysqli_query($con, "SHOW COLUMNS FROM jobs LIKE 'salary'");
+    if ($col_rs_salary && mysqli_num_rows($col_rs_salary) > 0) {
+        $has_salary_col = true;
+    }
+    if ($has_salary_col) {
+        $salary_update_sql = ", salary='$salary'";
+    }
+
+    $qb = mysqli_query($con, "UPDATE jobs SET job_title='$job_title', short_desc='$short_desc', job_desc='$job_desc', requirements='$requirements', location='$location', job_type='$job_type'$salary_update_sql, deadline='$deadline', status='$job_status'$cover_update_sql WHERE id='$todo'");
 
     if($qb){
         foreach ($existing_questions as $qid => $qtext_raw) {
@@ -154,6 +165,12 @@ if(isset($_POST['save'])){
                                                 <div class="mb-3">
                                                     <label class="form-label">Job Type</label>
                                                     <input type="text" class="form-control" name="job_type" value="<?php echo $row['job_type']; ?>" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Salary</label>
+                                                    <input type="text" class="form-control" name="salary" value="<?php echo isset($row['salary']) ? htmlspecialchars($row['salary']) : ''; ?>" placeholder="Amount / Commission / Voluntary / Confidential">
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
