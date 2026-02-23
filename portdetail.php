@@ -1,6 +1,35 @@
 <?php
 include "header.php";
 $todo= mysqli_real_escape_string($con,$_GET["id"]);
+
+$prev_port_id = 0;
+$next_port_id = 0;
+$prev_rs = mysqli_query($con, "SELECT id FROM portfolio WHERE id < '$todo' ORDER BY id DESC LIMIT 1");
+if ($prev_rs) {
+    $prev_row = mysqli_fetch_assoc($prev_rs);
+    $prev_port_id = $prev_row ? (int)$prev_row['id'] : 0;
+}
+$next_rs = mysqli_query($con, "SELECT id FROM portfolio WHERE id > '$todo' ORDER BY id ASC LIMIT 1");
+if ($next_rs) {
+    $next_row = mysqli_fetch_assoc($next_rs);
+    $next_port_id = $next_row ? (int)$next_row['id'] : 0;
+}
+
+$has_portfolio_media_table = false;
+$tm_rs = mysqli_query($con, "SHOW TABLES LIKE 'portfolio_media'");
+if ($tm_rs && mysqli_num_rows($tm_rs) > 0) {
+    $has_portfolio_media_table = true;
+}
+
+$portfolio_media_items = [];
+if ($has_portfolio_media_table) {
+    $m_rs = mysqli_query($con, "SELECT id, file_path, media_type FROM portfolio_media WHERE portfolio_id='$todo' ORDER BY id ASC");
+    if ($m_rs) {
+        while ($mrow = mysqli_fetch_assoc($m_rs)) {
+            $portfolio_media_items[] = $mrow;
+        }
+    }
+}
 ?>
         <!-- ***** Breadcrumb Area Start ***** -->
         <section class="section breadcrumb-area overlay-dark d-flex align-items-center">
@@ -51,11 +80,51 @@ $todo= mysqli_real_escape_string($con,$_GET["id"]);
                             <?php if(!empty($port_url)) { ?>
                                 <a class="btn btn-bordered mt-4" href="<?php print $port_url; ?>" target="_blank" rel="noopener noreferrer">Visit Website</a>
                             <?php } ?>
+                            <?php if ($prev_port_id > 0 || $next_port_id > 0) { ?>
+                                <div class="d-flex justify-content-between align-items-center gap-2 mt-4">
+                                    <div>
+                                        <?php if ($prev_port_id > 0) { ?>
+                                            <a class="btn btn-bordered" href="portdetail.php?id=<?php print (int)$prev_port_id; ?>">Previous</a>
+                                        <?php } ?>
+                                    </div>
+                                    <div>
+                                        <?php if ($next_port_id > 0) { ?>
+                                            <a class="btn btn-bordered active" href="portdetail.php?id=<?php print (int)$next_port_id; ?>">Next</a>
+                                        <?php } ?>
+                                    </div>
+                                </div>
+                            <?php } ?>
                             <!-- Counter Area -->
 
                         </div>
                     </div>
                 </div>
+
+                <?php if (!empty($portfolio_media_items)) { ?>
+                    <div class="row mt-5">
+                        <div class="col-12">
+                            <div class="single-service p-4" style="border: solid 1px #788282;">
+                                <h3 class="mb-3">More Media</h3>
+                                <div class="row">
+                                    <?php foreach ($portfolio_media_items as $mitem) {
+                                        $mtype = isset($mitem['media_type']) ? $mitem['media_type'] : '';
+                                        $mpath = isset($mitem['file_path']) ? $mitem['file_path'] : '';
+                                        $mpath_safe = htmlspecialchars($mpath);
+                                        $full_url = "dashboard/uploads/portfolio/" . $mpath_safe;
+
+                                        if ($mtype === 'image') {
+                                            print "<div class='col-12 col-md-6 col-lg-4 mb-3'><a href='$full_url' target='_blank'><img src='$full_url' alt='media' style='width:100%;height:200px;object-fit:cover;border-radius:12px;display:block;'></a></div>";
+                                        } elseif ($mtype === 'video') {
+                                            print "<div class='col-12 col-lg-6 mb-3'><video controls style='width:100%;border-radius:12px;'><source src='$full_url'></video></div>";
+                                        } else {
+                                            print "<div class='col-12 col-md-6 col-lg-4 mb-3'><a class='btn btn-bordered w-100' href='$full_url' target='_blank' rel='noopener noreferrer'>Open Document</a></div>";
+                                        }
+                                    } ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php } ?>
             </div>
         </section>
         <!-- ***** About Area End ***** -->

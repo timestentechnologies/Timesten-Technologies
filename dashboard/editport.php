@@ -83,6 +83,41 @@ $service_detail = mysqli_real_escape_string($con,$_POST['service_detail']);
  if($status=="OK") {
      $qb=mysqli_query($con,"update portfolio set port_title='$service_title', port_desc='$service_desc', port_detail='$service_detail', port_url='$port_url_new', ufile='$new_file_name' where id='$todo'");
      if($qb){
+		  $has_portfolio_media_table = false;
+		  $tm_rs = mysqli_query($con, "SHOW TABLES LIKE 'portfolio_media'");
+		  if ($tm_rs && mysqli_num_rows($tm_rs) > 0) {
+			  $has_portfolio_media_table = true;
+		  }
+
+		  if ($has_portfolio_media_table && isset($_FILES['media_files']) && isset($_FILES['media_files']['name']) && is_array($_FILES['media_files']['name'])) {
+			  $uploads_dir_extra = 'uploads/portfolio';
+			  $cnt = count($_FILES['media_files']['name']);
+			  for ($i = 0; $i < $cnt; $i++) {
+				  if (!isset($_FILES['media_files']['error'][$i]) || $_FILES['media_files']['error'][$i] !== UPLOAD_ERR_OK) {
+					  continue;
+				  }
+				  $tmp_name_extra = $_FILES['media_files']['tmp_name'][$i];
+				  $original_name_extra = basename($_FILES['media_files']['name'][$i]);
+				  $random_digit_extra = rand(1000, 9999);
+				  $safe_name_extra = preg_replace("/[^a-zA-Z0-9.\-_]/", "", $original_name_extra);
+				  $new_file_extra = $random_digit_extra . '_' . $safe_name_extra;
+
+				  $file_type_extra = mime_content_type($tmp_name_extra);
+				  $media_type = 'document';
+				  if (strpos($file_type_extra, 'image/') === 0) {
+					  $media_type = 'image';
+				  } elseif (strpos($file_type_extra, 'video/') === 0) {
+					  $media_type = 'video';
+				  }
+
+				  if (move_uploaded_file($tmp_name_extra, "$uploads_dir_extra/$new_file_extra")) {
+					  $fp = mysqli_real_escape_string($con, $new_file_extra);
+					  $mt = mysqli_real_escape_string($con, $media_type);
+					  mysqli_query($con, "INSERT INTO portfolio_media (portfolio_id, file_path, media_type, created_at) VALUES ('$todo', '$fp', '$mt', NOW())");
+				  }
+			  }
+		  }
+
          $errormsg= "<div class='alert alert-success alert-dismissible alert-outline fade show'>Portfolio Updated successfully.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
      }
  }
@@ -142,6 +177,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                                                                     <img src="uploads/portfolio/<?php echo $current_image; ?>" alt="Current Image" style="max-width: 150px; border-radius: 8px;">
                                                                 </div>
                                                             <?php } ?>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Add More Media (images / video / documents)</label>
+                                                            <input type="file" class="form-control" name="media_files[]" multiple>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-12">
