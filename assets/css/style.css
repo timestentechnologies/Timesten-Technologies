@@ -2797,14 +2797,14 @@ body.dark,
     font-weight: 900;
     line-height: 1em;
     letter-spacing: -1.6px;
-    color: #ff7a00;
-    background-image: -webkit-linear-gradient(45deg, #ff7a00 0%, #ff7a00 100%);
-    background-image: linear-gradient(45deg, #ff7a00 0%, #ff7a00 100%);
+    color: #ff8c00;
+    background-image: -webkit-linear-gradient(45deg, #ff8c00 0%, #ff8c00 100%);
+    background-image: linear-gradient(45deg, #ff8c00 0%, #ff8c00 100%);
     -webkit-background-clip: text;
     -moz-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.55);
+    text-shadow: 0 3px 14px rgba(0, 0, 0, 0.6), 0 0 18px rgba(255, 140, 0, 0.35);
 }
 
 .breadcrumb {
