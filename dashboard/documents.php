@@ -150,6 +150,11 @@ if ($docs_q) {
         $docs[] = $r;
     }
 }
+
+$scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+$host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
+$basePath = isset($_SERVER['SCRIPT_NAME']) ? rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'])), '/') : '';
+$publicBase = $scheme . '://' . $host . $basePath;
 ?>
 
 <div class="main-content">
@@ -299,14 +304,18 @@ if ($docs_q) {
                         $created = htmlspecialchars((string)$d['created_at']);
 
                         $open = '';
+                        $shareUrl = '';
                         if ($d['doc_type'] === 'file' && !empty($d['file_name'])) {
                             $fn = rawurlencode($d['file_name']);
                             $open = "uploads/documents/$fn";
+                            $shareUrl = $publicBase . "/uploads/documents/$fn";
                         }
                         if ($d['doc_type'] === 'link' && !empty($d['link_url'])) {
                             $open = $d['link_url'];
+                            $shareUrl = $open;
                         }
                         $open_h = htmlspecialchars($open);
+                        $share_h = htmlspecialchars($shareUrl);
 
                         print "<tr>";
                         print "<td data-search='$title'>$title</td>";
@@ -317,6 +326,26 @@ if ($docs_q) {
                         if (strlen($open) > 0) {
                             print "<a class='btn btn-sm btn-soft-primary' href='$open_h' target='_blank'>Open</a> ";
                         }
+
+                        if (strlen($shareUrl) > 0) {
+                            $wa = 'https://wa.me/?text=' . rawurlencode($shareUrl);
+                            $wa_h = htmlspecialchars($wa);
+                            $em = 'mailto:?subject=' . rawurlencode('Document: ' . $d['title']) . '&body=' . rawurlencode($shareUrl);
+                            $em_h = htmlspecialchars($em);
+
+                            print "<div class='btn-group'>";
+                            print "<button type='button' class='btn btn-sm btn-soft-secondary dropdown-toggle' data-bs-toggle='dropdown' aria-expanded='false'>Share</button>";
+                            print "<ul class='dropdown-menu dropdown-menu-end'>";
+                            print "<li><a class='dropdown-item' href='$wa_h' target='_blank'>WhatsApp</a></li>";
+                            print "<li><a class='dropdown-item' href='$em_h'>Email</a></li>";
+                            print "<li><button type='button' class='dropdown-item js-copy-link' data-url='$share_h'>Copy public URL</button></li>";
+                            if ($d['doc_type'] === 'file') {
+                                print "<li><a class='dropdown-item' href='$share_h' download>Download</a></li>";
+                            }
+                            print "</ul>";
+                            print "</div> ";
+                        }
+
                         print "<form method='post' class='d-inline' onsubmit=\"return confirm('Delete this document?');\">";
                         print "<input type='hidden' name='delete_doc_id' value='$id'>";
                         print "<button type='submit' class='btn btn-sm btn-soft-danger'>Delete</button>";
@@ -372,5 +401,26 @@ if ($docs_q) {
       });
     });
   }
+
+  document.addEventListener('click', function(e){
+    var btn = e.target && e.target.closest ? e.target.closest('.js-copy-link') : null;
+    if (!btn) return;
+    var url = btn.getAttribute('data-url') || '';
+    if (!url) return;
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url);
+      return;
+    }
+
+    var ta = document.createElement('textarea');
+    ta.value = url;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch (err) {}
+    document.body.removeChild(ta);
+  });
 })();
 </script>
