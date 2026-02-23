@@ -40,9 +40,6 @@
             <?php } ?>
 
             <div class="container" style="position:relative;z-index:2;">
-            <!DOCTYPE html>
-<html>
-<head>
     <style>
         .welcome-slider,
         .welcome-slider .owl-stage-outer,
@@ -67,8 +64,7 @@
         }
        
     </style>
-</head>
-<body>
+
     <div id="stars-container"></div>
     
     <script>
@@ -124,8 +120,6 @@
             setTimeout(animateStars, 2000);
         }
     </script>
-</body>
-</html>
          
                 <div class="row align-items-center">
                     <!-- Welcome Intro Start -->
