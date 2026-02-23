@@ -6,7 +6,7 @@
             <div class="footer-top ptb_100">
                 <div class="container">
                     <div class="row">
-                        <div class="col-12 col-sm-6 col-lg-4">
+                        <div class="col-12 col-sm-6 col-lg-3">
                             <!-- Footer Items -->
                             <div class="footer-items">
                                 <!-- Footer Title -->
@@ -14,7 +14,7 @@
                                 <p class="mb-2"><?php print $site_about?></p>
                             </div>
                         </div>
-                        <div class="col-12 col-sm-6 col-lg-4">
+                        <div class="col-12 col-sm-6 col-lg-3">
                             <!-- Footer Items -->
                             <div class="footer-items">
                                 <!-- Footer Title -->
@@ -37,14 +37,11 @@ print "
 }
 ?>
 
-<li class='py-2'><a class='text-black-50' href='careers'>Careers</a></li>
-
-
                                 </ul>
                             </div>
                         </div>
 
-                        <div class="col-12 col-sm-6 col-lg-4">
+                        <div class="col-12 col-sm-6 col-lg-3">
                             <!-- Footer Items -->
                             <div class="footer-items">
                                 <!-- Footer Title -->
@@ -72,10 +69,25 @@ print "
 
                                 </ul>
 
-                                <ul class="list-inline pt-3 mb-0">
-                                    <li class="list-inline-item px-2"><a class="text-black-50" href="privacy">Privacy</a></li>
-                                    <li class="list-inline-item px-2"><a class="text-black-50" href="cookie">Cookie</a></li>
-                                    <li class="list-inline-item px-2"><a class="text-black-50" href="terms">Terms</a></li>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <!-- Footer Items -->
+                            <div class="footer-items">
+                                <!-- Footer Title -->
+                                <h3 class="footer-title text-uppercase mb-2">Quick Links</h3>
+                                <ul>
+                                    <li class='py-2'><a class='text-black-50' href='home'>Home</a></li>
+                                    <li class='py-2'><a class='text-black-50' href='about'>About Us</a></li>
+                                    <li class='py-2'><a class='text-black-50' href='services'>Services</a></li>
+                                    <li class='py-2'><a class='text-black-50' href='portfolio'>Portfolio</a></li>
+                                    <li class='py-2'><a class='text-black-50' href='blog'>Blog</a></li>
+                                    <li class='py-2'><a class='text-black-50' href='careers'>Careers</a></li>
+                                    <li class='py-2'><a class='text-black-50' href='contact'>Contact</a></li>
+                                    <li class='py-2'><a class='text-black-50' href='privacy'>Privacy Policy</a></li>
+                                    <li class='py-2'><a class='text-black-50' href='cookie'>Cookie Policy</a></li>
+                                    <li class='py-2'><a class='text-black-50' href='terms'>Terms</a></li>
                                 </ul>
                             </div>
                         </div>

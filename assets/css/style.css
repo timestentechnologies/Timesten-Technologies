@@ -1238,6 +1238,12 @@ header {
     color: rgba(255, 255, 255, .75);
 }
 
+.navbar-expand .navbar-nav.items .nav-link,
+.navbar-expand .navbar-nav.icons .nav-link,
+.navbar-expand .navbar-nav.action .nav-link {
+    transform: translateY(2px);
+}
+
 .navbar-expand.navbar-sticky .navbar-nav .nav-link,
 .navbar-expand.navbar-light .navbar-nav .nav-link {
     color: #3b1b6a;
