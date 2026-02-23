@@ -113,6 +113,14 @@ $ufile = $r[0];
                         </li>
 
                         <li class="nav-item">
+                            <a class="nav-link" href="documents.php" data-key="t-analytics">  <i class="ri-folder-3-line"></i> <span> Documents </span></a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="employees.php" data-key="t-analytics">  <i class="ri-team-line"></i> <span> Employees </span></a>
+                        </li>
+
+                        <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarSl" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="sidebarLanding">
                                 <i class="ri-image-fill"></i> <span data-key="t-landing">Manage Slider</span>
                             </a>
