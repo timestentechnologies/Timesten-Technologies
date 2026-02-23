@@ -11,7 +11,7 @@
     }
 ?>
         <!-- ***** Welcome Area Start ***** -->
-        <section id="home" class="section welcome-area bg-overlay overflow-hidden d-flex align-items-center">
+        <section id="home" class="section welcome-area bg-overlay overflow-hidden d-flex align-items-center" style="position:relative;min-height:100vh;">
             <?php
                 $slider_rs = mysqli_query($con, "SELECT * FROM slider ORDER BY id DESC");
                 $slider_items = [];
@@ -23,7 +23,7 @@
             ?>
 
             <?php if ($use_slider_mode && count($slider_items) > 0) { ?>
-                <div class="welcome-slider owl-carousel" style="position:absolute;inset:0;z-index:0;">
+                <div class="welcome-slider owl-carousel" style="position:absolute;inset:0;z-index:0;height:100%;">
                     <?php
                         foreach ($slider_items as $srow) {
                             $ufile = isset($srow['ufile']) ? $srow['ufile'] : '';
@@ -32,18 +32,28 @@
                             $slide_text = isset($srow['slide_text']) ? $srow['slide_text'] : '';
                             $data_title = htmlspecialchars($slide_title, ENT_QUOTES);
                             $data_text = htmlspecialchars($slide_text, ENT_QUOTES);
-                            print "<div class='welcome-slide' data-slide-title='$data_title' data-slide-text='$data_text' style=\"width:100%;height:100%;min-height:520px;background-image:url('dashboard/uploads/slider/$bg');background-size:cover;background-position:center;\"></div>";
+                            print "<div class='welcome-slide' data-slide-title='$data_title' data-slide-text='$data_text' style=\"width:100%;height:100vh;min-height:100vh;background-image:url('dashboard/uploads/slider/$bg');background-size:cover;background-position:center;\"></div>";
                         }
                     ?>
                 </div>
                 <div style="position:absolute;inset:0;z-index:1;background:rgba(0,0,0,.55);"></div>
             <?php } ?>
 
-            <div class="container">
+            <div class="container" style="position:relative;z-index:2;">
             <!DOCTYPE html>
 <html>
 <head>
     <style>
+        .welcome-slider,
+        .welcome-slider .owl-stage-outer,
+        .welcome-slider .owl-stage,
+        .welcome-slider .owl-item {
+            height: 100vh;
+        }
+        .welcome-slide {
+            height: 100vh;
+            min-height: 100vh;
+        }
         .star {
             position: absolute;
             background-color: white;
