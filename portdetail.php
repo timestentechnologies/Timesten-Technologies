@@ -54,11 +54,15 @@ if ($has_portfolio_media_table) {
 
         <?php
     $rt=mysqli_query($con,"SELECT * FROM portfolio where id='$todo'");
-    $tr = mysqli_fetch_array($rt);
-    $port_title = "$tr[port_title]";
-    $port_detail = "$tr[port_detail]";
-    $port_url = "$tr[port_url]";
-    $ufile = "$tr[ufile]";
+    	$tr = mysqli_fetch_array($rt);
+	$port_title = "$tr[port_title]";
+	$port_detail = "$tr[port_detail]";
+	$port_url = "$tr[port_url]";
+	$ufile = "$tr[ufile]";
+
+	$port_detail_display = stripslashes($port_detail);
+	$port_detail_display = str_replace(["\\r\\n", "\\n", "\\r"], "\n", $port_detail_display);
+	$port_detail_display = nl2br($port_detail_display);
 ?>
 
 
@@ -76,7 +80,7 @@ if ($has_portfolio_media_table) {
                         <!-- About Content -->
                         <div class="about-content section-heading text-center text-lg-left pl-md-4 mt-5 mt-lg-0 mb-0">
                             <h2 class="mb-3"><?php print $port_title?></h2>
-                            <p><?php print $port_detail;?></p>
+                            <p><?php print $port_detail_display;?></p>
                             <?php if(!empty($port_url)) { ?>
                                 <a class="btn btn-bordered mt-4" href="<?php print $port_url; ?>" target="_blank" rel="noopener noreferrer">Visit Website</a>
                             <?php } ?>

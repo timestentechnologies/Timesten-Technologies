@@ -60,6 +60,10 @@ if ($has_service_media_table) {
     $service_url = "$tr[service_url]";
     $updated_at = "$tr[updated_at]";
     $ufile = "$tr[ufile]";
+
+    $service_detail_display = stripslashes($service_detail);
+    $service_detail_display = str_replace(["\\r\\n", "\\n", "\\r"], "\n", $service_detail_display);
+    $service_detail_display = nl2br($service_detail_display);
 ?>
 
 
@@ -78,7 +82,7 @@ if ($has_service_media_table) {
                         <!-- About Content -->
                         <div class="about-content section-heading text-center text-lg-left pl-md-4 mt-5 mt-lg-0 mb-0">
                             <h2 class="mb-3"><?php print $service_title?></h2>
-                            <p><?php print $service_detail;?></p>
+                            <p><?php print $service_detail_display;?></p>
                             <?php if(!empty($service_url)) { ?>
                                 <a class="btn btn-bordered mt-4" href="<?php print $service_url; ?>" target="_blank" rel="noopener noreferrer">Visit Website</a>
                             <?php } ?>
