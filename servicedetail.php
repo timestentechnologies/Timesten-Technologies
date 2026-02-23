@@ -61,8 +61,11 @@ if ($has_service_media_table) {
     $updated_at = "$tr[updated_at]";
     $ufile = "$tr[ufile]";
 
-    $service_detail_display = stripslashes($service_detail);
-    $service_detail_display = str_replace(["\\r\\n", "\\n", "\\r"], "\n", $service_detail_display);
+    $service_detail_display = $service_detail;
+    $service_detail_display = stripcslashes($service_detail_display);
+    $service_detail_display = stripcslashes($service_detail_display);
+    $service_detail_display = str_replace("\\", "", $service_detail_display);
+    $service_detail_display = str_replace(["\r\n", "\r"], "\n", $service_detail_display);
     $service_detail_display = nl2br($service_detail_display);
 ?>
 

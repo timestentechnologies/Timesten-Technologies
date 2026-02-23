@@ -60,8 +60,11 @@ if ($has_portfolio_media_table) {
 	$port_url = "$tr[port_url]";
 	$ufile = "$tr[ufile]";
 
-	$port_detail_display = stripslashes($port_detail);
-	$port_detail_display = str_replace(["\\r\\n", "\\n", "\\r"], "\n", $port_detail_display);
+	$port_detail_display = $port_detail;
+	$port_detail_display = stripcslashes($port_detail_display);
+	$port_detail_display = stripcslashes($port_detail_display);
+	$port_detail_display = str_replace("\\", "", $port_detail_display);
+	$port_detail_display = str_replace(["\r\n", "\r"], "\n", $port_detail_display);
 	$port_detail_display = nl2br($port_detail_display);
 ?>
 
