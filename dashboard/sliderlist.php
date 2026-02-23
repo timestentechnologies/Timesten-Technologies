@@ -39,6 +39,7 @@
                                             <tr>
                                             <th data-ordering="false">Image</th>
                                                 <th data-ordering="false">Slider Title</th>
+                                                <th data-ordering="false">Slider Text</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -56,7 +57,14 @@ while($ro = mysqli_fetch_array($r123))
 
 	$id="$ro[id]";
 	$slide_title="$ro[slide_title]";
+	$slide_text = isset($ro['slide_text']) ? $ro['slide_text'] : '';
   $ufile="$ro[ufile]";
+
+	$slide_text_short = trim($slide_text);
+	if (strlen($slide_text_short) > 80) {
+		$slide_text_short = substr($slide_text_short, 0, 80) . '...';
+	}
+	$slide_text_short = htmlspecialchars($slide_text_short);
 
 
   print "<tr>
@@ -65,6 +73,10 @@ while($ro = mysqli_fetch_array($r123))
   </td>
 				  <td>
 				  $slide_title
+				  </td>
+
+				  <td>
+				    <span class='text-muted'>$slide_text_short</span>
 				  </td>
 
           <td>

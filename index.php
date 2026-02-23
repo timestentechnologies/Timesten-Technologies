@@ -122,8 +122,13 @@
                     <div class="col-12 col-md-7">
                         <div class="welcome-intro">
                             <?php if ($use_slider_mode && count($slider_items) > 0) { ?>
-                                <h1 class="text-white" id="heroSlideTitle"></h1>
-                                <p class="text-white my-4" id="heroSlideText"></p>
+                                <?php
+                                    $first_slide = $slider_items[0];
+                                    $first_title = isset($first_slide['slide_title']) && strlen(trim($first_slide['slide_title'])) > 0 ? $first_slide['slide_title'] : $stitle;
+                                    $first_text = isset($first_slide['slide_text']) && strlen(trim($first_slide['slide_text'])) > 0 ? $first_slide['slide_text'] : $stext;
+                                ?>
+                                <h1 class="text-white" id="heroSlideTitle"><?php print htmlspecialchars($first_title); ?></h1>
+                                <p class="text-white my-4" id="heroSlideText"><?php print htmlspecialchars($first_text); ?></p>
                             <?php } else { ?>
                                 <h1 class="text-white"><?php print $stitle?></h1>
                                 <p class="text-white my-4"><?php print $stext?></p>
@@ -603,9 +608,24 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             <script src="//code.tidio.co/w3nnziooaulg2mxalctxf1oief1sptkr.js" async></script>
 
             <script>
-                $(document).ready(function () {
-                    if ($('.welcome-slider').length > 0 && typeof $.fn.owlCarousel === 'function') {
+                (function () {
+                    function initHeroSliderIfReady() {
+                        if (typeof window.jQuery === 'undefined') {
+                            return false;
+                        }
+                        var $ = window.jQuery;
+                        if (typeof $.fn.owlCarousel !== 'function') {
+                            return false;
+                        }
+                        if ($('.welcome-slider').length === 0) {
+                            return true;
+                        }
+
                         var $slider = $('.welcome-slider');
+                        if ($slider.data('owl-initialized')) {
+                            return true;
+                        }
+                        $slider.data('owl-initialized', true);
 
                         function updateHeroFromActiveSlide() {
                             var $active = $slider.find('.owl-item.active .welcome-slide').first();
@@ -635,8 +655,23 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                         $slider.on('changed.owl.carousel', function () {
                             setTimeout(updateHeroFromActiveSlide, 0);
                         });
+
+                        return true;
                     }
-                });
+
+                    function retryInit() {
+                        var ok = initHeroSliderIfReady();
+                        if (!ok) {
+                            setTimeout(retryInit, 250);
+                        }
+                    }
+
+                    if (document.readyState === 'complete') {
+                        retryInit();
+                    } else {
+                        window.addEventListener('load', retryInit);
+                    }
+                })();
             </script>
             
       <?php include "footer.php"; ?>
