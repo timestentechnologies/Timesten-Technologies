@@ -23,6 +23,15 @@
             ?>
 
             <?php if ($use_slider_mode && count($slider_items) > 0) { ?>
+                <style>
+                    .welcome-slider,
+                    .welcome-slider .owl-stage-outer,
+                    .welcome-slider .owl-stage,
+                    .welcome-slider .owl-item,
+                    .welcome-slider .welcome-slide {
+                        height: 100%;
+                    }
+                </style>
                 <div class="welcome-slider owl-carousel" style="position:absolute;inset:0;z-index:0;">
                     <?php
                         foreach ($slider_items as $srow) {
@@ -32,7 +41,7 @@
                             $slide_text = isset($srow['slide_text']) ? $srow['slide_text'] : '';
                             $data_title = htmlspecialchars($slide_title, ENT_QUOTES);
                             $data_text = htmlspecialchars($slide_text, ENT_QUOTES);
-                            print "<div class='welcome-slide' data-slide-title='$data_title' data-slide-text='$data_text' style=\"width:100%;height:100%;min-height:520px;background-image:url('dashboard/uploads/slider/$bg');background-size:cover;background-position:center;\"></div>";
+                            print "<div class='welcome-slide' data-slide-title='$data_title' data-slide-text='$data_text' style=\"width:100%;height:100%;background-image:url('dashboard/uploads/slider/$bg');background-size:cover;background-position:center;\"></div>";
                         }
                     ?>
                 </div>
