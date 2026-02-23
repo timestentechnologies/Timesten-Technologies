@@ -31,6 +31,22 @@
                     .welcome-slider .welcome-slide {
                         height: 100%;
                     }
+
+                    #home .container {
+                        position: relative;
+                        z-index: 2;
+                    }
+
+                    #heroSlideTitle,
+                    #heroSlideText {
+                        color: #fff;
+                        text-shadow: 0 2px 14px rgba(0,0,0,.85);
+                    }
+
+                    #heroSlideText {
+                        font-weight: 500;
+                        opacity: 0.98;
+                    }
                 </style>
                 <div class="welcome-slider owl-carousel" style="position:absolute;inset:0;z-index:0;">
                     <?php
@@ -45,7 +61,7 @@
                         }
                     ?>
                 </div>
-                <div style="position:absolute;inset:0;z-index:1;background:rgba(0,0,0,.55);"></div>
+                <div style="position:absolute;inset:0;z-index:1;background:rgba(0,0,0,.65);"></div>
             <?php } ?>
 
             <div class="container">
