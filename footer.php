@@ -111,7 +111,16 @@ print "
             <div class="modal-dialog dialog-animated">
                 <div class="modal-content h-100">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="menuModalLabel">Menu</h5>
+                        <?php
+                            $logo_rs_m = mysqli_query($con, "SELECT ufile FROM logo WHERE id=1 LIMIT 1");
+                            $logo_row_m = $logo_rs_m ? mysqli_fetch_assoc($logo_rs_m) : null;
+                            $menu_logo = $logo_row_m && !empty($logo_row_m['ufile']) ? $logo_row_m['ufile'] : '';
+                        ?>
+                        <h5 class="modal-title" id="menuModalLabel">
+                            <?php if (strlen(trim($menu_logo)) > 0) { ?>
+                                <img src="dashboard/uploads/logo/<?php echo htmlspecialchars($menu_logo); ?>" alt="" style="height:34px;width:auto;display:block;">
+                            <?php } ?>
+                        </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <i class="far fa-times-circle icon-close"></i>
                         </button>
@@ -271,21 +280,19 @@ print "
         
         #menu .modal-header {
             border-bottom: 2px solid #f1f1f1;
-            padding: 20px;
-            background-color: #6730e3;
-            color: white;
+            padding: 18px 20px;
+            background-color: #ffffff;
+            color: #3b1b6a;
         }
         
         #menu .modal-title {
             font-weight: 700;
-            color: white;
+            color: #3b1b6a;
             font-size: 22px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
         }
         
         #menu .close {
-            color: white;
+            color: #3b1b6a;
             opacity: 1;
             text-shadow: none;
         }

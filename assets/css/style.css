@@ -1083,6 +1083,9 @@ header {
     .navbar-expand .navbar-brand {
         display: flex;
         align-items: center;
+        padding-top: 0;
+        padding-bottom: 0;
+        line-height: 1;
         flex: 0 0 auto;
         margin-right: 0;
     }
@@ -1244,6 +1247,7 @@ header {
 
 .navbar-expand .navbar-brand img {
     display: block;
+    transform: translateY(-2px);
 }
 
 .navbar-expand .navbar-nav .dropdown-menu .nav-link {
