@@ -556,6 +556,21 @@ $publicBase = $scheme . '://' . $host . $basePath;
             </div>
           </div>
 
+          <div class="modal fade" id="successCenterModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-body text-center py-4">
+                  <div class="mb-3">
+                    <span class="avatar-lg rounded-circle bg-success-subtle text-success d-inline-flex align-items-center justify-content-center" style="width:84px;height:84px;">
+                      <i class="ri-check-line" style="font-size:48px;"></i>
+                    </span>
+                  </div>
+                  <h5 class="mb-0" id="successCenterText">Done</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -566,20 +581,46 @@ $publicBase = $scheme . '://' . $host . $basePath;
 
 <script>
 (function(){
-  function showToast(message, type) {
+  function showErrorToast(message) {
     var existing = document.getElementById('docToast');
     if (!existing) {
       var wrap = document.createElement('div');
       wrap.className = 'toast-container position-fixed top-0 end-0 p-3';
       wrap.style.zIndex = '11000';
-      wrap.innerHTML = "<div id='docToast' class='toast align-items-center text-bg-" + (type || 'success') + " border-0' role='alert' aria-live='assertive' aria-atomic='true'><div class='d-flex'><div class='toast-body'></div><button type='button' class='btn-close btn-close-white me-2 m-auto' data-bs-dismiss='toast' aria-label='Close'></button></div></div>";
+      wrap.innerHTML = "<div id='docToast' class='toast align-items-center text-bg-danger border-0' role='alert' aria-live='assertive' aria-atomic='true'><div class='d-flex'><div class='toast-body'></div><button type='button' class='btn-close btn-close-white me-2 m-auto' data-bs-dismiss='toast' aria-label='Close'></button></div></div>";
       document.body.appendChild(wrap);
       existing = document.getElementById('docToast');
     }
     var body = existing.querySelector('.toast-body');
     if (body) { body.textContent = message; }
-    var t = bootstrap.Toast.getOrCreateInstance(existing, { delay: 2000 });
+    var t = bootstrap.Toast.getOrCreateInstance(existing, { delay: 2500 });
     t.show();
+  }
+
+  var successModalEl = document.getElementById('successCenterModal');
+  var successModalText = document.getElementById('successCenterText');
+  var successModal = null;
+  var successTimer = null;
+  if (successModalEl) {
+    successModal = new bootstrap.Modal(successModalEl);
+  }
+
+  function showSuccessModal(message) {
+    if (!successModal) return;
+    if (successModalText) { successModalText.textContent = message; }
+    successModal.show();
+    if (successTimer) { clearTimeout(successTimer); }
+    successTimer = setTimeout(function(){
+      try { successModal.hide(); } catch (e) {}
+    }, 1400);
+  }
+
+  function showToast(message, type) {
+    if ((type || 'success') === 'success') {
+      showSuccessModal(message);
+      return;
+    }
+    showErrorToast(message);
   }
 
   var fileRadio = document.getElementById('type_file');
