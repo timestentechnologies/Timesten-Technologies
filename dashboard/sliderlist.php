@@ -75,6 +75,12 @@ while($ro = mysqli_fetch_array($r123))
                                                         <ul class='dropdown-menu dropdown-menu-end'>
 
                                                             <li>
+                                                                <a href='edit-slider.php?id=$id' class='dropdown-item'>
+                                                                    <i class='ri-pencil-fill align-bottom me-2 text-muted'></i> Edit
+                                                                </a>
+                                                            </li>
+
+                                                            <li>
                                                                 <a href='deleteslide.php?id=$id' class='dropdown-item remove-item-btn'>
                                                                     <i class='ri-delete-bin-fill align-bottom me-2 text-muted'></i> Delete
                                                                 </a>
