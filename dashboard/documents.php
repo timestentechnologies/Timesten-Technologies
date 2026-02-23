@@ -26,29 +26,21 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : '';
 $errormsg = '';
 $successmsg = '';
 
+if (isset($_SESSION['documents_flash_success'])) {
+    $successmsg = (string)$_SESSION['documents_flash_success'];
+    unset($_SESSION['documents_flash_success']);
+}
+if (isset($_SESSION['documents_flash_error'])) {
+    $errormsg = (string)$_SESSION['documents_flash_error'];
+    unset($_SESSION['documents_flash_error']);
+}
+
 $cat_id = isset($_GET['cat']) ? (int)$_GET['cat'] : 0;
 $view = isset($_GET['view']) ? (string)$_GET['view'] : 'grid';
 if ($view !== 'grid' && $view !== 'list') { $view = 'grid'; }
 
 $cats = [];
-$cat_q = mysqli_query($con, "SELECT c.id, c.name, COALESCE(d.cnt,0) AS cnt
-  FROM document_categories c
-  LEFT JOIN (SELECT category_id, COUNT(*) AS cnt FROM documents GROUP BY category_id) d
-  ON d.category_id = c.id
-  ORDER BY c.name ASC");
-if ($cat_q) {
-    while ($r = mysqli_fetch_assoc($cat_q)) {
-        $cats[] = $r;
-    }
-}
-
 $active_cat_name = '';
-if ($cat_id > 0) {
-    $ac_q = mysqli_query($con, "SELECT name FROM document_categories WHERE id=$cat_id LIMIT 1");
-    $ac = $ac_q ? mysqli_fetch_assoc($ac_q) : null;
-    $active_cat_name = $ac ? (string)$ac['name'] : '';
-    if (strlen($active_cat_name) < 1) { $cat_id = 0; }
-}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_doc_id'])) {
     $doc_id = (int)$_POST['delete_doc_id'];
@@ -63,9 +55,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_doc_id'])) {
                 }
             }
             mysqli_query($con, "DELETE FROM documents WHERE id=$doc_id LIMIT 1");
-            $successmsg = "<div class='alert alert-success alert-dismissible alert-outline fade show'>Document deleted.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+            $_SESSION['documents_flash_success'] = "<div class='alert alert-success alert-dismissible alert-outline fade show'>Document deleted.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
         }
     }
+
+    $qs = [];
+    if ($cat_id > 0) { $qs[] = 'cat=' . (int)$cat_id; }
+    if (strlen($view) > 0) { $qs[] = 'view=' . urlencode($view); }
+    $to = 'documents.php' . (count($qs) ? ('?' . implode('&', $qs)) : '');
+    header('Location: ' . $to);
+    exit;
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['upload_doc'])) {
@@ -75,14 +74,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['upload_doc'])) {
     $link_url = trim((string)($_POST['link_url'] ?? ''));
 
     if (strlen($title) < 2) {
-        $errormsg = "<div class='alert alert-danger alert-dismissible alert-outline fade show'>Title is required.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+        $_SESSION['documents_flash_error'] = "<div class='alert alert-danger alert-dismissible alert-outline fade show'>Title is required.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
     } elseif ($category_id < 1) {
-        $errormsg = "<div class='alert alert-danger alert-dismissible alert-outline fade show'>Please select a category.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+        $_SESSION['documents_flash_error'] = "<div class='alert alert-danger alert-dismissible alert-outline fade show'>Please select a category.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
     } elseif ($doc_type === 'link' && strlen($link_url) < 5) {
-        $errormsg = "<div class='alert alert-danger alert-dismissible alert-outline fade show'>Link URL is required.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+        $_SESSION['documents_flash_error'] = "<div class='alert alert-danger alert-dismissible alert-outline fade show'>Link URL is required.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
     } elseif ($doc_type === 'file') {
         if (!isset($_FILES['doc_file']) || $_FILES['doc_file']['error'] !== UPLOAD_ERR_OK) {
-            $errormsg = "<div class='alert alert-danger alert-dismissible alert-outline fade show'>File is required.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+            $_SESSION['documents_flash_error'] = "<div class='alert alert-danger alert-dismissible alert-outline fade show'>File is required.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
         } else {
             $uploads_dir = __DIR__ . '/uploads/documents';
             if (!is_dir($uploads_dir)) {
@@ -96,14 +95,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['upload_doc'])) {
             $file_name = $random_digit . '_' . $safe_original;
 
             if (!move_uploaded_file($tmp_name, $uploads_dir . '/' . $file_name)) {
-                $errormsg = "<div class='alert alert-danger alert-dismissible alert-outline fade show'>File upload failed.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+                $_SESSION['documents_flash_error'] = "<div class='alert alert-danger alert-dismissible alert-outline fade show'>File upload failed.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
             } else {
                 $title_s = mysqli_real_escape_string($con, $title);
                 $file_s = mysqli_real_escape_string($con, $file_name);
                 $orig_s = mysqli_real_escape_string($con, $original_name);
                 $uploader_s = mysqli_real_escape_string($con, $username);
                 mysqli_query($con, "INSERT INTO documents (category_id, title, doc_type, file_name, original_name, link_url, uploaded_by, created_at) VALUES ($category_id, '$title_s', 'file', '$file_s', '$orig_s', NULL, '$uploader_s', NOW())");
-                $successmsg = "<div class='alert alert-success alert-dismissible alert-outline fade show'>Document uploaded.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+                $_SESSION['documents_flash_success'] = "<div class='alert alert-success alert-dismissible alert-outline fade show'>Document uploaded.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
             }
         }
     } else {
@@ -111,8 +110,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['upload_doc'])) {
         $link_s = mysqli_real_escape_string($con, $link_url);
         $uploader_s = mysqli_real_escape_string($con, $username);
         mysqli_query($con, "INSERT INTO documents (category_id, title, doc_type, file_name, original_name, link_url, uploaded_by, created_at) VALUES ($category_id, '$title_s', 'link', NULL, NULL, '$link_s', '$uploader_s', NOW())");
-        $successmsg = "<div class='alert alert-success alert-dismissible alert-outline fade show'>Link saved.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+        $_SESSION['documents_flash_success'] = "<div class='alert alert-success alert-dismissible alert-outline fade show'>Link saved.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
     }
+
+    $qs = [];
+    $qs[] = 'cat=' . (int)$category_id;
+    if (strlen($view) > 0) { $qs[] = 'view=' . urlencode($view); }
+    $to = 'documents.php' . (count($qs) ? ('?' . implode('&', $qs)) : '');
+    header('Location: ' . $to);
+    exit;
+}
+
+$cat_q = mysqli_query($con, "SELECT c.id, c.name, COALESCE(d.cnt,0) AS cnt
+  FROM document_categories c
+  LEFT JOIN (SELECT category_id, COUNT(*) AS cnt FROM documents GROUP BY category_id) d
+  ON d.category_id = c.id
+  ORDER BY c.name ASC");
+if ($cat_q) {
+    while ($r = mysqli_fetch_assoc($cat_q)) {
+        $cats[] = $r;
+    }
+}
+
+if ($cat_id > 0) {
+    $ac_q = mysqli_query($con, "SELECT name FROM document_categories WHERE id=$cat_id LIMIT 1");
+    $ac = $ac_q ? mysqli_fetch_assoc($ac_q) : null;
+    $active_cat_name = $ac ? (string)$ac['name'] : '';
+    if (strlen($active_cat_name) < 1) { $cat_id = 0; }
 }
 
 $docs = [];
