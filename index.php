@@ -603,8 +603,40 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             <script src="//code.tidio.co/w3nnziooaulg2mxalctxf1oief1sptkr.js" async></script>
 
             <script>
-                window.__heroFallbackTitle = <?php echo json_encode($stitle); ?>;
-                window.__heroFallbackText = <?php echo json_encode($stext); ?>;
+                $(document).ready(function () {
+                    if ($('.welcome-slider').length > 0 && typeof $.fn.owlCarousel === 'function') {
+                        var $slider = $('.welcome-slider');
+
+                        function updateHeroFromActiveSlide() {
+                            var $active = $slider.find('.owl-item.active .welcome-slide').first();
+                            var t = ($active.attr('data-slide-title') || '').trim();
+                            var x = ($active.attr('data-slide-text') || '').trim();
+
+                            if ($('#heroSlideTitle').length) {
+                                $('#heroSlideTitle').text(t.length ? t : <?php echo json_encode($stitle); ?>);
+                            }
+                            if ($('#heroSlideText').length) {
+                                $('#heroSlideText').text(x.length ? x : <?php echo json_encode($stext); ?>);
+                            }
+                        }
+
+                        $slider.owlCarousel({
+                            items: 1,
+                            loop: true,
+                            autoplay: true,
+                            autoplayTimeout: 5000,
+                            autoplayHoverPause: false,
+                            nav: false,
+                            dots: true,
+                            animateOut: 'fadeOut'
+                        });
+
+                        updateHeroFromActiveSlide();
+                        $slider.on('changed.owl.carousel', function () {
+                            setTimeout(updateHeroFromActiveSlide, 0);
+                        });
+                    }
+                });
             </script>
             
       <?php include "footer.php"; ?>

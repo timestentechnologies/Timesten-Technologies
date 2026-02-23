@@ -169,44 +169,6 @@ print "
     <!-- Active js -->
     <script src="assets/js/active.js"></script>
     <script src="//code.tidio.co/w3nnziooaulg2mxalctxf1oief1sptkr.js" async></script>
-
-    <script>
-    $(document).ready(function () {
-        var $slider = $('.welcome-slider');
-        if ($slider.length > 0 && typeof $.fn.owlCarousel === 'function') {
-            if (!$slider.hasClass('owl-loaded')) {
-                $slider.owlCarousel({
-                    items: 1,
-                    loop: true,
-                    autoplay: true,
-                    autoplayTimeout: 5000,
-                    autoplayHoverPause: false,
-                    nav: false,
-                    dots: true,
-                    animateOut: 'fadeOut'
-                });
-            }
-
-            function updateHeroFromActiveSlide() {
-                var $active = $slider.find('.owl-item.active .welcome-slide').first();
-                var t = ($active.attr('data-slide-title') || '').trim();
-                var x = ($active.attr('data-slide-text') || '').trim();
-
-                if ($('#heroSlideTitle').length) {
-                    $('#heroSlideTitle').text(t.length ? t : (window.__heroFallbackTitle || ''));
-                }
-                if ($('#heroSlideText').length) {
-                    $('#heroSlideText').text(x.length ? x : (window.__heroFallbackText || ''));
-                }
-            }
-
-            updateHeroFromActiveSlide();
-            $slider.on('changed.owl.carousel', function () {
-                setTimeout(updateHeroFromActiveSlide, 0);
-            });
-        }
-    });
-    </script>
     
     <!-- Contact Form Handling Script -->
     <script>
