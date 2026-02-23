@@ -1132,15 +1132,19 @@ header {
 }
 
 .navbar .navbar-brand-sticky {
-    display: none;
+    display: none !important;
+}
+
+.navbar .navbar-brand-regular {
+    display: inline !important;
 }
 
 .navbar-sticky .navbar-brand-regular {
-    display: none;
+    display: none !important;
 }
 
 .navbar-sticky .navbar-brand-sticky {
-    display: inline;
+    display: inline !important;
 }
 /*############################################*/
 /* Mobile View - Responsive Styles */
