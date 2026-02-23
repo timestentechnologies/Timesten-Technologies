@@ -1044,7 +1044,7 @@ header {
 
 .navbar-sticky {
     top: 0;
-    background-color:#8e3ce2;
+    background-color:#5b2ea6;
     -webkit-box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 20px;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 20px;
     -webkit-transition: all .15s ease-out 0s !important;
@@ -1599,7 +1599,7 @@ body.dark,
 .dark .bg-overlay::after,
 .dark .dark-bg,
 .dark .navbar-sticky-moved-up {
-    background: #8e3ce2 !important;
+    background: #5b2ea6 !important;
 }
 
 .homepage-5 .btn:active,
