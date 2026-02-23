@@ -1,7 +1,17 @@
 RewriteEngine On    # Turn on the rewriting engine
 
+RewriteRule    ^careers\.php$    careers    [R=301,NC,L]
+RewriteRule    ^about\.php$    about    [R=301,NC,L]
+RewriteRule    ^services\.php$    services    [R=301,NC,L]
+RewriteRule    ^contact\.php$    contact    [R=301,NC,L]
+RewriteRule    ^portfolio\.php$    portfolio    [R=301,NC,L]
+RewriteRule    ^blog\.php$    blog    [R=301,NC,L]
+RewriteRule    ^privacy\.php$    privacy    [R=301,NC,L]
+RewriteRule    ^terms\.php$    terms    [R=301,NC,L]
+RewriteRule    ^cookie\.php$    cookie    [R=301,NC,L]
+
 RewriteRule    ^home/?$    index.php    [NC,L]
-RewriteRule    ^about/?$    about.php    [NC,L]
+RewriteRule    ^about/?$    about.php    [NC,L] 
 RewriteRule    ^services/?$    services.php    [NC,L]
 RewriteRule    ^contact/?$    contact.php    [NC,L]
 RewriteRule    ^portfolio/?$    portfolio.php    [NC,L]

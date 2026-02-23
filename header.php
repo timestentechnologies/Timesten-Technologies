@@ -197,12 +197,12 @@ if (strlen(trim($impact_text)) < 1) {
         }
       }
     ]
-    "sameAs": [
+  },
+  "sameAs": [
     "https://www.facebook.com/timestentechnologies",
     "https://twitter.com/timestentech",
     "https://linkedin.com/company/timestentechnologies"
   ]
-  }
 }
 </script>
 
