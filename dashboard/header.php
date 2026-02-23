@@ -68,14 +68,29 @@ if ($has_page_visits_table) {
                 }
             }
 
-            if ($location === 'Unknown' && ini_get('allow_url_fopen')) {
-                $ctx = stream_context_create([
-                    'http' => [
-                        'timeout' => 2,
-                        'header' => "User-Agent: TimestenAnalytics/1.0\r\n"
-                    ]
-                ]);
-                $geo_json = @file_get_contents('http://ip-api.com/json/' . urlencode($ip) . '?fields=status,country,regionName,city', false, $ctx);
+            if ($location === 'Unknown') {
+                $geo_json = false;
+                if (function_exists('curl_init')) {
+                    $ch = curl_init();
+                    curl_setopt($ch, CURLOPT_URL, 'https://ip-api.com/json/' . urlencode($ip) . '?fields=status,country,regionName,city');
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2);
+                    curl_setopt($ch, CURLOPT_TIMEOUT, 3);
+                    curl_setopt($ch, CURLOPT_USERAGENT, 'TimestenAnalytics/1.0');
+                    $geo_json = curl_exec($ch);
+                    curl_close($ch);
+                }
+
+                if ($geo_json === false && ini_get('allow_url_fopen')) {
+                    $ctx = stream_context_create([
+                        'http' => [
+                            'timeout' => 2,
+                            'header' => "User-Agent: TimestenAnalytics/1.0\r\n"
+                        ]
+                    ]);
+                    $geo_json = @file_get_contents('https://ip-api.com/json/' . urlencode($ip) . '?fields=status,country,regionName,city', false, $ctx);
+                }
+
                 if ($geo_json !== false) {
                     $geo = json_decode($geo_json, true);
                     if (is_array($geo) && isset($geo['status']) && $geo['status'] === 'success') {
@@ -88,6 +103,47 @@ if ($has_page_visits_table) {
                         }
                     }
                 }
+            }
+
+            if ($location === 'Unknown') {
+                $geo_json2 = false;
+                if (function_exists('curl_init')) {
+                    $ch2 = curl_init();
+                    curl_setopt($ch2, CURLOPT_URL, 'https://ipapi.co/' . urlencode($ip) . '/json/');
+                    curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch2, CURLOPT_CONNECTTIMEOUT, 2);
+                    curl_setopt($ch2, CURLOPT_TIMEOUT, 3);
+                    curl_setopt($ch2, CURLOPT_USERAGENT, 'TimestenAnalytics/1.0');
+                    $geo_json2 = curl_exec($ch2);
+                    curl_close($ch2);
+                }
+
+                if ($geo_json2 === false && ini_get('allow_url_fopen')) {
+                    $ctx2 = stream_context_create([
+                        'http' => [
+                            'timeout' => 2,
+                            'header' => "User-Agent: TimestenAnalytics/1.0\r\n"
+                        ]
+                    ]);
+                    $geo_json2 = @file_get_contents('https://ipapi.co/' . urlencode($ip) . '/json/', false, $ctx2);
+                }
+
+                if ($geo_json2 !== false) {
+                    $geo2 = json_decode($geo_json2, true);
+                    if (is_array($geo2) && empty($geo2['error'])) {
+                        $parts2 = [];
+                        if (!empty($geo2['city'])) { $parts2[] = $geo2['city']; }
+                        if (!empty($geo2['region'])) { $parts2[] = $geo2['region']; }
+                        if (!empty($geo2['country_name'])) { $parts2[] = $geo2['country_name']; }
+                        if (count($parts2) > 0) {
+                            $location = implode(', ', $parts2);
+                        }
+                    }
+                }
+            }
+
+            if ($location === 'Unknown') {
+                $location = 'Lookup failed';
             }
         }
     }
