@@ -678,8 +678,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             </div>
         </section>
         <!--====== Call To Action Area End ======-->
-            <script src="//code.tidio.co/w3nnziooaulg2mxalctxf1oief1sptkr.js" async></script>
-
+        <script src="//code.tidio.co/2efw0z0gu6xh9q8ptxcjmylpn00rcwwz.js" async></script>
             <script>
                 (function () {
                     function initHeroSliderIfReady() {
