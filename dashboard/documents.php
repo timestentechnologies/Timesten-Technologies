@@ -189,8 +189,8 @@ $publicBase = $scheme . '://' . $host . $basePath;
               <div class="ms-auto d-flex gap-2">
                 <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addDocumentModal">Add Document</button>
                 <a href="document-categories.php" class="btn btn-sm btn-soft-primary">Categories</a>
-                <a href="documents.php?<?php print ($cat_id>0?'cat='.(int)$cat_id.'&':''); ?>view=grid" class="btn btn-sm btn-soft-secondary">Grid</a>
-                <a href="documents.php?<?php print ($cat_id>0?'cat='.(int)$cat_id.'&':''); ?>view=list" class="btn btn-sm btn-soft-secondary">List</a>
+                <a href="documents.php?<?php print ($cat_id>0?'cat='.(int)$cat_id.'&':''); ?>view=grid" class="btn btn-sm <?php print ($view==='grid'?'btn-warning text-white':'btn-soft-secondary'); ?>">Grid</a>
+                <a href="documents.php?<?php print ($cat_id>0?'cat='.(int)$cat_id.'&':''); ?>view=list" class="btn btn-sm <?php print ($view==='list'?'btn-warning text-white':'btn-soft-secondary'); ?>">List</a>
               </div>
             </div>
             <div class="card-body">
@@ -256,7 +256,7 @@ $publicBase = $scheme . '://' . $host . $basePath;
                       $em_h = htmlspecialchars($em);
 
                       print "<div class='col-12 col-md-6 col-xl-4 mb-3 doc-item'>";
-                      print "<div class='card mb-0'>";
+                      print "<div class='card mb-0 border border-warning' style='border-width:2px !important;'>";
                       print "<div class='card-body'>";
                       print "<div class='d-flex align-items-start'>";
                       print "<div class='avatar-sm me-3'><span class='avatar-title bg-light text-primary rounded-circle fs-3'><i class='ri-file-2-line'></i></span></div>";
@@ -267,12 +267,12 @@ $publicBase = $scheme . '://' . $host . $basePath;
                       print "</div>";
                       print "</div>";
 
-                      print "<div class='d-flex flex-wrap gap-2 mt-3'>";
+                      print "<div class='d-flex flex-wrap gap-2 mt-3 position-relative' style='z-index:2;'>";
                       if (strlen($open) > 0) {
                           print "<a class='btn btn-sm btn-soft-primary' href='$open_h' target='_blank'>Open</a>";
                       }
                       if (strlen($wa) > 0) {
-                          print "<a class='btn btn-sm btn-soft-success' href='$wa_h' target='_blank' title='WhatsApp'><i class='ri-whatsapp-line'></i></a>";
+                          print "<a class='btn btn-sm btn-soft-success' href='$wa_h' target='_blank' rel='noopener' title='WhatsApp'><i class='ri-whatsapp-line'></i></a>";
                           print "<a class='btn btn-sm btn-soft-secondary' href='$em_h' title='Email'><i class='ri-mail-line'></i></a>";
                           print "<button type='button' class='btn btn-sm btn-soft-info js-copy-link' data-url='$share_h' title='Copy link'><i class='ri-link'></i></button>";
                           if ($d['doc_type'] === 'file') {
@@ -336,12 +336,12 @@ $publicBase = $scheme . '://' . $host . $basePath;
                           print "<td>$catn</td>";
                           print "<td>$type</td>";
                           print "<td>$created</td>";
-                          print "<td class='text-end'>";
+                          print "<td class='text-end position-relative' style='z-index:2;'>";
                           if (strlen($open) > 0) {
                               print "<a class='btn btn-sm btn-soft-primary' href='$open_h' target='_blank'>Open</a> ";
                           }
                           if (strlen($wa) > 0) {
-                              print "<a class='btn btn-sm btn-soft-success' href='$wa_h' target='_blank' title='WhatsApp'><i class='ri-whatsapp-line'></i></a> ";
+                              print "<a class='btn btn-sm btn-soft-success' href='$wa_h' target='_blank' rel='noopener' title='WhatsApp'><i class='ri-whatsapp-line'></i></a> ";
                               print "<a class='btn btn-sm btn-soft-secondary' href='$em_h' title='Email'><i class='ri-mail-line'></i></a> ";
                               print "<button type='button' class='btn btn-sm btn-soft-info js-copy-link' data-url='$share_h' title='Copy link'><i class='ri-link'></i></button> ";
                               if ($d['doc_type'] === 'file') {
@@ -473,6 +473,7 @@ $publicBase = $scheme . '://' . $host . $basePath;
   document.addEventListener('click', function(e){
     var btn = e.target && e.target.closest ? e.target.closest('.js-copy-link') : null;
     if (!btn) return;
+    e.preventDefault();
     var url = btn.getAttribute('data-url') || '';
     if (!url) return;
 
@@ -490,5 +491,17 @@ $publicBase = $scheme . '://' . $host . $basePath;
     try { document.execCommand('copy'); } catch (err) {}
     document.body.removeChild(ta);
   });
+
+  var grid = document.getElementById('docsGrid');
+  if (input && grid) {
+    input.addEventListener('input', function(){
+      var q = (input.value || '').toLowerCase();
+      var cards = grid.querySelectorAll('.doc-item');
+      cards.forEach(function(el){
+        var text = el.innerText.toLowerCase();
+        el.style.display = text.indexOf(q) !== -1 ? '' : 'none';
+      });
+    });
+  }
 })();
 </script>
