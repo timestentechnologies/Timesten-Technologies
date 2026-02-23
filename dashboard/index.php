@@ -41,6 +41,7 @@ if ($pv_rs && mysqli_num_rows($pv_rs) > 0) {
 $most_pages = [];
 $device_breakdown = [];
 $recent_visits = [];
+$job_view_visits = [];
 
 if ($has_page_visits_table) {
     $mp_rs = mysqli_query($con, "SELECT page_url, COUNT(*) AS c FROM page_visits GROUP BY page_url ORDER BY c DESC LIMIT 10");
@@ -61,6 +62,13 @@ if ($has_page_visits_table) {
     if ($rv_rs) {
         while ($r = mysqli_fetch_assoc($rv_rs)) {
             $recent_visits[] = $r;
+        }
+    }
+
+    $jv_rs = mysqli_query($con, "SELECT page_url, ip_address, device_type, location, created_at FROM page_visits WHERE page_url LIKE '%jobdetail%' ORDER BY id DESC LIMIT 50");
+    if ($jv_rs) {
+        while ($r = mysqli_fetch_assoc($jv_rs)) {
+            $job_view_visits[] = $r;
         }
     }
 }
@@ -98,7 +106,7 @@ if ($has_page_visits_table) {
             <div class="row">
                 <div class="col">
 
-                    <div class="h-100">
+                    <div>
                         <div class="row mb-3 pb-1">
                             <div class="col-12">
                                 <div class="d-flex align-items-lg-center flex-lg-row flex-column">
@@ -117,9 +125,10 @@ if ($has_page_visits_table) {
                         </div>
                         <!--end row-->
 
-                        <div class="row h-100">
+                        <div class="row">
                                     <div class="col-lg-4 col-md-6">
-                                        <div class="card">
+                                        <a href="services.php" class="text-decoration-none text-reset">
+                                        <div class="card" style="cursor:pointer;">
                                             <div class="card-body">
                                                 <div class="d-flex align-items-center">
                                                     <div class="avatar-sm flex-shrink-0">
@@ -142,9 +151,11 @@ $numrows = $row[0];
                                                 </div>
                                             </div><!-- end card body -->
                                         </div><!-- end card -->
+                                        </a>
                                     </div><!-- end col -->
                                     <div class="col-lg-4 col-md-6">
-                                        <div class="card">
+                                        <a href="portfolio.php" class="text-decoration-none text-reset">
+                                        <div class="card" style="cursor:pointer;">
                                             <div class="card-body">
                                                 <div class="d-flex align-items-center">
                                                     <div class="avatar-sm flex-shrink-0">
@@ -166,9 +177,11 @@ $nux = $rowx[0];
                                                 </div>
                                             </div><!-- end card body -->
                                         </div><!-- end card -->
+                                        </a>
                                     </div><!-- end col -->
                                     <div class="col-lg-4 col-md-6">
-                                        <div class="card">
+                                        <a href="bloglist.php" class="text-decoration-none text-reset">
+                                        <div class="card" style="cursor:pointer;">
                                             <div class="card-body">
                                                 <div class="d-flex align-items-center">
                                                     <div class="avatar-sm flex-shrink-0">
@@ -190,9 +203,11 @@ $nud = $rod[0];
                                                 </div>
                                             </div><!-- end card body -->
                                         </div><!-- end card -->
+                                        </a>
                                     </div><!-- end col -->
                                     <div class="col-lg-4 col-md-6">
-                                        <div class="card">
+                                        <a href="jobs.php" class="text-decoration-none text-reset">
+                                        <div class="card" style="cursor:pointer;">
                                             <div class="card-body">
                                                 <div class="d-flex align-items-center">
                                                     <div class="avatar-sm flex-shrink-0">
@@ -207,10 +222,12 @@ $nud = $rod[0];
                                                 </div>
                                             </div>
                                         </div>
+                                        </a>
                                     </div>
 
                                     <div class="col-lg-4 col-md-6">
-                                        <div class="card">
+                                        <a href="job-applications.php" class="text-decoration-none text-reset">
+                                        <div class="card" style="cursor:pointer;">
                                             <div class="card-body">
                                                 <div class="d-flex align-items-center">
                                                     <div class="avatar-sm flex-shrink-0">
@@ -225,10 +242,11 @@ $nud = $rod[0];
                                                 </div>
                                             </div>
                                         </div>
+                                        </a>
                                     </div>
 
                                     <div class="col-lg-4 col-md-6">
-                                        <div class="card">
+                                        <div class="card" role="button" data-bs-toggle="modal" data-bs-target="#jobViewsModal" style="cursor:pointer;">
                                             <div class="card-body">
                                                 <div class="d-flex align-items-center">
                                                     <div class="avatar-sm flex-shrink-0">
@@ -241,6 +259,46 @@ $nud = $rod[0];
                                                         <h4 class=" mb-0"><span class="counter-value" data-target="<?php print (int)$job_views_total; ?>"></span></h4>
                                                     </div>
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal fade" id="jobViewsModal" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Job Views - Viewer Details</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <?php if ($has_page_visits_table) { ?>
+                                                    <div class="table-responsive">
+                                                        <table class="table table-striped table-sm align-middle mb-0">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Page</th>
+                                                                    <th>IP Address</th>
+                                                                    <th>Device</th>
+                                                                    <th>Location</th>
+                                                                    <th>Time</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <?php foreach ($job_view_visits as $v) {
+                                                                    $pu = htmlspecialchars($v['page_url']);
+                                                                    $ip = htmlspecialchars($v['ip_address']);
+                                                                    $dv = htmlspecialchars($v['device_type']);
+                                                                    $lc = htmlspecialchars($v['location']);
+                                                                    $tm = htmlspecialchars($v['created_at']);
+                                                                    print "<tr><td style='word-break:break-all;'>$pu</td><td>$ip</td><td>$dv</td><td>$lc</td><td>$tm</td></tr>";
+                                                                } ?>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                <?php } else { ?>
+                                                    <div class="alert alert-warning mb-0">Analytics table <strong>page_visits</strong> not found.</div>
+                                                <?php } ?>
                                             </div>
                                         </div>
                                     </div>
