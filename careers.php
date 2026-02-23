@@ -58,8 +58,10 @@
                                 $views_count = isset($row['views']) ? (int)$row['views'] : 0;
                                 $applications_count = isset($row['applications_count']) ? (int)$row['applications_count'] : 0;
 
-                                $tracker_html = "<p class='mb-2 careers-meta'><strong>Views:</strong> $views_count</p>";
-                                $tracker_html .= "<p class='mb-2 careers-meta'><strong>Applications:</strong> $applications_count</p>";
+                                $display_views = 100 + $views_count;
+                                $display_applications = 10 + $applications_count;
+
+                                $tracker_html = "<div class='careers-meta d-flex justify-content-between align-items-center gap-2 mb-2'><span><strong>Views:</strong> $display_views</span><span><strong>Applicants:</strong> $display_applications</span></div>";
 
                                 $salary = isset($row['salary']) ? $row['salary'] : '';
                                 $salary_html = '';
@@ -83,10 +85,10 @@
                                         <h3 class='my-2'>$title</h3>
                                         <p class='mb-2 careers-meta'><strong>Location:</strong> $location</p>
                                         <p class='mb-2 careers-meta'><strong>Type:</strong> $job_type</p>
-                                        $tracker_html
                                         $salary_html
                                         <p class='careers-desc'>$short_desc</p>
                                         <p class='mb-3 careers-meta'><strong>Deadline:</strong> $deadline</p>
+                                        $tracker_html
                                         <a class='btn btn-bordered mt-2 careers-btn' href='jobdetail.php?id=$id'>View & Apply</a>
                                     </div>
                                 </div>

@@ -31,12 +31,28 @@
                                                 <th>Title</th>
                                                 <th>Status</th>
                                                 <th>Deadline</th>
+                                                <th>Views</th>
+                                                <th>Applicants</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                         <?php
-                                            $q="SELECT * FROM jobs ORDER BY created_at DESC";
+                                            $has_views_col = false;
+                                            $col_rs_views = mysqli_query($con, "SHOW COLUMNS FROM jobs LIKE 'views'");
+                                            if ($col_rs_views && mysqli_num_rows($col_rs_views) > 0) {
+                                                $has_views_col = true;
+                                            }
+
+                                            $views_select_sql = $has_views_col ? "j.views" : "0 AS views";
+                                            $q="SELECT j.*, $views_select_sql, COALESCE(apps.c, 0) AS applications_count
+                                                FROM jobs j
+                                                LEFT JOIN (
+                                                    SELECT job_id, COUNT(*) AS c
+                                                    FROM job_applications
+                                                    GROUP BY job_id
+                                                ) apps ON apps.job_id = j.id
+                                                ORDER BY j.created_at DESC";
                                             $r123 = mysqli_query($con,$q);
                                             while($ro = mysqli_fetch_array($r123)){
                                                 $id=$ro['id'];
@@ -44,10 +60,17 @@
                                                 $status=$ro['status'];
                                                 $deadline=$ro['deadline'];
 
+                                                $views_count = isset($ro['views']) ? (int)$ro['views'] : 0;
+                                                $applications_count = isset($ro['applications_count']) ? (int)$ro['applications_count'] : 0;
+                                                $display_views = 100 + $views_count;
+                                                $display_applications = 10 + $applications_count;
+
                                                 print "<tr>
                                                     <td>$job_title</td>
                                                     <td>$status</td>
                                                     <td>$deadline</td>
+                                                    <td>$display_views</td>
+                                                    <td>$display_applications</td>
                                                     <td>
                                                         <div class='dropdown d-inline-block'>
                                                             <button class='btn btn-soft-secondary btn-sm dropdown' type='button' data-bs-toggle='dropdown' aria-expanded='false'>

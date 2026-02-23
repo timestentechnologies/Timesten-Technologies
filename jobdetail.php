@@ -18,6 +18,9 @@ if ($app_count_q) {
     $applications_count = $app_count_row ? (int)$app_count_row['c'] : 0;
 }
 
+$display_views = ($has_views_col && isset($job['views'])) ? (100 + (int)$job['views']) : 100;
+$display_applications = 10 + $applications_count;
+
 if ($job && $has_views_col) {
     mysqli_query($con, "UPDATE jobs SET views = COALESCE(views, 0) + 1 WHERE id='$todo' LIMIT 1");
     if (isset($job['views'])) {
@@ -142,8 +145,10 @@ if (isset($_POST['apply'])) {
                                 <h2 class="mb-2"><?php print $job['job_title']; ?></h2>
                                 <p class="mb-2"><strong>Location:</strong> <?php print $job['location']; ?></p>
                                 <p class="mb-2"><strong>Type:</strong> <?php print $job['job_type']; ?></p>
-                                <p class="mb-2"><strong>Views:</strong> <?php print ($has_views_col && isset($job['views'])) ? (int)$job['views'] : 0; ?></p>
-                                <p class="mb-2"><strong>Applications:</strong> <?php print (int)$applications_count; ?></p>
+                                <div class="d-flex justify-content-between align-items-center gap-2 mb-2">
+                                    <span><strong>Views:</strong> <?php print (int)$display_views; ?></span>
+                                    <span><strong>Applicants:</strong> <?php print (int)$display_applications; ?></span>
+                                </div>
                                 <?php if (isset($job['salary']) && strlen(trim($job['salary'])) > 0) { ?>
                                     <p class="mb-2"><strong>Salary:</strong> <?php print htmlspecialchars($job['salary']); ?></p>
                                 <?php } ?>
