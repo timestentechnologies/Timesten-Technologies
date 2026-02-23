@@ -1,5 +1,101 @@
 <?php
 ob_start();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_doc_email'])) {
+    include __DIR__ . '/../z_db.php';
+    session_start();
+    if (!isset($_SESSION['username'])) {
+        header('Content-Type: application/json');
+        echo json_encode(['status' => 'error', 'message' => 'Unauthorized']);
+        exit;
+    }
+
+    $to_raw = trim((string)($_POST['to_emails'] ?? ''));
+    $doc_title = trim((string)($_POST['doc_title'] ?? 'Document'));
+    $doc_url = trim((string)($_POST['doc_url'] ?? ''));
+    $extra_msg = trim((string)($_POST['message'] ?? ''));
+
+    $emails = preg_split('/[\s,;]+/', $to_raw);
+    $to_list = [];
+    foreach ($emails as $em) {
+        $em = trim($em);
+        if (strlen($em) < 5) { continue; }
+        if (filter_var($em, FILTER_VALIDATE_EMAIL)) {
+            $to_list[] = $em;
+        }
+    }
+
+    if (count($to_list) < 1 || strlen($doc_url) < 5) {
+        header('Content-Type: application/json');
+        echo json_encode(['status' => 'error', 'message' => 'Please provide valid recipient email(s) and a document link.']);
+        exit;
+    }
+
+    $subject = 'Document: ' . $doc_title;
+    $body = "<p><strong>" . htmlspecialchars($doc_title) . "</strong></p>";
+    $body .= "<p><a href='" . htmlspecialchars($doc_url) . "' target='_blank'>Open document</a></p>";
+    if (strlen($extra_msg) > 0) {
+        $body .= "<hr><p>" . nl2br(htmlspecialchars($extra_msg)) . "</p>";
+    }
+
+    $sent = false;
+    $err = '';
+    try {
+        if (file_exists(__DIR__ . '/../PHPMailer-6.8.0/src/PHPMailer.php')) {
+            require_once __DIR__ . '/../PHPMailer-6.8.0/src/PHPMailer.php';
+            require_once __DIR__ . '/../PHPMailer-6.8.0/src/SMTP.php';
+            require_once __DIR__ . '/../PHPMailer-6.8.0/src/Exception.php';
+
+            $mail = new PHPMailer\PHPMailer\PHPMailer(true);
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'timestenkenya@gmail.com';
+            $mail->Password = 'zfye pewm vvvx kbuz';
+            $mail->SMTPSecure = 'tls';
+            $mail->Port = 587;
+            $mail->setFrom('timestenkenya@gmail.com', 'TimesTen Website');
+            foreach ($to_list as $t) {
+                $mail->addAddress($t);
+            }
+            $mail->isHTML(true);
+            $mail->Subject = $subject;
+            $mail->Body = $body;
+            $sent = $mail->send();
+        } elseif (file_exists(__DIR__ . '/../PHPMailer/PHPMailerAutoload.php')) {
+            require_once __DIR__ . '/../PHPMailer/PHPMailerAutoload.php';
+            $mail = new PHPMailer();
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'timestenkenya@gmail.com';
+            $mail->Password = 'zfye pewm vvvx kbuz';
+            $mail->SMTPSecure = 'tls';
+            $mail->Port = 587;
+            $mail->setFrom('timestenkenya@gmail.com', 'TimesTen Website');
+            foreach ($to_list as $t) {
+                $mail->addAddress($t);
+            }
+            $mail->isHTML(true);
+            $mail->Subject = $subject;
+            $mail->Body = $body;
+            $sent = $mail->send();
+        } else {
+            $err = 'Email library not found.';
+        }
+    } catch (Exception $e) {
+        $err = $e->getMessage();
+    }
+
+    header('Content-Type: application/json');
+    if ($sent) {
+        echo json_encode(['status' => 'success', 'message' => 'Email sent.']);
+    } else {
+        echo json_encode(['status' => 'error', 'message' => (strlen($err) ? $err : 'Failed to send email.')]);
+    }
+    exit;
+}
+
 include "header.php";
 include "sidebar.php";
 
@@ -273,7 +369,7 @@ $publicBase = $scheme . '://' . $host . $basePath;
                       }
                       if (strlen($wa) > 0) {
                           print "<a class='btn btn-sm btn-soft-success' href='$wa_h' target='_blank' rel='noopener' title='WhatsApp'><i class='ri-whatsapp-line'></i></a>";
-                          print "<a class='btn btn-sm btn-soft-secondary' href='$em_h' title='Email'><i class='ri-mail-line'></i></a>";
+                          print "<button type='button' class='btn btn-sm btn-soft-secondary js-email-doc' data-title='" . htmlspecialchars($d['title']) . "' data-url='$share_h' title='Email'><i class='ri-mail-line'></i></button>";
                           print "<button type='button' class='btn btn-sm btn-soft-info js-copy-link' data-url='$share_h' title='Copy link'><i class='ri-link'></i></button>";
                           if ($d['doc_type'] === 'file') {
                               print "<a class='btn btn-sm btn-soft-dark' href='$share_h' download title='Download'><i class='ri-download-2-line'></i></a>";
@@ -342,7 +438,7 @@ $publicBase = $scheme . '://' . $host . $basePath;
                           }
                           if (strlen($wa) > 0) {
                               print "<a class='btn btn-sm btn-soft-success' href='$wa_h' target='_blank' rel='noopener' title='WhatsApp'><i class='ri-whatsapp-line'></i></a> ";
-                              print "<a class='btn btn-sm btn-soft-secondary' href='$em_h' title='Email'><i class='ri-mail-line'></i></a> ";
+                              print "<button type='button' class='btn btn-sm btn-soft-secondary js-email-doc' data-title='" . htmlspecialchars($d['title']) . "' data-url='$share_h' title='Email'><i class='ri-mail-line'></i></button> ";
                               print "<button type='button' class='btn btn-sm btn-soft-info js-copy-link' data-url='$share_h' title='Copy link'><i class='ri-link'></i></button> ";
                               if ($d['doc_type'] === 'file') {
                                   print "<a class='btn btn-sm btn-soft-dark' href='$share_h' download title='Download'><i class='ri-download-2-line'></i></a> ";
@@ -428,6 +524,38 @@ $publicBase = $scheme . '://' . $host . $basePath;
             </div>
           </div>
 
+          <div class="modal fade" id="emailDocModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Send Document</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form id="emailDocForm">
+                    <input type="hidden" name="send_doc_email" value="1">
+                    <input type="hidden" name="doc_title" id="email_doc_title" value="">
+                    <input type="hidden" name="doc_url" id="email_doc_url" value="">
+
+                    <div class="mb-3">
+                      <label class="form-label" for="email_to">To (comma separated)</label>
+                      <input type="text" class="form-control" id="email_to" name="to_emails" placeholder="name@example.com, other@example.com" required>
+                    </div>
+
+                    <div class="mb-0">
+                      <label class="form-label" for="email_msg">Message (optional)</label>
+                      <textarea class="form-control" id="email_msg" name="message" rows="3"></textarea>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                  <button type="submit" form="emailDocForm" class="btn btn-primary" id="emailDocSendBtn">Send</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -438,6 +566,22 @@ $publicBase = $scheme . '://' . $host . $basePath;
 
 <script>
 (function(){
+  function showToast(message, type) {
+    var existing = document.getElementById('docToast');
+    if (!existing) {
+      var wrap = document.createElement('div');
+      wrap.className = 'toast-container position-fixed top-0 end-0 p-3';
+      wrap.style.zIndex = '11000';
+      wrap.innerHTML = "<div id='docToast' class='toast align-items-center text-bg-" + (type || 'success') + " border-0' role='alert' aria-live='assertive' aria-atomic='true'><div class='d-flex'><div class='toast-body'></div><button type='button' class='btn-close btn-close-white me-2 m-auto' data-bs-dismiss='toast' aria-label='Close'></button></div></div>";
+      document.body.appendChild(wrap);
+      existing = document.getElementById('docToast');
+    }
+    var body = existing.querySelector('.toast-body');
+    if (body) { body.textContent = message; }
+    var t = bootstrap.Toast.getOrCreateInstance(existing, { delay: 2000 });
+    t.show();
+  }
+
   var fileRadio = document.getElementById('type_file');
   var linkRadio = document.getElementById('type_link');
   var fileBox = document.getElementById('file_box');
@@ -490,7 +634,64 @@ $publicBase = $scheme . '://' . $host . $basePath;
     ta.select();
     try { document.execCommand('copy'); } catch (err) {}
     document.body.removeChild(ta);
+
+    showToast('Link copied', 'success');
   });
+
+  var emailModalEl = document.getElementById('emailDocModal');
+  var emailForm = document.getElementById('emailDocForm');
+  var emailTitle = document.getElementById('email_doc_title');
+  var emailUrl = document.getElementById('email_doc_url');
+  var emailTo = document.getElementById('email_to');
+  var emailBtn = document.getElementById('emailDocSendBtn');
+  var emailModal = null;
+  if (emailModalEl) {
+    emailModal = new bootstrap.Modal(emailModalEl);
+  }
+
+  document.addEventListener('click', function(e){
+    var btn = e.target && e.target.closest ? e.target.closest('.js-email-doc') : null;
+    if (!btn || !emailModal) return;
+    e.preventDefault();
+    var title = btn.getAttribute('data-title') || 'Document';
+    var url = btn.getAttribute('data-url') || '';
+    if (emailTitle) emailTitle.value = title;
+    if (emailUrl) emailUrl.value = url;
+    if (emailTo) emailTo.value = '';
+    var msg = document.getElementById('email_msg');
+    if (msg) msg.value = '';
+    emailModal.show();
+  });
+
+  if (emailForm) {
+    emailForm.addEventListener('submit', function(ev){
+      ev.preventDefault();
+      if (emailBtn) {
+        emailBtn.disabled = true;
+        emailBtn.textContent = 'Sending...';
+      }
+      var fd = new FormData(emailForm);
+      fetch('documents.php', { method: 'POST', body: fd })
+        .then(function(r){ return r.json(); })
+        .then(function(data){
+          if (data && data.status === 'success') {
+            showToast('Email sent', 'success');
+            if (emailModal) emailModal.hide();
+          } else {
+            showToast((data && data.message) ? data.message : 'Failed to send email', 'danger');
+          }
+        })
+        .catch(function(){
+          showToast('Failed to send email', 'danger');
+        })
+        .finally(function(){
+          if (emailBtn) {
+            emailBtn.disabled = false;
+            emailBtn.textContent = 'Send';
+          }
+        });
+    });
+  }
 
   var grid = document.getElementById('docsGrid');
   if (input && grid) {
