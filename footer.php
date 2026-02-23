@@ -174,9 +174,7 @@ print "
     $(document).ready(function () {
         var $slider = $('.welcome-slider');
         if ($slider.length > 0 && typeof $.fn.owlCarousel === 'function') {
-            var $defaults = $('#heroSlideDefaults');
-            var defaultTitle = $defaults.length ? ($defaults.attr('data-default-title') || '') : '';
-            var defaultText = $defaults.length ? ($defaults.attr('data-default-text') || '') : '';
+            $('.welcome-intro').addClass('welcome-intro--slider');
 
             function updateHeroFromActiveSlide() {
                 var $active = $slider.find('.owl-item.active .welcome-slide').first();
@@ -184,10 +182,10 @@ print "
                 var x = ($active.attr('data-slide-text') || '').trim();
 
                 if ($('#heroSlideTitle').length) {
-                    $('#heroSlideTitle').text(t.length ? t : defaultTitle);
+                    $('#heroSlideTitle').text(t);
                 }
                 if ($('#heroSlideText').length) {
-                    $('#heroSlideText').text(x.length ? x : defaultText);
+                    $('#heroSlideText').text(x);
                 }
             }
 

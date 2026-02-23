@@ -56,6 +56,34 @@
             transition: opacity 0.3s;
         }
        
+        .welcome-intro--slider {
+            background: rgba(0, 0, 0, 0.45);
+            padding: 18px 18px;
+            border-radius: 14px;
+            display: inline-block;
+            max-width: 640px;
+            backdrop-filter: blur(2px);
+        }
+
+        .welcome-intro--slider #heroSlideTitle,
+        .welcome-intro--slider #heroSlideText {
+            text-shadow: 0 2px 18px rgba(0, 0, 0, 0.75);
+            color: #ffffff !important;
+        }
+
+        .welcome-intro--slider #heroSlideTitle {
+            font-weight: 800;
+        }
+
+        .welcome-intro--slider #heroSlideText {
+            font-weight: 500;
+            opacity: 0.95;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
     </style>
 </head>
 <body>
@@ -136,15 +164,17 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-md-5">
-                        <!-- Welcome Thumb -->
-                        <div class="welcome-thumb-wrapper mt-5 mt-md-0">
-                            <span class="welcome-thumb-1">
-                                <img class="welcome-animation d-block ml-auto" src="assets/img/welcome/thumb_1.png" alt="">
-                            </span>
+                    <?php if (!($use_slider_mode && count($slider_items) > 0)) { ?>
+                        <div class="col-12 col-md-5">
+                            <!-- Welcome Thumb -->
+                            <div class="welcome-thumb-wrapper mt-5 mt-md-0">
+                                <span class="welcome-thumb-1">
+                                    <img class="welcome-animation d-block ml-auto" src="assets/img/welcome/thumb_1.png" alt="">
+                                </span>
 
+                            </div>
                         </div>
-                    </div>
+                    <?php } ?>
                 </div>
             </div>
             <!-- Shape Bottom -->
