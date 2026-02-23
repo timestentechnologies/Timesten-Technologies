@@ -291,14 +291,33 @@ if (strlen(trim($impact_text)) < 1) {
                 <div class="container header">
                     <!-- Navbar Brand-->
                     <?php
-    $rt=mysqli_query($con,"SELECT ufile FROM logo where id=1");
-    $tr = mysqli_fetch_array($rt);
-    $ufile = "$tr[ufile]";
+    $sticky_ufile = "";
+    $has_sticky_col = false;
+    $col_rs = mysqli_query($con, "SHOW COLUMNS FROM logo LIKE 'sticky_ufile'");
+    if ($col_rs && mysqli_num_rows($col_rs) > 0) {
+        $has_sticky_col = true;
+    }
+
+    if ($has_sticky_col) {
+        $rt=mysqli_query($con,"SELECT ufile, sticky_ufile FROM logo where id=1");
+        $tr = mysqli_fetch_array($rt);
+        $ufile = "$tr[ufile]";
+        $sticky_ufile = isset($tr['sticky_ufile']) ? $tr['sticky_ufile'] : "";
+    } else {
+        $rt=mysqli_query($con,"SELECT ufile FROM logo where id=1");
+        $tr = mysqli_fetch_array($rt);
+        $ufile = "$tr[ufile]";
+    }
+
+    $sticky_logo_to_use = $ufile;
+    if (!empty($sticky_ufile) && strlen(trim($sticky_ufile)) > 0) {
+        $sticky_logo_to_use = $sticky_ufile;
+    }
 ?>
 
                     <a class="navbar-brand" href="index.php">
                         <img class="navbar-brand-regular" src="dashboard/uploads/logo/<?php print $ufile?>" alt="brand-logo">
-                        <img class="navbar-brand-sticky" src="dashboard/uploads/logo/<?php print $ufile?>" alt="sticky brand-logo"></a>
+                        <img class="navbar-brand-sticky" src="dashboard/uploads/logo/<?php print $sticky_logo_to_use?>" alt="sticky brand-logo"></a>
                     <div class="ml-auto"></div>
                     <!-- Navbar -->
                     <ul class="navbar-nav items">

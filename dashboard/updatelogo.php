@@ -58,8 +58,22 @@ $logo_row = $logo_rs ? mysqli_fetch_assoc($logo_rs) : null;
 $current_xfile = $logo_row && isset($logo_row['xfile']) ? $logo_row['xfile'] : '';
 $current_ufile = $logo_row && isset($logo_row['ufile']) ? $logo_row['ufile'] : '';
 
+$has_sticky_col = false;
+$col_rs3 = mysqli_query($con, "SHOW COLUMNS FROM logo LIKE 'sticky_ufile'");
+if ($col_rs3 && mysqli_num_rows($col_rs3) > 0) {
+    $has_sticky_col = true;
+}
+
+$current_sticky_ufile = '';
+if ($has_sticky_col) {
+    $logo_rs2 = mysqli_query($con, "SELECT sticky_ufile FROM logo WHERE id=1 LIMIT 1");
+    $logo_row2 = $logo_rs2 ? mysqli_fetch_assoc($logo_rs2) : null;
+    $current_sticky_ufile = $logo_row2 && isset($logo_row2['sticky_ufile']) ? $logo_row2['sticky_ufile'] : '';
+}
+
 $new_file = '';
 $new_file_name = '';
+$new_sticky_file_name = '';
 
 if (isset($_FILES['xfile']) && $_FILES['xfile']['error'] === UPLOAD_ERR_OK) {
     $tmp_name = $_FILES["xfile"]["tmp_name"];
@@ -70,6 +84,18 @@ if (isset($_FILES['xfile']) && $_FILES['xfile']['error'] === UPLOAD_ERR_OK) {
         $status = "NOTOK";
         $msg .= "Failed to upload favicon.<BR>";
         $new_file = '';
+    }
+}
+
+if ($has_sticky_col && isset($_FILES['sticky_ufile']) && $_FILES['sticky_ufile']['error'] === UPLOAD_ERR_OK) {
+    $tmp_name = $_FILES["sticky_ufile"]["tmp_name"];
+    $name = basename($_FILES["sticky_ufile"]["name"]);
+    $random_digit = rand(0000,9999);
+    $new_sticky_file_name = $random_digit . $name;
+    if (!move_uploaded_file($tmp_name, "$uploads_dir/$new_sticky_file_name")) {
+        $status = "NOTOK";
+        $msg .= "Failed to upload sticky logo.<BR>";
+        $new_sticky_file_name = '';
     }
 }
 
@@ -89,11 +115,17 @@ if($status=="OK")
 {
   $xfile_to_save = (strlen($new_file) > 0) ? $new_file : $current_xfile;
   $ufile_to_save = (strlen($new_file_name) > 0) ? $new_file_name : $current_ufile;
+  $sticky_to_save = (strlen($new_sticky_file_name) > 0) ? $new_sticky_file_name : $current_sticky_ufile;
 
   $xfile_to_save = mysqli_real_escape_string($con, $xfile_to_save);
   $ufile_to_save = mysqli_real_escape_string($con, $ufile_to_save);
 
-  $qb=mysqli_query($con,"update logo set xfile='$xfile_to_save', ufile='$ufile_to_save' where id=1");
+  if ($has_sticky_col) {
+      $sticky_to_save = mysqli_real_escape_string($con, $sticky_to_save);
+      $qb=mysqli_query($con,"update logo set xfile='$xfile_to_save', ufile='$ufile_to_save', sticky_ufile='$sticky_to_save' where id=1");
+  } else {
+      $qb=mysqli_query($con,"update logo set xfile='$xfile_to_save', ufile='$ufile_to_save' where id=1");
+  }
 
 		if($qb){
 		    	$errormsg= "
@@ -147,6 +179,7 @@ while($row = mysqli_fetch_array($result))
 {
 	$xfile="$row[xfile]";
 	$ufile="$row[ufile]";
+	$sticky_ufile = isset($row['sticky_ufile']) ? $row['sticky_ufile'] : '';
 }
   ?>
 
@@ -174,6 +207,17 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                                                         <div class="mb-3">
                                                             <label for="firstnameInput" class="form-label">Logo</label>
                                                             <input type="file" class="form-control" id="firstnameInput" name="ufile">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-6">
+                                                    <span>Current Sticky Logo: </span>
+                                                    <?php if (isset($sticky_ufile) && strlen(trim($sticky_ufile)) > 0) { ?>
+                                                        <img src="uploads/logo/<?php print $sticky_ufile; ?>" alt="img" style="max-height:120px;">
+                                                    <?php } ?>
+                                                        <div class="mb-3">
+                                                            <label for="firstnameInput" class="form-label">Sticky (White Header) Logo</label>
+                                                            <input type="file" class="form-control" id="firstnameInput" name="sticky_ufile">
                                                         </div>
                                                     </div>
                                                     <!--end col-->

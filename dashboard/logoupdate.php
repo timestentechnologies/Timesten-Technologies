@@ -46,7 +46,15 @@
                                     if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save'])) {
                                         $uploads_dir = 'uploads/logo';
 
-                                        // Validate and upload favicon
+                                        $logo_query0 = "SELECT * FROM logo WHERE id=1";
+                                        $logo_result0 = mysqli_query($con, $logo_query0);
+                                        $logo_data0 = $logo_result0 ? mysqli_fetch_assoc($logo_result0) : null;
+
+                                        $xfile_path = $logo_data0 && isset($logo_data0['xfile']) ? $logo_data0['xfile'] : '';
+                                        $ufile_path = $logo_data0 && isset($logo_data0['ufile']) ? $logo_data0['ufile'] : '';
+                                        $sticky_ufile_path = $logo_data0 && isset($logo_data0['sticky_ufile']) ? $logo_data0['sticky_ufile'] : '';
+
+                                        // Upload favicon if provided
                                         if (isset($_FILES['xfile']) && $_FILES['xfile']['error'] === UPLOAD_ERR_OK) {
                                             $xfile_tmp_name = $_FILES['xfile']['tmp_name'];
                                             $xfile_name = uniqid() . '-' . basename($_FILES['xfile']['name']);
@@ -56,12 +64,9 @@
                                                 $status = "NOTOK";
                                                 $msg .= "Error uploading favicon. ";
                                             }
-                                        } else {
-                                            $status = "NOTOK";
-                                            $msg .= "Favicon file upload error. ";
                                         }
 
-                                        // Validate and upload logo
+                                        // Upload logo if provided
                                         if (isset($_FILES['ufile']) && $_FILES['ufile']['error'] === UPLOAD_ERR_OK) {
                                             $ufile_tmp_name = $_FILES['ufile']['tmp_name'];
                                             $ufile_name = uniqid() . '-' . basename($_FILES['ufile']['name']);
@@ -71,14 +76,36 @@
                                                 $status = "NOTOK";
                                                 $msg .= "Error uploading logo. ";
                                             }
-                                        } else {
-                                            $status = "NOTOK";
-                                            $msg .= "Logo file upload error. ";
                                         }
 
-                                        // Update database if uploads are successful
+                                        // Upload sticky/white-header logo if provided (only if column exists)
+                                        $has_sticky_col = false;
+                                        $col_rs = mysqli_query($con, "SHOW COLUMNS FROM logo LIKE 'sticky_ufile'");
+                                        if ($col_rs && mysqli_num_rows($col_rs) > 0) {
+                                            $has_sticky_col = true;
+                                        }
+
+                                        if ($has_sticky_col && isset($_FILES['sticky_ufile']) && $_FILES['sticky_ufile']['error'] === UPLOAD_ERR_OK) {
+                                            $s_tmp = $_FILES['sticky_ufile']['tmp_name'];
+                                            $s_name = uniqid() . '-' . basename($_FILES['sticky_ufile']['name']);
+                                            if (move_uploaded_file($s_tmp, "$uploads_dir/$s_name")) {
+                                                $sticky_ufile_path = $s_name;
+                                            } else {
+                                                $status = "NOTOK";
+                                                $msg .= "Error uploading sticky logo. ";
+                                            }
+                                        }
+
                                         if ($status == "OK") {
-                                            $update_query = "UPDATE logo SET xfile='$xfile_path', ufile='$ufile_path' WHERE id=1";
+                                            $xfile_path_esc = mysqli_real_escape_string($con, $xfile_path);
+                                            $ufile_path_esc = mysqli_real_escape_string($con, $ufile_path);
+                                            $update_query = "UPDATE logo SET xfile='$xfile_path_esc', ufile='$ufile_path_esc'";
+                                            if ($has_sticky_col) {
+                                                $sticky_esc = mysqli_real_escape_string($con, $sticky_ufile_path);
+                                                $update_query .= ", sticky_ufile='$sticky_esc'";
+                                            }
+                                            $update_query .= " WHERE id=1";
+
                                             if (mysqli_query($con, $update_query)) {
                                                 echo "<div class='alert alert-success alert-dismissible alert-outline fade show'>
                                                         Data updated successfully.
@@ -111,7 +138,7 @@
                                                 <img src="uploads/logo/<?php echo $logo_data['xfile']; ?>" alt="Favicon" style="max-height:120px;">
                                                 <div class="mb-3">
                                                     <label for="xfile" class="form-label">Favicon</label>
-                                                    <input type="file" class="form-control" id="xfile" name="xfile" required>
+                                                    <input type="file" class="form-control" id="xfile" name="xfile">
                                                 </div>
                                             </div>
 
@@ -120,7 +147,18 @@
                                                 <img src="uploads/logo/<?php echo $logo_data['ufile']; ?>" alt="Logo" style="max-height:120px;">
                                                 <div class="mb-3">
                                                     <label for="ufile" class="form-label">Logo</label>
-                                                    <input type="file" class="form-control" id="ufile" name="ufile" required>
+                                                    <input type="file" class="form-control" id="ufile" name="ufile">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <span>Current Sticky Logo:</span>
+                                                <?php if (!empty($logo_data['sticky_ufile'])) { ?>
+                                                    <img src="uploads/logo/<?php echo $logo_data['sticky_ufile']; ?>" alt="Sticky Logo" style="max-height:120px;">
+                                                <?php } ?>
+                                                <div class="mb-3">
+                                                    <label for="sticky_ufile" class="form-label">Sticky (White Header) Logo</label>
+                                                    <input type="file" class="form-control" id="sticky_ufile" name="sticky_ufile">
                                                 </div>
                                             </div>
 
