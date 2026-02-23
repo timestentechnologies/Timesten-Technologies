@@ -39,9 +39,18 @@
                                 $short_desc = $row['short_desc'];
                                 $deadline = $row['deadline'];
 
+                                $cover_image = isset($row['cover_image']) ? $row['cover_image'] : '';
+                                $cover_html = '';
+                                if (strlen(trim($cover_image)) > 0) {
+                                    $safe_cover = htmlspecialchars($cover_image);
+                                    $safe_title = htmlspecialchars($title);
+                                    $cover_html = "<div class='mb-3' style='overflow:hidden;border-radius:12px;'><img src='dashboard/uploads/jobs/$safe_cover' alt='$safe_title' style='width:100%;height:160px;object-fit:cover;display:block;'></div>";
+                                }
+
                                 print "
                                 <div class='col-12 col-md-6 col-lg-4 mb-4'>
                                     <div class='single-service p-4 h-100 careers-card'>
+                                        $cover_html
                                         <h3 class='my-2'>$title</h3>
                                         <p class='mb-2 careers-meta'><strong>Location:</strong> $location</p>
                                         <p class='mb-2 careers-meta'><strong>Type:</strong> $job_type</p>

@@ -32,6 +32,41 @@
                             $deadline = mysqli_real_escape_string($con,$_POST['deadline']);
                             $job_status = mysqli_real_escape_string($con,$_POST['status']);
 
+                            $cover_image = "";
+                            if (isset($_FILES['cover_image']) && $_FILES['cover_image']['error'] === UPLOAD_ERR_OK) {
+                                $uploads_dir = 'uploads/jobs';
+                                if (!is_dir($uploads_dir)) {
+                                    @mkdir($uploads_dir, 0755, true);
+                                }
+
+                                $tmp_name = $_FILES['cover_image']['tmp_name'];
+                                $original_name = basename($_FILES['cover_image']['name']);
+                                $safe_name = preg_replace("/[^a-zA-Z0-9.\-_]/", "", $original_name);
+                                $random_digit = rand(1000, 9999);
+                                $cover_image = $random_digit . '_' . $safe_name;
+
+                                $img_info = @getimagesize($tmp_name);
+                                if ($img_info === false) {
+                                    $msg .= "Cover image must be a valid image file.<br>";
+                                    $status = "NOTOK";
+                                    $cover_image = "";
+                                } else {
+                                    $mime = isset($img_info['mime']) ? $img_info['mime'] : '';
+                                    $allowed_mimes = ['image/jpeg', 'image/png', 'image/webp'];
+                                    if (!in_array($mime, $allowed_mimes)) {
+                                        $msg .= "Cover image must be JPG, PNG, or WEBP.<br>";
+                                        $status = "NOTOK";
+                                        $cover_image = "";
+                                    } else {
+                                        if (!move_uploaded_file($tmp_name, $uploads_dir . '/' . $cover_image)) {
+                                            $msg .= "Cover image upload failed.<br>";
+                                            $status = "NOTOK";
+                                            $cover_image = "";
+                                        }
+                                    }
+                                }
+                            }
+
                             $question_texts = isset($_POST['question_text']) && is_array($_POST['question_text']) ? $_POST['question_text'] : array();
                             $question_required = isset($_POST['question_required']) && is_array($_POST['question_required']) ? $_POST['question_required'] : array();
 
@@ -43,7 +78,19 @@
                             if(strlen($job_type) < 2){ $msg .= "Job type is required.<br>"; $status = "NOTOK"; }
 
                             if($status=="OK"){
-                                $qb = mysqli_query($con,"INSERT INTO jobs (job_title, short_desc, job_desc, requirements, location, job_type, deadline, status, created_at) VALUES ('$job_title', '$short_desc', '$job_desc', '$requirements', '$location', '$job_type', '$deadline', '$job_status', NOW())");
+                                $cover_image_sql = mysqli_real_escape_string($con, $cover_image);
+
+                                $has_cover_col = false;
+                                $col_rs = mysqli_query($con, "SHOW COLUMNS FROM jobs LIKE 'cover_image'");
+                                if ($col_rs && mysqli_num_rows($col_rs) > 0) {
+                                    $has_cover_col = true;
+                                }
+
+                                if ($has_cover_col) {
+                                    $qb = mysqli_query($con,"INSERT INTO jobs (job_title, short_desc, job_desc, requirements, location, job_type, deadline, status, cover_image, created_at) VALUES ('$job_title', '$short_desc', '$job_desc', '$requirements', '$location', '$job_type', '$deadline', '$job_status', '$cover_image_sql', NOW())");
+                                } else {
+                                    $qb = mysqli_query($con,"INSERT INTO jobs (job_title, short_desc, job_desc, requirements, location, job_type, deadline, status, created_at) VALUES ('$job_title', '$short_desc', '$job_desc', '$requirements', '$location', '$job_type', '$deadline', '$job_status', NOW())");
+                                }
                                 if($qb){
                                     $new_job_id = mysqli_insert_id($con);
                                     foreach ($question_texts as $idx => $qt_raw) {
@@ -76,7 +123,7 @@
                                 </div>
                                 <div class="card-body p-4">
                                     <?php if($_SERVER['REQUEST_METHOD']=='POST'){ print $errormsg; } ?>
-                                    <form action="" method="post">
+                                    <form action="" method="post" enctype="multipart/form-data">
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <div class="mb-3">
@@ -127,6 +174,13 @@
                                                 <div class="mb-3">
                                                     <label class="form-label">Requirements</label>
                                                     <textarea class="form-control" name="requirements" rows="4" required></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-12">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Cover Image</label>
+                                                    <input type="file" class="form-control" name="cover_image" accept="image/png,image/jpeg,image/webp">
                                                 </div>
                                             </div>
 
