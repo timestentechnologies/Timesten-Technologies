@@ -53,27 +53,47 @@ $msg="";
 
 $uploads_dir = 'uploads/logo';
 
-        $tmp_name = $_FILES["xfile"]["tmp_name"];
-        // basename() may prevent filesystem traversal attacks;
-        // further validation/sanitation of the filename may be appropriate
-        $name = basename($_FILES["xfile"]["name"]);
-        $random_digit=rand(0000,9999);
-        $new_file=$random_digit.$name;
+$logo_rs = mysqli_query($con, "SELECT xfile, ufile FROM logo WHERE id=1 LIMIT 1");
+$logo_row = $logo_rs ? mysqli_fetch_assoc($logo_rs) : null;
+$current_xfile = $logo_row && isset($logo_row['xfile']) ? $logo_row['xfile'] : '';
+$current_ufile = $logo_row && isset($logo_row['ufile']) ? $logo_row['ufile'] : '';
 
-        move_uploaded_file($tmp_name, "$uploads_dir/$new_file");
+$new_file = '';
+$new_file_name = '';
 
-        $tmp_name = $_FILES["ufile"]["tmp_name"];
-        // basename() may prevent filesystem traversal attacks;
-        // further validation/sanitation of the filename may be appropriate
-        $name = basename($_FILES["ufile"]["name"]);
-        $random_digit=rand(0000,9999);
-        $new_file_name=$random_digit.$name;
+if (isset($_FILES['xfile']) && $_FILES['xfile']['error'] === UPLOAD_ERR_OK) {
+    $tmp_name = $_FILES["xfile"]["tmp_name"];
+    $name = basename($_FILES["xfile"]["name"]);
+    $random_digit = rand(0000,9999);
+    $new_file = $random_digit . $name;
+    if (!move_uploaded_file($tmp_name, "$uploads_dir/$new_file")) {
+        $status = "NOTOK";
+        $msg .= "Failed to upload favicon.<BR>";
+        $new_file = '';
+    }
+}
 
-        move_uploaded_file($tmp_name, "$uploads_dir/$new_file_name");
+if (isset($_FILES['ufile']) && $_FILES['ufile']['error'] === UPLOAD_ERR_OK) {
+    $tmp_name = $_FILES["ufile"]["tmp_name"];
+    $name = basename($_FILES["ufile"]["name"]);
+    $random_digit = rand(0000,9999);
+    $new_file_name = $random_digit . $name;
+    if (!move_uploaded_file($tmp_name, "$uploads_dir/$new_file_name")) {
+        $status = "NOTOK";
+        $msg .= "Failed to upload logo.<BR>";
+        $new_file_name = '';
+    }
+}
 
 if($status=="OK")
 {
-  $qb=mysqli_query($con,"update logo set xfile='$new_file', ufile='$new_file_name' where id=1");
+  $xfile_to_save = (strlen($new_file) > 0) ? $new_file : $current_xfile;
+  $ufile_to_save = (strlen($new_file_name) > 0) ? $new_file_name : $current_ufile;
+
+  $xfile_to_save = mysqli_real_escape_string($con, $xfile_to_save);
+  $ufile_to_save = mysqli_real_escape_string($con, $ufile_to_save);
+
+  $qb=mysqli_query($con,"update logo set xfile='$xfile_to_save', ufile='$ufile_to_save' where id=1");
 
 		if($qb){
 		    	$errormsg= "
@@ -145,7 +165,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                                                      <span>Current Favicon: </span> <img src="uploads/logo/<?php print $xfile; ?>" alt="img" style="max-height:120px;">
                                                         <div class="mb-3">
                                                             <label for="firstnameInput" class="form-label">Favicon</label>
-                                                            <input type="file" class="form-control" id="firstnameInput" name="xfile" required>
+                                                            <input type="file" class="form-control" id="firstnameInput" name="xfile">
                                                         </div>
                                                     </div>
 
@@ -153,7 +173,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                                                     <span>Current Logo: </span> <img src="uploads/logo/<?php print $ufile; ?>" alt="img" style="max-height:120px;">
                                                         <div class="mb-3">
                                                             <label for="firstnameInput" class="form-label">Logo</label>
-                                                            <input type="file" class="form-control" id="firstnameInput" name="ufile" required>
+                                                            <input type="file" class="form-control" id="firstnameInput" name="ufile">
                                                         </div>
                                                     </div>
                                                     <!--end col-->

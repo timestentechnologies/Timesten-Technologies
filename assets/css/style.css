@@ -1044,13 +1044,13 @@ header {
 
 .navbar-sticky {
     top: 0;
-    background-color:#5b2ea6;
+    background-color:#ffffff;
     -webkit-box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 20px;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 20px;
     -webkit-transition: all .15s ease-out 0s !important;
     transition: all .15s ease-out 0s !important;
     height:90px;
-    color:white;
+    color:#fc573b;
 }
 
 .navbar-sticky.hidden {
@@ -1223,7 +1223,17 @@ header {
 
 .navbar-expand.navbar-sticky .navbar-nav .nav-link,
 .navbar-expand.navbar-light .navbar-nav .nav-link {
-    color: white;
+    color: #fc573b;
+    font-weight: 800;
+}
+
+.navbar-expand.navbar-sticky .navbar-nav .nav-link:hover,
+.navbar-expand.navbar-sticky .navbar-nav .nav-link:focus {
+    color: #e24d34;
+}
+
+.navbar-expand.navbar-sticky .navbar-nav.icons .nav-link {
+    color: #fc573b;
 }
 
 .navbar-expand .navbar-nav .dropdown-menu .nav-link {
