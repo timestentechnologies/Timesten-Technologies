@@ -364,14 +364,14 @@ print "
             left: 50%;
             width: 0;
             height: 3px;
-            background: #6730e3;
+            background: #3b1b6a;
             transition: all 0.3s ease;
             transform: translateX(-50%);
         }
         
         #menu .modal-body .nav-link:hover {
-            color: #6730e3;
-            background-color: rgba(103, 48, 227, 0.05);
+            color: #3b1b6a;
+            background-color: rgba(59, 27, 106, 0.05);
         }
         
         #menu .modal-body .nav-link:hover:after {
@@ -380,8 +380,8 @@ print "
         
         /* Active link styling */
         #menu .modal-body .nav-item.active .nav-link {
-            color: #6730e3;
-            background-color: rgba(103, 48, 227, 0.1);
+            color: #3b1b6a;
+            background-color: rgba(59, 27, 106, 0.1);
         }
         
         #menu .modal-body .nav-item.active .nav-link:after {

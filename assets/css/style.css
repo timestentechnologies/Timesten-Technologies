@@ -259,7 +259,7 @@ img {
 }
 
 .text-primary {
-    color: #7c4fe0 !important;
+    color: #3b1b6a !important;
 }
 
 .text-secondary {
@@ -625,7 +625,7 @@ img {
 
 /*BACKGROUND COLORS*/
 .color-1 {
-    color: #be63f9;
+    color: #3b1b6a;
 }
 
 .color-2 {
@@ -650,7 +650,7 @@ img {
 
 .color-1.bg-hover:hover::after,
 .color-1.bg-hover.active::after {
-    background-color: #be63f9;
+    background-color: #3b1b6a;
 }
 
 .color-2.bg-hover:hover::after,
@@ -691,11 +691,11 @@ img {
 }
 
 .bg-overlay::after {
-    background: -webkit-radial-gradient(50% 50%, circle closest-side, #af52ed 0%, #8830df 100%);
+    background: -webkit-radial-gradient(50% 50%, circle closest-side, #3b1b6a 0%, #2a124d 100%);
 }
 
 .breadcrumb-area.bg-overlay::after {
-    background: linear-gradient(-45deg, #af52ed 0%, #8830df 100%);
+    background: linear-gradient(-45deg, #3b1b6a 0%, #2a124d 100%);
 }
 /* Target only the CTA section with the additional 'orangish-gradient' class */
 .bg-overlay.orangish-gradient::after {
@@ -710,7 +710,7 @@ img {
 .btn:active,
 .btn.btn-bordered:before,
 .btn.btn-bordered-white:after {
-    background: linear-gradient(-45deg, #af52ed 0%, #8830df 100%);
+    background: linear-gradient(-45deg, #3b1b6a 0%, #2a124d 100%);
 }
 
 /*SOCIAL ICONS*/
@@ -1559,7 +1559,7 @@ header {
 .homepage-2 .btn.btn-bordered-white::after,
 .homepage-2 .bg-overlay::after,
 .homepage-2 .benifits-item::after {
-    background: linear-gradient(135deg, #be63f9 0%, #0449c4 100%);
+    background: linear-gradient(135deg, #3b1b6a 0%, #2a124d 100%);
 }
 
 /* ******************************
@@ -1626,7 +1626,7 @@ header {
 .homepage-4 .btn.btn-bordered-white::after,
 .homepage-4 .bg-overlay::after,
 .homepage-4 .grad-hover::before {
-    background: linear-gradient(45deg, #8340ff 15%, #5900ff 65%);
+    background: linear-gradient(45deg, #3b1b6a 15%, #2a124d 65%);
 }
 
 /* ******************************
@@ -1637,13 +1637,13 @@ body.dark,
 .dark .bg-overlay::after,
 .dark .dark-bg,
 .dark .navbar-sticky-moved-up {
-    background: #5b2ea6 !important;
+    background: #2a124d !important;
 }
 
 .homepage-5 .btn:active,
 .homepage-5 .btn.btn-bordered:before,
 .homepage-5 .btn.btn-bordered-white:after {
-    background: linear-gradient(45deg, #8340ff 15%, #5900ff 65%);
+    background: linear-gradient(45deg, #3b1b6a 15%, #2a124d 65%);
 }
 
 .homepage-5 .welcome-thumb-2 {
@@ -2295,7 +2295,7 @@ body.dark,
     width: 100%;
     top: 0;
     left: 0;
-    background: linear-gradient(135deg, #be63f9 0%, #0449c4 100%);
+    background: linear-gradient(135deg, #3b1b6a 0%, #2a124d 100%);
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -2797,8 +2797,8 @@ body.dark,
     font-weight: 900;
     line-height: 1em;
     letter-spacing: -1.6px;
-    background-image: -webkit-linear-gradient(45deg, #af52ed 15%, #8830df 65%);
-    background-image: linear-gradient(45deg, #af52ed 15%, #8830df 65%);
+    background-image: -webkit-linear-gradient(45deg, #3b1b6a 15%, #2a124d 65%);
+    background-image: linear-gradient(45deg, #3b1b6a 15%, #2a124d 65%);
     -webkit-background-clip: text;
     -moz-background-clip: text;
     background-clip: text;
@@ -2842,9 +2842,9 @@ body.dark,
 }
 
 .pagination > li.active > a {
-    background: linear-gradient(45deg, #af52ed 15%, #8830df 65%);
+    background: linear-gradient(45deg, #3b1b6a 15%, #2a124d 65%);
     color: #fff;
-    border: 1px solid #af52ed;
+    border: 1px solid #3b1b6a;
 }
 
 .pagination li:first-child a,
@@ -2913,7 +2913,7 @@ body.dark,
 }
 
 .widget-items li a.active {
-    color: #7c4fe0;
+    color: #3b1b6a;
 }
 
 .widget-items li a span {
@@ -3019,7 +3019,7 @@ body.dark,
     content: '';
     height: 100%;
     width: 2px;
-    background: linear-gradient(45deg, #af52ed 15%, #8830df 65%);
+    background: linear-gradient(45deg, #3b1b6a 15%, #2a124d 65%);
     top: 0;
     left: 0;
 }
@@ -3050,7 +3050,7 @@ body.dark,
 .comments-content > h5 > a:last-child {
     font-size: 14px;
     font-weight: 500;
-    color: #7c4fe0;
+    color: #3b1b6a;
 }
 
 .contact-box.comment-box {
@@ -3381,7 +3381,7 @@ body.dark,
 :: 26.0 PREVIEW AREA CSS
 ****************************** */
 .preview .welcome-area.bg-overlay::after {
-    background: linear-gradient(45deg, #8340ff 15%, #5900ff 65%);
+    background: linear-gradient(45deg, #3b1b6a 15%, #2a124d 65%);
 }
 
 .preview .welcome-intro h2 {

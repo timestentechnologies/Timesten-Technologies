@@ -616,14 +616,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                             <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
-                                        <div class="modal-header" style="background-color: #6730e3; color: white;">
+                                        <div class="modal-header" style="background-color: #3b1b6a; color: white;">
                                             <h5 class="modal-title" id="successModalLabel">Message Sent!</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: white;">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
                                         <div class="modal-body text-center py-4">
-                                            <i class="fas fa-check-circle fa-4x mb-3" style="color: #6730e3;"></i>
+                                            <i class="fas fa-check-circle fa-4x mb-3" style="color: #3b1b6a;"></i>
                                             <h4>Thank You!</h4>
                                             <p>Your message has been sent successfully. We'll get back to you as soon as possible.</p>
                                         </div>
