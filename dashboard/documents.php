@@ -182,70 +182,13 @@ $publicBase = $scheme . '://' . $host . $basePath;
       ?>
 
       <div class="row">
-        <div class="col-12 col-lg-4">
-          <div class="card">
-            <div class="card-header d-flex align-items-center">
-              <h5 class="card-title mb-0">Add Document</h5>
-              <a href="document-categories.php" class="btn btn-sm btn-soft-primary ms-auto">Categories</a>
-            </div>
-            <div class="card-body">
-              <form method="post" enctype="multipart/form-data">
-                <input type="hidden" name="upload_doc" value="1">
-
-                <div class="mb-3">
-                  <label class="form-label" for="title">Title</label>
-                  <input type="text" class="form-control" id="title" name="title" placeholder="e.g. Company Policy" required>
-                </div>
-
-                <div class="mb-3">
-                  <label class="form-label" for="category_id">Category</label>
-                  <select class="form-select" id="category_id" name="category_id" required>
-                    <option value="">Select category</option>
-                    <?php
-                    foreach ($cats as $c) {
-                        $id = (int)$c['id'];
-                        $nm = htmlspecialchars($c['name']);
-                        $sel = $cat_id === $id ? ' selected' : '';
-                        print "<option value='$id'$sel>$nm</option>";
-                    }
-                    ?>
-                  </select>
-                </div>
-
-                <div class="mb-3">
-                  <label class="form-label">Type</label>
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="doc_type" id="type_file" value="file" checked>
-                    <label class="form-check-label" for="type_file">File upload</label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="doc_type" id="type_link" value="link">
-                    <label class="form-check-label" for="type_link">Link</label>
-                  </div>
-                </div>
-
-                <div class="mb-3" id="file_box">
-                  <label class="form-label" for="doc_file">File</label>
-                  <input class="form-control" type="file" id="doc_file" name="doc_file">
-                  <div class="form-text">Any file type is allowed.</div>
-                </div>
-
-                <div class="mb-3 d-none" id="link_box">
-                  <label class="form-label" for="link_url">Link URL</label>
-                  <input class="form-control" type="url" id="link_url" name="link_url" placeholder="https://...">
-                </div>
-
-                <button type="submit" class="btn btn-primary">Save</button>
-              </form>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-12 col-lg-8">
+        <div class="col-12">
           <div class="card">
             <div class="card-header d-flex flex-wrap align-items-center">
               <h5 class="card-title mb-0">Folders</h5>
               <div class="ms-auto d-flex gap-2">
+                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addDocumentModal">Add Document</button>
+                <a href="document-categories.php" class="btn btn-sm btn-soft-primary">Categories</a>
                 <a href="documents.php?view=grid" class="btn btn-sm btn-soft-secondary">Grid</a>
                 <a href="documents.php?view=list" class="btn btn-sm btn-soft-secondary">List</a>
               </div>
@@ -334,8 +277,8 @@ $publicBase = $scheme . '://' . $host . $basePath;
                             $em = 'mailto:?subject=' . rawurlencode('Document: ' . $d['title']) . '&body=' . rawurlencode($shareUrl);
                             $em_h = htmlspecialchars($em);
 
-                            print "<div class='btn-group'>";
-                            print "<button type='button' class='btn btn-sm btn-soft-secondary dropdown-toggle' data-bs-toggle='dropdown' aria-expanded='false'>Share</button>";
+                            print "<div class='btn-group position-static'>";
+                            print "<button type='button' class='btn btn-sm btn-soft-secondary dropdown-toggle' data-bs-toggle='dropdown' data-bs-display='static' aria-expanded='false'>Share</button>";
                             print "<ul class='dropdown-menu dropdown-menu-end'>";
                             print "<li><a class='dropdown-item' href='$wa_h' target='_blank'>WhatsApp</a></li>";
                             print "<li><a class='dropdown-item' href='$em_h'>Email</a></li>";
@@ -357,6 +300,71 @@ $publicBase = $scheme . '://' . $host . $basePath;
                     ?>
                   </tbody>
                 </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal fade" id="addDocumentModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Add Document</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form method="post" enctype="multipart/form-data" id="addDocumentForm">
+                    <input type="hidden" name="upload_doc" value="1">
+
+                    <div class="row g-3">
+                      <div class="col-12">
+                        <label class="form-label" for="title">Title</label>
+                        <input type="text" class="form-control" id="title" name="title" placeholder="e.g. Company Policy" required>
+                      </div>
+
+                      <div class="col-12">
+                        <label class="form-label" for="category_id">Category</label>
+                        <select class="form-select" id="category_id" name="category_id" required>
+                          <option value="">Select category</option>
+                          <?php
+                          foreach ($cats as $c) {
+                              $id = (int)$c['id'];
+                              $nm = htmlspecialchars($c['name']);
+                              $sel = $cat_id === $id ? ' selected' : '';
+                              print "<option value='$id'$sel>$nm</option>";
+                          }
+                          ?>
+                        </select>
+                      </div>
+
+                      <div class="col-12">
+                        <label class="form-label">Type</label>
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="doc_type" id="type_file" value="file" checked>
+                          <label class="form-check-label" for="type_file">File upload</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="doc_type" id="type_link" value="link">
+                          <label class="form-check-label" for="type_link">Link</label>
+                        </div>
+                      </div>
+
+                      <div class="col-12" id="file_box">
+                        <label class="form-label" for="doc_file">File</label>
+                        <input class="form-control" type="file" id="doc_file" name="doc_file">
+                        <div class="form-text">Any file type is allowed.</div>
+                      </div>
+
+                      <div class="col-12 d-none" id="link_box">
+                        <label class="form-label" for="link_url">Link URL</label>
+                        <input class="form-control" type="url" id="link_url" name="link_url" placeholder="https://...">
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                  <button type="submit" form="addDocumentForm" class="btn btn-primary">Save</button>
+                </div>
               </div>
             </div>
           </div>
