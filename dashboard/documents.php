@@ -189,8 +189,8 @@ $publicBase = $scheme . '://' . $host . $basePath;
               <div class="ms-auto d-flex gap-2">
                 <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addDocumentModal">Add Document</button>
                 <a href="document-categories.php" class="btn btn-sm btn-soft-primary">Categories</a>
-                <a href="documents.php?view=grid" class="btn btn-sm btn-soft-secondary">Grid</a>
-                <a href="documents.php?view=list" class="btn btn-sm btn-soft-secondary">List</a>
+                <a href="documents.php?<?php print ($cat_id>0?'cat='.(int)$cat_id.'&':''); ?>view=grid" class="btn btn-sm btn-soft-secondary">Grid</a>
+                <a href="documents.php?<?php print ($cat_id>0?'cat='.(int)$cat_id.'&':''); ?>view=list" class="btn btn-sm btn-soft-secondary">List</a>
               </div>
             </div>
             <div class="card-body">
@@ -224,83 +224,142 @@ $publicBase = $scheme . '://' . $host . $basePath;
               </div>
             </div>
             <div class="card-body">
-              <div class="table-responsive">
-                <table class="table table-striped table-sm align-middle mb-0" id="docsTable">
-                  <thead>
-                    <tr>
-                      <th>Title</th>
-                      <th>Category</th>
-                      <th>Type</th>
-                      <th>Uploaded</th>
-                      <th class="text-end">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <?php
-                    if (count($docs) < 1) {
-                        print "<tr><td colspan='5' class='text-center text-muted'>No documents found.</td></tr>";
-                    }
-                    foreach ($docs as $d) {
-                        $id = (int)$d['id'];
-                        $title = htmlspecialchars($d['title']);
-                        $catn = htmlspecialchars((string)$d['category_name']);
-                        $type = htmlspecialchars($d['doc_type']);
-                        $created = htmlspecialchars((string)$d['created_at']);
+              <?php if ($view === 'grid') { ?>
+                <div class="row" id="docsGrid">
+                  <?php
+                  if (count($docs) < 1) {
+                      print "<div class='col-12'><div class='text-center text-muted py-4'>No documents found.</div></div>";
+                  }
+                  foreach ($docs as $d) {
+                      $id = (int)$d['id'];
+                      $title = htmlspecialchars($d['title']);
+                      $catn = htmlspecialchars((string)$d['category_name']);
+                      $type = htmlspecialchars($d['doc_type']);
+                      $created = htmlspecialchars((string)$d['created_at']);
 
-                        $open = '';
-                        $shareUrl = '';
-                        if ($d['doc_type'] === 'file' && !empty($d['file_name'])) {
-                            $fn = rawurlencode($d['file_name']);
-                            $open = "uploads/documents/$fn";
-                            $shareUrl = $publicBase . "/uploads/documents/$fn";
-                        }
-                        if ($d['doc_type'] === 'link' && !empty($d['link_url'])) {
-                            $open = $d['link_url'];
-                            $shareUrl = $open;
-                        }
-                        $open_h = htmlspecialchars($open);
-                        $share_h = htmlspecialchars($shareUrl);
+                      $open = '';
+                      $shareUrl = '';
+                      if ($d['doc_type'] === 'file' && !empty($d['file_name'])) {
+                          $fn = rawurlencode($d['file_name']);
+                          $open = "uploads/documents/$fn";
+                          $shareUrl = $publicBase . "/uploads/documents/$fn";
+                      }
+                      if ($d['doc_type'] === 'link' && !empty($d['link_url'])) {
+                          $open = $d['link_url'];
+                          $shareUrl = $open;
+                      }
+                      $open_h = htmlspecialchars($open);
+                      $share_h = htmlspecialchars($shareUrl);
+                      $wa = strlen($shareUrl) ? ('https://wa.me/?text=' . rawurlencode($shareUrl)) : '';
+                      $wa_h = htmlspecialchars($wa);
+                      $em = strlen($shareUrl) ? ('mailto:?subject=' . rawurlencode('Document: ' . $d['title']) . '&body=' . rawurlencode($shareUrl)) : '';
+                      $em_h = htmlspecialchars($em);
 
-                        print "<tr>";
-                        print "<td data-search='$title'>$title</td>";
-                        print "<td>$catn</td>";
-                        print "<td>$type</td>";
-                        print "<td>$created</td>";
-                        print "<td class='text-end'>";
-                        if (strlen($open) > 0) {
-                            print "<a class='btn btn-sm btn-soft-primary' href='$open_h' target='_blank'>Open</a> ";
-                        }
+                      print "<div class='col-12 col-md-6 col-xl-4 mb-3 doc-item'>";
+                      print "<div class='card mb-0'>";
+                      print "<div class='card-body'>";
+                      print "<div class='d-flex align-items-start'>";
+                      print "<div class='avatar-sm me-3'><span class='avatar-title bg-light text-primary rounded-circle fs-3'><i class='ri-file-2-line'></i></span></div>";
+                      print "<div class='flex-grow-1'>";
+                      print "<div class='fw-semibold doc-title'>$title</div>";
+                      print "<div class='text-muted fs-12'>" . $catn . " • " . $type . "</div>";
+                      print "<div class='text-muted fs-12'>" . $created . "</div>";
+                      print "</div>";
+                      print "</div>";
 
-                        if (strlen($shareUrl) > 0) {
-                            $wa = 'https://wa.me/?text=' . rawurlencode($shareUrl);
-                            $wa_h = htmlspecialchars($wa);
-                            $em = 'mailto:?subject=' . rawurlencode('Document: ' . $d['title']) . '&body=' . rawurlencode($shareUrl);
-                            $em_h = htmlspecialchars($em);
+                      print "<div class='d-flex flex-wrap gap-2 mt-3'>";
+                      if (strlen($open) > 0) {
+                          print "<a class='btn btn-sm btn-soft-primary' href='$open_h' target='_blank'>Open</a>";
+                      }
+                      if (strlen($wa) > 0) {
+                          print "<a class='btn btn-sm btn-soft-success' href='$wa_h' target='_blank' title='WhatsApp'><i class='ri-whatsapp-line'></i></a>";
+                          print "<a class='btn btn-sm btn-soft-secondary' href='$em_h' title='Email'><i class='ri-mail-line'></i></a>";
+                          print "<button type='button' class='btn btn-sm btn-soft-info js-copy-link' data-url='$share_h' title='Copy link'><i class='ri-link'></i></button>";
+                          if ($d['doc_type'] === 'file') {
+                              print "<a class='btn btn-sm btn-soft-dark' href='$share_h' download title='Download'><i class='ri-download-2-line'></i></a>";
+                          }
+                      }
+                      print "<form method='post' class='d-inline' onsubmit=\"return confirm('Delete this document?');\">";
+                      print "<input type='hidden' name='delete_doc_id' value='$id'>";
+                      print "<button type='submit' class='btn btn-sm btn-soft-danger'>Delete</button>";
+                      print "</form>";
+                      print "</div>";
 
-                            print "<div class='btn-group position-static'>";
-                            print "<button type='button' class='btn btn-sm btn-soft-secondary dropdown-toggle' data-bs-toggle='dropdown' data-bs-display='static' aria-expanded='false'>Share</button>";
-                            print "<ul class='dropdown-menu dropdown-menu-end'>";
-                            print "<li><a class='dropdown-item' href='$wa_h' target='_blank'>WhatsApp</a></li>";
-                            print "<li><a class='dropdown-item' href='$em_h'>Email</a></li>";
-                            print "<li><button type='button' class='dropdown-item js-copy-link' data-url='$share_h'>Copy public URL</button></li>";
-                            if ($d['doc_type'] === 'file') {
-                                print "<li><a class='dropdown-item' href='$share_h' download>Download</a></li>";
-                            }
-                            print "</ul>";
-                            print "</div> ";
-                        }
+                      print "</div></div></div>";
+                  }
+                  ?>
+                </div>
+              <?php } else { ?>
+                <div class="table-responsive">
+                  <table class="table table-striped table-sm align-middle mb-0" id="docsTable">
+                    <thead>
+                      <tr>
+                        <th>Title</th>
+                        <th>Category</th>
+                        <th>Type</th>
+                        <th>Uploaded</th>
+                        <th class="text-end">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php
+                      if (count($docs) < 1) {
+                          print "<tr><td colspan='5' class='text-center text-muted'>No documents found.</td></tr>";
+                      }
+                      foreach ($docs as $d) {
+                          $id = (int)$d['id'];
+                          $title = htmlspecialchars($d['title']);
+                          $catn = htmlspecialchars((string)$d['category_name']);
+                          $type = htmlspecialchars($d['doc_type']);
+                          $created = htmlspecialchars((string)$d['created_at']);
 
-                        print "<form method='post' class='d-inline' onsubmit=\"return confirm('Delete this document?');\">";
-                        print "<input type='hidden' name='delete_doc_id' value='$id'>";
-                        print "<button type='submit' class='btn btn-sm btn-soft-danger'>Delete</button>";
-                        print "</form>";
-                        print "</td>";
-                        print "</tr>";
-                    }
-                    ?>
-                  </tbody>
-                </table>
-              </div>
+                          $open = '';
+                          $shareUrl = '';
+                          if ($d['doc_type'] === 'file' && !empty($d['file_name'])) {
+                              $fn = rawurlencode($d['file_name']);
+                              $open = "uploads/documents/$fn";
+                              $shareUrl = $publicBase . "/uploads/documents/$fn";
+                          }
+                          if ($d['doc_type'] === 'link' && !empty($d['link_url'])) {
+                              $open = $d['link_url'];
+                              $shareUrl = $open;
+                          }
+                          $open_h = htmlspecialchars($open);
+                          $share_h = htmlspecialchars($shareUrl);
+                          $wa = strlen($shareUrl) ? ('https://wa.me/?text=' . rawurlencode($shareUrl)) : '';
+                          $wa_h = htmlspecialchars($wa);
+                          $em = strlen($shareUrl) ? ('mailto:?subject=' . rawurlencode('Document: ' . $d['title']) . '&body=' . rawurlencode($shareUrl)) : '';
+                          $em_h = htmlspecialchars($em);
+
+                          print "<tr>";
+                          print "<td data-search='$title'>$title</td>";
+                          print "<td>$catn</td>";
+                          print "<td>$type</td>";
+                          print "<td>$created</td>";
+                          print "<td class='text-end'>";
+                          if (strlen($open) > 0) {
+                              print "<a class='btn btn-sm btn-soft-primary' href='$open_h' target='_blank'>Open</a> ";
+                          }
+                          if (strlen($wa) > 0) {
+                              print "<a class='btn btn-sm btn-soft-success' href='$wa_h' target='_blank' title='WhatsApp'><i class='ri-whatsapp-line'></i></a> ";
+                              print "<a class='btn btn-sm btn-soft-secondary' href='$em_h' title='Email'><i class='ri-mail-line'></i></a> ";
+                              print "<button type='button' class='btn btn-sm btn-soft-info js-copy-link' data-url='$share_h' title='Copy link'><i class='ri-link'></i></button> ";
+                              if ($d['doc_type'] === 'file') {
+                                  print "<a class='btn btn-sm btn-soft-dark' href='$share_h' download title='Download'><i class='ri-download-2-line'></i></a> ";
+                              }
+                          }
+                          print "<form method='post' class='d-inline' onsubmit=\"return confirm('Delete this document?');\">";
+                          print "<input type='hidden' name='delete_doc_id' value='$id'>";
+                          print "<button type='submit' class='btn btn-sm btn-soft-danger'>Delete</button>";
+                          print "</form>";
+                          print "</td>";
+                          print "</tr>";
+                      }
+                      ?>
+                    </tbody>
+                  </table>
+                </div>
+              <?php } ?>
             </div>
           </div>
 

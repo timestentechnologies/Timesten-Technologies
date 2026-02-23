@@ -150,9 +150,9 @@ if ($q) {
       <div class="card">
         <div class="card-header d-flex flex-wrap align-items-center">
           <h5 class="card-title mb-0">All Employees</h5>
-          <div class="ms-auto d-flex gap-2 align-items-center" style="min-width: 280px;">
-            <input type="text" class="form-control form-control-sm" id="empSearch" placeholder="Search employees...">
-            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">Add Employee</button>
+          <div class="ms-auto d-flex gap-2 align-items-center" style="min-width: 240px;">
+            <input type="text" class="form-control form-control-sm flex-grow-1" id="empSearch" placeholder="Search employees...">
+            <button type="button" class="btn btn-sm btn-primary text-nowrap" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">Add</button>
           </div>
         </div>
         <div class="card-body">
