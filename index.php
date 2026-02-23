@@ -603,9 +603,17 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             <script src="//code.tidio.co/w3nnziooaulg2mxalctxf1oief1sptkr.js" async></script>
 
             <script>
-                $(document).ready(function () {
-                    if ($('.welcome-slider').length > 0 && typeof $.fn.owlCarousel === 'function') {
+                (function () {
+                    function initWelcomeSlider() {
+                        if (!window.jQuery || !window.jQuery.fn || typeof window.jQuery.fn.owlCarousel !== 'function') {
+                            return false;
+                        }
+
+                        var $ = window.jQuery;
                         var $slider = $('.welcome-slider');
+                        if ($slider.length === 0) {
+                            return true;
+                        }
 
                         function updateHeroFromActiveSlide() {
                             var $active = $slider.find('.owl-item.active .welcome-slide').first();
@@ -635,8 +643,24 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                         $slider.on('changed.owl.carousel', function () {
                             setTimeout(updateHeroFromActiveSlide, 0);
                         });
+
+                        return true;
                     }
-                });
+
+                    function retryInit(attemptsLeft) {
+                        if (initWelcomeSlider()) {
+                            return;
+                        }
+                        if (attemptsLeft <= 0) {
+                            return;
+                        }
+                        setTimeout(function () { retryInit(attemptsLeft - 1); }, 150);
+                    }
+
+                    window.addEventListener('load', function () {
+                        retryInit(30);
+                    });
+                })();
             </script>
             
       <?php include "footer.php"; ?>
