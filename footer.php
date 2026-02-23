@@ -112,9 +112,24 @@ print "
                 <div class="modal-content h-100">
                     <div class="modal-header">
                         <?php
-                            $logo_rs_m = mysqli_query($con, "SELECT ufile FROM logo WHERE id=1 LIMIT 1");
-                            $logo_row_m = $logo_rs_m ? mysqli_fetch_assoc($logo_rs_m) : null;
-                            $menu_logo = $logo_row_m && !empty($logo_row_m['ufile']) ? $logo_row_m['ufile'] : '';
+                            $menu_logo = '';
+                            $has_sticky_col_m = false;
+                            $col_rs_m = mysqli_query($con, "SHOW COLUMNS FROM logo LIKE 'sticky_ufile'");
+                            if ($col_rs_m && mysqli_num_rows($col_rs_m) > 0) {
+                                $has_sticky_col_m = true;
+                            }
+
+                            if ($has_sticky_col_m) {
+                                $logo_rs_m = mysqli_query($con, "SELECT ufile, sticky_ufile FROM logo WHERE id=1 LIMIT 1");
+                                $logo_row_m = $logo_rs_m ? mysqli_fetch_assoc($logo_rs_m) : null;
+                                $ufile_m = $logo_row_m && !empty($logo_row_m['ufile']) ? $logo_row_m['ufile'] : '';
+                                $sticky_ufile_m = $logo_row_m && !empty($logo_row_m['sticky_ufile']) ? $logo_row_m['sticky_ufile'] : '';
+                                $menu_logo = strlen(trim($sticky_ufile_m)) > 0 ? $sticky_ufile_m : $ufile_m;
+                            } else {
+                                $logo_rs_m = mysqli_query($con, "SELECT ufile FROM logo WHERE id=1 LIMIT 1");
+                                $logo_row_m = $logo_rs_m ? mysqli_fetch_assoc($logo_rs_m) : null;
+                                $menu_logo = $logo_row_m && !empty($logo_row_m['ufile']) ? $logo_row_m['ufile'] : '';
+                            }
                         ?>
                         <h5 class="modal-title" id="menuModalLabel">
                             <?php if (strlen(trim($menu_logo)) > 0) { ?>
