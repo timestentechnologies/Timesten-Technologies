@@ -78,13 +78,10 @@ print "
                                 <!-- Footer Title -->
                                 <h3 class="footer-title text-uppercase mb-2">Quick Links</h3>
                                 <ul>
-                                    <li class='py-2'><a class='text-black-50' href='home'>Home</a></li>
-                                    <li class='py-2'><a class='text-black-50' href='about'>About Us</a></li>
+                                    <li class='py-2'><a class='text-black-50' href='careers'>Careers</a></li>
                                     <li class='py-2'><a class='text-black-50' href='services'>Services</a></li>
                                     <li class='py-2'><a class='text-black-50' href='portfolio'>Portfolio</a></li>
                                     <li class='py-2'><a class='text-black-50' href='blog'>Blog</a></li>
-                                    <li class='py-2'><a class='text-black-50' href='careers'>Careers</a></li>
-                                    <li class='py-2'><a class='text-black-50' href='contact'>Contact</a></li>
                                     <li class='py-2'><a class='text-black-50' href='privacy'>Privacy Policy</a></li>
                                     <li class='py-2'><a class='text-black-50' href='cookie'>Cookie Policy</a></li>
                                     <li class='py-2'><a class='text-black-50' href='terms'>Terms</a></li>
