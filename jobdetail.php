@@ -2,8 +2,30 @@
 include "header.php";
 $todo = mysqli_real_escape_string($con, $_GET["id"]);
 
+$has_views_col = false;
+$col_rs_views = mysqli_query($con, "SHOW COLUMNS FROM jobs LIKE 'views'");
+if ($col_rs_views && mysqli_num_rows($col_rs_views) > 0) {
+    $has_views_col = true;
+}
+
 $job_q = mysqli_query($con, "SELECT * FROM jobs WHERE id='$todo' AND status='open' LIMIT 1");
 $job = $job_q ? mysqli_fetch_assoc($job_q) : null;
+
+$applications_count = 0;
+$app_count_q = mysqli_query($con, "SELECT COUNT(*) AS c FROM job_applications WHERE job_id='$todo'");
+if ($app_count_q) {
+    $app_count_row = mysqli_fetch_assoc($app_count_q);
+    $applications_count = $app_count_row ? (int)$app_count_row['c'] : 0;
+}
+
+if ($job && $has_views_col) {
+    mysqli_query($con, "UPDATE jobs SET views = COALESCE(views, 0) + 1 WHERE id='$todo' LIMIT 1");
+    if (isset($job['views'])) {
+        $job['views'] = (int)$job['views'] + 1;
+    } else {
+        $job['views'] = 1;
+    }
+}
 
 $errormsg = "";
 
@@ -120,6 +142,8 @@ if (isset($_POST['apply'])) {
                                 <h2 class="mb-2"><?php print $job['job_title']; ?></h2>
                                 <p class="mb-2"><strong>Location:</strong> <?php print $job['location']; ?></p>
                                 <p class="mb-2"><strong>Type:</strong> <?php print $job['job_type']; ?></p>
+                                <p class="mb-2"><strong>Views:</strong> <?php print ($has_views_col && isset($job['views'])) ? (int)$job['views'] : 0; ?></p>
+                                <p class="mb-2"><strong>Applications:</strong> <?php print (int)$applications_count; ?></p>
                                 <?php if (isset($job['salary']) && strlen(trim($job['salary'])) > 0) { ?>
                                     <p class="mb-2"><strong>Salary:</strong> <?php print htmlspecialchars($job['salary']); ?></p>
                                 <?php } ?>

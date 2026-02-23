@@ -28,7 +28,23 @@
 
                 <div class="row careers-grid">
                     <?php
-                        $q = "SELECT * FROM jobs WHERE status='open' ORDER BY created_at DESC";
+                        $has_views_col = false;
+                        $col_rs_views = mysqli_query($con, "SHOW COLUMNS FROM jobs LIKE 'views'");
+                        if ($col_rs_views && mysqli_num_rows($col_rs_views) > 0) {
+                            $has_views_col = true;
+                        }
+
+                        $views_select_sql = $has_views_col ? "j.views" : "0 AS views";
+                        $q = "SELECT j.*, $views_select_sql, COALESCE(apps.c, 0) AS applications_count
+                              FROM jobs j
+                              LEFT JOIN (
+                                  SELECT job_id, COUNT(*) AS c
+                                  FROM job_applications
+                                  GROUP BY job_id
+                              ) apps ON apps.job_id = j.id
+                              WHERE j.status='open'
+                              ORDER BY j.created_at DESC";
+
                         $r = mysqli_query($con, $q);
                         if ($r) {
                             while ($row = mysqli_fetch_array($r)) {
@@ -38,6 +54,12 @@
                                 $job_type = $row['job_type'];
                                 $short_desc = $row['short_desc'];
                                 $deadline = $row['deadline'];
+
+                                $views_count = isset($row['views']) ? (int)$row['views'] : 0;
+                                $applications_count = isset($row['applications_count']) ? (int)$row['applications_count'] : 0;
+
+                                $tracker_html = "<p class='mb-2 careers-meta'><strong>Views:</strong> $views_count</p>";
+                                $tracker_html .= "<p class='mb-2 careers-meta'><strong>Applications:</strong> $applications_count</p>";
 
                                 $salary = isset($row['salary']) ? $row['salary'] : '';
                                 $salary_html = '';
@@ -61,6 +83,7 @@
                                         <h3 class='my-2'>$title</h3>
                                         <p class='mb-2 careers-meta'><strong>Location:</strong> $location</p>
                                         <p class='mb-2 careers-meta'><strong>Type:</strong> $job_type</p>
+                                        $tracker_html
                                         $salary_html
                                         <p class='careers-desc'>$short_desc</p>
                                         <p class='mb-3 careers-meta'><strong>Deadline:</strong> $deadline</p>
