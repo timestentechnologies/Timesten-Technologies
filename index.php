@@ -1,4 +1,15 @@
 <?php include "header.php"; ?>
+<?php
+    $static_rs = mysqli_query($con, "SELECT * FROM static WHERE id=1 LIMIT 1");
+    $static_row = $static_rs ? mysqli_fetch_assoc($static_rs) : null;
+    $stitle = $static_row && isset($static_row['stitle']) ? $static_row['stitle'] : '';
+    $stext = $static_row && isset($static_row['stext']) ? $static_row['stext'] : '';
+
+    $use_slider_mode = false;
+    if ($static_row && array_key_exists('slider_mode', $static_row)) {
+        $use_slider_mode = ((int)$static_row['slider_mode']) === 1;
+    }
+?>
         <!-- ***** Welcome Area Start ***** -->
         <section id="home" class="section welcome-area bg-overlay overflow-hidden d-flex align-items-center">
             <?php
@@ -11,13 +22,17 @@
                 }
             ?>
 
-            <?php if (count($slider_items) > 0) { ?>
+            <?php if ($use_slider_mode && count($slider_items) > 0) { ?>
                 <div class="welcome-slider owl-carousel" style="position:absolute;inset:0;z-index:0;">
                     <?php
                         foreach ($slider_items as $srow) {
                             $ufile = isset($srow['ufile']) ? $srow['ufile'] : '';
                             $bg = htmlspecialchars($ufile);
-                            print "<div class='welcome-slide' style=\"width:100%;height:100%;min-height:520px;background-image:url('dashboard/uploads/slider/$bg');background-size:cover;background-position:center;\"></div>";
+                            $slide_title = isset($srow['slide_title']) ? $srow['slide_title'] : '';
+                            $slide_text = isset($srow['slide_text']) ? $srow['slide_text'] : '';
+                            $data_title = htmlspecialchars($slide_title, ENT_QUOTES);
+                            $data_text = htmlspecialchars($slide_text, ENT_QUOTES);
+                            print "<div class='welcome-slide' data-slide-title='$data_title' data-slide-text='$data_text' style=\"width:100%;height:100%;min-height:520px;background-image:url('dashboard/uploads/slider/$bg');background-size:cover;background-position:center;\"></div>";
                         }
                     ?>
                 </div>
@@ -105,17 +120,14 @@
                 <div class="row align-items-center">
                     <!-- Welcome Intro Start -->
                     <div class="col-12 col-md-7">
-                    <?php
-    $rr=mysqli_query($con,"SELECT * FROM static");
-$r = mysqli_fetch_row($rr);
-$stitle = $r[1];
-$stext=$r[2];
-?>
-                        
-
                         <div class="welcome-intro">
-                            <h1 class="text-white"><?php print $stitle?></h1>
-                            <p class="text-white my-4"><?php print $stext?></p>
+                            <?php if ($use_slider_mode && count($slider_items) > 0) { ?>
+                                <h1 class="text-white" id="heroSlideTitle"></h1>
+                                <p class="text-white my-4" id="heroSlideText"></p>
+                            <?php } else { ?>
+                                <h1 class="text-white"><?php print $stitle?></h1>
+                                <p class="text-white my-4"><?php print $stext?></p>
+                            <?php } ?>
                             <!-- Buttons -->
                             <div class="button-group">
                                 <a href="portfolio.php" class="btn btn-bordered-white">Browse Projects</a>
@@ -593,7 +605,22 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             <script>
                 $(document).ready(function () {
                     if ($('.welcome-slider').length > 0 && typeof $.fn.owlCarousel === 'function') {
-                        $('.welcome-slider').owlCarousel({
+                        var $slider = $('.welcome-slider');
+
+                        function updateHeroFromActiveSlide() {
+                            var $active = $slider.find('.owl-item.active .welcome-slide').first();
+                            var t = ($active.attr('data-slide-title') || '').trim();
+                            var x = ($active.attr('data-slide-text') || '').trim();
+
+                            if ($('#heroSlideTitle').length) {
+                                $('#heroSlideTitle').text(t.length ? t : <?php echo json_encode($stitle); ?>);
+                            }
+                            if ($('#heroSlideText').length) {
+                                $('#heroSlideText').text(x.length ? x : <?php echo json_encode($stext); ?>);
+                            }
+                        }
+
+                        $slider.owlCarousel({
                             items: 1,
                             loop: true,
                             autoplay: true,
@@ -602,6 +629,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                             nav: false,
                             dots: true,
                             animateOut: 'fadeOut'
+                        });
+
+                        updateHeroFromActiveSlide();
+                        $slider.on('changed.owl.carousel', function () {
+                            setTimeout(updateHeroFromActiveSlide, 0);
                         });
                     }
                 });
