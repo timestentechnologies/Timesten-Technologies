@@ -57,6 +57,8 @@ $text_align = isset($_POST['text_align']) ? $_POST['text_align'] : 'left';
 $text_align = ($text_align === 'right') ? 'right' : 'left';
 $text_align_sql = mysqli_real_escape_string($con, $text_align);
 
+$show_cartoon = isset($_POST['show_cartoon']) ? 1 : 0;
+
  if ( strlen($slide_title) < 5 ){
 $msg=$msg."Slider Title Must Be More Than 5 Char Length.<BR>";
 $status= "NOTOK";}
@@ -86,8 +88,18 @@ if ($col_rs && mysqli_num_rows($col_rs) > 0) {
     $has_align_col = true;
 }
 
-if ($has_align_col) {
+$has_cartoon_col = false;
+$col_rs2 = mysqli_query($con, "SHOW COLUMNS FROM slider LIKE 'show_cartoon'");
+if ($col_rs2 && mysqli_num_rows($col_rs2) > 0) {
+    $has_cartoon_col = true;
+}
+
+if ($has_align_col && $has_cartoon_col) {
+    $qb=mysqli_query($con,"INSERT INTO slider (slide_title, slide_text, ufile, text_align, show_cartoon) VALUES ('$slide_title', '$slide_text', '$new_file_name', '$text_align_sql', '$show_cartoon')");
+} elseif ($has_align_col && !$has_cartoon_col) {
     $qb=mysqli_query($con,"INSERT INTO slider (slide_title, slide_text, ufile, text_align) VALUES ('$slide_title', '$slide_text', '$new_file_name', '$text_align_sql')");
+} elseif (!$has_align_col && $has_cartoon_col) {
+    $qb=mysqli_query($con,"INSERT INTO slider (slide_title, slide_text, ufile, show_cartoon) VALUES ('$slide_title', '$slide_text', '$new_file_name', '$show_cartoon')");
 } else {
     $qb=mysqli_query($con,"INSERT INTO slider (slide_title, slide_text,ufile) VALUES ('$slide_title', '$slide_text', '$new_file_name')");
 }
@@ -167,6 +179,15 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                                                                 <option value="left" selected>Left</option>
                                                                 <option value="right">Right</option>
                                                             </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-3">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox" id="show_cartoon" name="show_cartoon" value="1" checked>
+                                                                <label class="form-check-label" for="show_cartoon">Show cartoon on homepage</label>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <!--end col-->

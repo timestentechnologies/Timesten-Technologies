@@ -9,6 +9,11 @@
     if ($static_row && array_key_exists('slider_mode', $static_row)) {
         $use_slider_mode = ((int)$static_row['slider_mode']) === 1;
     }
+
+    $static_show_cartoon = true;
+    if ($static_row && array_key_exists('show_cartoon', $static_row)) {
+        $static_show_cartoon = ((int)$static_row['show_cartoon']) === 1;
+    }
 ?>
         <!-- ***** Welcome Area Start ***** -->
         <section id="home" class="section welcome-area bg-overlay overflow-hidden d-flex align-items-center">
@@ -40,6 +45,15 @@
                         text-align: right;
                     }
 
+                    #heroRow.hero-hide-cartoon #heroCartoonCol {
+                        display: none;
+                    }
+
+                    #heroRow.hero-hide-cartoon #heroTextCol {
+                        flex: 0 0 100%;
+                        max-width: 100%;
+                    }
+
                     #home .container {
                         position: relative;
                         z-index: 2;
@@ -64,9 +78,10 @@
                             $slide_title = isset($srow['slide_title']) ? $srow['slide_title'] : '';
                             $slide_text = isset($srow['slide_text']) ? $srow['slide_text'] : '';
                             $text_align = (isset($srow['text_align']) && $srow['text_align'] === 'right') ? 'right' : 'left';
+                            $show_cartoon = (isset($srow['show_cartoon']) && (int)$srow['show_cartoon'] === 0) ? '0' : '1';
                             $data_title = htmlspecialchars($slide_title, ENT_QUOTES);
                             $data_text = htmlspecialchars($slide_text, ENT_QUOTES);
-                            print "<div class='welcome-slide' data-slide-title='$data_title' data-slide-text='$data_text' data-text-align='$text_align' style=\"width:100%;height:100%;background-image:url('dashboard/uploads/slider/$bg');background-size:cover;background-position:center;\"></div>";
+                            print "<div class='welcome-slide' data-slide-title='$data_title' data-slide-text='$data_text' data-text-align='$text_align' data-show-cartoon='$show_cartoon' style=\"width:100%;height:100%;background-image:url('dashboard/uploads/slider/$bg');background-size:cover;background-position:center;\"></div>";
                         }
                     ?>
                 </div>
@@ -153,17 +168,31 @@
          
                 <?php
                     $first_align = 'left';
+                    $first_show_cartoon = $static_show_cartoon ? '1' : '0';
+
                     if ($use_slider_mode && count($slider_items) > 0) {
                         $first_slide = $slider_items[0];
                         if (isset($first_slide['text_align']) && $first_slide['text_align'] === 'right') {
                             $first_align = 'right';
                         }
+                        if (isset($first_slide['show_cartoon']) && (int)$first_slide['show_cartoon'] === 0) {
+                            $first_show_cartoon = '0';
+                        } else {
+                            $first_show_cartoon = '1';
+                        }
                     }
-                    $hero_row_class = ($use_slider_mode && count($slider_items) > 0 && $first_align === 'right') ? ' hero-align-right' : '';
+
+                    $hero_row_class = '';
+                    if ($use_slider_mode && count($slider_items) > 0 && $first_align === 'right') {
+                        $hero_row_class .= ' hero-align-right';
+                    }
+                    if ($first_show_cartoon === '0') {
+                        $hero_row_class .= ' hero-hide-cartoon';
+                    }
                 ?>
                 <div class="row align-items-center<?php print $hero_row_class; ?>" id="heroRow">
                     <!-- Welcome Intro Start -->
-                    <div class="col-12 col-md-7">
+                    <div class="col-12 col-md-7" id="heroTextCol">
                         <div class="welcome-intro">
                             <?php if ($use_slider_mode && count($slider_items) > 0) { ?>
                                 <?php
@@ -184,7 +213,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-md-5">
+                    <div class="col-12 col-md-5" id="heroCartoonCol">
                         <!-- Welcome Thumb -->
                         <div class="welcome-thumb-wrapper mt-5 mt-md-0">
                             <span class="welcome-thumb-1">
@@ -676,6 +705,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                             var t = ($active.attr('data-slide-title') || '').trim();
                             var x = ($active.attr('data-slide-text') || '').trim();
                             var a = ($active.attr('data-text-align') || 'left').trim();
+                            var c = ($active.attr('data-show-cartoon') || '1').trim();
 
                             if ($('#heroSlideTitle').length) {
                                 $('#heroSlideTitle').text(t.length ? t : <?php echo json_encode($stitle); ?>);
@@ -689,6 +719,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                                     $('#heroRow').addClass('hero-align-right');
                                 } else {
                                     $('#heroRow').removeClass('hero-align-right');
+                                }
+
+                                if (c === '0') {
+                                    $('#heroRow').addClass('hero-hide-cartoon');
+                                } else {
+                                    $('#heroRow').removeClass('hero-hide-cartoon');
                                 }
                             }
                         }

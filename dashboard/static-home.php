@@ -54,6 +54,7 @@ $stitle = mysqli_real_escape_string($con,$_POST['stitle']);
 $stext = mysqli_real_escape_string($con,$_POST['stext']);
 
 $slider_mode = isset($_POST['slider_mode']) ? 1 : 0;
+$show_cartoon = isset($_POST['show_cartoon']) ? 1 : 0;
 
  if ( strlen($stitle) < 5 ){
 $msg=$msg."Title field can not be empty.<BR>";
@@ -83,8 +84,18 @@ if ($col_rs && mysqli_num_rows($col_rs) > 0) {
     $has_slider_mode_col = true;
 }
 
-if ($has_slider_mode_col) {
+$has_cartoon_col = false;
+$col_rs2 = mysqli_query($con, "SHOW COLUMNS FROM static LIKE 'show_cartoon'");
+if ($col_rs2 && mysqli_num_rows($col_rs2) > 0) {
+    $has_cartoon_col = true;
+}
+
+if ($has_slider_mode_col && $has_cartoon_col) {
+    $qb=mysqli_query($con,"update static set stitle='$stitle', stext='$stext', slider_mode='$slider_mode', show_cartoon='$show_cartoon' where id=1");
+} elseif ($has_slider_mode_col && !$has_cartoon_col) {
     $qb=mysqli_query($con,"update static set stitle='$stitle', stext='$stext', slider_mode='$slider_mode' where id=1");
+} elseif (!$has_slider_mode_col && $has_cartoon_col) {
+    $qb=mysqli_query($con,"update static set stitle='$stitle', stext='$stext', show_cartoon='$show_cartoon' where id=1");
 } else {
     $qb=mysqli_query($con,"update static set stitle='$stitle', stext='$stext' where id=1");
 }
@@ -136,6 +147,7 @@ while($row = mysqli_fetch_array($result))
 	$stitle="$row[stitle]";
 	$stext="$row[stext]";
 	$slider_mode_db = isset($row['slider_mode']) ? (int)$row['slider_mode'] : 0;
+	$show_cartoon_db = isset($row['show_cartoon']) ? (int)$row['show_cartoon'] : 1;
 }
   ?>
 
@@ -171,6 +183,15 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                                                             <div class="form-check">
                                                                 <input class="form-check-input" type="checkbox" id="slider_mode" name="slider_mode" value="1" <?php if (!empty($slider_mode_db)) { print 'checked'; } ?>>
                                                                 <label class="form-check-label" for="slider_mode">Use sliders with slide title/text on homepage</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-12">
+                                                        <div class="mb-3">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox" id="show_cartoon" name="show_cartoon" value="1" <?php if (!empty($show_cartoon_db)) { print 'checked'; } ?>>
+                                                                <label class="form-check-label" for="show_cartoon">Show cartoon on homepage</label>
                                                             </div>
                                                         </div>
                                                     </div>

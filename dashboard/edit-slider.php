@@ -16,6 +16,8 @@ if (isset($_POST['save']) && $row) {
     $text_align = ($text_align === 'right') ? 'right' : 'left';
     $text_align_sql = mysqli_real_escape_string($con, $text_align);
 
+    $show_cartoon = isset($_POST['show_cartoon']) ? 1 : 0;
+
     $status = "OK";
     $msg = "";
 
@@ -60,7 +62,13 @@ if (isset($_POST['save']) && $row) {
             $align_sql = ", text_align='$text_align_sql'";
         }
 
-        $qb = mysqli_query($con, "UPDATE slider SET slide_title='$slide_title', slide_text='$slide_text'$file_sql$align_sql WHERE id='$todo'");
+        $cartoon_sql = "";
+        $col_rs2 = mysqli_query($con, "SHOW COLUMNS FROM slider LIKE 'show_cartoon'");
+        if ($col_rs2 && mysqli_num_rows($col_rs2) > 0) {
+            $cartoon_sql = ", show_cartoon='$show_cartoon'";
+        }
+
+        $qb = mysqli_query($con, "UPDATE slider SET slide_title='$slide_title', slide_text='$slide_text'$file_sql$align_sql$cartoon_sql WHERE id='$todo'");
         if ($qb) {
             $errormsg = "<div class='alert alert-success alert-dismissible alert-outline fade show'>Slider updated successfully.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
             $query = mysqli_query($con, "SELECT * FROM slider WHERE id='$todo' LIMIT 1");
@@ -101,6 +109,7 @@ if (isset($_POST['save']) && $row) {
                                 <a href="slider" class="btn btn-soft-secondary">Back</a>
                             <?php } else { ?>
                                 <?php $text_align_db = isset($row['text_align']) && $row['text_align'] === 'right' ? 'right' : 'left'; ?>
+                                <?php $show_cartoon_db = !isset($row['show_cartoon']) ? 1 : (int)$row['show_cartoon']; ?>
                                 <form action="" method="post" enctype="multipart/form-data">
                                     <div class="row">
                                         <div class="col-lg-6">
@@ -136,6 +145,15 @@ if (isset($_POST['save']) && $row) {
                                                     <option value="left" <?php if ($text_align_db === 'left') { echo 'selected'; } ?>>Left</option>
                                                     <option value="right" <?php if ($text_align_db === 'right') { echo 'selected'; } ?>>Right</option>
                                                 </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-12">
+                                            <div class="mb-3">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="show_cartoon" name="show_cartoon" value="1" <?php if (!empty($show_cartoon_db)) { echo 'checked'; } ?>>
+                                                    <label class="form-check-label" for="show_cartoon">Show cartoon on homepage</label>
+                                                </div>
                                             </div>
                                         </div>
 
