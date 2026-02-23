@@ -622,7 +622,13 @@ $publicBase = $scheme . '://' . $host . $basePath;
     if (!url) return;
 
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(url);
+      navigator.clipboard.writeText(url)
+        .then(function(){
+          showToast('Link copied', 'success');
+        })
+        .catch(function(){
+          showToast('Copy failed', 'danger');
+        });
       return;
     }
 
