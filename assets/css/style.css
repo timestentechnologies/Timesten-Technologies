@@ -2797,9 +2797,9 @@ body.dark,
     font-weight: 900;
     line-height: 1em;
     letter-spacing: -1.6px;
-    color: #ffb300;
-    background-image: -webkit-linear-gradient(45deg, #ffd54f 15%, #ff8f00 65%);
-    background-image: linear-gradient(45deg, #ffd54f 15%, #ff8f00 65%);
+    color: #ff7a00;
+    background-image: -webkit-linear-gradient(45deg, #ff7a00 0%, #ff7a00 100%);
+    background-image: linear-gradient(45deg, #ff7a00 0%, #ff7a00 100%);
     -webkit-background-clip: text;
     -moz-background-clip: text;
     background-clip: text;
