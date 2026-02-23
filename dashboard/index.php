@@ -65,7 +65,21 @@ if ($has_page_visits_table) {
         }
     }
 
-    $jv_rs = mysqli_query($con, "SELECT page_url, ip_address, device_type, location, created_at FROM page_visits WHERE page_url LIKE '%jobdetail%' ORDER BY id DESC LIMIT 50");
+    $jv_rs = mysqli_query(
+        $con,
+        "SELECT page_url, ip_address, device_type, location, created_at
+         FROM page_visits
+         WHERE page_url NOT LIKE '%/dashboard/%'
+           AND (
+                page_url LIKE '%jobdetail%'
+             OR page_url LIKE '%jobdetail.php%'
+             OR page_url LIKE '%job-detail%'
+             OR page_url LIKE '%careers%'
+             OR page_url LIKE '%job%'
+           )
+         ORDER BY id DESC
+         LIMIT 50"
+    );
     if ($jv_rs) {
         while ($r = mysqli_fetch_assoc($jv_rs)) {
             $job_view_visits[] = $r;
@@ -285,14 +299,19 @@ $nud = $rod[0];
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <?php foreach ($job_view_visits as $v) {
+                                                                <?php
+                                                                if (count($job_view_visits) < 1) {
+                                                                    print "<tr><td colspan='5' class='text-center text-muted'>No job view logs yet. Open a job details page (from the public site) to generate viewer records.</td></tr>";
+                                                                }
+                                                                foreach ($job_view_visits as $v) {
                                                                     $pu = htmlspecialchars($v['page_url']);
                                                                     $ip = htmlspecialchars($v['ip_address']);
                                                                     $dv = htmlspecialchars($v['device_type']);
                                                                     $lc = htmlspecialchars($v['location']);
                                                                     $tm = htmlspecialchars($v['created_at']);
                                                                     print "<tr><td style='word-break:break-all;'>$pu</td><td>$ip</td><td>$dv</td><td>$lc</td><td>$tm</td></tr>";
-                                                                } ?>
+                                                                }
+                                                                ?>
                                                             </tbody>
                                                         </table>
                                                     </div>
