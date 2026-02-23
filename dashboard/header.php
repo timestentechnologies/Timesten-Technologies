@@ -55,9 +55,45 @@ if ($has_page_visits_table) {
     }
 
     $location = 'Unknown';
+    $ip_s_lookup = mysqli_real_escape_string($con, $ip);
+    if (strlen(trim($ip)) > 0) {
+        if ($ip === '127.0.0.1' || $ip === '::1' || preg_match('/^(10\.|192\.168\.|172\.(1[6-9]|2[0-9]|3[0-1])\.)/', $ip)) {
+            $location = 'Local';
+        } else {
+            $loc_rs = mysqli_query($con, "SELECT location FROM page_visits WHERE ip_address='$ip_s_lookup' AND location IS NOT NULL AND location<>'' AND location<>'Unknown' ORDER BY id DESC LIMIT 1");
+            if ($loc_rs) {
+                $loc_row = mysqli_fetch_assoc($loc_rs);
+                if ($loc_row && !empty($loc_row['location'])) {
+                    $location = $loc_row['location'];
+                }
+            }
+
+            if ($location === 'Unknown' && ini_get('allow_url_fopen')) {
+                $ctx = stream_context_create([
+                    'http' => [
+                        'timeout' => 2,
+                        'header' => "User-Agent: TimestenAnalytics/1.0\r\n"
+                    ]
+                ]);
+                $geo_json = @file_get_contents('http://ip-api.com/json/' . urlencode($ip) . '?fields=status,country,regionName,city', false, $ctx);
+                if ($geo_json !== false) {
+                    $geo = json_decode($geo_json, true);
+                    if (is_array($geo) && isset($geo['status']) && $geo['status'] === 'success') {
+                        $parts = [];
+                        if (!empty($geo['city'])) { $parts[] = $geo['city']; }
+                        if (!empty($geo['regionName'])) { $parts[] = $geo['regionName']; }
+                        if (!empty($geo['country'])) { $parts[] = $geo['country']; }
+                        if (count($parts) > 0) {
+                            $location = implode(', ', $parts);
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     $page_url_s = mysqli_real_escape_string($con, $page_url);
-    $ip_s = mysqli_real_escape_string($con, $ip);
+    $ip_s = $ip_s_lookup;
     $ua_s = mysqli_real_escape_string($con, $user_agent);
     $device_s = mysqli_real_escape_string($con, $device);
     $location_s = mysqli_real_escape_string($con, $location);
