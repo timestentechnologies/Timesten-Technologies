@@ -8,7 +8,10 @@ $job_views_total = 0;
 
 $recent_page = isset($_GET['rv_page']) ? (int)$_GET['rv_page'] : 1;
 if ($recent_page < 1) { $recent_page = 1; }
-$recent_per_page = 15;
+$recent_limit = isset($_GET['rv_limit']) ? (int)$_GET['rv_limit'] : 5;
+$allowed_limits = [5, 10, 15, 25, 50];
+if (!in_array($recent_limit, $allowed_limits, true)) { $recent_limit = 5; }
+$recent_per_page = $recent_limit;
 
 $jobviews_page = isset($_GET['jv_page']) ? (int)$_GET['jv_page'] : 1;
 if ($jobviews_page < 1) { $jobviews_page = 1; }
@@ -56,7 +59,7 @@ $jobviews_total = 0;
 $jobviews_total_pages = 1;
 
 if ($has_page_visits_table) {
-    if (isset($_POST['delete_job_views'])) {
+    if (isset($_POST['confirm_delete_job_views'])) {
         mysqli_query(
             $con,
             "DELETE FROM page_visits
@@ -69,7 +72,13 @@ if ($has_page_visits_table) {
                  OR page_url LIKE '%job%'
                )"
         );
-        print "<script>window.location='index.php?jv_page=1&rv_page=" . (int)$recent_page . "';</script>";
+        print "<script>window.location='index.php?jv_page=1&rv_page=" . (int)$recent_page . "&rv_limit=" . (int)$recent_limit . "';</script>";
+        exit;
+    }
+
+    if (isset($_POST['confirm_delete_recent_visits'])) {
+        mysqli_query($con, "DELETE FROM page_visits");
+        print "<script>window.location='index.php?jv_page=" . (int)$jobviews_page . "&rv_page=1&rv_limit=" . (int)$recent_limit . "';</script>";
         exit;
     }
 
@@ -189,6 +198,42 @@ if ($has_page_visits_table) {
                                         <h4 class="fs-16 mb-1">Hello , <?php print $username;?>!</h4>
                                         <p class="text-muted mb-0">Welcome back to your dashboard.</p>
                                     </div>
+
+                                <div class="modal fade" id="confirmDeleteJobViewsModal" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Confirm Delete</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">Delete all job view logs?</div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                                                <form method="post" class="mb-0">
+                                                    <button type="submit" name="confirm_delete_job_views" value="1" class="btn btn-danger">Delete</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal fade" id="confirmDeleteRecentModal" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Confirm Delete</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">Delete all recent visit logs?</div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                                                <form method="post" class="mb-0">
+                                                    <button type="submit" name="confirm_delete_recent_visits" value="1" class="btn btn-danger">Delete</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                     <div class="mt-3 mt-lg-0">
                                         <form action="javascript:void(0);">
 
@@ -345,9 +390,7 @@ $nud = $rod[0];
                                             <div class="modal-header">
                                                 <h5 class="modal-title">Job Views - Viewer Details</h5>
                                                 <?php if ($has_page_visits_table) { ?>
-                                                    <form method="post" class="ms-auto me-2" onsubmit="return confirm('Delete all job view logs?');">
-                                                        <button type="submit" name="delete_job_views" value="1" class="btn btn-sm btn-danger">Delete All</button>
-                                                    </form>
+                                                    <button type="button" class="btn btn-sm btn-danger ms-auto me-2" data-bs-toggle="modal" data-bs-target="#confirmDeleteJobViewsModal">Delete All</button>
                                                 <?php } ?>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
@@ -466,8 +509,22 @@ $nud = $rod[0];
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="card">
-                                                <div class="card-header">
+                                                <div class="card-header d-flex align-items-center">
                                                     <h5 class="card-title mb-0">Recent Visits</h5>
+                                                    <form method="get" class="ms-auto d-flex align-items-center">
+                                                        <input type="hidden" name="rv_page" value="<?php print (int)$recent_page; ?>">
+                                                        <input type="hidden" name="jv_page" value="<?php print (int)$jobviews_page; ?>">
+                                                        <label class="me-2 mb-0 text-muted">Rows</label>
+                                                        <select name="rv_limit" class="form-select form-select-sm me-2" onchange="this.form.submit()" style="width:auto;">
+                                                            <?php
+                                                            foreach ($allowed_limits as $lim) {
+                                                                $sel = $lim === $recent_limit ? ' selected' : '';
+                                                                print "<option value='$lim'$sel>$lim</option>";
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                    </form>
+                                                    <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteRecentModal">Delete All</button>
                                                 </div>
                                                 <div class="card-body">
                                                     <div class="table-responsive">
@@ -503,9 +560,10 @@ $nud = $rod[0];
                                                                 $jv_keep = (int)$jobviews_page;
                                                                 $prev_disabled_rv = $recent_page <= 1 ? ' disabled' : '';
                                                                 $next_disabled_rv = $recent_page >= $recent_total_pages ? ' disabled' : '';
-                                                                print "<li class='page-item$prev_disabled_rv'><a class='page-link' href='index.php?rv_page=$prev_rv&jv_page=$jv_keep'>Prev</a></li>";
+                                                                $rv_lim_keep = (int)$recent_limit;
+                                                                print "<li class='page-item$prev_disabled_rv'><a class='page-link' href='index.php?rv_page=$prev_rv&jv_page=$jv_keep&rv_limit=$rv_lim_keep'>Prev</a></li>";
                                                                 print "<li class='page-item disabled'><span class='page-link'>Page " . (int)$recent_page . " of " . (int)$recent_total_pages . "</span></li>";
-                                                                print "<li class='page-item$next_disabled_rv'><a class='page-link' href='index.php?rv_page=$next_rv&jv_page=$jv_keep'>Next</a></li>";
+                                                                print "<li class='page-item$next_disabled_rv'><a class='page-link' href='index.php?rv_page=$next_rv&jv_page=$jv_keep&rv_limit=$rv_lim_keep'>Next</a></li>";
                                                                 ?>
                                                             </ul>
                                                         </nav>

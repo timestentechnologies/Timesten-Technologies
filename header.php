@@ -193,7 +193,6 @@ if (strlen(trim($impact_text)) < 1) {
     <meta property="og:site_name" content="Timesten Technologies">
 
     <!-- SEO Meta Description -->
-    <meta name="description" content="Timesten Technologies delivers top-tier technology services that help businesses succeed in the digital age. With a focus on quality and innovation." />
     <meta name="author" content="TimesTen Technologies">
     <?php
     $rr=mysqli_query($con,"SELECT * FROM siteconfig where id=1");
@@ -202,9 +201,38 @@ if (strlen(trim($impact_text)) < 1) {
     $site_about = "$r[site_about]";
     $site_footer = "$r[site_footer]";
     $follow_text = "$r[follow_text]";
+
+    $seo_base_title = isset($r['site_title']) ? trim($r['site_title']) : '';
+    if (strlen($seo_base_title) < 1) {
+        $seo_base_title = 'Timesten Technologies';
+    }
+
+    $seo_description = '';
+    if (isset($r['site_description'])) {
+        $seo_description = trim((string)$r['site_description']);
+    }
+    if (strlen($seo_description) < 1) {
+        $seo_description = 'Timesten Technologies delivers top-tier technology services that help businesses succeed in the digital age. With a focus on quality and innovation.';
+    }
+
+    $seo_keywords = '';
+    if (isset($r['site_keywords'])) {
+        $seo_keywords = trim((string)$r['site_keywords']);
+    }
+    if (strlen($seo_keywords) < 1) {
+        $seo_keywords = 'Timesten Technologies, software development, web development, mobile apps, cloud solutions, API integration, ERP systems, IT services, Kenya';
+    }
+
+    $seo_title_full = $seo_base_title . ' - Leading Tech Solutions in Kenya';
+    if (isset($page_title) && strlen(trim((string)$page_title)) > 0) {
+        $seo_title_full = trim((string)$page_title) . ' | ' . $seo_base_title;
+    }
 ?>
+    <meta name="title" content="<?php print htmlspecialchars($seo_title_full, ENT_QUOTES); ?>" />
+    <meta name="description" content="<?php print htmlspecialchars($seo_description, ENT_QUOTES); ?>" />
+    <meta name="keywords" content="<?php print htmlspecialchars($seo_keywords, ENT_QUOTES); ?>" />
     <!-- Title  -->
-    <title><?php print $site_title ?> - Leading Tech Solutions in Kenya</title>
+    <title><?php print htmlspecialchars($seo_title_full, ENT_QUOTES); ?></title>
 
     <!-- Favicon  -->
     <link rel="icon" href="assets/img/Timestenfavicon.png">
