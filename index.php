@@ -51,6 +51,19 @@
             height: 100vh;
             min-height: 100vh;
         }
+        #home .shape.shape-bottom {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 3;
+            line-height: 0;
+            height: auto;
+            pointer-events: none;
+        }
+        #home .shape.shape-bottom svg {
+            display: block;
+        }
         .star {
             position: absolute;
             background-color: white;
