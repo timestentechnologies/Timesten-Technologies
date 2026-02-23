@@ -1,6 +1,29 @@
 <?php include "header.php"; ?>
         <!-- ***** Welcome Area Start ***** -->
         <section id="home" class="section welcome-area bg-overlay overflow-hidden d-flex align-items-center">
+            <?php
+                $slider_rs = mysqli_query($con, "SELECT * FROM slider ORDER BY id DESC");
+                $slider_items = [];
+                if ($slider_rs) {
+                    while ($srow = mysqli_fetch_assoc($slider_rs)) {
+                        $slider_items[] = $srow;
+                    }
+                }
+            ?>
+
+            <?php if (count($slider_items) > 0) { ?>
+                <div class="welcome-slider owl-carousel" style="position:absolute;inset:0;z-index:0;">
+                    <?php
+                        foreach ($slider_items as $srow) {
+                            $ufile = isset($srow['ufile']) ? $srow['ufile'] : '';
+                            $bg = htmlspecialchars($ufile);
+                            print "<div class='welcome-slide' style=\"width:100%;height:100%;min-height:520px;background-image:url('dashboard/uploads/slider/$bg');background-size:cover;background-position:center;\"></div>";
+                        }
+                    ?>
+                </div>
+                <div style="position:absolute;inset:0;z-index:1;background:rgba(0,0,0,.55);"></div>
+            <?php } ?>
+
             <div class="container">
             <!DOCTYPE html>
 <html>
@@ -566,5 +589,22 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
         </section>
         <!--====== Call To Action Area End ======-->
             <script src="//code.tidio.co/w3nnziooaulg2mxalctxf1oief1sptkr.js" async></script>
+
+            <script>
+                $(document).ready(function () {
+                    if ($('.welcome-slider').length > 0 && typeof $.fn.owlCarousel === 'function') {
+                        $('.welcome-slider').owlCarousel({
+                            items: 1,
+                            loop: true,
+                            autoplay: true,
+                            autoplayTimeout: 5000,
+                            autoplayHoverPause: false,
+                            nav: false,
+                            dots: true,
+                            animateOut: 'fadeOut'
+                        });
+                    }
+                });
+            </script>
             
       <?php include "footer.php"; ?>
