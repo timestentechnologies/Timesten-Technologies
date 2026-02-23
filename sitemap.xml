@@ -13,16 +13,6 @@
   <priority>1.00</priority>
 </url>
 <url>
-  <loc>https://timestentechnologies.co.ke/index.php</loc>
-  <lastmod>2025-06-06T08:27:37+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://timestentechnologies.co.ke/home</loc>
-  <lastmod>2025-06-06T08:27:37+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
   <loc>https://timestentechnologies.co.ke/about</loc>
   <lastmod>2025-06-06T08:27:37+00:00</lastmod>
   <priority>0.80</priority>
@@ -48,14 +38,24 @@
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://timestentechnologies.co.ke/portfolio.php</loc>
+  <loc>https://timestentechnologies.co.ke/careers</loc>
   <lastmod>2025-06-06T08:27:37+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://timestentechnologies.co.ke/contact.php</loc>
+  <loc>https://timestentechnologies.co.ke/privacy</loc>
   <lastmod>2025-06-06T08:27:37+00:00</lastmod>
-  <priority>0.80</priority>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://timestentechnologies.co.ke/terms</loc>
+  <lastmod>2025-06-06T08:27:37+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://timestentechnologies.co.ke/cookie</loc>
+  <lastmod>2025-06-06T08:27:37+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
   <loc>https://timestentechnologies.co.ke/servicedetail.php?id=9</loc>
