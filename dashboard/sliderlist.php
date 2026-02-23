@@ -39,7 +39,6 @@
                                             <tr>
                                             <th data-ordering="false">Image</th>
                                                 <th data-ordering="false">Slider Title</th>
-                                                <th data-ordering="false">Slider Text</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -57,7 +56,6 @@ while($ro = mysqli_fetch_array($r123))
 
 	$id="$ro[id]";
 	$slide_title="$ro[slide_title]";
-	$slide_text = isset($ro['slide_text']) ? $ro['slide_text'] : '';
   $ufile="$ro[ufile]";
 
 
@@ -67,9 +65,6 @@ while($ro = mysqli_fetch_array($r123))
   </td>
 				  <td>
 				  $slide_title
-				  </td>
-				  <td style='max-width:420px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;'>
-				  ".htmlspecialchars($slide_text)."
 				  </td>
 
           <td>

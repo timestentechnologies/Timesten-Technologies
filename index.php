@@ -11,7 +11,7 @@
     }
 ?>
         <!-- ***** Welcome Area Start ***** -->
-        <section id="home" class="section welcome-area bg-overlay overflow-hidden d-flex align-items-center" style="position:relative;min-height:100vh;">
+        <section id="home" class="section welcome-area bg-overlay overflow-hidden d-flex align-items-center">
             <?php
                 $slider_rs = mysqli_query($con, "SELECT * FROM slider ORDER BY id DESC");
                 $slider_items = [];
@@ -23,7 +23,7 @@
             ?>
 
             <?php if ($use_slider_mode && count($slider_items) > 0) { ?>
-                <div class="welcome-slider owl-carousel" style="position:absolute;inset:0;z-index:0;height:100%;">
+                <div class="welcome-slider owl-carousel" style="position:absolute;inset:0;z-index:0;">
                     <?php
                         foreach ($slider_items as $srow) {
                             $ufile = isset($srow['ufile']) ? $srow['ufile'] : '';
@@ -32,38 +32,18 @@
                             $slide_text = isset($srow['slide_text']) ? $srow['slide_text'] : '';
                             $data_title = htmlspecialchars($slide_title, ENT_QUOTES);
                             $data_text = htmlspecialchars($slide_text, ENT_QUOTES);
-                            print "<div class='welcome-slide' data-slide-title='$data_title' data-slide-text='$data_text' style=\"width:100%;height:100vh;min-height:100vh;background-image:url('dashboard/uploads/slider/$bg');background-size:cover;background-position:center;\"></div>";
+                            print "<div class='welcome-slide' data-slide-title='$data_title' data-slide-text='$data_text' style=\"width:100%;height:100%;min-height:520px;background-image:url('dashboard/uploads/slider/$bg');background-size:cover;background-position:center;\"></div>";
                         }
                     ?>
                 </div>
                 <div style="position:absolute;inset:0;z-index:1;background:rgba(0,0,0,.55);"></div>
             <?php } ?>
 
-            <div class="container" style="position:relative;z-index:2;">
+            <div class="container">
+            <!DOCTYPE html>
+<html>
+<head>
     <style>
-        .welcome-slider,
-        .welcome-slider .owl-stage-outer,
-        .welcome-slider .owl-stage,
-        .welcome-slider .owl-item {
-            height: 100vh;
-        }
-        .welcome-slide {
-            height: 100vh;
-            min-height: 100vh;
-        }
-        #home .shape.shape-bottom {
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: 3;
-            line-height: 0;
-            height: auto;
-            pointer-events: none;
-        }
-        #home .shape.shape-bottom svg {
-            display: block;
-        }
         .star {
             position: absolute;
             background-color: white;
@@ -77,7 +57,8 @@
         }
        
     </style>
-
+</head>
+<body>
     <div id="stars-container"></div>
     
     <script>
@@ -133,6 +114,8 @@
             setTimeout(animateStars, 2000);
         }
     </script>
+</body>
+</html>
          
                 <div class="row align-items-center">
                     <!-- Welcome Intro Start -->
@@ -620,17 +603,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             <script src="//code.tidio.co/w3nnziooaulg2mxalctxf1oief1sptkr.js" async></script>
 
             <script>
-                (function () {
-                    function initWelcomeSlider() {
-                        if (!window.jQuery || !window.jQuery.fn || typeof window.jQuery.fn.owlCarousel !== 'function') {
-                            return false;
-                        }
-
-                        var $ = window.jQuery;
+                $(document).ready(function () {
+                    if ($('.welcome-slider').length > 0 && typeof $.fn.owlCarousel === 'function') {
                         var $slider = $('.welcome-slider');
-                        if ($slider.length === 0) {
-                            return true;
-                        }
 
                         function updateHeroFromActiveSlide() {
                             var $active = $slider.find('.owl-item.active .welcome-slide').first();
@@ -660,24 +635,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                         $slider.on('changed.owl.carousel', function () {
                             setTimeout(updateHeroFromActiveSlide, 0);
                         });
-
-                        return true;
                     }
-
-                    function retryInit(attemptsLeft) {
-                        if (initWelcomeSlider()) {
-                            return;
-                        }
-                        if (attemptsLeft <= 0) {
-                            return;
-                        }
-                        setTimeout(function () { retryInit(attemptsLeft - 1); }, 150);
-                    }
-
-                    window.addEventListener('load', function () {
-                        retryInit(30);
-                    });
-                })();
+                });
             </script>
             
       <?php include "footer.php"; ?>
