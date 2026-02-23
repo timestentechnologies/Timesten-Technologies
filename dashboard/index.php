@@ -6,6 +6,14 @@ $jobs_total = 0;
 $job_apps_total = 0;
 $job_views_total = 0;
 
+$recent_page = isset($_GET['rv_page']) ? (int)$_GET['rv_page'] : 1;
+if ($recent_page < 1) { $recent_page = 1; }
+$recent_per_page = 15;
+
+$jobviews_page = isset($_GET['jv_page']) ? (int)$_GET['jv_page'] : 1;
+if ($jobviews_page < 1) { $jobviews_page = 1; }
+$jobviews_per_page = 15;
+
 $jobs_rs = mysqli_query($con, "SELECT COUNT(*) AS c FROM jobs");
 if ($jobs_rs) {
     $jobs_row = mysqli_fetch_assoc($jobs_rs);
@@ -42,8 +50,29 @@ $most_pages = [];
 $device_breakdown = [];
 $recent_visits = [];
 $job_view_visits = [];
+$recent_total = 0;
+$recent_total_pages = 1;
+$jobviews_total = 0;
+$jobviews_total_pages = 1;
 
 if ($has_page_visits_table) {
+    if (isset($_POST['delete_job_views'])) {
+        mysqli_query(
+            $con,
+            "DELETE FROM page_visits
+             WHERE page_url NOT LIKE '%/dashboard/%'
+               AND (
+                    page_url LIKE '%jobdetail%'
+                 OR page_url LIKE '%jobdetail.php%'
+                 OR page_url LIKE '%job-detail%'
+                 OR page_url LIKE '%careers%'
+                 OR page_url LIKE '%job%'
+               )"
+        );
+        print "<script>window.location='index.php?jv_page=1&rv_page=" . (int)$recent_page . "';</script>";
+        exit;
+    }
+
     $mp_rs = mysqli_query($con, "SELECT page_url, COUNT(*) AS c FROM page_visits GROUP BY page_url ORDER BY c DESC LIMIT 10");
     if ($mp_rs) {
         while ($r = mysqli_fetch_assoc($mp_rs)) {
@@ -58,12 +87,44 @@ if ($has_page_visits_table) {
         }
     }
 
-    $rv_rs = mysqli_query($con, "SELECT page_url, ip_address, device_type, location, created_at FROM page_visits ORDER BY id DESC LIMIT 20");
+    $recent_total_rs = mysqli_query($con, "SELECT COUNT(*) AS c FROM page_visits");
+    if ($recent_total_rs) {
+        $recent_total_row = mysqli_fetch_assoc($recent_total_rs);
+        $recent_total = $recent_total_row ? (int)$recent_total_row['c'] : 0;
+    }
+    $recent_total_pages = (int)ceil($recent_total / $recent_per_page);
+    if ($recent_total_pages < 1) { $recent_total_pages = 1; }
+    if ($recent_page > $recent_total_pages) { $recent_page = $recent_total_pages; }
+    $recent_offset = ($recent_page - 1) * $recent_per_page;
+
+    $rv_rs = mysqli_query($con, "SELECT page_url, ip_address, device_type, location, created_at FROM page_visits ORDER BY id DESC LIMIT $recent_offset,$recent_per_page");
     if ($rv_rs) {
         while ($r = mysqli_fetch_assoc($rv_rs)) {
             $recent_visits[] = $r;
         }
     }
+
+    $jobviews_total_rs = mysqli_query(
+        $con,
+        "SELECT COUNT(*) AS c
+         FROM page_visits
+         WHERE page_url NOT LIKE '%/dashboard/%'
+           AND (
+                page_url LIKE '%jobdetail%'
+             OR page_url LIKE '%jobdetail.php%'
+             OR page_url LIKE '%job-detail%'
+             OR page_url LIKE '%careers%'
+             OR page_url LIKE '%job%'
+           )"
+    );
+    if ($jobviews_total_rs) {
+        $jobviews_total_row = mysqli_fetch_assoc($jobviews_total_rs);
+        $jobviews_total = $jobviews_total_row ? (int)$jobviews_total_row['c'] : 0;
+    }
+    $jobviews_total_pages = (int)ceil($jobviews_total / $jobviews_per_page);
+    if ($jobviews_total_pages < 1) { $jobviews_total_pages = 1; }
+    if ($jobviews_page > $jobviews_total_pages) { $jobviews_page = $jobviews_total_pages; }
+    $jobviews_offset = ($jobviews_page - 1) * $jobviews_per_page;
 
     $jv_rs = mysqli_query(
         $con,
@@ -78,7 +139,7 @@ if ($has_page_visits_table) {
              OR page_url LIKE '%job%'
            )
          ORDER BY id DESC
-         LIMIT 50"
+         LIMIT $jobviews_offset,$jobviews_per_page"
     );
     if ($jv_rs) {
         while ($r = mysqli_fetch_assoc($jv_rs)) {
@@ -283,6 +344,11 @@ $nud = $rod[0];
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title">Job Views - Viewer Details</h5>
+                                                <?php if ($has_page_visits_table) { ?>
+                                                    <form method="post" class="ms-auto me-2" onsubmit="return confirm('Delete all job view logs?');">
+                                                        <button type="submit" name="delete_job_views" value="1" class="btn btn-sm btn-danger">Delete All</button>
+                                                    </form>
+                                                <?php } ?>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
@@ -315,6 +381,23 @@ $nud = $rod[0];
                                                             </tbody>
                                                         </table>
                                                     </div>
+
+                                                    <?php if ($jobviews_total_pages > 1) { ?>
+                                                        <nav class="mt-3" aria-label="Job views pagination">
+                                                            <ul class="pagination pagination-sm mb-0">
+                                                                <?php
+                                                                $prev = $jobviews_page - 1;
+                                                                $next = $jobviews_page + 1;
+                                                                $rv_keep = (int)$recent_page;
+                                                                $prev_disabled = $jobviews_page <= 1 ? ' disabled' : '';
+                                                                $next_disabled = $jobviews_page >= $jobviews_total_pages ? ' disabled' : '';
+                                                                print "<li class='page-item$prev_disabled'><a class='page-link' href='index.php?jv_page=$prev&rv_page=$rv_keep#jobViewsModal'>Prev</a></li>";
+                                                                print "<li class='page-item disabled'><span class='page-link'>Page " . (int)$jobviews_page . " of " . (int)$jobviews_total_pages . "</span></li>";
+                                                                print "<li class='page-item$next_disabled'><a class='page-link' href='index.php?jv_page=$next&rv_page=$rv_keep#jobViewsModal'>Next</a></li>";
+                                                                ?>
+                                                            </ul>
+                                                        </nav>
+                                                    <?php } ?>
                                                 <?php } else { ?>
                                                     <div class="alert alert-warning mb-0">Analytics table <strong>page_visits</strong> not found.</div>
                                                 <?php } ?>
@@ -410,6 +493,23 @@ $nud = $rod[0];
                                                             </tbody>
                                                         </table>
                                                     </div>
+
+                                                    <?php if ($recent_total_pages > 1) { ?>
+                                                        <nav class="mt-3" aria-label="Recent visits pagination">
+                                                            <ul class="pagination pagination-sm mb-0">
+                                                                <?php
+                                                                $prev_rv = $recent_page - 1;
+                                                                $next_rv = $recent_page + 1;
+                                                                $jv_keep = (int)$jobviews_page;
+                                                                $prev_disabled_rv = $recent_page <= 1 ? ' disabled' : '';
+                                                                $next_disabled_rv = $recent_page >= $recent_total_pages ? ' disabled' : '';
+                                                                print "<li class='page-item$prev_disabled_rv'><a class='page-link' href='index.php?rv_page=$prev_rv&jv_page=$jv_keep'>Prev</a></li>";
+                                                                print "<li class='page-item disabled'><span class='page-link'>Page " . (int)$recent_page . " of " . (int)$recent_total_pages . "</span></li>";
+                                                                print "<li class='page-item$next_disabled_rv'><a class='page-link' href='index.php?rv_page=$next_rv&jv_page=$jv_keep'>Next</a></li>";
+                                                                ?>
+                                                            </ul>
+                                                        </nav>
+                                                    <?php } ?>
                                                 </div>
                                             </div>
                                         </div>
