@@ -1160,6 +1160,14 @@ header {
         
     }
 
+    .contact-info a,
+    .contact-info h4,
+    .contact-info h3 {
+        white-space: normal;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
     /* Display the navbar toggler (hamburger icon) */
     ul.navbar-nav.toggle {
         display: block;
@@ -1247,7 +1255,7 @@ header {
 
 .navbar-expand .navbar-brand img {
     display: block;
-    transform: translateY(-2px);
+    transform: translateY(-4px);
 }
 
 .navbar-expand .navbar-nav .dropdown-menu .nav-link {
