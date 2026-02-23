@@ -26,6 +26,44 @@ if (isset($_SESSION['username'])) {
 			";
 }
 
+$has_page_visits_table = false;
+$pv_rs = mysqli_query($con, "SHOW TABLES LIKE 'page_visits'");
+if ($pv_rs && mysqli_num_rows($pv_rs) > 0) {
+    $has_page_visits_table = true;
+}
+
+if ($has_page_visits_table) {
+    $page_url = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
+    $ip = '';
+    if (!empty($_SERVER['HTTP_CF_CONNECTING_IP'])) {
+        $ip = $_SERVER['HTTP_CF_CONNECTING_IP'];
+    } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        $parts = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+        $ip = trim($parts[0]);
+    } elseif (!empty($_SERVER['REMOTE_ADDR'])) {
+        $ip = $_SERVER['REMOTE_ADDR'];
+    }
+
+    $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+    $ua_l = strtolower($user_agent);
+    $device = 'Desktop';
+    if (strpos($ua_l, 'mobile') !== false || strpos($ua_l, 'android') !== false || strpos($ua_l, 'iphone') !== false) {
+        $device = 'Mobile';
+    }
+    if (strpos($ua_l, 'ipad') !== false || strpos($ua_l, 'tablet') !== false) {
+        $device = 'Tablet';
+    }
+
+    $location = 'Unknown';
+
+    $page_url_s = mysqli_real_escape_string($con, $page_url);
+    $ip_s = mysqli_real_escape_string($con, $ip);
+    $ua_s = mysqli_real_escape_string($con, $user_agent);
+    $device_s = mysqli_real_escape_string($con, $device);
+    $location_s = mysqli_real_escape_string($con, $location);
+    mysqli_query($con, "INSERT INTO page_visits (page_url, ip_address, user_agent, device_type, location, created_at) VALUES ('$page_url_s', '$ip_s', '$ua_s', '$device_s', '$location_s', NOW())");
+}
+
 ?>
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none">

@@ -1,6 +1,69 @@
 <?php
 include"header.php";
 $username=$_SESSION['username'];
+
+$jobs_total = 0;
+$job_apps_total = 0;
+$job_views_total = 0;
+
+$jobs_rs = mysqli_query($con, "SELECT COUNT(*) AS c FROM jobs");
+if ($jobs_rs) {
+    $jobs_row = mysqli_fetch_assoc($jobs_rs);
+    $jobs_total = $jobs_row ? (int)$jobs_row['c'] : 0;
+}
+
+$apps_rs = mysqli_query($con, "SELECT COUNT(*) AS c FROM job_applications");
+if ($apps_rs) {
+    $apps_row = mysqli_fetch_assoc($apps_rs);
+    $job_apps_total = $apps_row ? (int)$apps_row['c'] : 0;
+}
+
+$has_job_views_col = false;
+$col_rs_views = mysqli_query($con, "SHOW COLUMNS FROM jobs LIKE 'views'");
+if ($col_rs_views && mysqli_num_rows($col_rs_views) > 0) {
+    $has_job_views_col = true;
+}
+
+if ($has_job_views_col) {
+    $views_rs = mysqli_query($con, "SELECT COALESCE(SUM(COALESCE(views,0)),0) AS s FROM jobs");
+    if ($views_rs) {
+        $views_row = mysqli_fetch_assoc($views_rs);
+        $job_views_total = $views_row ? (int)$views_row['s'] : 0;
+    }
+}
+
+$has_page_visits_table = false;
+$pv_rs = mysqli_query($con, "SHOW TABLES LIKE 'page_visits'");
+if ($pv_rs && mysqli_num_rows($pv_rs) > 0) {
+    $has_page_visits_table = true;
+}
+
+$most_pages = [];
+$device_breakdown = [];
+$recent_visits = [];
+
+if ($has_page_visits_table) {
+    $mp_rs = mysqli_query($con, "SELECT page_url, COUNT(*) AS c FROM page_visits GROUP BY page_url ORDER BY c DESC LIMIT 10");
+    if ($mp_rs) {
+        while ($r = mysqli_fetch_assoc($mp_rs)) {
+            $most_pages[] = $r;
+        }
+    }
+
+    $dev_rs = mysqli_query($con, "SELECT device_type, COUNT(*) AS c FROM page_visits GROUP BY device_type ORDER BY c DESC");
+    if ($dev_rs) {
+        while ($r = mysqli_fetch_assoc($dev_rs)) {
+            $device_breakdown[] = $r;
+        }
+    }
+
+    $rv_rs = mysqli_query($con, "SELECT page_url, ip_address, device_type, location, created_at FROM page_visits ORDER BY id DESC LIMIT 20");
+    if ($rv_rs) {
+        while ($r = mysqli_fetch_assoc($rv_rs)) {
+            $recent_visits[] = $r;
+        }
+    }
+}
 ?>
 <?php include"sidebar.php";?>
 
@@ -128,7 +191,159 @@ $nud = $rod[0];
                                             </div><!-- end card body -->
                                         </div><!-- end card -->
                                     </div><!-- end col -->
+                                    <div class="col-lg-4 col-md-6">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="avatar-sm flex-shrink-0">
+                                                        <span class="avatar-title bg-light text-primary rounded-circle fs-3">
+                                                            <i class="ri-briefcase-4-line"></i>
+                                                        </span>
+                                                    </div>
+                                                    <div class="flex-grow-1 ms-3">
+                                                        <p class="text-uppercase fw-semibold fs-12 text-muted mb-1"> Total Jobs</p>
+                                                        <h4 class=" mb-0"><span class="counter-value" data-target="<?php print (int)$jobs_total; ?>"></span></h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-6">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="avatar-sm flex-shrink-0">
+                                                        <span class="avatar-title bg-light text-primary rounded-circle fs-3">
+                                                            <i class="ri-file-list-3-line"></i>
+                                                        </span>
+                                                    </div>
+                                                    <div class="flex-grow-1 ms-3">
+                                                        <p class="text-uppercase fw-semibold fs-12 text-muted mb-1"> Total Applicants</p>
+                                                        <h4 class=" mb-0"><span class="counter-value" data-target="<?php print (int)$job_apps_total; ?>"></span></h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-6">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="avatar-sm flex-shrink-0">
+                                                        <span class="avatar-title bg-light text-primary rounded-circle fs-3">
+                                                            <i class="ri-eye-line"></i>
+                                                        </span>
+                                                    </div>
+                                                    <div class="flex-grow-1 ms-3">
+                                                        <p class="text-uppercase fw-semibold fs-12 text-muted mb-1"> Total Job Views</p>
+                                                        <h4 class=" mb-0"><span class="counter-value" data-target="<?php print (int)$job_views_total; ?>"></span></h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+
+                                <?php if ($has_page_visits_table) { ?>
+                                    <div class="row mt-3">
+                                        <div class="col-12 col-lg-6">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h5 class="card-title mb-0">Most Visited Pages</h5>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-striped table-sm align-middle mb-0">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Page</th>
+                                                                    <th class="text-end">Visits</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <?php foreach ($most_pages as $p) {
+                                                                    $pu = htmlspecialchars($p['page_url']);
+                                                                    $pc = (int)$p['c'];
+                                                                    print "<tr><td style='word-break:break-all;'>$pu</td><td class='text-end'>$pc</td></tr>";
+                                                                } ?>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 col-lg-6">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h5 class="card-title mb-0">Devices Used</h5>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-striped table-sm align-middle mb-0">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Device</th>
+                                                                    <th class="text-end">Visits</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <?php foreach ($device_breakdown as $d) {
+                                                                    $dt = htmlspecialchars($d['device_type']);
+                                                                    $dc = (int)$d['c'];
+                                                                    print "<tr><td>$dt</td><td class='text-end'>$dc</td></tr>";
+                                                                } ?>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h5 class="card-title mb-0">Recent Visits</h5>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-striped table-sm align-middle mb-0">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Page</th>
+                                                                    <th>IP Address</th>
+                                                                    <th>Device</th>
+                                                                    <th>Location</th>
+                                                                    <th>Time</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <?php foreach ($recent_visits as $v) {
+                                                                    $pu = htmlspecialchars($v['page_url']);
+                                                                    $ip = htmlspecialchars($v['ip_address']);
+                                                                    $dv = htmlspecialchars($v['device_type']);
+                                                                    $lc = htmlspecialchars($v['location']);
+                                                                    $tm = htmlspecialchars($v['created_at']);
+                                                                    print "<tr><td style='word-break:break-all;'>$pu</td><td>$ip</td><td>$dv</td><td>$lc</td><td>$tm</td></tr>";
+                                                                } ?>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php } else { ?>
+                                    <div class="row mt-3">
+                                        <div class="col-12">
+                                            <div class="alert alert-warning mb-0">Analytics table <strong>page_visits</strong> not found. Run the SQL migration to enable most visited pages, devices, and IP tracking.</div>
+                                        </div>
+                                    </div>
+                                <?php } ?>
 
                     </div> <!-- end .h-100-->
 
