@@ -12,6 +12,10 @@ if (isset($_POST['save']) && $row) {
     $slide_title = mysqli_real_escape_string($con, $_POST['slide_title']);
     $slide_text = mysqli_real_escape_string($con, $_POST['slide_text']);
 
+    $text_align = isset($_POST['text_align']) ? $_POST['text_align'] : 'left';
+    $text_align = ($text_align === 'right') ? 'right' : 'left';
+    $text_align_sql = mysqli_real_escape_string($con, $text_align);
+
     $status = "OK";
     $msg = "";
 
@@ -50,7 +54,13 @@ if (isset($_POST['save']) && $row) {
             $file_sql = ", ufile='$file_esc'";
         }
 
-        $qb = mysqli_query($con, "UPDATE slider SET slide_title='$slide_title', slide_text='$slide_text'$file_sql WHERE id='$todo'");
+        $align_sql = "";
+        $col_rs = mysqli_query($con, "SHOW COLUMNS FROM slider LIKE 'text_align'");
+        if ($col_rs && mysqli_num_rows($col_rs) > 0) {
+            $align_sql = ", text_align='$text_align_sql'";
+        }
+
+        $qb = mysqli_query($con, "UPDATE slider SET slide_title='$slide_title', slide_text='$slide_text'$file_sql$align_sql WHERE id='$todo'");
         if ($qb) {
             $errormsg = "<div class='alert alert-success alert-dismissible alert-outline fade show'>Slider updated successfully.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
             $query = mysqli_query($con, "SELECT * FROM slider WHERE id='$todo' LIMIT 1");
@@ -90,6 +100,7 @@ if (isset($_POST['save']) && $row) {
                                 <div class="alert alert-danger">Slide not found.</div>
                                 <a href="slider" class="btn btn-soft-secondary">Back</a>
                             <?php } else { ?>
+                                <?php $text_align_db = isset($row['text_align']) && $row['text_align'] === 'right' ? 'right' : 'left'; ?>
                                 <form action="" method="post" enctype="multipart/form-data">
                                     <div class="row">
                                         <div class="col-lg-6">
@@ -115,6 +126,16 @@ if (isset($_POST['save']) && $row) {
                                                         <img src="uploads/slider/<?php echo htmlspecialchars($row['ufile']); ?>" alt="" style="max-height:150px; border-radius: 8px;">
                                                     </div>
                                                 <?php } ?>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Text Position</label>
+                                                <select class="form-select" name="text_align">
+                                                    <option value="left" <?php if ($text_align_db === 'left') { echo 'selected'; } ?>>Left</option>
+                                                    <option value="right" <?php if ($text_align_db === 'right') { echo 'selected'; } ?>>Right</option>
+                                                </select>
                                             </div>
                                         </div>
 

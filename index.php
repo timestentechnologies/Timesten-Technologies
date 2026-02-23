@@ -32,6 +32,14 @@
                         height: 100%;
                     }
 
+                    #heroRow.hero-align-right {
+                        flex-direction: row-reverse;
+                    }
+
+                    #heroRow.hero-align-right .welcome-intro {
+                        text-align: right;
+                    }
+
                     #home .container {
                         position: relative;
                         z-index: 2;
@@ -55,9 +63,10 @@
                             $bg = htmlspecialchars($ufile);
                             $slide_title = isset($srow['slide_title']) ? $srow['slide_title'] : '';
                             $slide_text = isset($srow['slide_text']) ? $srow['slide_text'] : '';
+                            $text_align = (isset($srow['text_align']) && $srow['text_align'] === 'right') ? 'right' : 'left';
                             $data_title = htmlspecialchars($slide_title, ENT_QUOTES);
                             $data_text = htmlspecialchars($slide_text, ENT_QUOTES);
-                            print "<div class='welcome-slide' data-slide-title='$data_title' data-slide-text='$data_text' style=\"width:100%;height:100%;background-image:url('dashboard/uploads/slider/$bg');background-size:cover;background-position:center;\"></div>";
+                            print "<div class='welcome-slide' data-slide-title='$data_title' data-slide-text='$data_text' data-text-align='$text_align' style=\"width:100%;height:100%;background-image:url('dashboard/uploads/slider/$bg');background-size:cover;background-position:center;\"></div>";
                         }
                     ?>
                 </div>
@@ -142,7 +151,17 @@
 </body>
 </html>
          
-                <div class="row align-items-center">
+                <?php
+                    $first_align = 'left';
+                    if ($use_slider_mode && count($slider_items) > 0) {
+                        $first_slide = $slider_items[0];
+                        if (isset($first_slide['text_align']) && $first_slide['text_align'] === 'right') {
+                            $first_align = 'right';
+                        }
+                    }
+                    $hero_row_class = ($use_slider_mode && count($slider_items) > 0 && $first_align === 'right') ? ' hero-align-right' : '';
+                ?>
+                <div class="row align-items-center<?php print $hero_row_class; ?>" id="heroRow">
                     <!-- Welcome Intro Start -->
                     <div class="col-12 col-md-7">
                         <div class="welcome-intro">
@@ -656,12 +675,21 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                             var $active = $slider.find('.owl-item.active .welcome-slide').first();
                             var t = ($active.attr('data-slide-title') || '').trim();
                             var x = ($active.attr('data-slide-text') || '').trim();
+                            var a = ($active.attr('data-text-align') || 'left').trim();
 
                             if ($('#heroSlideTitle').length) {
                                 $('#heroSlideTitle').text(t.length ? t : <?php echo json_encode($stitle); ?>);
                             }
                             if ($('#heroSlideText').length) {
                                 $('#heroSlideText').text(x.length ? x : <?php echo json_encode($stext); ?>);
+                            }
+
+                            if ($('#heroRow').length) {
+                                if (a === 'right') {
+                                    $('#heroRow').addClass('hero-align-right');
+                                } else {
+                                    $('#heroRow').removeClass('hero-align-right');
+                                }
                             }
                         }
 

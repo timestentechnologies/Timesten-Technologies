@@ -53,6 +53,10 @@ $msg="";
 $slide_title = mysqli_real_escape_string($con,$_POST['slide_title']);
 $slide_text = mysqli_real_escape_string($con,$_POST['slide_text']);
 
+$text_align = isset($_POST['text_align']) ? $_POST['text_align'] : 'left';
+$text_align = ($text_align === 'right') ? 'right' : 'left';
+$text_align_sql = mysqli_real_escape_string($con, $text_align);
+
  if ( strlen($slide_title) < 5 ){
 $msg=$msg."Slider Title Must Be More Than 5 Char Length.<BR>";
 $status= "NOTOK";}
@@ -76,7 +80,17 @@ $uploads_dir = 'uploads/slider';
 
 if($status=="OK")
 {
-$qb=mysqli_query($con,"INSERT INTO slider (slide_title, slide_text,ufile) VALUES ('$slide_title', '$slide_text', '$new_file_name')");
+$has_align_col = false;
+$col_rs = mysqli_query($con, "SHOW COLUMNS FROM slider LIKE 'text_align'");
+if ($col_rs && mysqli_num_rows($col_rs) > 0) {
+    $has_align_col = true;
+}
+
+if ($has_align_col) {
+    $qb=mysqli_query($con,"INSERT INTO slider (slide_title, slide_text, ufile, text_align) VALUES ('$slide_title', '$slide_text', '$new_file_name', '$text_align_sql')");
+} else {
+    $qb=mysqli_query($con,"INSERT INTO slider (slide_title, slide_text,ufile) VALUES ('$slide_title', '$slide_text', '$new_file_name')");
+}
 
 
 		if($qb){
@@ -143,6 +157,16 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                                                         <div class="mb-3">
                                                             <label for="firstnameInput" class="form-label">Photo</label>
                                                             <input type="file" class="form-control" id="firstnameInput" name="ufile" >
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Text Position</label>
+                                                            <select class="form-select" name="text_align">
+                                                                <option value="left" selected>Left</option>
+                                                                <option value="right">Right</option>
+                                                            </select>
                                                         </div>
                                                     </div>
                                                     <!--end col-->
