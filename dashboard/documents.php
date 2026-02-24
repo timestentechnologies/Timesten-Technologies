@@ -3,17 +3,19 @@ ob_start();
 
 if (isset($_GET['debug']) && (string)$_GET['debug'] === '1') {
     header('Content-Type: text/html; charset=utf-8');
+    $mysqli_ok = class_exists('mysqli');
     $db_loaded = false;
-    if (file_exists(__DIR__ . '/z_db.php')) {
-        include __DIR__ . '/z_db.php';
-        $db_loaded = true;
-    } elseif (file_exists(__DIR__ . '/../z_db.php')) {
-        include __DIR__ . '/../z_db.php';
-        $db_loaded = true;
+    if ($mysqli_ok) {
+        if (file_exists(__DIR__ . '/z_db.php')) {
+            include __DIR__ . '/z_db.php';
+            $db_loaded = true;
+        } elseif (file_exists(__DIR__ . '/../z_db.php')) {
+            include __DIR__ . '/../z_db.php';
+            $db_loaded = true;
+        }
     }
     session_start();
     $authed = isset($_SESSION['username']);
-    $mysqli_ok = class_exists('mysqli');
     $has_con = $mysqli_ok && isset($con) && ($con instanceof mysqli);
     $has_phpmailer6 = file_exists(__DIR__ . '/../PHPMailer-6.8.0/src/PHPMailer.php');
     $has_phpmailer_legacy = file_exists(__DIR__ . '/../PHPMailer/PHPMailerAutoload.php');
@@ -32,13 +34,16 @@ if (isset($_GET['debug']) && (string)$_GET['debug'] === '1') {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_doc_email'])) {
+    $mysqli_ok = class_exists('mysqli');
     $db_loaded = false;
-    if (file_exists(__DIR__ . '/z_db.php')) {
-        include __DIR__ . '/z_db.php';
-        $db_loaded = true;
-    } elseif (file_exists(__DIR__ . '/../z_db.php')) {
-        include __DIR__ . '/../z_db.php';
-        $db_loaded = true;
+    if ($mysqli_ok) {
+        if (file_exists(__DIR__ . '/z_db.php')) {
+            include __DIR__ . '/z_db.php';
+            $db_loaded = true;
+        } elseif (file_exists(__DIR__ . '/../z_db.php')) {
+            include __DIR__ . '/../z_db.php';
+            $db_loaded = true;
+        }
     }
     session_start();
     if (!isset($_SESSION['username'])) {
@@ -47,7 +52,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_doc_email'])) {
         exit;
     }
 
-    $mysqli_ok = class_exists('mysqli');
     if (!$db_loaded || !$mysqli_ok || !isset($con) || !($con instanceof mysqli)) {
         header('Content-Type: application/json');
         echo json_encode(['status' => 'error', 'message' => 'Database connection not available.']);
