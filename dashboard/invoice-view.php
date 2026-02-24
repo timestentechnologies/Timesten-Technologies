@@ -1,4 +1,5 @@
 <?php
+ob_start();
 include "header.php";
 include "sidebar.php";
 
@@ -134,29 +135,36 @@ if (isset($_SESSION['finance_flash_error'])) {
     unset($_SESSION['finance_flash_error']);
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_product'])) {
-    $pname = trim((string)($_POST['pname'] ?? ''));
-    $pdesc = trim((string)($_POST['pdesc'] ?? ''));
-    $pprice = (float)($_POST['pprice'] ?? 0);
-    if (strlen($pname) < 2 || $pprice <= 0) {
-        $_SESSION['finance_flash_error'] = "<div class='alert alert-danger alert-dismissible alert-outline fade show'>Product name and price are required.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
-        header('Location: invoice-view.php?id=' . $invoice_id);
-        exit;
-    }
-    $pname_s = mysqli_real_escape_string($con, $pname);
-    $pdesc_s = mysqli_real_escape_string($con, $pdesc);
-    $pprice_sql = (string)((float)$pprice);
-    mysqli_query($con, "INSERT INTO finance_products (name, description, unit_price, active, created_at) VALUES ('$pname_s', '$pdesc_s', $pprice_sql, 1, NOW())");
-    $_SESSION['finance_flash_success'] = "<div class='alert alert-success alert-dismissible alert-outline fade show'>Product added.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
-    header('Location: invoice-view.php?id=' . $invoice_id);
-    exit;
-}
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_item'])) {
     $product_id = (int)($_POST['product_id'] ?? 0);
+    $new_product_name = trim((string)($_POST['new_product_name'] ?? ''));
+    $new_product_price = (float)($_POST['new_product_price'] ?? 0);
     $desc = trim((string)($_POST['description'] ?? ''));
     $qty = (float)($_POST['qty'] ?? 0);
     $unit = (float)($_POST['unit_price'] ?? 0);
+
+    if ($product_id === 0 && strlen($new_product_name) > 0) {
+        if ($new_product_price <= 0 && $unit > 0) {
+            $new_product_price = $unit;
+        }
+        if ($new_product_price <= 0) {
+            $_SESSION['finance_flash_error'] = "<div class='alert alert-danger alert-dismissible alert-outline fade show'>Please enter a unit price for the new product/service.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+            header('Location: invoice-view.php?id=' . $invoice_id);
+            exit;
+        }
+
+        $pname_s = mysqli_real_escape_string($con, $new_product_name);
+        $pprice_sql = (string)((float)$new_product_price);
+        mysqli_query($con, "INSERT INTO finance_products (name, description, unit_price, active, created_at) VALUES ('$pname_s', '', $pprice_sql, 1, NOW())");
+        $product_id = (int)mysqli_insert_id($con);
+
+        if (strlen(trim($desc)) < 1) {
+            $desc = $new_product_name;
+        }
+        if ($unit <= 0) {
+            $unit = $new_product_price;
+        }
+    }
 
     if ($product_id > 0) {
         $pr_rs = mysqli_query($con, "SELECT name, description, unit_price FROM finance_products WHERE id=$product_id AND (active IS NULL OR active=1) LIMIT 1");
@@ -399,25 +407,33 @@ $public_link = $base . '/invoice-view.php?id=' . $invoice_id;
                 <input type="hidden" name="add_item" value="1">
                 <div class="row g-3">
                   <div class="col-12">
-                    <div class="d-flex gap-2 align-items-end">
-                      <div class="flex-grow-1">
-                        <label class="form-label">Product (optional)</label>
-                        <select name="product_id" id="product_id" class="form-select">
-                          <option value="">Select...</option>
-                          <?php foreach ($products as $p) {
-                            $pid = (int)$p['id'];
-                            $pnm = htmlspecialchars((string)$p['name']);
-                            $pup = (float)$p['unit_price'];
-                            $pup_s = htmlspecialchars((string)$pup);
-                            print "<option value='$pid' data-price='$pup_s'>$pnm</option>";
-                          } ?>
-                        </select>
+                    <label class="form-label">Product / Service (optional)</label>
+                    <select name="product_id" id="product_id" class="form-select">
+                      <option value="0">Select...</option>
+                      <option value="0" data-new="1">Add new...</option>
+                      <?php foreach ($products as $p) {
+                        $pid = (int)$p['id'];
+                        $pnm = htmlspecialchars((string)$p['name']);
+                        $pup = (float)$p['unit_price'];
+                        $pup_s = htmlspecialchars((string)$pup);
+                        print "<option value='$pid' data-price='$pup_s'>$pnm</option>";
+                      } ?>
+                    </select>
+                  </div>
+
+                  <div class="col-12" id="newProductWrap" style="display:none;">
+                    <div class="row g-3">
+                      <div class="col-12 col-md-6">
+                        <label class="form-label">New Product/Service Name</label>
+                        <input type="text" name="new_product_name" id="new_product_name" class="form-control" placeholder="e.g. Website Maintenance">
                       </div>
-                      <div>
-                        <button type="button" class="btn btn-soft-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">Add Product</button>
+                      <div class="col-12 col-md-6">
+                        <label class="form-label">New Unit Price</label>
+                        <input type="number" step="0.01" name="new_product_price" id="new_product_price" class="form-control" placeholder="0.00">
                       </div>
                     </div>
                   </div>
+
                   <div class="col-12">
                     <label class="form-label">Description</label>
                     <input type="text" name="description" id="description" class="form-control" required>
@@ -436,40 +452,6 @@ $public_link = $base . '/invoice-view.php?id=' . $invoice_id;
             <div class="modal-footer">
               <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
               <button type="submit" form="addItemForm" class="btn btn-primary">Add</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="modal fade" id="addProductModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Add Product</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <form method="post" id="addProductForm">
-                <input type="hidden" name="add_product" value="1">
-                <div class="row g-3">
-                  <div class="col-12 col-md-6">
-                    <label class="form-label">Name</label>
-                    <input type="text" name="pname" class="form-control" required>
-                  </div>
-                  <div class="col-12 col-md-6">
-                    <label class="form-label">Unit Price</label>
-                    <input type="number" step="0.01" name="pprice" class="form-control" required>
-                  </div>
-                  <div class="col-12">
-                    <label class="form-label">Description</label>
-                    <textarea name="pdesc" class="form-control" rows="2"></textarea>
-                  </div>
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-              <button type="submit" form="addProductForm" class="btn btn-primary">Save Product</button>
             </div>
           </div>
         </div>
@@ -494,11 +476,25 @@ $public_link = $base . '/invoice-view.php?id=' . $invoice_id;
   var sel = document.getElementById('product_id');
   var desc = document.getElementById('description');
   var price = document.getElementById('unit_price');
+  var wrap = document.getElementById('newProductWrap');
+  var npn = document.getElementById('new_product_name');
+  var npp = document.getElementById('new_product_price');
   if (!sel || !desc || !price) return;
 
   sel.addEventListener('change', function(){
     var opt = sel.options[sel.selectedIndex];
     if (!opt) return;
+    var isNew = opt.getAttribute('data-new') === '1';
+    if (wrap) {
+      wrap.style.display = isNew ? '' : 'none';
+      if (!isNew) {
+        if (npn) npn.value = '';
+        if (npp) npp.value = '';
+      }
+    }
+    if (isNew) {
+      return;
+    }
     var p = opt.getAttribute('data-price');
     if (p && (price.value === '' || parseFloat(price.value || '0') <= 0)) {
       price.value = p;
