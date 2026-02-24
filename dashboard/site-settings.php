@@ -14,6 +14,18 @@ mysqli_query($con, "CREATE TABLE IF NOT EXISTS email_settings (
   logo_url TEXT NULL,
   updated_at DATETIME NULL
 )");
+
+mysqli_query($con, "CREATE TABLE IF NOT EXISTS invoice_settings (
+  id INT PRIMARY KEY,
+  invoice_logo VARCHAR(255) NULL,
+  updated_at DATETIME NULL
+)");
+mysqli_query(
+    $con,
+    "INSERT INTO invoice_settings (id, invoice_logo, updated_at)
+     SELECT 1, '', NOW()
+     WHERE NOT EXISTS (SELECT 1 FROM invoice_settings WHERE id=1)"
+);
 mysqli_query(
     $con,
     "INSERT INTO email_settings (id, smtp_host, smtp_port, smtp_user, smtp_pass, smtp_secure, from_email, from_name, logo_url, updated_at)
@@ -56,6 +68,43 @@ $smtp_secure_v = $es ? (string)$es['smtp_secure'] : 'tls';
 $from_email_v = $es ? (string)$es['from_email'] : '';
 $from_name_v = $es ? (string)$es['from_name'] : 'TimesTen Website';
 $logo_url_v = $es ? (string)$es['logo_url'] : '';
+
+$invoice_msg = '';
+if (isset($_POST['save_invoice_settings'])) {
+    $uploads_dir = 'uploads/logo';
+    if (!is_dir($uploads_dir)) {
+        @mkdir($uploads_dir, 0777, true);
+    }
+
+    $inv_rs = mysqli_query($con, "SELECT invoice_logo FROM invoice_settings WHERE id=1 LIMIT 1");
+    $inv_row = $inv_rs ? mysqli_fetch_assoc($inv_rs) : null;
+    $current_logo = $inv_row && isset($inv_row['invoice_logo']) ? (string)$inv_row['invoice_logo'] : '';
+
+    $new_logo = '';
+    if (isset($_FILES['invoice_logo']) && $_FILES['invoice_logo']['error'] === UPLOAD_ERR_OK) {
+        $tmp_name = $_FILES['invoice_logo']['tmp_name'];
+        $name = basename($_FILES['invoice_logo']['name']);
+        $random_digit = rand(1000, 9999);
+        $new_logo = $random_digit . $name;
+        if (!move_uploaded_file($tmp_name, "$uploads_dir/$new_logo")) {
+            $new_logo = '';
+            $invoice_msg = "<div class='alert alert-danger alert-dismissible alert-outline fade show'>Failed to upload invoice logo.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+        }
+    }
+
+    if (strlen($invoice_msg) < 1) {
+        $logo_to_save = strlen($new_logo) > 0 ? $new_logo : $current_logo;
+        $logo_to_save_s = mysqli_real_escape_string($con, $logo_to_save);
+        $qb3 = mysqli_query($con, "UPDATE invoice_settings SET invoice_logo='$logo_to_save_s', updated_at=NOW() WHERE id=1");
+        if ($qb3) {
+            $invoice_msg = "<div class='alert alert-success alert-dismissible alert-outline fade show'>Invoice settings updated.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+        }
+    }
+}
+
+$inv_rs2 = mysqli_query($con, "SELECT invoice_logo FROM invoice_settings WHERE id=1 LIMIT 1");
+$inv2 = $inv_rs2 ? mysqli_fetch_assoc($inv_rs2) : null;
+$invoice_logo_v = $inv2 && !empty($inv2['invoice_logo']) ? (string)$inv2['invoice_logo'] : '';
 ?>
 
 <!-- ============================================================== -->
@@ -282,6 +331,43 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                             </div>
                         </div>
                         <!--end col-->
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xxl-9">
+                            <div class="card mt-3">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0">Invoice Settings</h5>
+                                </div>
+                                <div class="card-body p-4">
+                                    <?php if (strlen($invoice_msg) > 0) { print $invoice_msg; } ?>
+                                    <form action="" method="post" enctype="multipart/form-data">
+                                        <div class="row g-3">
+                                            <div class="col-12 col-md-6">
+                                                <label class="form-label">Invoice Logo</label>
+                                                <input type="file" name="invoice_logo" class="form-control" accept="image/*">
+                                                <div class="form-text">This logo will be used on invoice print/PDF.</div>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <label class="form-label">Current Invoice Logo</label>
+                                                <div class="border rounded p-2 bg-light" style="min-height:70px;display:flex;align-items:center;justify-content:center;">
+                                                    <?php if (strlen(trim($invoice_logo_v)) > 0) { ?>
+                                                        <img src="<?php print htmlspecialchars('uploads/logo/' . $invoice_logo_v); ?>" alt="Invoice Logo" style="max-height:60px;max-width:220px;object-fit:contain;">
+                                                    <?php } else { ?>
+                                                        <div class="text-muted" style="font-size:12px;">No invoice logo set.</div>
+                                                    <?php } ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="hstack gap-2 justify-content-end">
+                                                    <button type="submit" name="save_invoice_settings" class="btn btn-primary">Update Invoice Settings</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="row">

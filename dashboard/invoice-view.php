@@ -3,14 +3,27 @@ ob_start();
 
 $invoice_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $is_print = isset($_GET['print']) && (string)$_GET['print'] === '1';
+$is_pdf = isset($_GET['pdf']) && (string)$_GET['pdf'] === '1';
 
-if ($is_print) {
+if ($is_print || $is_pdf) {
     include "z_db.php";
     session_start();
     if (!isset($_SESSION['username'])) {
         print "<script>window.location='login.php';</script>";
         exit;
     }
+
+    mysqli_query($con, "CREATE TABLE IF NOT EXISTS invoice_settings (
+      id INT PRIMARY KEY,
+      invoice_logo VARCHAR(255) NULL,
+      updated_at DATETIME NULL
+    )");
+    mysqli_query(
+        $con,
+        "INSERT INTO invoice_settings (id, invoice_logo, updated_at)
+         SELECT 1, '', NOW()
+         WHERE NOT EXISTS (SELECT 1 FROM invoice_settings WHERE id=1)"
+    );
 
     mysqli_query($con, "CREATE TABLE IF NOT EXISTS finance_customers (
       id INT AUTO_INCREMENT PRIMARY KEY,
@@ -112,7 +125,19 @@ if ($is_print) {
         $company_email = !empty($ct['email1']) ? (string)$ct['email1'] : '';
     }
 
-    $logo_path = 'assets/images/logo-light.png';
+    $logo_path = 'assets/images/logo-dark.png';
+
+    $invset_rs = mysqli_query($con, "SELECT invoice_logo FROM invoice_settings WHERE id=1 LIMIT 1");
+    $invset = $invset_rs ? mysqli_fetch_assoc($invset_rs) : null;
+    if ($invset && !empty($invset['invoice_logo'])) {
+        $logo_path = 'uploads/logo/' . (string)$invset['invoice_logo'];
+    }
+
+    $lg_rs = mysqli_query($con, "SELECT ufile FROM logo LIMIT 1");
+    $lg = $lg_rs ? mysqli_fetch_row($lg_rs) : null;
+    if ($logo_path === 'assets/images/logo-dark.png' && $lg && !empty($lg[0])) {
+        $logo_path = 'uploads/logo/' . $lg[0];
+    }
 
     $inv_no = htmlspecialchars((string)$invoice['invoice_no']);
     $cust_name = htmlspecialchars((string)$invoice['customer_name']);
@@ -142,9 +167,11 @@ if ($is_print) {
           --bg:#ffffff;
         }
         *{box-sizing:border-box;}
-        body{margin:0;background:#ffffff;font-family:Arial, Helvetica, sans-serif;color:var(--text);}
-        .page{width:210mm;min-height:297mm;margin:0 auto;padding:0;}
-        .sheet{background:var(--bg);min-height:297mm;border:1px solid var(--border);border-radius:0;overflow:hidden;box-shadow:none;}
+        body{margin:0;background:#f6f7fb;font-family:Arial, Helvetica, sans-serif;color:var(--text);}
+        .page{max-width:900px;margin:24px auto;padding:0 12px;}
+        .sheet{background:var(--bg);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 8px 30px rgba(15,23,42,.08);position:relative;}
+        .sheet:before{content:"";position:absolute;top:-140px;right:-140px;width:320px;height:320px;background:radial-gradient(circle at 30% 30%, rgba(13,110,253,.22), rgba(13,110,253,0));border-radius:999px;pointer-events:none;}
+        .sheet:after{content:"";position:absolute;bottom:-160px;left:-160px;width:360px;height:360px;background:radial-gradient(circle at 30% 30%, rgba(99,102,241,.16), rgba(99,102,241,0));border-radius:999px;pointer-events:none;}
         .topbar{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;gap:14px;align-items:center;}
         .brand{display:flex;gap:12px;align-items:center;}
         .brand img{height:34px;max-width:220px;object-fit:contain;}
@@ -153,7 +180,7 @@ if ($is_print) {
         .tag .label{font-size:12px;color:var(--muted);}
         .tag .value{font-size:18px;font-weight:800;color:var(--primary);}
 
-        .content{padding:18px 22px;}
+        .content{padding:18px 22px;position:relative;z-index:1;}
         .grid{display:flex;gap:16px;flex-wrap:wrap;}
         .col{flex:1;min-width:260px;}
         .card{border:1px solid var(--border);border-radius:12px;padding:14px;}
@@ -173,7 +200,7 @@ if ($is_print) {
         .totals .box .grand .v{font-size:16px;color:var(--primary);}
 
         .notes{margin-top:14px;border-left:4px solid var(--primary);background:#f8fafc;padding:10px 12px;border-radius:10px;white-space:pre-line;}
-        .footer{padding:14px 22px;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:space-between;align-items:center;flex-wrap:wrap;}
+        .footer{padding:14px 22px;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:space-between;align-items:center;flex-wrap:wrap;position:relative;z-index:1;}
         .footer .small{font-size:12px;color:var(--muted);}
         .btns{display:flex;gap:8px;}
         .btn{border:1px solid var(--border);background:#fff;padding:8px 10px;border-radius:10px;font-size:12px;cursor:pointer;}
@@ -182,8 +209,8 @@ if ($is_print) {
         @page{size:A4;margin:12mm;}
         @media print{
           body{background:#fff;}
-          .page{width:auto;min-height:auto;margin:0;padding:0;}
-          .sheet{border:none;border-radius:0;box-shadow:none;min-height:auto;}
+          .page{max-width:none;margin:0;padding:0;}
+          .sheet{border:none;border-radius:0;box-shadow:none;}
           .btns{display:none !important;}
         }
       </style>
@@ -289,8 +316,7 @@ if ($is_print) {
             <div class="small">Thank you for your business.</div>
             <div class="btns">
               <button class="btn" onclick="window.close();">Close</button>
-              <button class="btn" onclick="window.print();">Print</button>
-              <button class="btn primary" onclick="window.print();">Download PDF</button>
+              <button class="btn primary" onclick="window.print();">Print</button>
             </div>
           </div>
         </div>
@@ -302,6 +328,31 @@ if ($is_print) {
     </body>
     </html>
     <?php
+    if ($is_pdf) {
+        $autoload = __DIR__ . '/../vendor/autoload.php';
+        if (!file_exists($autoload)) {
+            $_SESSION['finance_flash_error'] = "<div class='alert alert-danger alert-dismissible alert-outline fade show'>PDF download is not enabled yet. Please install Dompdf (vendor/autoload.php not found).<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+            header('Location: invoice-view.php?id=' . $invoice_id);
+            exit;
+        }
+
+        require_once $autoload;
+        if (!class_exists('Dompdf\\Dompdf')) {
+            $_SESSION['finance_flash_error'] = "<div class='alert alert-danger alert-dismissible alert-outline fade show'>PDF download is not enabled yet. Dompdf class not found.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+            header('Location: invoice-view.php?id=' . $invoice_id);
+            exit;
+        }
+
+        $html = ob_get_clean();
+        $dompdf = new Dompdf\Dompdf();
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->loadHtml($html);
+        $dompdf->render();
+        $filename = 'Invoice-' . preg_replace('/[^A-Za-z0-9_-]+/', '-', (string)$invoice['invoice_no']) . '.pdf';
+        $dompdf->stream($filename, ['Attachment' => true]);
+        exit;
+    }
+
     exit;
 }
 
@@ -593,7 +644,7 @@ $public_link = $base . '/invoice-view.php?id=' . $invoice_id;
           <div class="ms-auto d-flex flex-wrap gap-2">
             <a href="payments.php?invoice_id=<?php print (int)$invoice_id; ?>" class="btn btn-soft-success btn-sm">Record Payment</a>
             <a href="invoice-view.php?id=<?php print (int)$invoice_id; ?>&print=1&autoprint=1" target="_blank" class="btn btn-soft-secondary btn-sm">Print</a>
-            <a href="invoice-view.php?id=<?php print (int)$invoice_id; ?>&print=1" target="_blank" class="btn btn-soft-primary btn-sm">Download PDF</a>
+            <a href="invoice-view.php?id=<?php print (int)$invoice_id; ?>&pdf=1" class="btn btn-soft-primary btn-sm">Download PDF</a>
             <a href="invoices.php" class="btn btn-light btn-sm">Back</a>
           </div>
         </div>
