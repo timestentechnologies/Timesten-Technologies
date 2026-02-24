@@ -27,11 +27,22 @@ mysqli_query($con, "CREATE TABLE IF NOT EXISTS finance_invoices (
   status VARCHAR(20) NULL,
   notes TEXT NULL,
   subtotal DECIMAL(12,2) NULL,
+  tax_rate DECIMAL(6,2) NULL,
+  tax_exempt TINYINT(1) NULL,
   total DECIMAL(12,2) NULL,
   amount_paid DECIMAL(12,2) NULL,
   created_at DATETIME NULL,
   UNIQUE KEY uniq_invoice_no (invoice_no)
  )");
+
+$col_tax_rate = mysqli_query($con, "SHOW COLUMNS FROM finance_invoices LIKE 'tax_rate'");
+if (!$col_tax_rate || mysqli_num_rows($col_tax_rate) < 1) {
+    @mysqli_query($con, "ALTER TABLE finance_invoices ADD COLUMN tax_rate DECIMAL(6,2) NULL AFTER subtotal");
+}
+$col_tax_exempt = mysqli_query($con, "SHOW COLUMNS FROM finance_invoices LIKE 'tax_exempt'");
+if (!$col_tax_exempt || mysqli_num_rows($col_tax_exempt) < 1) {
+    @mysqli_query($con, "ALTER TABLE finance_invoices ADD COLUMN tax_exempt TINYINT(1) NULL AFTER tax_rate");
+}
 
 mysqli_query($con, "CREATE TABLE IF NOT EXISTS finance_invoice_items (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -66,15 +77,21 @@ function finance_recalc_invoice(mysqli $con, int $invoice_id): void {
     $items_row = $items_rs ? mysqli_fetch_assoc($items_rs) : null;
     $subtotal = $items_row ? (float)$items_row['s'] : 0.0;
 
+    $tax_rs = mysqli_query($con, "SELECT tax_rate, tax_exempt, status FROM finance_invoices WHERE id=$invoice_id LIMIT 1");
+    $tax_row = $tax_rs ? mysqli_fetch_assoc($tax_rs) : null;
+    $tax_rate = $tax_row && isset($tax_row['tax_rate']) ? (float)$tax_row['tax_rate'] : 0.0;
+    $tax_exempt = $tax_row && !empty($tax_row['tax_exempt']) ? 1 : 0;
+    if ($tax_rate < 0) { $tax_rate = 0.0; }
+    if ($tax_rate > 100) { $tax_rate = 100.0; }
+    $tax_amount = $tax_exempt ? 0.0 : (($subtotal * $tax_rate) / 100.0);
+
     $pay_rs = mysqli_query($con, "SELECT COALESCE(SUM(amount),0) AS s FROM finance_payments WHERE invoice_id=$invoice_id");
     $pay_row = $pay_rs ? mysqli_fetch_assoc($pay_rs) : null;
     $paid = $pay_row ? (float)$pay_row['s'] : 0.0;
 
-    $inv_rs = mysqli_query($con, "SELECT status FROM finance_invoices WHERE id=$invoice_id LIMIT 1");
-    $inv = $inv_rs ? mysqli_fetch_assoc($inv_rs) : null;
-    $cur_status = $inv ? (string)$inv['status'] : '';
+    $cur_status = $tax_row ? (string)$tax_row['status'] : '';
 
-    $total = $subtotal;
+    $total = $subtotal + $tax_amount;
     $balance = $total - $paid;
 
     $new_status = $cur_status;

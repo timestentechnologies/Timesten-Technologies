@@ -43,11 +43,22 @@ if ($is_print || $is_pdf) {
       status VARCHAR(20) NULL,
       notes TEXT NULL,
       subtotal DECIMAL(12,2) NULL,
+      tax_rate DECIMAL(6,2) NULL,
+      tax_exempt TINYINT(1) NULL,
       total DECIMAL(12,2) NULL,
       amount_paid DECIMAL(12,2) NULL,
       created_at DATETIME NULL,
       UNIQUE KEY uniq_invoice_no (invoice_no)
      )");
+
+    $col_tax_rate = mysqli_query($con, "SHOW COLUMNS FROM finance_invoices LIKE 'tax_rate'");
+    if (!$col_tax_rate || mysqli_num_rows($col_tax_rate) < 1) {
+        @mysqli_query($con, "ALTER TABLE finance_invoices ADD COLUMN tax_rate DECIMAL(6,2) NULL AFTER subtotal");
+    }
+    $col_tax_exempt = mysqli_query($con, "SHOW COLUMNS FROM finance_invoices LIKE 'tax_exempt'");
+    if (!$col_tax_exempt || mysqli_num_rows($col_tax_exempt) < 1) {
+        @mysqli_query($con, "ALTER TABLE finance_invoices ADD COLUMN tax_exempt TINYINT(1) NULL AFTER tax_rate");
+    }
     mysqli_query($con, "CREATE TABLE IF NOT EXISTS finance_invoice_items (
       id INT AUTO_INCREMENT PRIMARY KEY,
       invoice_id INT NOT NULL,
@@ -103,7 +114,13 @@ if ($is_print || $is_pdf) {
     $pay_row2 = $pay_rs2 ? mysqli_fetch_assoc($pay_rs2) : null;
     $paid = $pay_row2 ? (float)$pay_row2['s'] : 0.0;
 
-    $total = $subtotal;
+    $tax_rate = isset($invoice['tax_rate']) ? (float)$invoice['tax_rate'] : 0.0;
+    $tax_exempt = !empty($invoice['tax_exempt']) ? 1 : 0;
+    if ($tax_rate < 0) { $tax_rate = 0.0; }
+    if ($tax_rate > 100) { $tax_rate = 100.0; }
+    $tax_amount = $tax_exempt ? 0.0 : (($subtotal * $tax_rate) / 100.0);
+
+    $total = $subtotal + $tax_amount;
     $balance = $total - $paid;
 
     $company_name = 'TimesTen Technologies';
@@ -337,6 +354,8 @@ if ($is_print || $is_pdf) {
                   <div class="row"><div class="k">Issue Date</div><div class="v"><?php print $issue_date; ?></div></div>
                   <div class="row"><div class="k">Due Date</div><div class="v"><?php print $due_date; ?></div></div>
                   <div class="row"><div class="k">Subtotal</div><div class="v"><?php print number_format($subtotal,2); ?></div></div>
+                  <div class="row"><div class="k">Tax<?php if (!empty($tax_exempt)) { print ' (Exempt)'; } else { print ' (' . number_format((float)$tax_rate,2) . '%)'; } ?></div><div class="v"><?php print number_format((float)$tax_amount,2); ?></div></div>
+                  <div class="row"><div class="k">Total</div><div class="v"><?php print number_format($total,2); ?></div></div>
                   <div class="row"><div class="k">Paid</div><div class="v"><span class="amt paid"><?php print number_format($paid,2); ?></span></div></div>
                   <div class="row"><div class="k">Balance</div><div class="v"><span class="amt due"><?php print number_format($balance,2); ?></span></div></div>
                 </div>
@@ -376,6 +395,8 @@ if ($is_print || $is_pdf) {
             <div class="totals">
               <div class="box">
                 <div class="row"><div class="k">Subtotal</div><div class="v"><?php print number_format($subtotal,2); ?></div></div>
+                <div class="row"><div class="k">Tax<?php if (!empty($tax_exempt)) { print ' (Exempt)'; } else { print ' (' . number_format((float)$tax_rate,2) . '%)'; } ?></div><div class="v"><?php print number_format((float)$tax_amount,2); ?></div></div>
+                <div class="row"><div class="k">Total</div><div class="v" style="font-weight:900;"><?php print number_format($total,2); ?></div></div>
                 <div class="row"><div class="k">Paid</div><div class="v"><span class="amt paid"><?php print number_format($paid,2); ?></span></div></div>
                 <div class="row grand"><div class="k" style="font-weight:800;">Balance Due</div><div class="v" style="font-weight:900;"><span class="amt due"><?php print number_format($balance,2); ?></span></div></div>
               </div>
@@ -511,15 +532,21 @@ function finance_recalc_invoice(mysqli $con, int $invoice_id): array {
     $items_row = $items_rs ? mysqli_fetch_assoc($items_rs) : null;
     $subtotal = $items_row ? (float)$items_row['s'] : 0.0;
 
+    $tax_rs = mysqli_query($con, "SELECT tax_rate, tax_exempt, status FROM finance_invoices WHERE id=$invoice_id LIMIT 1");
+    $tax_row = $tax_rs ? mysqli_fetch_assoc($tax_rs) : null;
+    $tax_rate = $tax_row && isset($tax_row['tax_rate']) ? (float)$tax_row['tax_rate'] : 0.0;
+    $tax_exempt = $tax_row && !empty($tax_row['tax_exempt']) ? 1 : 0;
+    if ($tax_rate < 0) { $tax_rate = 0.0; }
+    if ($tax_rate > 100) { $tax_rate = 100.0; }
+    $tax_amount = $tax_exempt ? 0.0 : (($subtotal * $tax_rate) / 100.0);
+
     $pay_rs = mysqli_query($con, "SELECT COALESCE(SUM(amount),0) AS s FROM finance_payments WHERE invoice_id=$invoice_id");
     $pay_row = $pay_rs ? mysqli_fetch_assoc($pay_rs) : null;
     $paid = $pay_row ? (float)$pay_row['s'] : 0.0;
 
-    $inv_rs = mysqli_query($con, "SELECT status FROM finance_invoices WHERE id=$invoice_id LIMIT 1");
-    $inv = $inv_rs ? mysqli_fetch_assoc($inv_rs) : null;
-    $cur_status = $inv ? (string)$inv['status'] : '';
+    $cur_status = $tax_row ? (string)$tax_row['status'] : '';
 
-    $total = $subtotal;
+    $total = $subtotal + $tax_amount;
     $balance = $total - $paid;
 
     $new_status = $cur_status;
@@ -540,6 +567,8 @@ function finance_recalc_invoice(mysqli $con, int $invoice_id): array {
     $paid_sql = (string)((float)$paid);
     $new_status_s = mysqli_real_escape_string($con, $new_status);
 
+    $tax_amount_sql = (string)((float)$tax_amount);
+
     mysqli_query(
         $con,
         "UPDATE finance_invoices SET subtotal=$subtotal_sql, total=$total_sql, amount_paid=$paid_sql, status='$new_status_s' WHERE id=$invoice_id LIMIT 1"
@@ -550,8 +579,26 @@ function finance_recalc_invoice(mysqli $con, int $invoice_id): array {
         'total' => $total,
         'paid' => $paid,
         'balance' => $balance,
+        'tax_rate' => $tax_rate,
+        'tax_exempt' => $tax_exempt,
+        'tax_amount' => $tax_amount,
         'status' => $new_status,
     ];
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_tax'])) {
+    $tax_rate_in = (string)($_POST['tax_rate'] ?? '0');
+    $tax_rate = (float)$tax_rate_in;
+    $tax_exempt = isset($_POST['tax_exempt']) ? 1 : 0;
+    if ($tax_rate < 0) { $tax_rate = 0.0; }
+    if ($tax_rate > 100) { $tax_rate = 100.0; }
+    $tax_rate_sql = (string)((float)$tax_rate);
+    $tax_exempt_sql = $tax_exempt ? '1' : '0';
+    mysqli_query($con, "UPDATE finance_invoices SET tax_rate=$tax_rate_sql, tax_exempt=$tax_exempt_sql WHERE id=$invoice_id LIMIT 1");
+    finance_recalc_invoice($con, $invoice_id);
+    $_SESSION['finance_flash_success'] = "<div class='alert alert-success alert-dismissible alert-outline fade show'>Tax updated.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+    header('Location: invoice-view.php?id=' . $invoice_id);
+    exit;
 }
 
 if ($invoice_id < 1) {
@@ -747,9 +794,27 @@ $public_link = $base . '/invoice-view.php?id=' . $invoice_id;
                 <div class="d-flex justify-content-between"><span class="text-muted">Due Date</span><span><?php print htmlspecialchars((string)$invoice['due_date']); ?></span></div>
                 <hr>
                 <div class="d-flex justify-content-between"><span class="text-muted">Subtotal</span><span class="fw-semibold"><?php print number_format((float)$summary['subtotal'],2); ?></span></div>
+                <div class="d-flex justify-content-between"><span class="text-muted">Tax<?php if (!empty($summary['tax_exempt'])) { print ' (Exempt)'; } elseif (isset($summary['tax_rate'])) { print ' (' . number_format((float)$summary['tax_rate'],2) . '%)'; } ?></span><span class="fw-semibold"><?php print number_format((float)($summary['tax_amount'] ?? 0),2); ?></span></div>
+                <div class="d-flex justify-content-between"><span class="text-muted">Total</span><span class="fw-semibold"><?php print number_format((float)$summary['total'],2); ?></span></div>
                 <div class="d-flex justify-content-between"><span class="text-muted">Paid</span><span class="fw-semibold"><?php print number_format((float)$summary['paid'],2); ?></span></div>
                 <div class="d-flex justify-content-between"><span class="text-muted">Balance</span><span class="fw-semibold"><?php print number_format((float)$summary['balance'],2); ?></span></div>
               </div>
+
+              <form method="post" class="mt-2 p-3 border rounded-3">
+                <input type="hidden" name="update_tax" value="1">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                  <div class="fw-semibold">Tax Settings</div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="tax_exempt" id="tax_exempt" <?php if (!empty($summary['tax_exempt'])) { print 'checked'; } ?>>
+                    <label class="form-check-label" for="tax_exempt">Exempt</label>
+                  </div>
+                </div>
+                <div class="input-group input-group-sm">
+                  <span class="input-group-text">Rate %</span>
+                  <input type="number" step="0.01" class="form-control" name="tax_rate" value="<?php print htmlspecialchars((string)($summary['tax_rate'] ?? 0)); ?>">
+                  <button class="btn btn-soft-primary" type="submit">Update</button>
+                </div>
+              </form>
             </div>
           </div>
 

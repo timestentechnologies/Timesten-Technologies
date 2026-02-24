@@ -33,6 +33,8 @@ $comp_type = !empty($p['comp_type']) ? (string)$p['comp_type'] : '';
 $comp_amount = isset($p['comp_amount']) ? (string)$p['comp_amount'] : '';
 
 $amount = (float)$p['amount'];
+$deductions = isset($p['deductions']) ? (float)$p['deductions'] : 0.0;
+$net_amount = max(0.0, $amount - $deductions);
 $pay_date = !empty($p['pay_date']) ? (string)$p['pay_date'] : '';
 $payment_method = !empty($p['payment_method']) ? (string)$p['payment_method'] : '';
 $reference = !empty($p['reference']) ? (string)$p['reference'] : '';
@@ -237,6 +239,7 @@ ob_start();
           <div class="totals">
             <div class="box">
               <div class="row"><div class="k">Gross Pay</div><div class="v"><span class="pill success">KES <?php print number_format($amount,2); ?></span></div></div>
+              <div class="row"><div class="k">Deductions</div><div class="v">KES <?php print number_format($deductions,2); ?></div></div>
               <div class="row"><div class="k">Compensation</div><div class="v"><?php
                 $c = trim((string)$comp_type);
                 $a = trim((string)$comp_amount);
@@ -249,7 +252,7 @@ ob_start();
                 }
                 print htmlspecialchars($t);
               ?></div></div>
-              <div class="row grand"><div class="k" style="font-weight:800;">Net Pay</div><div class="v" style="font-weight:900;">KES <?php print number_format($amount,2); ?></div></div>
+              <div class="row grand"><div class="k" style="font-weight:800;">Net Pay</div><div class="v" style="font-weight:900;">KES <?php print number_format($net_amount,2); ?></div></div>
             </div>
           </div>
 

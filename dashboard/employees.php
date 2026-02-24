@@ -40,6 +40,7 @@ mysqli_query($con, "CREATE TABLE IF NOT EXISTS employee_payments (
   id INT AUTO_INCREMENT PRIMARY KEY,
   employee_id INT NOT NULL,
   amount DECIMAL(12,2) NOT NULL,
+  deductions DECIMAL(12,2) NULL,
   pay_date DATE NULL,
   payment_method VARCHAR(50) NULL,
   reference VARCHAR(120) NULL,
@@ -47,6 +48,11 @@ mysqli_query($con, "CREATE TABLE IF NOT EXISTS employee_payments (
   created_by VARCHAR(120) NULL,
   created_at DATETIME NULL
 )");
+
+$col_deductions = mysqli_query($con, "SHOW COLUMNS FROM employee_payments LIKE 'deductions'");
+if (!$col_deductions || mysqli_num_rows($col_deductions) < 1) {
+    @mysqli_query($con, "ALTER TABLE employee_payments ADD COLUMN deductions DECIMAL(12,2) NULL AFTER amount");
+}
 
 mysqli_query($con, "CREATE TABLE IF NOT EXISTS finance_expense_categories (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -277,12 +283,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_employee'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pay_employee'])) {
     $emp_id = (int)($_POST['employee_id'] ?? 0);
     $amount = (float)($_POST['amount'] ?? 0);
+    $deductions = (float)($_POST['deductions'] ?? 0);
     $pay_date = trim((string)($_POST['pay_date'] ?? ''));
     $payment_method = trim((string)($_POST['payment_method'] ?? ''));
     $reference = trim((string)($_POST['reference'] ?? ''));
     $notes = trim((string)($_POST['notes'] ?? ''));
 
-    if ($emp_id < 1 || $amount <= 0) {
+    if ($emp_id < 1 || $amount <= 0 || $deductions < 0 || $deductions > $amount) {
         $_SESSION['employees_flash_error'] = "<div class='alert alert-danger alert-dismissible alert-outline fade show'>Invalid payment details.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
         header('Location: employees.php');
         exit;
@@ -298,8 +305,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pay_employee'])) {
     $user_s = mysqli_real_escape_string($con, (string)$username);
     $date_sql = strlen($pay_date) ? ("'" . mysqli_real_escape_string($con, $pay_date) . "'") : ("'" . date('Y-m-d') . "'");
     $amount_sql = (string)((float)$amount);
+    $deductions_sql = (string)((float)$deductions);
+    $net_amount = max(0, $amount - $deductions);
+    $net_amount_sql = (string)((float)$net_amount);
 
-    mysqli_query($con, "INSERT INTO employee_payments (employee_id, amount, pay_date, payment_method, reference, notes, created_by, created_at) VALUES ($emp_id, $amount_sql, $date_sql, '$pm_s', '$ref_s', '$notes_s', '$user_s', NOW())");
+    mysqli_query($con, "INSERT INTO employee_payments (employee_id, amount, deductions, pay_date, payment_method, reference, notes, created_by, created_at) VALUES ($emp_id, $amount_sql, $deductions_sql, $date_sql, '$pm_s', '$ref_s', '$notes_s', '$user_s', NOW())");
     $pay_id = (int)mysqli_insert_id($con);
 
     $salary_cat_id = 0;
@@ -323,7 +333,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pay_employee'])) {
     mysqli_query(
         $con,
         "INSERT INTO finance_expenses (category_id, vendor, description, amount, expense_date, employee_id, payment_method, reference, receipt_file, created_at)
-         VALUES ($cat_sql, '$vendor_s', '$desc_s', $amount_sql, $date_sql, $emp_id, '$pm_s', '$ref_s', NULL, NOW())"
+         VALUES ($cat_sql, '$vendor_s', '$desc_s', $net_amount_sql, $date_sql, $emp_id, '$pm_s', '$ref_s', NULL, NOW())"
     );
     $expense_id = (int)mysqli_insert_id($con);
 
@@ -382,6 +392,10 @@ if ($q) {
                   <div class="col-12 col-md-6">
                     <label class="form-label">Amount</label>
                     <input type="number" step="0.01" class="form-control" name="amount" id="p_amount" required>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <label class="form-label">Deductions</label>
+                    <input type="number" step="0.01" class="form-control" name="deductions" id="p_deductions" value="0">
                   </div>
                   <div class="col-12 col-md-6">
                     <label class="form-label">Payment Method</label>
