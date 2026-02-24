@@ -26,6 +26,8 @@ if (!$x) {
     exit;
 }
 
+$payment_id = !empty($x['payment_id']) ? (int)$x['payment_id'] : 0;
+
 $category = !empty($x['category_name']) ? (string)$x['category_name'] : '';
 $vendor = !empty($x['vendor']) ? (string)$x['vendor'] : '';
 $description = !empty($x['description']) ? (string)$x['description'] : '';
@@ -245,6 +247,12 @@ ob_start();
           <?php if (strlen(trim($receipt_file)) > 0 && !$is_pdf) { ?>
             <div style="margin-top:12px;">
               <a href="uploads/expenses/<?php print htmlspecialchars($receipt_file); ?>" target="_blank" style="font-size:12px;text-decoration:underline;color:var(--accent_dark);">Open attached receipt file</a>
+            </div>
+          <?php } ?>
+
+          <?php if ($payment_id > 0 && !$is_pdf) { ?>
+            <div style="margin-top:10px;">
+              <a href="payslip-view.php?id=<?php print (int)$payment_id; ?>" target="_blank" style="font-size:12px;text-decoration:underline;color:var(--accent_dark);">Open related payslip</a>
             </div>
           <?php } ?>
         </div>

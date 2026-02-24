@@ -1,5 +1,41 @@
 <?php
 ob_start();
+
+if (isset($_GET['ajax']) && (string)$_GET['ajax'] === 'latest_payslip') {
+    include "z_db.php";
+    session_start();
+    if (!isset($_SESSION['username'])) {
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode(['ok' => false]);
+        exit;
+    }
+    header('Content-Type: application/json; charset=utf-8');
+    $emp_id = isset($_GET['employee_id']) ? (int)$_GET['employee_id'] : 0;
+    if ($emp_id < 1) {
+        echo json_encode(['ok' => false]);
+        exit;
+    }
+    $rs = mysqli_query(
+        $con,
+        "SELECT id, amount, deductions, pay_date, created_at FROM employee_payments WHERE employee_id=$emp_id ORDER BY id DESC LIMIT 1"
+    );
+    $row = $rs ? mysqli_fetch_assoc($rs) : null;
+    if (!$row) {
+        echo json_encode(['ok' => true, 'exists' => false]);
+        exit;
+    }
+    echo json_encode([
+        'ok' => true,
+        'exists' => true,
+        'id' => (int)$row['id'],
+        'amount' => (float)$row['amount'],
+        'deductions' => isset($row['deductions']) ? (float)$row['deductions'] : 0.0,
+        'pay_date' => (string)($row['pay_date'] ?? ''),
+        'created_at' => (string)($row['created_at'] ?? ''),
+    ]);
+    exit;
+}
+
 include "header.php";
 include "sidebar.php";
 
@@ -68,11 +104,17 @@ mysqli_query($con, "CREATE TABLE IF NOT EXISTS finance_expenses (
   amount DECIMAL(12,2) NOT NULL,
   expense_date DATE NULL,
   employee_id INT NULL,
+  payment_id INT NULL,
   payment_method VARCHAR(50) NULL,
   reference VARCHAR(120) NULL,
   receipt_file VARCHAR(255) NULL,
   created_at DATETIME NULL
 )");
+
+$col_payment_id = mysqli_query($con, "SHOW COLUMNS FROM finance_expenses LIKE 'payment_id'");
+if (!$col_payment_id || mysqli_num_rows($col_payment_id) < 1) {
+    @mysqli_query($con, "ALTER TABLE finance_expenses ADD COLUMN payment_id INT NULL AFTER employee_id");
+}
 
 $cat_seed = mysqli_query($con, "SELECT COUNT(*) AS c FROM finance_expense_categories");
 $cat_row = $cat_seed ? mysqli_fetch_assoc($cat_seed) : null;
@@ -106,34 +148,6 @@ if (isset($_SESSION['employees_flash_error'])) {
 }
 
 $username = isset($_SESSION['username']) ? $_SESSION['username'] : '';
-
-if (isset($_GET['ajax']) && (string)$_GET['ajax'] === 'latest_payslip') {
-    header('Content-Type: application/json; charset=utf-8');
-    $emp_id = isset($_GET['employee_id']) ? (int)$_GET['employee_id'] : 0;
-    if ($emp_id < 1) {
-        echo json_encode(['ok' => false]);
-        exit;
-    }
-    $rs = mysqli_query(
-        $con,
-        "SELECT id, amount, deductions, pay_date, created_at FROM employee_payments WHERE employee_id=$emp_id ORDER BY id DESC LIMIT 1"
-    );
-    $row = $rs ? mysqli_fetch_assoc($rs) : null;
-    if (!$row) {
-        echo json_encode(['ok' => true, 'exists' => false]);
-        exit;
-    }
-    echo json_encode([
-        'ok' => true,
-        'exists' => true,
-        'id' => (int)$row['id'],
-        'amount' => (float)$row['amount'],
-        'deductions' => isset($row['deductions']) ? (float)$row['deductions'] : 0.0,
-        'pay_date' => (string)($row['pay_date'] ?? ''),
-        'created_at' => (string)($row['created_at'] ?? ''),
-    ]);
-    exit;
-}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_employee'])) {
     $full_name = trim((string)($_POST['full_name'] ?? ''));
@@ -360,8 +374,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pay_employee'])) {
 
     mysqli_query(
         $con,
-        "INSERT INTO finance_expenses (category_id, vendor, description, amount, expense_date, employee_id, payment_method, reference, receipt_file, created_at)
-         VALUES ($cat_sql, '$vendor_s', '$desc_s', $net_amount_sql, $date_sql, $emp_id, '$pm_s', '$ref_s', NULL, NOW())"
+        "INSERT INTO finance_expenses (category_id, vendor, description, amount, expense_date, employee_id, payment_id, payment_method, reference, receipt_file, created_at)
+         VALUES ($cat_sql, '$vendor_s', '$desc_s', $net_amount_sql, $date_sql, $emp_id, $pay_id, '$pm_s', '$ref_s', NULL, NOW())"
     );
     $expense_id = (int)mysqli_insert_id($con);
 

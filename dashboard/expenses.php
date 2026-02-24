@@ -31,11 +31,17 @@ mysqli_query($con, "CREATE TABLE IF NOT EXISTS finance_expenses (
   amount DECIMAL(12,2) NOT NULL,
   expense_date DATE NULL,
   employee_id INT NULL,
+  payment_id INT NULL,
   payment_method VARCHAR(50) NULL,
   reference VARCHAR(120) NULL,
   receipt_file VARCHAR(255) NULL,
   created_at DATETIME NULL
 )");
+
+$col_payment_id = mysqli_query($con, "SHOW COLUMNS FROM finance_expenses LIKE 'payment_id'");
+if (!$col_payment_id || mysqli_num_rows($col_payment_id) < 1) {
+    @mysqli_query($con, "ALTER TABLE finance_expenses ADD COLUMN payment_id INT NULL AFTER employee_id");
+}
 
 $cat_seed = mysqli_query($con, "SELECT COUNT(*) AS c FROM finance_expense_categories");
 $cat_row = $cat_seed ? mysqli_fetch_assoc($cat_seed) : null;
@@ -75,6 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_expense'])) {
     $amount = (float)($_POST['amount'] ?? 0);
     $expense_date = trim((string)($_POST['expense_date'] ?? ''));
     $employee_id = (int)($_POST['employee_id'] ?? 0);
+    $payment_id = (int)($_POST['payment_id'] ?? 0);
     $payment_method = trim((string)($_POST['payment_method'] ?? ''));
     $reference = trim((string)($_POST['reference'] ?? ''));
 
@@ -92,6 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_expense'])) {
     $date_sql = strlen($expense_date) ? ("'" . mysqli_real_escape_string($con, $expense_date) . "'") : ("'" . date('Y-m-d') . "'");
     $cat_sql = $category_id > 0 ? (string)$category_id : 'NULL';
     $emp_sql = $employee_id > 0 ? (string)$employee_id : 'NULL';
+    $pay_sql = $payment_id > 0 ? (string)$payment_id : 'NULL';
     $amount_sql = (string)((float)$amount);
 
     $receipt_name = '';
@@ -117,8 +125,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_expense'])) {
 
     mysqli_query(
         $con,
-        "INSERT INTO finance_expenses (category_id, vendor, description, amount, expense_date, employee_id, payment_method, reference, receipt_file, created_at)
-         VALUES ($cat_sql, '$vendor_s', '$desc_s', $amount_sql, $date_sql, $emp_sql, '$pm_s', '$ref_s', $receipt_sql, NOW())"
+        "INSERT INTO finance_expenses (category_id, vendor, description, amount, expense_date, employee_id, payment_id, payment_method, reference, receipt_file, created_at)
+         VALUES ($cat_sql, '$vendor_s', '$desc_s', $amount_sql, $date_sql, $emp_sql, $pay_sql, '$pm_s', '$ref_s', $receipt_sql, NOW())"
     );
 
     $_SESSION['finance_flash_success'] = "<div class='alert alert-success alert-dismissible alert-outline fade show'>Expense recorded.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
@@ -202,67 +210,86 @@ if ($ex_rs) {
           <div class="card">
             <div class="card-header d-flex align-items-center">
               <h5 class="card-title mb-0">Record Expense</h5>
+              <div class="ms-auto">
+                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#addExpenseModal">Add Expense</button>
+              </div>
             </div>
             <div class="card-body">
-              <form method="post" enctype="multipart/form-data">
-                <input type="hidden" name="add_expense" value="1">
-                <div class="row g-3">
-                  <div class="col-12 col-md-6">
-                    <label class="form-label">Category</label>
-                    <select class="form-select" name="category_id">
-                      <option value="">Select...</option>
-                      <?php foreach ($categories as $c) {
-                        $cid = (int)$c['id'];
-                        $nm = htmlspecialchars((string)$c['name']);
-                        print "<option value='$cid'>$nm</option>";
-                      } ?>
-                    </select>
-                  </div>
-                  <div class="col-12 col-md-6">
-                    <label class="form-label">Expense Date</label>
-                    <input type="date" class="form-control" name="expense_date" value="<?php print date('Y-m-d'); ?>">
-                  </div>
-                  <div class="col-12 col-md-6">
-                    <label class="form-label">Vendor</label>
-                    <input type="text" class="form-control" name="vendor" placeholder="Vendor / Shop / Supplier">
-                  </div>
-                  <div class="col-12 col-md-6">
-                    <label class="form-label">Amount</label>
-                    <input type="number" step="0.01" class="form-control" name="amount" required>
-                  </div>
-                  <div class="col-12 col-md-6">
-                    <label class="form-label">Employee (optional)</label>
-                    <select class="form-select" name="employee_id">
-                      <option value="">None</option>
-                      <?php foreach ($employees as $e) {
-                        $eid = (int)$e['id'];
-                        $en = htmlspecialchars((string)$e['full_name']);
-                        print "<option value='$eid'>$en</option>";
-                      } ?>
-                    </select>
-                    <div class="text-muted small mt-1">Use this for salaries/allowances/employee payments.</div>
-                  </div>
-                  <div class="col-12 col-md-6">
-                    <label class="form-label">Payment Method</label>
-                    <input type="text" class="form-control" name="payment_method" placeholder="Cash / Bank / MPESA">
-                  </div>
-                  <div class="col-12 col-md-6">
-                    <label class="form-label">Reference</label>
-                    <input type="text" class="form-control" name="reference" placeholder="Receipt / Transaction ID">
-                  </div>
-                  <div class="col-12">
-                    <label class="form-label">Description</label>
-                    <textarea class="form-control" name="description" rows="2"></textarea>
-                  </div>
-                  <div class="col-12">
-                    <label class="form-label">Receipt (optional)</label>
-                    <input type="file" class="form-control" name="receipt" accept="application/pdf,image/png,image/jpeg,image/webp">
-                  </div>
-                  <div class="col-12">
-                    <button class="btn btn-danger" type="submit">Save Expense</button>
-                  </div>
+              <div class="text-muted">Use the button above to record a new expense.</div>
+            </div>
+          </div>
+
+          <div class="modal fade" id="addExpenseModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Record Expense</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-              </form>
+                <div class="modal-body">
+                  <form method="post" enctype="multipart/form-data" id="addExpenseForm">
+                    <input type="hidden" name="add_expense" value="1">
+                    <input type="hidden" name="payment_id" id="expense_payment_id" value="">
+                    <div class="row g-3">
+                      <div class="col-12 col-md-6">
+                        <label class="form-label">Category</label>
+                        <select class="form-select" name="category_id" id="expense_category_id">
+                          <option value="">Select...</option>
+                          <?php foreach ($categories as $c) {
+                            $cid = (int)$c['id'];
+                            $nm = htmlspecialchars((string)$c['name']);
+                            print "<option value='$cid'>$nm</option>";
+                          } ?>
+                        </select>
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <label class="form-label">Expense Date</label>
+                        <input type="date" class="form-control" name="expense_date" value="<?php print date('Y-m-d'); ?>">
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <label class="form-label">Vendor</label>
+                        <input type="text" class="form-control" name="vendor" placeholder="Vendor / Shop / Supplier">
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <label class="form-label">Amount</label>
+                        <input type="number" step="0.01" class="form-control" name="amount" required>
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <label class="form-label">Employee (optional)</label>
+                        <select class="form-select" name="employee_id">
+                          <option value="">None</option>
+                          <?php foreach ($employees as $e) {
+                            $eid = (int)$e['id'];
+                            $en = htmlspecialchars((string)$e['full_name']);
+                            print "<option value='$eid'>$en</option>";
+                          } ?>
+                        </select>
+                        <div class="text-muted small mt-1">Use this for salaries/allowances/employee payments.</div>
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <label class="form-label">Payment Method</label>
+                        <input type="text" class="form-control" name="payment_method" placeholder="Cash / Bank / MPESA">
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <label class="form-label">Reference</label>
+                        <input type="text" class="form-control" name="reference" placeholder="Receipt / Transaction ID">
+                      </div>
+                      <div class="col-12">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-control" name="description" rows="2"></textarea>
+                      </div>
+                      <div class="col-12">
+                        <label class="form-label">Receipt (optional)</label>
+                        <input type="file" class="form-control" name="receipt" accept="application/pdf,image/png,image/jpeg,image/webp">
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                  <button type="submit" form="addExpenseForm" class="btn btn-danger">Save Expense</button>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -299,6 +326,10 @@ if ($ex_rs) {
                         $pm = htmlspecialchars((string)$x['payment_method']);
                         $rf = htmlspecialchars((string)$x['receipt_file']);
                         $rc = "<a href='expense-receipt-view.php?id=$id' target='_blank' class='btn btn-sm btn-soft-success'>Receipt</a> ";
+                        if (!empty($x['payment_id'])) {
+                            $pid = (int)$x['payment_id'];
+                            $rc .= "<a href='payslip-view.php?id=$pid' target='_blank' class='btn btn-sm btn-soft-secondary'>Payslip</a> ";
+                        }
                         if (strlen($rf) > 0) {
                             $rc .= "<a href='uploads/expenses/$rf' target='_blank' class='btn btn-sm btn-soft-primary'>File</a>";
                         }
