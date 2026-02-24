@@ -1003,7 +1003,40 @@ $public_link = $base . '/invoice-view.php?id=' . $invoice_id;
         var msgEl = document.getElementById('inv_message');
         if (!btn || !modalEl || !sendBtn || !toEl || !titleEl || !urlEl) return;
 
-        var invModal = new bootstrap.Modal(modalEl);
+        var backdrop = null;
+        function openModal(){
+          modalEl.style.display = 'block';
+          modalEl.classList.add('show');
+          modalEl.removeAttribute('aria-hidden');
+          modalEl.setAttribute('aria-modal', 'true');
+          modalEl.setAttribute('role', 'dialog');
+          backdrop = document.createElement('div');
+          backdrop.className = 'modal-backdrop fade show';
+          document.body.appendChild(backdrop);
+          document.body.classList.add('modal-open');
+        }
+        function closeModal(){
+          modalEl.classList.remove('show');
+          modalEl.style.display = 'none';
+          modalEl.setAttribute('aria-hidden', 'true');
+          if (backdrop && backdrop.parentNode) backdrop.parentNode.removeChild(backdrop);
+          backdrop = null;
+          document.body.classList.remove('modal-open');
+        }
+
+        var closeEls = modalEl.querySelectorAll('[data-bs-dismiss="modal"], .btn-close');
+        closeEls.forEach(function(el){
+          el.addEventListener('click', function(e){
+            e.preventDefault();
+            closeModal();
+          });
+        });
+        modalEl.addEventListener('click', function(e){
+          if (e.target === modalEl) closeModal();
+        });
+        document.addEventListener('keydown', function(e){
+          if (e.key === 'Escape' && modalEl.classList.contains('show')) closeModal();
+        });
 
         btn.addEventListener('click', function(){
           if (alertEl) alertEl.innerHTML = '';
@@ -1016,7 +1049,7 @@ $public_link = $base . '/invoice-view.php?id=' . $invoice_id;
           if (msgEl && !msgEl.value) {
             msgEl.value = 'Please find your invoice attached as a link.';
           }
-          invModal.show();
+          openModal();
           setTimeout(function(){ toEl.focus(); }, 250);
         });
 
@@ -1055,17 +1088,6 @@ $public_link = $base . '/invoice-view.php?id=' . $invoice_id;
       })();
       </script>
 
-      <script>
-      (function(){
-        var sel = document.getElementById('product_id');
-        var desc = document.getElementById('description');
-        var price = document.getElementById('unit_price');
-        var wrap = document.getElementById('newProductWrap');
-        var npn = document.getElementById('new_product_name');
-        var npp = document.getElementById('new_product_price');
-        if (!sel || !desc || !price) return;
-  </div>
-</div>
 
 <style>
 @media print {
