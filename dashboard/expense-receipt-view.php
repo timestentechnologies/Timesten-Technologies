@@ -194,7 +194,26 @@ ob_start();
         .hint{display:none !important;}
         *{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
       }
-      @media screen{ .page{margin:10mm auto;} }
+      @media screen{ 
+        body{padding:18px;}
+      }
+
+      .modalx{position:fixed;inset:0;background:rgba(15,23,42,.55);display:none;align-items:center;justify-content:center;padding:16px;z-index:9999;}
+      .modalx.show{display:flex;}
+      .modalx-card{width:100%;max-width:720px;background:#fff;border:1px solid #e5e7eb;border-radius:14px;box-shadow:0 18px 60px rgba(15,23,42,.25);overflow:hidden;}
+      .modalx-h{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #e5e7eb;}
+      .modalx-t{font-weight:800;color:#111827;}
+      .modalx-x{border:none;background:transparent;font-size:22px;line-height:1;color:#64748b;cursor:pointer;}
+      .modalx-b{padding:16px;}
+      .modalx-f{padding:12px 16px;border-top:1px solid #e5e7eb;display:flex;justify-content:flex-end;gap:8px;}
+      .f-label{display:block;font-size:12px;color:#64748b;margin-bottom:6px;}
+      .f-in{width:100%;border:1px solid #e5e7eb;border-radius:10px;padding:10px 12px;font-size:14px;outline:none;}
+      .f-in:focus{border-color:rgba(124,58,237,.55);box-shadow:0 0 0 4px rgba(124,58,237,.10);}
+      .f-area{width:100%;border:1px solid #e5e7eb;border-radius:10px;padding:10px 12px;font-size:14px;outline:none;resize:vertical;min-height:92px;}
+      .f-area:focus{border-color:rgba(124,58,237,.55);box-shadow:0 0 0 4px rgba(124,58,237,.10);}
+      .alertx{padding:10px 12px;border-radius:10px;margin-bottom:12px;font-size:13px;border:1px solid #e5e7eb;background:#f8fafc;color:#0f172a;}
+      .alertx.err{border-color:#fecaca;background:#fef2f2;color:#7f1d1d;}
+      .alertx.ok{border-color:#bbf7d0;background:#f0fdf4;color:#14532d;}
     </style>
   </head>
   <body class="<?php print ($is_pdf ? 'pdf' : ''); ?>">
@@ -294,6 +313,31 @@ ob_start();
       </div>
     </div>
 
+    <div class="modalx" id="emailModal" aria-hidden="true">
+      <div class="modalx-card" role="dialog" aria-modal="true">
+        <div class="modalx-h">
+          <div class="modalx-t">Send Receipt via Email</div>
+          <button type="button" class="modalx-x" id="emailModalClose">&times;</button>
+        </div>
+        <div class="modalx-b">
+          <div id="emailAlert"></div>
+          <div style="margin-bottom:12px;">
+            <label class="f-label">Recipient email(s)</label>
+            <input class="f-in" type="text" id="emailTo" placeholder="name@example.com, another@example.com">
+            <div style="margin-top:6px;font-size:12px;color:#64748b;">Separate multiple emails with commas or spaces.</div>
+          </div>
+          <div>
+            <label class="f-label">Message (optional)</label>
+            <textarea class="f-area" id="emailMsg" placeholder="Write a short message..."></textarea>
+          </div>
+        </div>
+        <div class="modalx-f">
+          <button type="button" class="btn" id="emailCancel">Cancel</button>
+          <button type="button" class="btn primary" id="emailSend">Send</button>
+        </div>
+      </div>
+    </div>
+
     <?php if ($autoprint) { ?>
       <script>window.addEventListener('load', function(){ setTimeout(function(){ window.print(); }, 300); });</script>
     <?php } ?>
@@ -302,37 +346,80 @@ ob_start();
     <script>
     (function(){
       var btn = document.getElementById('btnSendEmail');
-      if (!btn) return;
+      var modal = document.getElementById('emailModal');
+      var closeBtn = document.getElementById('emailModalClose');
+      var cancelBtn = document.getElementById('emailCancel');
+      var sendBtn = document.getElementById('emailSend');
+      var toEl = document.getElementById('emailTo');
+      var msgEl = document.getElementById('emailMsg');
+      var alertEl = document.getElementById('emailAlert');
+      if (!btn || !modal || !sendBtn || !toEl || !msgEl) return;
+
+      function showAlert(type, text){
+        if (!alertEl) return;
+        var cls = 'alertx';
+        if (type === 'err') cls += ' err';
+        if (type === 'ok') cls += ' ok';
+        alertEl.innerHTML = "<div class='" + cls + "'>" + text + "</div>";
+      }
+      function clearAlert(){ if (alertEl) alertEl.innerHTML = ''; }
+      function openModal(){
+        clearAlert();
+        modal.classList.add('show');
+        modal.setAttribute('aria-hidden','false');
+        setTimeout(function(){ toEl.focus(); }, 50);
+      }
+      function closeModal(){
+        modal.classList.remove('show');
+        modal.setAttribute('aria-hidden','true');
+      }
+
       btn.addEventListener('click', function(){
-        var to = (btn.getAttribute('data-to') || '').trim();
-        if (!to) {
-          to = prompt('Send to email:', '');
-        } else {
-          to = prompt('Send to email:', to);
+        toEl.value = (btn.getAttribute('data-to') || '').trim();
+        if (!msgEl.value) {
+          msgEl.value = 'Please find your receipt attached as a link.';
         }
-        if (!to) return;
-        var msg = prompt('Message (optional):', 'Please find your receipt attached as a link.');
+        openModal();
+      });
+
+      if (closeBtn) closeBtn.addEventListener('click', closeModal);
+      if (cancelBtn) cancelBtn.addEventListener('click', closeModal);
+      modal.addEventListener('click', function(e){
+        if (e.target === modal) closeModal();
+      });
+      document.addEventListener('keydown', function(e){
+        if (e.key === 'Escape' && modal.classList.contains('show')) closeModal();
+      });
+
+      sendBtn.addEventListener('click', function(){
+        clearAlert();
+        var to = (toEl.value || '').trim();
+        if (!to) {
+          showAlert('err', 'Please enter at least one recipient email.');
+          return;
+        }
         var fd = new FormData();
         fd.append('send_doc_email', '1');
         fd.append('to_emails', to);
         fd.append('doc_title', <?php print json_encode('Expense Receipt ' . $rcpt_no); ?>);
         fd.append('doc_url', <?php print json_encode($doc_link); ?>);
+        var msg = (msgEl.value || '').trim();
         if (msg) fd.append('message', msg);
 
-        btn.disabled = true;
+        sendBtn.disabled = true;
         fetch('documents.php', { method: 'POST', body: fd, credentials: 'same-origin' })
           .then(function(r){ return r.json(); })
           .then(function(data){
-            btn.disabled = false;
+            sendBtn.disabled = false;
             if (data && data.status === 'success') {
-              alert('Email sent.');
+              showAlert('ok', 'Email sent.');
             } else {
-              alert((data && data.message) ? data.message : 'Failed to send email');
+              showAlert('err', (data && data.message) ? data.message : 'Failed to send email');
             }
           })
           .catch(function(){
-            btn.disabled = false;
-            alert('Failed to send email');
+            sendBtn.disabled = false;
+            showAlert('err', 'Failed to send email');
           });
       });
     })();
