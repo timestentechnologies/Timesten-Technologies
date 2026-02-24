@@ -121,6 +121,31 @@ $ufile = $r[0];
                         </li>
 
                         <li class="nav-item">
+                            <a class="nav-link menu-link" href="#sidebarFinance" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="sidebarFinance">
+                                <i class="ri-money-dollar-circle-line"></i> <span data-key="t-landing">Finance</span>
+                            </a>
+                            <div class="menu-dropdown collapse" id="sidebarFinance" style="">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="customers" class="nav-link"> Customers </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="invoices" class="nav-link"> Invoices </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="payments" class="nav-link"> Payments </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="expenses" class="nav-link"> Expenses </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="statement" class="nav-link"> Statement </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarSl" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="sidebarLanding">
                                 <i class="ri-image-fill"></i> <span data-key="t-landing">Manage Slider</span>
                             </a>

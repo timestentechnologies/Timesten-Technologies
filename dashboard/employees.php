@@ -595,14 +595,30 @@ if ($q) {
     var photo = btn.getAttribute('data-photo') || '';
     var img = document.getElementById('v_emp_photo');
     var ph = document.getElementById('v_emp_photo_placeholder');
-    if (photo.length > 0) {
-      img.src = 'uploads/employees/' + photo;
-      img.style.display = '';
-      ph.style.display = 'none';
-    } else {
-      img.src = '';
+    if (img) {
+      img.onload = null;
+      img.onerror = null;
+    }
+    if (photo.length > 0 && img && ph) {
       img.style.display = 'none';
       ph.style.display = '';
+      img.onload = function(){
+        img.style.display = '';
+        ph.style.display = 'none';
+      };
+      img.onerror = function(){
+        img.style.display = 'none';
+        ph.style.display = '';
+      };
+      img.src = 'uploads/employees/' + photo;
+    } else {
+      if (img) {
+        img.src = '';
+        img.style.display = 'none';
+      }
+      if (ph) {
+        ph.style.display = '';
+      }
     }
     viewModal.show();
   });
