@@ -196,6 +196,10 @@ if ($has_page_visits_table) {
         .modal-backdrop { z-index: 1040 !important; }
         .modal { z-index: 1050 !important; top: var(--admin-topbar-offset) !important; height: calc(100% - var(--admin-topbar-offset)) !important; }
         .modal-dialog { margin-top: 1rem; }
+
+        @media (min-width: 1400px) {
+            .mt-xxl-n5 { margin-top: 1rem !important; }
+        }
     </style>
 
 </head>
