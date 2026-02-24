@@ -168,7 +168,8 @@ if ($is_print || $is_pdf) {
       <title>Invoice <?php print $inv_no; ?></title>
       <style>
         :root{
-          --primary:#0d6efd;
+          --primary:#f97316;
+          --accent:#7c3aed;
           --text:#0f172a;
           --muted:#64748b;
           --border:#e5e7eb;
@@ -179,15 +180,13 @@ if ($is_print || $is_pdf) {
         html, body{margin:0;padding:0;background:var(--panel);font-family:Arial, Helvetica, sans-serif;color:var(--text);}
 
         /* A4 canvas (works consistently for both Print and Dompdf PDF) */
-        .page{width:210mm;min-height:297mm;margin:10mm auto;padding:0;}
+        .page{width:210mm;margin:0 auto;padding:0;}
         .sheet{background:var(--bg);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:0 10px 34px rgba(15,23,42,.10);position:relative;}
 
         /* Decorative shapes (use real DOM nodes because Dompdf may ignore :before/:after) */
-        .decor{position:absolute;border-radius:999px;pointer-events:none;opacity:.22;}
-        .decor.a{width:180mm;height:180mm;top:-120mm;right:-120mm;background:#0d6efd;}
-        .decor.b{width:160mm;height:160mm;bottom:-120mm;left:-120mm;background:#6366f1;opacity:.16;}
-        .decor.c{width:90mm;height:90mm;top:30mm;right:-55mm;background:#0d6efd;opacity:.10;}
-        .decor.band{border-radius:0;opacity:1;left:0;right:0;top:0;height:38mm;background:linear-gradient(90deg, rgba(13,110,253,.10), rgba(99,102,241,.08));}
+        .decor{position:absolute;border-radius:999px;pointer-events:none;}
+        .decor.tr{width:160mm;height:160mm;top:-110mm;right:-110mm;background:var(--primary);opacity:.12;}
+        .decor.bl{width:160mm;height:160mm;bottom:-120mm;left:-120mm;background:var(--accent);opacity:.10;}
 
         .topbar{padding:18px 22px;border-bottom:1px solid rgba(226,232,240,.9);display:flex;gap:14px;align-items:center;background:transparent;}
         .brand{display:flex;gap:12px;align-items:center;}
@@ -195,7 +194,7 @@ if ($is_print || $is_pdf) {
         .brand-title{font-weight:800;letter-spacing:.2px;}
         .tag{margin-left:auto;text-align:right;}
         .tag .label{font-size:12px;color:var(--muted);}
-        .tag .value{font-size:18px;font-weight:800;color:var(--primary);}
+        .tag .value{font-size:18px;font-weight:800;color:var(--accent);}
 
         .content{padding:18px 22px;position:relative;z-index:1;}
         .grid{display:flex;gap:16px;flex-wrap:wrap;}
@@ -214,7 +213,7 @@ if ($is_print || $is_pdf) {
         .totals .box{width:340px;border:1px solid var(--border);border-radius:12px;padding:12px;}
         .totals .box .row .v{font-size:13px;}
         .totals .box .grand{padding-top:8px;margin-top:8px;border-top:1px dashed var(--border);}
-        .totals .box .grand .v{font-size:16px;color:var(--primary);}
+        .totals .box .grand .v{font-size:16px;color:var(--accent);}
 
         .notes{margin-top:14px;border-left:4px solid var(--primary);background:#f8fafc;padding:10px 12px;border-radius:10px;white-space:pre-line;}
         .footer{padding:14px 22px;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:space-between;align-items:center;flex-wrap:wrap;position:relative;z-index:1;}
@@ -225,6 +224,9 @@ if ($is_print || $is_pdf) {
 
         .hint{margin-top:10px;font-size:11px;color:var(--muted);}
 
+        .pdf .btns{display:none !important;}
+        .pdf .hint{display:none !important;}
+
         @page{size:A4;margin:12mm;}
         @media print{
           body{background:#fff;}
@@ -234,15 +236,17 @@ if ($is_print || $is_pdf) {
           .hint{display:none !important;}
           *{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
         }
+
+        @media screen{
+          .page{margin:10mm auto;}
+        }
       </style>
     </head>
-    <body>
+    <body class="<?php print ($is_pdf ? 'pdf' : ''); ?>">
       <div class="page">
         <div class="sheet">
-          <div class="decor band"></div>
-          <div class="decor a"></div>
-          <div class="decor b"></div>
-          <div class="decor c"></div>
+          <div class="decor tr"></div>
+          <div class="decor bl"></div>
           <div class="topbar">
             <div class="brand">
               <img src="<?php print htmlspecialchars($logo_src); ?>" alt="Logo">
