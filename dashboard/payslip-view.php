@@ -1,6 +1,10 @@
 <?php
 ob_start();
-include "z_db.php";
+if (file_exists(__DIR__ . '/z_db.php')) {
+    include __DIR__ . '/z_db.php';
+} else {
+    include __DIR__ . '/../z_db.php';
+}
 session_start();
 if (!isset($_SESSION['username'])) {
     print "<script>window.location='login.php';</script>";
