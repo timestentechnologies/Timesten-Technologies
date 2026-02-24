@@ -1,9 +1,32 @@
 <?php
 ob_start();
+@ini_set('display_errors', '0');
+@ini_set('log_errors', '1');
+error_reporting(E_ALL);
+
+$db_loaded = false;
 if (file_exists(__DIR__ . '/z_db.php')) {
     include __DIR__ . '/z_db.php';
-} else {
+    $db_loaded = true;
+} elseif (file_exists(__DIR__ . '/../z_db.php')) {
     include __DIR__ . '/../z_db.php';
+    $db_loaded = true;
+}
+
+if (!$db_loaded || !isset($con) || !($con instanceof mysqli)) {
+    $dbg = (isset($_GET['debug']) && (string)$_GET['debug'] === '1');
+    http_response_code(500);
+    header('Content-Type: text/html; charset=utf-8');
+    echo "<!doctype html><html><head><meta charset='utf-8'><title>Payslip Error</title><style>body{font-family:Arial,Helvetica,sans-serif;background:#f3f4f6;margin:0;padding:24px;color:#0f172a;} .card{max-width:720px;margin:0 auto;background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:18px 18px;} .muted{color:#64748b;font-size:13px;}</style></head><body><div class='card'><h2 style='margin:0 0 8px 0;'>Unable to load payslip</h2><div class='muted'>Server configuration error. Database connection is not available.</div>";
+    if ($dbg) {
+        echo "<pre style='white-space:pre-wrap;background:#0b1220;color:#e2e8f0;padding:12px;border-radius:10px;margin-top:14px;'>";
+        echo "db_loaded=" . ($db_loaded ? 'true' : 'false') . "\n";
+        echo "__DIR__=" . __DIR__ . "\n";
+        echo "expected z_db.php: " . __DIR__ . "/z_db.php or " . __DIR__ . "/../z_db.php\n";
+        echo "</pre>";
+    }
+    echo "</div></body></html>";
+    exit;
 }
 session_start();
 if (!isset($_SESSION['username'])) {

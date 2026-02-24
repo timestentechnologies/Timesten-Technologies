@@ -772,7 +772,7 @@ $public_link = $base . '/invoice-view.php?id=' . $invoice_id;
             <a href="payments.php?invoice_id=<?php print (int)$invoice_id; ?>" class="btn btn-soft-success btn-sm">Record Payment</a>
             <a href="invoice-view.php?id=<?php print (int)$invoice_id; ?>&print=1&autoprint=1" target="_blank" class="btn btn-soft-secondary btn-sm">Print</a>
             <a href="invoice-view.php?id=<?php print (int)$invoice_id; ?>&pdf=1" class="btn btn-soft-primary btn-sm">Download PDF</a>
-            <button type="button" class="btn btn-soft-info btn-sm" id="btnInvoiceEmail" data-to="<?php print htmlspecialchars((string)$invoice['customer_email']); ?>">Send Email</button>
+            <button type="button" class="btn btn-soft-info btn-sm" id="btnInvoiceEmail" data-to="<?php print htmlspecialchars((string)$invoice['customer_email']); ?>" data-title="<?php print htmlspecialchars('Invoice ' . (string)$invoice['invoice_no']); ?>" data-url="<?php print htmlspecialchars((string)$public_link); ?>">Send Email</button>
             <a href="invoices.php" class="btn btn-light btn-sm">Back</a>
           </div>
         </div>
@@ -959,46 +959,111 @@ $public_link = $base . '/invoice-view.php?id=' . $invoice_id;
         </div>
       </div>
 
+      <div class="modal fade" id="invoiceEmailModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Send Invoice via Email</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div id="invEmailAlert"></div>
+              <form id="invoiceEmailForm">
+                <input type="hidden" name="send_doc_email" value="1">
+                <input type="hidden" name="doc_title" id="inv_doc_title" value="">
+                <input type="hidden" name="doc_url" id="inv_doc_url" value="">
+                <div class="mb-3">
+                  <label class="form-label">Recipient email(s)</label>
+                  <input type="text" class="form-control" name="to_emails" id="inv_to_emails" placeholder="name@example.com, another@example.com">
+                  <div class="text-muted small mt-1">Separate multiple emails with commas or spaces.</div>
+                </div>
+                <div class="mb-0">
+                  <label class="form-label">Message (optional)</label>
+                  <textarea class="form-control" name="message" id="inv_message" rows="3" placeholder="Write a short message..."></textarea>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-info" id="btnSendInvoiceEmail">Send</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <script>
       (function(){
         var btn = document.getElementById('btnInvoiceEmail');
-        if (!btn) return;
-        btn.addEventListener('click', function(){
-          var to = (btn.getAttribute('data-to') || '').trim();
-          if (!to) {
-            to = prompt('Send to email:', '');
-          } else {
-            to = prompt('Send to email:', to);
-          }
-          if (!to) return;
-          var msg = prompt('Message (optional):', 'Please find your invoice attached as a link.');
-          var fd = new FormData();
-          fd.append('send_doc_email', '1');
-          fd.append('to_emails', to);
-          fd.append('doc_title', <?php print json_encode('Invoice ' . (string)$invoice['invoice_no']); ?>);
-          fd.append('doc_url', <?php print json_encode($public_link); ?>);
-          if (msg) fd.append('message', msg);
+        var modalEl = document.getElementById('invoiceEmailModal');
+        var sendBtn = document.getElementById('btnSendInvoiceEmail');
+        var alertEl = document.getElementById('invEmailAlert');
+        var toEl = document.getElementById('inv_to_emails');
+        var titleEl = document.getElementById('inv_doc_title');
+        var urlEl = document.getElementById('inv_doc_url');
+        var msgEl = document.getElementById('inv_message');
+        if (!btn || !modalEl || !sendBtn || !toEl || !titleEl || !urlEl) return;
 
-          btn.disabled = true;
+        var invModal = new bootstrap.Modal(modalEl);
+
+        btn.addEventListener('click', function(){
+          if (alertEl) alertEl.innerHTML = '';
+          var to = (btn.getAttribute('data-to') || '').trim();
+          var t = (btn.getAttribute('data-title') || '').trim();
+          var u = (btn.getAttribute('data-url') || '').trim();
+          toEl.value = to;
+          titleEl.value = t;
+          urlEl.value = u;
+          if (msgEl && !msgEl.value) {
+            msgEl.value = 'Please find your invoice attached as a link.';
+          }
+          invModal.show();
+          setTimeout(function(){ toEl.focus(); }, 250);
+        });
+
+        sendBtn.addEventListener('click', function(){
+          if (alertEl) alertEl.innerHTML = '';
+          var to = (toEl.value || '').trim();
+          if (!to) {
+            if (alertEl) {
+              alertEl.innerHTML = "<div class='alert alert-danger'>Please enter at least one recipient email.</div>";
+            }
+            return;
+          }
+          var fd = new FormData(document.getElementById('invoiceEmailForm'));
+          sendBtn.disabled = true;
           fetch('documents.php', { method: 'POST', body: fd, credentials: 'same-origin' })
             .then(function(r){ return r.json(); })
             .then(function(data){
-              btn.disabled = false;
+              sendBtn.disabled = false;
               if (data && data.status === 'success') {
-                alert('Email sent.');
+                if (alertEl) {
+                  alertEl.innerHTML = "<div class='alert alert-success'>Email sent.</div>";
+                }
               } else {
-                alert((data && data.message) ? data.message : 'Failed to send email');
+                if (alertEl) {
+                  alertEl.innerHTML = "<div class='alert alert-danger'>" + ((data && data.message) ? data.message : 'Failed to send email') + "</div>";
+                }
               }
             })
             .catch(function(){
-              btn.disabled = false;
-              alert('Failed to send email');
+              sendBtn.disabled = false;
+              if (alertEl) {
+                alertEl.innerHTML = "<div class='alert alert-danger'>Failed to send email.</div>";
+              }
             });
         });
       })();
       </script>
 
-    </div>
+      <script>
+      (function(){
+        var sel = document.getElementById('product_id');
+        var desc = document.getElementById('description');
+        var price = document.getElementById('unit_price');
+        var wrap = document.getElementById('newProductWrap');
+        var npn = document.getElementById('new_product_name');
+        var npp = document.getElementById('new_product_price');
+        if (!sel || !desc || !price) return;
   </div>
 </div>
 
