@@ -110,6 +110,7 @@ if ($is_print || $is_pdf) {
     $company_url = '';
     $company_phone = '';
     $company_email = '';
+    $company_address = '';
 
     $sc_rs = mysqli_query($con, "SELECT site_title, site_url FROM siteconfig WHERE id=1 LIMIT 1");
     $sc = $sc_rs ? mysqli_fetch_assoc($sc_rs) : null;
@@ -118,11 +119,18 @@ if ($is_print || $is_pdf) {
         if (!empty($sc['site_url'])) { $company_url = (string)$sc['site_url']; }
     }
 
-    $ct_rs = mysqli_query($con, "SELECT phone1, email1 FROM sitecontact WHERE id=1 LIMIT 1");
+    $col_rs = mysqli_query($con, "SHOW COLUMNS FROM sitecontact LIKE 'address'");
+    $has_addr_col = ($col_rs && mysqli_num_rows($col_rs) > 0);
+
+    $ct_sql = $has_addr_col ? "SELECT phone1, email1, address FROM sitecontact WHERE id=1 LIMIT 1" : "SELECT phone1, email1 FROM sitecontact WHERE id=1 LIMIT 1";
+    $ct_rs = mysqli_query($con, $ct_sql);
     $ct = $ct_rs ? mysqli_fetch_assoc($ct_rs) : null;
     if ($ct) {
         $company_phone = !empty($ct['phone1']) ? (string)$ct['phone1'] : '';
         $company_email = !empty($ct['email1']) ? (string)$ct['email1'] : '';
+        if ($has_addr_col && !empty($ct['address'])) {
+            $company_address = (string)$ct['address'];
+        }
     }
 
     $logo_path = 'assets/images/logo-dark.png';
@@ -291,6 +299,9 @@ if ($is_print || $is_pdf) {
               <img src="<?php print htmlspecialchars($logo_src); ?>" alt="Logo">
               <div>
                 <div class="brand-title"><?php print htmlspecialchars($company_name); ?></div>
+                <?php if (strlen(trim($company_address)) > 0) { ?>
+                  <div class="small" style="color:var(--muted);font-size:12px;white-space:pre-line;"><?php print htmlspecialchars($company_address); ?></div>
+                <?php } ?>
               </div>
             </div>
             <div class="tag">

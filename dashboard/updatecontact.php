@@ -49,11 +49,18 @@
                                 <?php
            $status = "OK"; //initial status
 $msg="";
+
+$col_rs = mysqli_query($con, "SHOW COLUMNS FROM sitecontact LIKE 'address'");
+if (!$col_rs || mysqli_num_rows($col_rs) < 1) {
+    @mysqli_query($con, "ALTER TABLE sitecontact ADD COLUMN address TEXT NULL AFTER email2");
+}
+
            if(ISSET($_POST['save'])){
 $phone1= mysqli_real_escape_string($con,$_POST['phone1']);
 $phone2 = mysqli_real_escape_string($con,$_POST['phone2']);
 $email1 = mysqli_real_escape_string($con,$_POST['email1']);
 $email2 = mysqli_real_escape_string($con,$_POST['email2']);
+$address = mysqli_real_escape_string($con,$_POST['address']);
 $longitude = mysqli_real_escape_string($con,$_POST['longitude']);
 $latitude = mysqli_real_escape_string($con,$_POST['latitude']);
 
@@ -79,7 +86,7 @@ $uploads_dir = 'uploads';
 
 if($status=="OK")
 {
-$qb=mysqli_query($con,"update sitecontact set phone1='$phone1', phone2='$phone2', email1='$email1',email2='$email2',longitude='$longitude',latitude='$latitude' where id=1");
+$qb=mysqli_query($con,"update sitecontact set phone1='$phone1', phone2='$phone2', email1='$email1',email2='$email2',address='$address',longitude='$longitude',latitude='$latitude' where id=1");
 
 		if($qb){
 		    	$errormsg= "
@@ -129,6 +136,7 @@ while($row = mysqli_fetch_array($result))
 	$phone2="$row[phone2]";
   $email1="$row[email1]";
   $email2="$row[email2]";
+  $address=isset($row['address']) ? (string)$row['address'] : '';
   $longitude="$row[longitude]";
   $latitude="$row[latitude]";
 }
@@ -173,6 +181,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                                                         <div class="mb-3">
                                                             <label for="firstnameInput" class="form-label"> Alternative Email</label>
                                                             <input type="text" class="form-control" id="firstnameInput" name="email2"  value="<?php print $email2 ?>">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-12">
+                                                        <div class="mb-3">
+                                                            <label for="firstnameInput" class="form-label">Address</label>
+                                                            <textarea class="form-control" id="firstnameInput" name="address" rows="2" placeholder="Company address"><?php print htmlspecialchars((string)$address); ?></textarea>
                                                         </div>
                                                     </div>
 
