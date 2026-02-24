@@ -13,12 +13,14 @@ if (isset($_GET['debug']) && (string)$_GET['debug'] === '1') {
     }
     session_start();
     $authed = isset($_SESSION['username']);
-    $has_con = isset($con) && ($con instanceof mysqli);
+    $mysqli_ok = class_exists('mysqli');
+    $has_con = $mysqli_ok && isset($con) && ($con instanceof mysqli);
     $has_phpmailer6 = file_exists(__DIR__ . '/../PHPMailer-6.8.0/src/PHPMailer.php');
     $has_phpmailer_legacy = file_exists(__DIR__ . '/../PHPMailer/PHPMailerAutoload.php');
 
     echo "<!doctype html><html><head><meta charset='utf-8'><title>Documents Debug</title><style>body{font-family:Arial,Helvetica,sans-serif;background:#f3f4f6;margin:0;padding:24px;color:#0f172a;} .card{max-width:820px;margin:0 auto;background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;} pre{white-space:pre-wrap;background:#0b1220;color:#e2e8f0;padding:12px;border-radius:10px;}</style></head><body><div class='card'><h2 style='margin:0 0 10px 0;'>documents.php debug</h2>";
     echo "<pre>db_loaded=" . ($db_loaded ? 'true' : 'false') . "\n";
+    echo "mysqli_ok=" . ($mysqli_ok ? 'true' : 'false') . "\n";
     echo "has_con=" . ($has_con ? 'true' : 'false') . "\n";
     echo "authed=" . ($authed ? 'true' : 'false') . "\n";
     echo "phpmailer6=" . ($has_phpmailer6 ? 'true' : 'false') . "\n";
@@ -45,7 +47,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_doc_email'])) {
         exit;
     }
 
-    if (!$db_loaded || !isset($con) || !($con instanceof mysqli)) {
+    $mysqli_ok = class_exists('mysqli');
+    if (!$db_loaded || !$mysqli_ok || !isset($con) || !($con instanceof mysqli)) {
         header('Content-Type: application/json');
         echo json_encode(['status' => 'error', 'message' => 'Database connection not available.']);
         exit;
