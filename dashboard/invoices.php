@@ -454,31 +454,39 @@ if ($inv_rs2) {
 
 <script>
 (function(){
-  if (!window.bootstrap) return;
-  var editEl = document.getElementById('editInvoiceModal');
-  var delEl = document.getElementById('deleteInvoiceModal');
-  var editModal = editEl ? new bootstrap.Modal(editEl) : null;
-  var delModal = delEl ? new bootstrap.Modal(delEl) : null;
+  function init(){
+    if (!window.bootstrap) return;
+    var editEl = document.getElementById('editInvoiceModal');
+    var delEl = document.getElementById('deleteInvoiceModal');
+    var editModal = editEl ? new bootstrap.Modal(editEl) : null;
+    var delModal = delEl ? new bootstrap.Modal(delEl) : null;
 
-  document.addEventListener('click', function(e){
-    var btn = e.target && e.target.closest ? e.target.closest('.js-inv-edit') : null;
-    if (!btn || !editModal) return;
-    document.getElementById('e_id').value = btn.getAttribute('data-id') || '';
-    document.getElementById('e_customer').value = btn.getAttribute('data-customer') || '';
-    document.getElementById('e_issue').value = btn.getAttribute('data-issue') || '';
-    document.getElementById('e_due').value = btn.getAttribute('data-due') || '';
-    document.getElementById('e_status').value = btn.getAttribute('data-status') || 'draft';
-    document.getElementById('e_notes').value = btn.getAttribute('data-notes') || '';
-    editModal.show();
-  });
+    document.addEventListener('click', function(e){
+      var btn = e.target && e.target.closest ? e.target.closest('.js-inv-edit') : null;
+      if (!btn || !editModal) return;
+      document.getElementById('e_id').value = btn.getAttribute('data-id') || '';
+      document.getElementById('e_customer').value = btn.getAttribute('data-customer') || '';
+      document.getElementById('e_issue').value = btn.getAttribute('data-issue') || '';
+      document.getElementById('e_due').value = btn.getAttribute('data-due') || '';
+      document.getElementById('e_status').value = btn.getAttribute('data-status') || 'draft';
+      document.getElementById('e_notes').value = btn.getAttribute('data-notes') || '';
+      editModal.show();
+    });
 
-  document.addEventListener('click', function(e){
-    var btn = e.target && e.target.closest ? e.target.closest('.js-inv-del') : null;
-    if (!btn || !delModal) return;
-    document.getElementById('d_id').value = btn.getAttribute('data-id') || '';
-    document.getElementById('d_name').textContent = btn.getAttribute('data-name') || '';
-    delModal.show();
-  });
+    document.addEventListener('click', function(e){
+      var btn = e.target && e.target.closest ? e.target.closest('.js-inv-del') : null;
+      if (!btn || !delModal) return;
+      document.getElementById('d_id').value = btn.getAttribute('data-id') || '';
+      document.getElementById('d_name').textContent = btn.getAttribute('data-name') || '';
+      delModal.show();
+    });
+  }
+
+  if (document.readyState === 'complete') {
+    init();
+  } else {
+    window.addEventListener('load', init);
+  }
 })();
 </script>
 
