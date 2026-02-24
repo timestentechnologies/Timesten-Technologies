@@ -36,6 +36,44 @@ mysqli_query($con, "CREATE TABLE IF NOT EXISTS employees (
   created_at DATETIME NULL
 )");
 
+mysqli_query($con, "CREATE TABLE IF NOT EXISTS employee_payments (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  employee_id INT NOT NULL,
+  amount DECIMAL(12,2) NOT NULL,
+  pay_date DATE NULL,
+  payment_method VARCHAR(50) NULL,
+  reference VARCHAR(120) NULL,
+  notes TEXT NULL,
+  created_by VARCHAR(120) NULL,
+  created_at DATETIME NULL
+)");
+
+mysqli_query($con, "CREATE TABLE IF NOT EXISTS finance_expense_categories (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(120) NOT NULL,
+  created_at DATETIME NULL
+)");
+
+mysqli_query($con, "CREATE TABLE IF NOT EXISTS finance_expenses (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  category_id INT NULL,
+  vendor VARCHAR(160) NULL,
+  description TEXT NULL,
+  amount DECIMAL(12,2) NOT NULL,
+  expense_date DATE NULL,
+  employee_id INT NULL,
+  payment_method VARCHAR(50) NULL,
+  reference VARCHAR(120) NULL,
+  receipt_file VARCHAR(255) NULL,
+  created_at DATETIME NULL
+)");
+
+$cat_seed = mysqli_query($con, "SELECT COUNT(*) AS c FROM finance_expense_categories");
+$cat_row = $cat_seed ? mysqli_fetch_assoc($cat_seed) : null;
+if ($cat_row && (int)$cat_row['c'] < 1) {
+    mysqli_query($con, "INSERT INTO finance_expense_categories (name, created_at) VALUES ('General', NOW()), ('Office', NOW()), ('Transport', NOW()), ('Salary', NOW())");
+}
+
 $col_comp_type = mysqli_query($con, "SHOW COLUMNS FROM employees LIKE 'comp_type'");
 if (!$col_comp_type || mysqli_num_rows($col_comp_type) < 1) {
     @mysqli_query($con, "ALTER TABLE employees ADD COLUMN comp_type VARCHAR(30) NULL AFTER job_title");
@@ -236,6 +274,64 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_employee'])) {
     exit;
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pay_employee'])) {
+    $emp_id = (int)($_POST['employee_id'] ?? 0);
+    $amount = (float)($_POST['amount'] ?? 0);
+    $pay_date = trim((string)($_POST['pay_date'] ?? ''));
+    $payment_method = trim((string)($_POST['payment_method'] ?? ''));
+    $reference = trim((string)($_POST['reference'] ?? ''));
+    $notes = trim((string)($_POST['notes'] ?? ''));
+
+    if ($emp_id < 1 || $amount <= 0) {
+        $_SESSION['employees_flash_error'] = "<div class='alert alert-danger alert-dismissible alert-outline fade show'>Invalid payment details.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+        header('Location: employees.php');
+        exit;
+    }
+
+    $emp_rs = mysqli_query($con, "SELECT full_name FROM employees WHERE id=$emp_id LIMIT 1");
+    $emp_row = $emp_rs ? mysqli_fetch_assoc($emp_rs) : null;
+    $emp_name = $emp_row && !empty($emp_row['full_name']) ? (string)$emp_row['full_name'] : ('Employee #' . $emp_id);
+
+    $pm_s = mysqli_real_escape_string($con, $payment_method);
+    $ref_s = mysqli_real_escape_string($con, $reference);
+    $notes_s = mysqli_real_escape_string($con, $notes);
+    $user_s = mysqli_real_escape_string($con, (string)$username);
+    $date_sql = strlen($pay_date) ? ("'" . mysqli_real_escape_string($con, $pay_date) . "'") : ("'" . date('Y-m-d') . "'");
+    $amount_sql = (string)((float)$amount);
+
+    mysqli_query($con, "INSERT INTO employee_payments (employee_id, amount, pay_date, payment_method, reference, notes, created_by, created_at) VALUES ($emp_id, $amount_sql, $date_sql, '$pm_s', '$ref_s', '$notes_s', '$user_s', NOW())");
+    $pay_id = (int)mysqli_insert_id($con);
+
+    $salary_cat_id = 0;
+    $salary_cat_name_s = mysqli_real_escape_string($con, 'Salary');
+    $cat_q = mysqli_query($con, "SELECT id FROM finance_expense_categories WHERE name='$salary_cat_name_s' LIMIT 1");
+    if ($cat_q && mysqli_num_rows($cat_q) > 0) {
+        $cat = mysqli_fetch_assoc($cat_q);
+        $salary_cat_id = (int)$cat['id'];
+    } else {
+        mysqli_query($con, "INSERT INTO finance_expense_categories (name, created_at) VALUES ('$salary_cat_name_s', NOW())");
+        $salary_cat_id = (int)mysqli_insert_id($con);
+    }
+
+    $vendor_s = mysqli_real_escape_string($con, $emp_name);
+    $desc = 'Salary payment';
+    $desc .= ' - ' . $emp_name;
+    if ($pay_id > 0) { $desc .= ' (Payment #' . $pay_id . ')'; }
+    $desc_s = mysqli_real_escape_string($con, $desc);
+    $cat_sql = $salary_cat_id > 0 ? (string)$salary_cat_id : 'NULL';
+
+    mysqli_query(
+        $con,
+        "INSERT INTO finance_expenses (category_id, vendor, description, amount, expense_date, employee_id, payment_method, reference, receipt_file, created_at)
+         VALUES ($cat_sql, '$vendor_s', '$desc_s', $amount_sql, $date_sql, $emp_id, '$pm_s', '$ref_s', NULL, NOW())"
+    );
+    $expense_id = (int)mysqli_insert_id($con);
+
+    $_SESSION['employees_flash_success'] = "<div class='alert alert-success alert-dismissible alert-outline fade show'>Payment saved and expense captured. <a class='text-decoration-underline' href='payslip-view.php?id=$pay_id' target='_blank'>View Payslip</a><button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+    header('Location: employees.php');
+    exit;
+}
+
 $employees = [];
 $q = mysqli_query($con, "SELECT * FROM employees ORDER BY id DESC");
 if ($q) {
@@ -259,6 +355,57 @@ if ($q) {
                 <li class="breadcrumb-item active">Employees</li>
               </ol>
             </div>
+
+      <div class="modal fade" id="payEmployeeModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Pay Employee</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form method="post" id="payEmployeeForm">
+                <input type="hidden" name="pay_employee" value="1">
+                <input type="hidden" name="employee_id" id="p_emp_id" value="">
+                <div class="row g-3">
+                  <div class="col-12">
+                    <div class="p-3 border rounded-3 bg-light">
+                      <div class="text-muted small">Employee</div>
+                      <div class="fw-semibold" id="p_emp_name"></div>
+                      <div class="text-muted small" id="p_emp_comp"></div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <label class="form-label">Payment Date</label>
+                    <input type="date" class="form-control" name="pay_date" value="<?php print date('Y-m-d'); ?>">
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <label class="form-label">Amount</label>
+                    <input type="number" step="0.01" class="form-control" name="amount" id="p_amount" required>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <label class="form-label">Payment Method</label>
+                    <input type="text" class="form-control" name="payment_method" placeholder="Cash / Bank / MPESA">
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <label class="form-label">Reference</label>
+                    <input type="text" class="form-control" name="reference" placeholder="Transaction ID / Ref">
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label">Notes (optional)</label>
+                    <textarea class="form-control" name="notes" rows="2"></textarea>
+                    <div class="text-muted small mt-1">This will automatically create a matching expense entry.</div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+              <button type="submit" form="payEmployeeForm" class="btn btn-success">Pay & Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
           </div>
         </div>
       </div>
@@ -310,6 +457,7 @@ if ($q) {
                     print "<tr>";
                     print "<td>$nm</td><td>$em</td><td>$ph</td><td>$jt</td><td>$dt</td>";
                     print "<td class='text-end'>";
+                    print "<button type='button' class='btn btn-sm btn-soft-success js-emp-pay' data-id='$id' data-name='$nm' data-comptype='$ct' data-compamount='$ca'>Pay</button> ";
                     print "<button type='button' class='btn btn-sm btn-soft-primary js-emp-view' data-id='$id' data-name='$nm' data-email='$em' data-phone='$ph' data-job='$jt' data-comptype='$ct' data-compamount='$ca' data-photo='$photo' data-date='$dt' data-hiredfrom='$hiredFrom' data-cvdoc='$cvDoc'>View</button> ";
                     print "<button type='button' class='btn btn-sm btn-soft-secondary js-emp-edit' data-id='$id' data-name='$nm' data-email='$em' data-phone='$ph' data-job='$jt' data-comptype='$ct' data-compamount='$ca' data-photo='$photo'>Edit</button> ";
                     print "<button type='button' class='btn btn-sm btn-soft-danger js-emp-del' data-id='$id' data-name='$nm'>Delete</button>";
@@ -557,9 +705,11 @@ if ($q) {
   var viewEl = document.getElementById('viewEmployeeModal');
   var editEl = document.getElementById('editEmployeeModal');
   var delEl = document.getElementById('deleteEmployeeModal');
+  var payEl = document.getElementById('payEmployeeModal');
   var viewModal = viewEl ? new bootstrap.Modal(viewEl) : null;
   var editModal = editEl ? new bootstrap.Modal(editEl) : null;
   var delModal = delEl ? new bootstrap.Modal(delEl) : null;
+  var payModal = payEl ? new bootstrap.Modal(payEl) : null;
 
   document.addEventListener('click', function(e){
     var btn = e.target && e.target.closest ? e.target.closest('.js-emp-view') : null;
@@ -600,8 +750,8 @@ if ($q) {
       img.onerror = null;
     }
     if (photo.length > 0 && img && ph) {
-      img.style.display = 'none';
-      ph.style.display = '';
+      img.style.display = '';
+      ph.style.display = 'none';
       img.onload = function(){
         img.style.display = '';
         ph.style.display = 'none';
@@ -621,6 +771,35 @@ if ($q) {
       }
     }
     viewModal.show();
+  });
+
+  document.addEventListener('click', function(e){
+    var btn = e.target && e.target.closest ? e.target.closest('.js-emp-pay') : null;
+    if (!btn || !payModal) return;
+    document.getElementById('p_emp_id').value = btn.getAttribute('data-id') || '';
+    var name = btn.getAttribute('data-name') || '';
+    document.getElementById('p_emp_name').textContent = name;
+
+    var ct = (btn.getAttribute('data-comptype') || '').toLowerCase();
+    var ca = btn.getAttribute('data-compamount') || '';
+    var compTxt = '';
+    if (ct === 'salary') {
+      compTxt = 'Salary';
+      if (ca.length > 0) compTxt += ' - ' + ca;
+    } else if (ct.length > 0) {
+      compTxt = ct;
+      if (ca.length > 0) compTxt += ' - ' + ca;
+    } else if (ca.length > 0) {
+      compTxt = ca;
+    }
+    document.getElementById('p_emp_comp').textContent = compTxt;
+    if (ct === 'salary' && ca.length > 0) {
+      document.getElementById('p_amount').value = ca;
+    } else {
+      document.getElementById('p_amount').value = '';
+    }
+
+    payModal.show();
   });
 
   document.addEventListener('click', function(e){

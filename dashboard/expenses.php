@@ -290,6 +290,7 @@ if ($ex_rs) {
                         print "<tr><td colspan='7' class='text-center text-muted'>No expenses yet.</td></tr>";
                     }
                     foreach ($expenses as $x) {
+                        $id = (int)$x['id'];
                         $dt = htmlspecialchars((string)$x['expense_date']);
                         $cat = htmlspecialchars((string)$x['category_name']);
                         $vd = htmlspecialchars((string)$x['vendor']);
@@ -297,9 +298,9 @@ if ($ex_rs) {
                         $am = (float)$x['amount'];
                         $pm = htmlspecialchars((string)$x['payment_method']);
                         $rf = htmlspecialchars((string)$x['receipt_file']);
-                        $rc = '';
+                        $rc = "<a href='expense-receipt-view.php?id=$id' target='_blank' class='btn btn-sm btn-soft-success'>Receipt</a> ";
                         if (strlen($rf) > 0) {
-                            $rc = "<a href='uploads/expenses/$rf' target='_blank' class='btn btn-sm btn-soft-primary'>View</a>";
+                            $rc .= "<a href='uploads/expenses/$rf' target='_blank' class='btn btn-sm btn-soft-primary'>File</a>";
                         }
                         print "<tr><td>$dt</td><td>$cat</td><td>$vd</td><td>$emp</td><td class='text-end fw-semibold'>" . number_format($am,2) . "</td><td>$pm</td><td>$rc</td></tr>";
                     }
