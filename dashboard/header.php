@@ -190,6 +190,13 @@ if ($has_page_visits_table) {
     <!-- custom Css-->
     <link href="assets/css/custom.min.css" rel="stylesheet" type="text/css" />
 
+    <style>
+        #page-topbar { z-index: 1055; }
+        .modal-backdrop { z-index: 1040; }
+        .modal { z-index: 1045; }
+        .modal-dialog { margin-top: 90px; }
+    </style>
+
 </head>
 
 <body>

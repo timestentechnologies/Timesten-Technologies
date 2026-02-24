@@ -82,21 +82,21 @@ if ($has_page_visits_table) {
         exit;
     }
 
-    $mp_rs = mysqli_query($con, "SELECT page_url, COUNT(*) AS c FROM page_visits GROUP BY page_url ORDER BY c DESC LIMIT 10");
+    $mp_rs = mysqli_query($con, "SELECT page_url, COUNT(*) AS c FROM page_visits WHERE page_url NOT LIKE '%/dashboard/%' GROUP BY page_url ORDER BY c DESC LIMIT 10");
     if ($mp_rs) {
         while ($r = mysqli_fetch_assoc($mp_rs)) {
             $most_pages[] = $r;
         }
     }
 
-    $dev_rs = mysqli_query($con, "SELECT device_type, COUNT(*) AS c FROM page_visits GROUP BY device_type ORDER BY c DESC");
+    $dev_rs = mysqli_query($con, "SELECT device_type, COUNT(*) AS c FROM page_visits WHERE page_url NOT LIKE '%/dashboard/%' GROUP BY device_type ORDER BY c DESC");
     if ($dev_rs) {
         while ($r = mysqli_fetch_assoc($dev_rs)) {
             $device_breakdown[] = $r;
         }
     }
 
-    $recent_total_rs = mysqli_query($con, "SELECT COUNT(*) AS c FROM page_visits");
+    $recent_total_rs = mysqli_query($con, "SELECT COUNT(*) AS c FROM page_visits WHERE page_url NOT LIKE '%/dashboard/%'");
     if ($recent_total_rs) {
         $recent_total_row = mysqli_fetch_assoc($recent_total_rs);
         $recent_total = $recent_total_row ? (int)$recent_total_row['c'] : 0;
@@ -106,7 +106,7 @@ if ($has_page_visits_table) {
     if ($recent_page > $recent_total_pages) { $recent_page = $recent_total_pages; }
     $recent_offset = ($recent_page - 1) * $recent_per_page;
 
-    $rv_rs = mysqli_query($con, "SELECT page_url, ip_address, device_type, location, created_at FROM page_visits ORDER BY id DESC LIMIT $recent_offset,$recent_per_page");
+    $rv_rs = mysqli_query($con, "SELECT page_url, ip_address, device_type, location, created_at FROM page_visits WHERE page_url NOT LIKE '%/dashboard/%' ORDER BY id DESC LIMIT $recent_offset,$recent_per_page");
     if ($rv_rs) {
         while ($r = mysqli_fetch_assoc($rv_rs)) {
             $recent_visits[] = $r;

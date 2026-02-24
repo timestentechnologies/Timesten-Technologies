@@ -28,10 +28,21 @@ mysqli_query($con, "CREATE TABLE IF NOT EXISTS employees (
   email VARCHAR(160) NULL,
   phone VARCHAR(80) NULL,
   job_title VARCHAR(255) NULL,
+  comp_type VARCHAR(30) NULL,
+  comp_amount DECIMAL(12,2) NULL,
   hired_from_application_id INT NULL,
   cv_document_id INT NULL,
   created_at DATETIME NULL
 )");
+
+$col_comp_type = mysqli_query($con, "SHOW COLUMNS FROM employees LIKE 'comp_type'");
+if (!$col_comp_type || mysqli_num_rows($col_comp_type) < 1) {
+    @mysqli_query($con, "ALTER TABLE employees ADD COLUMN comp_type VARCHAR(30) NULL AFTER job_title");
+}
+$col_comp_amount = mysqli_query($con, "SHOW COLUMNS FROM employees LIKE 'comp_amount'");
+if (!$col_comp_amount || mysqli_num_rows($col_comp_amount) < 1) {
+    @mysqli_query($con, "ALTER TABLE employees ADD COLUMN comp_amount DECIMAL(12,2) NULL AFTER comp_type");
+}
 
 $errormsg = '';
 $successmsg = '';
@@ -52,6 +63,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_employee'])) {
     $email = trim((string)($_POST['email'] ?? ''));
     $phone = trim((string)($_POST['phone'] ?? ''));
     $job_title = trim((string)($_POST['job_title'] ?? ''));
+    $comp_type = trim((string)($_POST['comp_type'] ?? ''));
+    $comp_amount_raw = trim((string)($_POST['comp_amount'] ?? ''));
+    $comp_amount = strlen($comp_amount_raw) > 0 ? (float)$comp_amount_raw : null;
 
     if (strlen($full_name) < 2) {
         $_SESSION['employees_flash_error'] = "<div class='alert alert-danger alert-dismissible alert-outline fade show'>Full name is required.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
@@ -64,7 +78,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_employee'])) {
     $phone_s = mysqli_real_escape_string($con, $phone);
     $job_title_s = mysqli_real_escape_string($con, $job_title);
 
-    mysqli_query($con, "INSERT INTO employees (full_name, email, phone, job_title, created_at) VALUES ('$full_name_s', '$email_s', '$phone_s', '$job_title_s', NOW())");
+    $allowed_comp = ['salary', 'commission', 'voluntary'];
+    if (!in_array($comp_type, $allowed_comp, true)) { $comp_type = ''; }
+    $comp_type_s = mysqli_real_escape_string($con, $comp_type);
+    $comp_amount_sql = $comp_amount === null ? 'NULL' : (string)((float)$comp_amount);
+
+    mysqli_query($con, "INSERT INTO employees (full_name, email, phone, job_title, comp_type, comp_amount, created_at) VALUES ('$full_name_s', '$email_s', '$phone_s', '$job_title_s', '$comp_type_s', $comp_amount_sql, NOW())");
     $employee_id = (int)mysqli_insert_id($con);
 
     $doc_id = 0;
@@ -121,6 +140,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_employee'])) {
     $email = trim((string)($_POST['email'] ?? ''));
     $phone = trim((string)($_POST['phone'] ?? ''));
     $job_title = trim((string)($_POST['job_title'] ?? ''));
+    $comp_type = trim((string)($_POST['comp_type'] ?? ''));
+    $comp_amount_raw = trim((string)($_POST['comp_amount'] ?? ''));
+    $comp_amount = strlen($comp_amount_raw) > 0 ? (float)$comp_amount_raw : null;
 
     if ($emp_id < 1 || strlen($full_name) < 2) {
         $_SESSION['employees_flash_error'] = "<div class='alert alert-danger alert-dismissible alert-outline fade show'>Invalid employee data.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
@@ -132,7 +154,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_employee'])) {
     $email_s = mysqli_real_escape_string($con, $email);
     $phone_s = mysqli_real_escape_string($con, $phone);
     $job_title_s = mysqli_real_escape_string($con, $job_title);
-    mysqli_query($con, "UPDATE employees SET full_name='$full_name_s', email='$email_s', phone='$phone_s', job_title='$job_title_s' WHERE id=$emp_id LIMIT 1");
+
+    $allowed_comp = ['salary', 'commission', 'voluntary'];
+    if (!in_array($comp_type, $allowed_comp, true)) { $comp_type = ''; }
+    $comp_type_s = mysqli_real_escape_string($con, $comp_type);
+    $comp_amount_sql = $comp_amount === null ? 'NULL' : (string)((float)$comp_amount);
+
+    mysqli_query($con, "UPDATE employees SET full_name='$full_name_s', email='$email_s', phone='$phone_s', job_title='$job_title_s', comp_type='$comp_type_s', comp_amount=$comp_amount_sql WHERE id=$emp_id LIMIT 1");
     $_SESSION['employees_flash_success'] = "<div class='alert alert-success alert-dismissible alert-outline fade show'>Employee updated.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
     header('Location: employees.php');
     exit;
@@ -212,6 +240,8 @@ if ($q) {
                     $em = htmlspecialchars((string)$e['email']);
                     $ph = htmlspecialchars((string)$e['phone']);
                     $jt = htmlspecialchars((string)$e['job_title']);
+                    $ct = htmlspecialchars((string)($e['comp_type'] ?? ''));
+                    $ca = htmlspecialchars((string)($e['comp_amount'] ?? ''));
                     $dt = htmlspecialchars((string)$e['created_at']);
                     $hiredFrom = htmlspecialchars((string)$e['hired_from_application_id']);
                     $cvDoc = htmlspecialchars((string)$e['cv_document_id']);
@@ -219,8 +249,8 @@ if ($q) {
                     print "<tr>";
                     print "<td>$nm</td><td>$em</td><td>$ph</td><td>$jt</td><td>$dt</td>";
                     print "<td class='text-end'>";
-                    print "<button type='button' class='btn btn-sm btn-soft-primary js-emp-view' data-id='$id' data-name='$nm' data-email='$em' data-phone='$ph' data-job='$jt' data-date='$dt' data-hiredfrom='$hiredFrom' data-cvdoc='$cvDoc'>View</button> ";
-                    print "<button type='button' class='btn btn-sm btn-soft-secondary js-emp-edit' data-id='$id' data-name='$nm' data-email='$em' data-phone='$ph' data-job='$jt'>Edit</button> ";
+                    print "<button type='button' class='btn btn-sm btn-soft-primary js-emp-view' data-id='$id' data-name='$nm' data-email='$em' data-phone='$ph' data-job='$jt' data-comptype='$ct' data-compamount='$ca' data-date='$dt' data-hiredfrom='$hiredFrom' data-cvdoc='$cvDoc'>View</button> ";
+                    print "<button type='button' class='btn btn-sm btn-soft-secondary js-emp-edit' data-id='$id' data-name='$nm' data-email='$em' data-phone='$ph' data-job='$jt' data-comptype='$ct' data-compamount='$ca'>Edit</button> ";
                     print "<button type='button' class='btn btn-sm btn-soft-danger js-emp-del' data-id='$id' data-name='$nm'>Delete</button>";
                     print "</td>";
                     print "</tr>";
@@ -244,6 +274,7 @@ if ($q) {
               <div class="mb-2"><strong>Email:</strong> <span id="v_emp_email"></span></div>
               <div class="mb-2"><strong>Phone:</strong> <span id="v_emp_phone"></span></div>
               <div class="mb-2"><strong>Job Title:</strong> <span id="v_emp_job"></span></div>
+              <div class="mb-2"><strong>Compensation:</strong> <span id="v_emp_comp"></span></div>
               <div class="mb-2"><strong>Hired:</strong> <span id="v_emp_date"></span></div>
               <div class="mb-2"><strong>From Application ID:</strong> <span id="v_emp_hiredfrom"></span></div>
               <div class="mb-0"><strong>CV Document ID:</strong> <span id="v_emp_cvdoc"></span></div>
@@ -274,6 +305,19 @@ if ($q) {
                   <div class="col-12 col-md-6">
                     <label class="form-label" for="e_job_title">Job Title</label>
                     <input type="text" class="form-control" id="e_job_title" name="job_title">
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <label class="form-label" for="e_comp_type">Pay Type</label>
+                    <select class="form-select" id="e_comp_type" name="comp_type">
+                      <option value="">Select...</option>
+                      <option value="salary">Salary</option>
+                      <option value="commission">Commission</option>
+                      <option value="voluntary">Voluntary</option>
+                    </select>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <label class="form-label" for="e_comp_amount">Amount</label>
+                    <input type="number" step="0.01" class="form-control" id="e_comp_amount" name="comp_amount" placeholder="0.00">
                   </div>
                   <div class="col-12 col-md-6">
                     <label class="form-label" for="e_email">Email</label>
@@ -337,6 +381,19 @@ if ($q) {
                     <input type="text" class="form-control" id="job_title" name="job_title">
                   </div>
                   <div class="col-12 col-md-6">
+                    <label class="form-label" for="comp_type">Pay Type</label>
+                    <select class="form-select" id="comp_type" name="comp_type">
+                      <option value="">Select...</option>
+                      <option value="salary">Salary</option>
+                      <option value="commission">Commission</option>
+                      <option value="voluntary">Voluntary</option>
+                    </select>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <label class="form-label" for="comp_amount">Amount</label>
+                    <input type="number" step="0.01" class="form-control" id="comp_amount" name="comp_amount" placeholder="0.00">
+                  </div>
+                  <div class="col-12 col-md-6">
                     <label class="form-label" for="email">Email</label>
                     <input type="email" class="form-control" id="email" name="email">
                   </div>
@@ -393,6 +450,16 @@ if ($q) {
     document.getElementById('v_emp_email').textContent = btn.getAttribute('data-email') || '';
     document.getElementById('v_emp_phone').textContent = btn.getAttribute('data-phone') || '';
     document.getElementById('v_emp_job').textContent = btn.getAttribute('data-job') || '';
+    var ct = btn.getAttribute('data-comptype') || '';
+    var ca = btn.getAttribute('data-compamount') || '';
+    var compTxt = '';
+    if (ct.length > 0) {
+      compTxt = ct;
+      if (ca.length > 0) compTxt += ' - ' + ca;
+    } else if (ca.length > 0) {
+      compTxt = ca;
+    }
+    document.getElementById('v_emp_comp').textContent = compTxt;
     document.getElementById('v_emp_date').textContent = btn.getAttribute('data-date') || '';
     document.getElementById('v_emp_hiredfrom').textContent = btn.getAttribute('data-hiredfrom') || '';
     document.getElementById('v_emp_cvdoc').textContent = btn.getAttribute('data-cvdoc') || '';
@@ -407,6 +474,8 @@ if ($q) {
     document.getElementById('e_email').value = btn.getAttribute('data-email') || '';
     document.getElementById('e_phone').value = btn.getAttribute('data-phone') || '';
     document.getElementById('e_job_title').value = btn.getAttribute('data-job') || '';
+    document.getElementById('e_comp_type').value = btn.getAttribute('data-comptype') || '';
+    document.getElementById('e_comp_amount').value = btn.getAttribute('data-compamount') || '';
     editModal.show();
   });
 

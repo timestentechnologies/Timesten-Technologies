@@ -28,10 +28,21 @@ mysqli_query($con, "CREATE TABLE IF NOT EXISTS employees (
   email VARCHAR(160) NULL,
   phone VARCHAR(80) NULL,
   job_title VARCHAR(255) NULL,
+  comp_type VARCHAR(30) NULL,
+  comp_amount DECIMAL(12,2) NULL,
   hired_from_application_id INT NULL,
   cv_document_id INT NULL,
   created_at DATETIME NULL
 )");
+
+$col_comp_type = mysqli_query($con, "SHOW COLUMNS FROM employees LIKE 'comp_type'");
+if (!$col_comp_type || mysqli_num_rows($col_comp_type) < 1) {
+  @mysqli_query($con, "ALTER TABLE employees ADD COLUMN comp_type VARCHAR(30) NULL AFTER job_title");
+}
+$col_comp_amount = mysqli_query($con, "SHOW COLUMNS FROM employees LIKE 'comp_amount'");
+if (!$col_comp_amount || mysqli_num_rows($col_comp_amount) < 1) {
+  @mysqli_query($con, "ALTER TABLE employees ADD COLUMN comp_amount DECIMAL(12,2) NULL AFTER comp_type");
+}
 
 $app_q = mysqli_query($con, "SELECT a.*, j.job_title FROM job_applications a JOIN jobs j ON a.job_id=j.id WHERE a.id='$app_id' LIMIT 1");
 $app = $app_q ? mysqli_fetch_assoc($app_q) : null;
@@ -72,7 +83,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_hire']) && $a
     $phone_s = mysqli_real_escape_string($con, $phone);
     $job_title_s = mysqli_real_escape_string($con, $job_title);
 
-    mysqli_query($con, "INSERT INTO employees (full_name, email, phone, job_title, hired_from_application_id, created_at) VALUES ('$full_name_s', '$email_s', '$phone_s', '$job_title_s', '$app_id', NOW())");
+    $comp_type_s = mysqli_real_escape_string($con, '');
+    mysqli_query($con, "INSERT INTO employees (full_name, email, phone, job_title, comp_type, comp_amount, hired_from_application_id, created_at) VALUES ('$full_name_s', '$email_s', '$phone_s', '$job_title_s', '$comp_type_s', NULL, '$app_id', NOW())");
     $employee_id = (int)mysqli_insert_id($con);
 
     $doc_id = 0;
