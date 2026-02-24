@@ -173,14 +173,23 @@ if ($is_print || $is_pdf) {
           --muted:#64748b;
           --border:#e5e7eb;
           --bg:#ffffff;
+          --panel:#f3f6fb;
         }
         *{box-sizing:border-box;}
-        body{margin:0;background:#f6f7fb;font-family:Arial, Helvetica, sans-serif;color:var(--text);}
-        .page{max-width:900px;margin:24px auto;padding:0 12px;}
-        .sheet{background:var(--bg);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 8px 30px rgba(15,23,42,.08);position:relative;}
-        .sheet:before{content:"";position:absolute;top:-140px;right:-140px;width:320px;height:320px;background:radial-gradient(circle at 30% 30%, rgba(13,110,253,.22), rgba(13,110,253,0));border-radius:999px;pointer-events:none;}
-        .sheet:after{content:"";position:absolute;bottom:-160px;left:-160px;width:360px;height:360px;background:radial-gradient(circle at 30% 30%, rgba(99,102,241,.16), rgba(99,102,241,0));border-radius:999px;pointer-events:none;}
-        .topbar{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;gap:14px;align-items:center;}
+        html, body{margin:0;padding:0;background:var(--panel);font-family:Arial, Helvetica, sans-serif;color:var(--text);}
+
+        /* A4 canvas (works consistently for both Print and Dompdf PDF) */
+        .page{width:210mm;min-height:297mm;margin:10mm auto;padding:0;}
+        .sheet{background:var(--bg);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:0 10px 34px rgba(15,23,42,.10);position:relative;}
+
+        /* Decorative shapes (use real DOM nodes because Dompdf may ignore :before/:after) */
+        .decor{position:absolute;border-radius:999px;pointer-events:none;opacity:.22;}
+        .decor.a{width:180mm;height:180mm;top:-120mm;right:-120mm;background:#0d6efd;}
+        .decor.b{width:160mm;height:160mm;bottom:-120mm;left:-120mm;background:#6366f1;opacity:.16;}
+        .decor.c{width:90mm;height:90mm;top:30mm;right:-55mm;background:#0d6efd;opacity:.10;}
+        .decor.band{border-radius:0;opacity:1;left:0;right:0;top:0;height:38mm;background:linear-gradient(90deg, rgba(13,110,253,.10), rgba(99,102,241,.08));}
+
+        .topbar{padding:18px 22px;border-bottom:1px solid rgba(226,232,240,.9);display:flex;gap:14px;align-items:center;background:transparent;}
         .brand{display:flex;gap:12px;align-items:center;}
         .brand img{height:34px;max-width:220px;object-fit:contain;}
         .brand-title{font-weight:800;letter-spacing:.2px;}
@@ -191,14 +200,14 @@ if ($is_print || $is_pdf) {
         .content{padding:18px 22px;position:relative;z-index:1;}
         .grid{display:flex;gap:16px;flex-wrap:wrap;}
         .col{flex:1;min-width:260px;}
-        .card{border:1px solid var(--border);border-radius:12px;padding:14px;}
+        .card{border:1px solid rgba(226,232,240,.9);border-radius:12px;padding:14px;background:rgba(255,255,255,.92);box-shadow:0 8px 22px rgba(15,23,42,.05);}
         .card h4{margin:0 0 8px 0;font-size:13px;letter-spacing:.3px;text-transform:uppercase;color:var(--muted);}
         .row{display:flex;justify-content:space-between;gap:12px;margin:4px 0;}
         .row .k{color:var(--muted);font-size:12px;}
         .row .v{font-weight:700;font-size:12px;text-align:right;}
 
         table{width:100%;border-collapse:collapse;margin-top:14px;}
-        thead th{font-size:12px;text-transform:uppercase;letter-spacing:.35px;color:var(--muted);text-align:left;border-bottom:1px solid var(--border);padding:10px 8px;}
+        thead th{font-size:12px;text-transform:uppercase;letter-spacing:.35px;color:var(--muted);text-align:left;border-bottom:1px solid rgba(226,232,240,.9);padding:10px 8px;background:rgba(241,245,249,.55);}
         tbody td{padding:10px 8px;border-bottom:1px solid #f1f5f9;font-size:13px;vertical-align:top;}
         td.num, th.num{text-align:right;}
         .totals{display:flex;justify-content:flex-end;margin-top:14px;}
@@ -214,18 +223,26 @@ if ($is_print || $is_pdf) {
         .btn{border:1px solid var(--border);background:#fff;padding:8px 10px;border-radius:10px;font-size:12px;cursor:pointer;}
         .btn.primary{border-color:var(--primary);color:var(--primary);}
 
+        .hint{margin-top:10px;font-size:11px;color:var(--muted);}
+
         @page{size:A4;margin:12mm;}
         @media print{
           body{background:#fff;}
-          .page{max-width:none;margin:0;padding:0;}
+          .page{width:auto;min-height:auto;margin:0;padding:0;}
           .sheet{border:none;border-radius:0;box-shadow:none;}
           .btns{display:none !important;}
+          .hint{display:none !important;}
+          *{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
         }
       </style>
     </head>
     <body>
       <div class="page">
         <div class="sheet">
+          <div class="decor band"></div>
+          <div class="decor a"></div>
+          <div class="decor b"></div>
+          <div class="decor c"></div>
           <div class="topbar">
             <div class="brand">
               <img src="<?php print htmlspecialchars($logo_src); ?>" alt="Logo">
@@ -321,7 +338,10 @@ if ($is_print || $is_pdf) {
           </div>
 
           <div class="footer">
-            <div class="small">Thank you for your business.</div>
+            <div>
+              <div class="small">Thank you for your business.</div>
+              <div class="hint">For best print/PDF quality: disable “Headers and footers” and enable “Background graphics” in the print dialog.</div>
+            </div>
             <div class="btns">
               <button class="btn" onclick="window.close();">Close</button>
               <button class="btn primary" onclick="window.print();">Print</button>
