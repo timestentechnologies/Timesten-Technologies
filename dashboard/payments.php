@@ -7,9 +7,15 @@ mysqli_query($con, "CREATE TABLE IF NOT EXISTS finance_customers (
   name VARCHAR(160) NOT NULL,
   email VARCHAR(160) NULL,
   phone VARCHAR(80) NULL,
+  service VARCHAR(160) NULL,
   address TEXT NULL,
   created_at DATETIME NULL
  )");
+
+ $col_rs = mysqli_query($con, "SHOW COLUMNS FROM finance_customers LIKE 'service'");
+ if (!$col_rs || mysqli_num_rows($col_rs) < 1) {
+     @mysqli_query($con, "ALTER TABLE finance_customers ADD COLUMN service VARCHAR(160) NULL AFTER phone");
+ }
 
 mysqli_query($con, "CREATE TABLE IF NOT EXISTS finance_invoices (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -29,12 +35,18 @@ mysqli_query($con, "CREATE TABLE IF NOT EXISTS finance_invoices (
 mysqli_query($con, "CREATE TABLE IF NOT EXISTS finance_invoice_items (
   id INT AUTO_INCREMENT PRIMARY KEY,
   invoice_id INT NOT NULL,
+  product_id INT NULL,
   description VARCHAR(255) NOT NULL,
   qty DECIMAL(12,2) NOT NULL,
   unit_price DECIMAL(12,2) NOT NULL,
   line_total DECIMAL(12,2) NOT NULL,
   created_at DATETIME NULL
  )");
+
+ $col_rs2 = mysqli_query($con, "SHOW COLUMNS FROM finance_invoice_items LIKE 'product_id'");
+ if (!$col_rs2 || mysqli_num_rows($col_rs2) < 1) {
+     @mysqli_query($con, "ALTER TABLE finance_invoice_items ADD COLUMN product_id INT NULL AFTER invoice_id");
+ }
 
 mysqli_query($con, "CREATE TABLE IF NOT EXISTS finance_payments (
   id INT AUTO_INCREMENT PRIMARY KEY,

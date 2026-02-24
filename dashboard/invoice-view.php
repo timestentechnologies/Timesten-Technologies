@@ -7,9 +7,15 @@ mysqli_query($con, "CREATE TABLE IF NOT EXISTS finance_customers (
   name VARCHAR(160) NOT NULL,
   email VARCHAR(160) NULL,
   phone VARCHAR(80) NULL,
+  service VARCHAR(160) NULL,
   address TEXT NULL,
   created_at DATETIME NULL
  )");
+
+ $col_rs = mysqli_query($con, "SHOW COLUMNS FROM finance_customers LIKE 'service'");
+ if (!$col_rs || mysqli_num_rows($col_rs) < 1) {
+     @mysqli_query($con, "ALTER TABLE finance_customers ADD COLUMN service VARCHAR(160) NULL AFTER phone");
+ }
 
 mysqli_query($con, "CREATE TABLE IF NOT EXISTS finance_invoices (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -29,10 +35,25 @@ mysqli_query($con, "CREATE TABLE IF NOT EXISTS finance_invoices (
 mysqli_query($con, "CREATE TABLE IF NOT EXISTS finance_invoice_items (
   id INT AUTO_INCREMENT PRIMARY KEY,
   invoice_id INT NOT NULL,
+  product_id INT NULL,
   description VARCHAR(255) NOT NULL,
   qty DECIMAL(12,2) NOT NULL,
   unit_price DECIMAL(12,2) NOT NULL,
   line_total DECIMAL(12,2) NOT NULL,
+  created_at DATETIME NULL
+ )");
+
+ $col_rs2 = mysqli_query($con, "SHOW COLUMNS FROM finance_invoice_items LIKE 'product_id'");
+ if (!$col_rs2 || mysqli_num_rows($col_rs2) < 1) {
+     @mysqli_query($con, "ALTER TABLE finance_invoice_items ADD COLUMN product_id INT NULL AFTER invoice_id");
+ }
+
+ mysqli_query($con, "CREATE TABLE IF NOT EXISTS finance_products (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(160) NOT NULL,
+  description TEXT NULL,
+  unit_price DECIMAL(12,2) NOT NULL,
+  active TINYINT(1) NULL,
   created_at DATETIME NULL
  )");
 
@@ -113,10 +134,42 @@ if (isset($_SESSION['finance_flash_error'])) {
     unset($_SESSION['finance_flash_error']);
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_product'])) {
+    $pname = trim((string)($_POST['pname'] ?? ''));
+    $pdesc = trim((string)($_POST['pdesc'] ?? ''));
+    $pprice = (float)($_POST['pprice'] ?? 0);
+    if (strlen($pname) < 2 || $pprice <= 0) {
+        $_SESSION['finance_flash_error'] = "<div class='alert alert-danger alert-dismissible alert-outline fade show'>Product name and price are required.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+        header('Location: invoice-view.php?id=' . $invoice_id);
+        exit;
+    }
+    $pname_s = mysqli_real_escape_string($con, $pname);
+    $pdesc_s = mysqli_real_escape_string($con, $pdesc);
+    $pprice_sql = (string)((float)$pprice);
+    mysqli_query($con, "INSERT INTO finance_products (name, description, unit_price, active, created_at) VALUES ('$pname_s', '$pdesc_s', $pprice_sql, 1, NOW())");
+    $_SESSION['finance_flash_success'] = "<div class='alert alert-success alert-dismissible alert-outline fade show'>Product added.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+    header('Location: invoice-view.php?id=' . $invoice_id);
+    exit;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_item'])) {
+    $product_id = (int)($_POST['product_id'] ?? 0);
     $desc = trim((string)($_POST['description'] ?? ''));
     $qty = (float)($_POST['qty'] ?? 0);
     $unit = (float)($_POST['unit_price'] ?? 0);
+
+    if ($product_id > 0) {
+        $pr_rs = mysqli_query($con, "SELECT name, description, unit_price FROM finance_products WHERE id=$product_id AND (active IS NULL OR active=1) LIMIT 1");
+        $pr = $pr_rs ? mysqli_fetch_assoc($pr_rs) : null;
+        if ($pr) {
+            if (strlen(trim($desc)) < 1) {
+                $desc = (string)$pr['name'];
+            }
+            if ($unit <= 0) {
+                $unit = (float)$pr['unit_price'];
+            }
+        }
+    }
 
     if (strlen($desc) < 2 || $qty <= 0 || $unit < 0) {
         $_SESSION['finance_flash_error'] = "<div class='alert alert-danger alert-dismissible alert-outline fade show'>Please provide valid item details.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
@@ -130,10 +183,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_item'])) {
     $unit_sql = (string)((float)$unit);
     $line_sql = (string)((float)$line_total);
 
+    $product_sql = $product_id > 0 ? (string)$product_id : 'NULL';
+
     mysqli_query(
         $con,
-        "INSERT INTO finance_invoice_items (invoice_id, description, qty, unit_price, line_total, created_at)
-         VALUES ($invoice_id, '$desc_s', $qty_sql, $unit_sql, $line_sql, NOW())"
+        "INSERT INTO finance_invoice_items (invoice_id, product_id, description, qty, unit_price, line_total, created_at)
+         VALUES ($invoice_id, $product_sql, '$desc_s', $qty_sql, $unit_sql, $line_sql, NOW())"
     );
 
     finance_recalc_invoice($con, $invoice_id);
@@ -180,6 +235,12 @@ $payments = [];
 $pay_rs = mysqli_query($con, "SELECT * FROM finance_payments WHERE invoice_id=$invoice_id ORDER BY id DESC LIMIT 50");
 if ($pay_rs) {
     while ($r = mysqli_fetch_assoc($pay_rs)) { $payments[] = $r; }
+}
+
+$products = [];
+$pr_rs = mysqli_query($con, "SELECT id, name, unit_price FROM finance_products WHERE (active IS NULL OR active=1) ORDER BY name ASC");
+if ($pr_rs) {
+    while ($r = mysqli_fetch_assoc($pr_rs)) { $products[] = $r; }
 }
 
 $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
@@ -338,8 +399,28 @@ $public_link = $base . '/invoice-view.php?id=' . $invoice_id;
                 <input type="hidden" name="add_item" value="1">
                 <div class="row g-3">
                   <div class="col-12">
+                    <div class="d-flex gap-2 align-items-end">
+                      <div class="flex-grow-1">
+                        <label class="form-label">Product (optional)</label>
+                        <select name="product_id" id="product_id" class="form-select">
+                          <option value="">Select...</option>
+                          <?php foreach ($products as $p) {
+                            $pid = (int)$p['id'];
+                            $pnm = htmlspecialchars((string)$p['name']);
+                            $pup = (float)$p['unit_price'];
+                            $pup_s = htmlspecialchars((string)$pup);
+                            print "<option value='$pid' data-price='$pup_s'>$pnm</option>";
+                          } ?>
+                        </select>
+                      </div>
+                      <div>
+                        <button type="button" class="btn btn-soft-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">Add Product</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12">
                     <label class="form-label">Description</label>
-                    <input type="text" name="description" class="form-control" required>
+                    <input type="text" name="description" id="description" class="form-control" required>
                   </div>
                   <div class="col-12 col-md-4">
                     <label class="form-label">Qty</label>
@@ -347,7 +428,7 @@ $public_link = $base . '/invoice-view.php?id=' . $invoice_id;
                   </div>
                   <div class="col-12 col-md-4">
                     <label class="form-label">Unit Price</label>
-                    <input type="number" step="0.01" name="unit_price" class="form-control" value="0" required>
+                    <input type="number" step="0.01" name="unit_price" id="unit_price" class="form-control" value="0" required>
                   </div>
                 </div>
               </form>
@@ -355,6 +436,40 @@ $public_link = $base . '/invoice-view.php?id=' . $invoice_id;
             <div class="modal-footer">
               <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
               <button type="submit" form="addItemForm" class="btn btn-primary">Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="addProductModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Add Product</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form method="post" id="addProductForm">
+                <input type="hidden" name="add_product" value="1">
+                <div class="row g-3">
+                  <div class="col-12 col-md-6">
+                    <label class="form-label">Name</label>
+                    <input type="text" name="pname" class="form-control" required>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <label class="form-label">Unit Price</label>
+                    <input type="number" step="0.01" name="pprice" class="form-control" required>
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label">Description</label>
+                    <textarea name="pdesc" class="form-control" rows="2"></textarea>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+              <button type="submit" form="addProductForm" class="btn btn-primary">Save Product</button>
             </div>
           </div>
         </div>
@@ -373,5 +488,26 @@ $public_link = $base . '/invoice-view.php?id=' . $invoice_id;
   .card { border: none !important; }
 }
 </style>
+
+<script>
+(function(){
+  var sel = document.getElementById('product_id');
+  var desc = document.getElementById('description');
+  var price = document.getElementById('unit_price');
+  if (!sel || !desc || !price) return;
+
+  sel.addEventListener('change', function(){
+    var opt = sel.options[sel.selectedIndex];
+    if (!opt) return;
+    var p = opt.getAttribute('data-price');
+    if (p && (price.value === '' || parseFloat(price.value || '0') <= 0)) {
+      price.value = p;
+    }
+    if (opt.value && (!desc.value || desc.value.trim().length < 1)) {
+      desc.value = opt.text;
+    }
+  });
+})();
+</script>
 
 <?php include "footer.php"; ?>

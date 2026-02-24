@@ -7,9 +7,15 @@ mysqli_query($con, "CREATE TABLE IF NOT EXISTS finance_customers (
   name VARCHAR(160) NOT NULL,
   email VARCHAR(160) NULL,
   phone VARCHAR(80) NULL,
+  service VARCHAR(160) NULL,
   address TEXT NULL,
   created_at DATETIME NULL
  )");
+
+ $col_rs = mysqli_query($con, "SHOW COLUMNS FROM finance_customers LIKE 'service'");
+ if (!$col_rs || mysqli_num_rows($col_rs) < 1) {
+     @mysqli_query($con, "ALTER TABLE finance_customers ADD COLUMN service VARCHAR(160) NULL AFTER phone");
+ }
 
 mysqli_query($con, "CREATE TABLE IF NOT EXISTS finance_invoices (
   id INT AUTO_INCREMENT PRIMARY KEY,
