@@ -139,6 +139,14 @@ if ($is_print || $is_pdf) {
         $logo_path = 'uploads/logo/' . $lg[0];
     }
 
+    $logo_src = $logo_path;
+    if ($is_pdf) {
+        $logo_abs = @realpath(__DIR__ . '/' . $logo_path);
+        if ($logo_abs && is_file($logo_abs)) {
+            $logo_src = 'file://' . $logo_abs;
+        }
+    }
+
     $inv_no = htmlspecialchars((string)$invoice['invoice_no']);
     $cust_name = htmlspecialchars((string)$invoice['customer_name']);
     $cust_email = htmlspecialchars((string)$invoice['customer_email']);
@@ -220,7 +228,7 @@ if ($is_print || $is_pdf) {
         <div class="sheet">
           <div class="topbar">
             <div class="brand">
-              <img src="<?php print htmlspecialchars($logo_path); ?>" alt="Logo">
+              <img src="<?php print htmlspecialchars($logo_src); ?>" alt="Logo">
               <div>
                 <div class="brand-title"><?php print htmlspecialchars($company_name); ?></div>
                 <div class="small" style="color:var(--muted);font-size:12px;">
@@ -344,7 +352,10 @@ if ($is_print || $is_pdf) {
         }
 
         $html = ob_get_clean();
-        $dompdf = new Dompdf\Dompdf();
+        $options = new Dompdf\Options();
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isRemoteEnabled', true);
+        $dompdf = new Dompdf\Dompdf($options);
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->loadHtml($html);
         $dompdf->render();
