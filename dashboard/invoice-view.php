@@ -214,7 +214,7 @@ if ($is_print || $is_pdf) {
 
         .topbar{padding:14px 22px;border-bottom:1px solid rgba(226,232,240,.9);display:flex;gap:14px;align-items:center;background:transparent;}
         .brand{display:flex;gap:12px;align-items:center;}
-        .brand img{height:46px;max-width:260px;object-fit:contain;}
+        .brand img{height:58px;max-width:320px;object-fit:contain;}
         .brand-title{font-weight:800;letter-spacing:.2px;}
         .tag{margin-left:auto;text-align:right;}
         .tag .label{font-size:12px;color:var(--muted);}
@@ -259,8 +259,8 @@ if ($is_print || $is_pdf) {
         .pdf .sheet{height:297mm;border:none;border-radius:0;box-shadow:none;}
 
         /* Dompdf can be unreliable with flex centering; use absolute centering */
-        .watermark{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1;pointer-events:none;width:140mm;max-width:85%;text-align:center;}
-        .watermark img{width:100%;height:auto;opacity:.14;}
+        .watermark{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1;pointer-events:none;width:160mm;max-width:90%;text-align:center;}
+        .watermark img{width:100%;height:auto;opacity:.18;}
         .topbar{position:relative;z-index:2;}
         .content{position:relative;z-index:2;}
         .footer{position:relative;z-index:2;}
