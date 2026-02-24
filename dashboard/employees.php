@@ -115,6 +115,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_employee'])) {
     exit;
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_employee'])) {
+    $emp_id = (int)($_POST['emp_id'] ?? 0);
+    $full_name = trim((string)($_POST['full_name'] ?? ''));
+    $email = trim((string)($_POST['email'] ?? ''));
+    $phone = trim((string)($_POST['phone'] ?? ''));
+    $job_title = trim((string)($_POST['job_title'] ?? ''));
+
+    if ($emp_id < 1 || strlen($full_name) < 2) {
+        $_SESSION['employees_flash_error'] = "<div class='alert alert-danger alert-dismissible alert-outline fade show'>Invalid employee data.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+        header('Location: employees.php');
+        exit;
+    }
+
+    $full_name_s = mysqli_real_escape_string($con, $full_name);
+    $email_s = mysqli_real_escape_string($con, $email);
+    $phone_s = mysqli_real_escape_string($con, $phone);
+    $job_title_s = mysqli_real_escape_string($con, $job_title);
+    mysqli_query($con, "UPDATE employees SET full_name='$full_name_s', email='$email_s', phone='$phone_s', job_title='$job_title_s' WHERE id=$emp_id LIMIT 1");
+    $_SESSION['employees_flash_success'] = "<div class='alert alert-success alert-dismissible alert-outline fade show'>Employee updated.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+    header('Location: employees.php');
+    exit;
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_employee'])) {
+    $emp_id = (int)($_POST['emp_id'] ?? 0);
+    if ($emp_id > 0) {
+        mysqli_query($con, "DELETE FROM employees WHERE id=$emp_id LIMIT 1");
+        $_SESSION['employees_flash_success'] = "<div class='alert alert-success alert-dismissible alert-outline fade show'>Employee deleted.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+    }
+    header('Location: employees.php');
+    exit;
+}
+
 $employees = [];
 $q = mysqli_query($con, "SELECT * FROM employees ORDER BY id DESC");
 if ($q) {
@@ -165,24 +198,120 @@ if ($q) {
                   <th>Phone</th>
                   <th>Job</th>
                   <th>Hired</th>
+                  <th class="text-end">Action</th>
                 </tr>
               </thead>
               <tbody>
                 <?php
                 if (count($employees) < 1) {
-                    print "<tr><td colspan='5' class='text-center text-muted'>No employees yet.</td></tr>";
+                    print "<tr><td colspan='6' class='text-center text-muted'>No employees yet.</td></tr>";
                 }
                 foreach ($employees as $e) {
+                    $id = (int)$e['id'];
                     $nm = htmlspecialchars($e['full_name']);
                     $em = htmlspecialchars((string)$e['email']);
                     $ph = htmlspecialchars((string)$e['phone']);
                     $jt = htmlspecialchars((string)$e['job_title']);
                     $dt = htmlspecialchars((string)$e['created_at']);
-                    print "<tr><td>$nm</td><td>$em</td><td>$ph</td><td>$jt</td><td>$dt</td></tr>";
+                    $hiredFrom = htmlspecialchars((string)$e['hired_from_application_id']);
+                    $cvDoc = htmlspecialchars((string)$e['cv_document_id']);
+
+                    print "<tr>";
+                    print "<td>$nm</td><td>$em</td><td>$ph</td><td>$jt</td><td>$dt</td>";
+                    print "<td class='text-end'>";
+                    print "<button type='button' class='btn btn-sm btn-soft-primary js-emp-view' data-id='$id' data-name='$nm' data-email='$em' data-phone='$ph' data-job='$jt' data-date='$dt' data-hiredfrom='$hiredFrom' data-cvdoc='$cvDoc'>View</button> ";
+                    print "<button type='button' class='btn btn-sm btn-soft-secondary js-emp-edit' data-id='$id' data-name='$nm' data-email='$em' data-phone='$ph' data-job='$jt'>Edit</button> ";
+                    print "<button type='button' class='btn btn-sm btn-soft-danger js-emp-del' data-id='$id' data-name='$nm'>Delete</button>";
+                    print "</td>";
+                    print "</tr>";
                 }
                 ?>
               </tbody>
             </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="viewEmployeeModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Employee Details</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="mb-2"><strong>Name:</strong> <span id="v_emp_name"></span></div>
+              <div class="mb-2"><strong>Email:</strong> <span id="v_emp_email"></span></div>
+              <div class="mb-2"><strong>Phone:</strong> <span id="v_emp_phone"></span></div>
+              <div class="mb-2"><strong>Job Title:</strong> <span id="v_emp_job"></span></div>
+              <div class="mb-2"><strong>Hired:</strong> <span id="v_emp_date"></span></div>
+              <div class="mb-2"><strong>From Application ID:</strong> <span id="v_emp_hiredfrom"></span></div>
+              <div class="mb-0"><strong>CV Document ID:</strong> <span id="v_emp_cvdoc"></span></div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="editEmployeeModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Edit Employee</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form method="post" id="editEmployeeForm">
+                <input type="hidden" name="update_employee" value="1">
+                <input type="hidden" name="emp_id" id="e_emp_id" value="">
+                <div class="row g-3">
+                  <div class="col-12 col-md-6">
+                    <label class="form-label" for="e_full_name">Full Name</label>
+                    <input type="text" class="form-control" id="e_full_name" name="full_name" required>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <label class="form-label" for="e_job_title">Job Title</label>
+                    <input type="text" class="form-control" id="e_job_title" name="job_title">
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <label class="form-label" for="e_email">Email</label>
+                    <input type="email" class="form-control" id="e_email" name="email">
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <label class="form-label" for="e_phone">Phone</label>
+                    <input type="text" class="form-control" id="e_phone" name="phone">
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+              <button type="submit" form="editEmployeeForm" class="btn btn-primary">Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="deleteEmployeeModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Delete Employee</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              Delete <strong id="d_emp_name"></strong>?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+              <form method="post" class="mb-0">
+                <input type="hidden" name="delete_employee" value="1">
+                <input type="hidden" name="emp_id" id="d_emp_id" value="">
+                <button type="submit" class="btn btn-danger">Delete</button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
@@ -249,5 +378,44 @@ if ($q) {
       });
     });
   }
+
+  var viewEl = document.getElementById('viewEmployeeModal');
+  var editEl = document.getElementById('editEmployeeModal');
+  var delEl = document.getElementById('deleteEmployeeModal');
+  var viewModal = viewEl ? new bootstrap.Modal(viewEl) : null;
+  var editModal = editEl ? new bootstrap.Modal(editEl) : null;
+  var delModal = delEl ? new bootstrap.Modal(delEl) : null;
+
+  document.addEventListener('click', function(e){
+    var btn = e.target && e.target.closest ? e.target.closest('.js-emp-view') : null;
+    if (!btn || !viewModal) return;
+    document.getElementById('v_emp_name').textContent = btn.getAttribute('data-name') || '';
+    document.getElementById('v_emp_email').textContent = btn.getAttribute('data-email') || '';
+    document.getElementById('v_emp_phone').textContent = btn.getAttribute('data-phone') || '';
+    document.getElementById('v_emp_job').textContent = btn.getAttribute('data-job') || '';
+    document.getElementById('v_emp_date').textContent = btn.getAttribute('data-date') || '';
+    document.getElementById('v_emp_hiredfrom').textContent = btn.getAttribute('data-hiredfrom') || '';
+    document.getElementById('v_emp_cvdoc').textContent = btn.getAttribute('data-cvdoc') || '';
+    viewModal.show();
+  });
+
+  document.addEventListener('click', function(e){
+    var btn = e.target && e.target.closest ? e.target.closest('.js-emp-edit') : null;
+    if (!btn || !editModal) return;
+    document.getElementById('e_emp_id').value = btn.getAttribute('data-id') || '';
+    document.getElementById('e_full_name').value = btn.getAttribute('data-name') || '';
+    document.getElementById('e_email').value = btn.getAttribute('data-email') || '';
+    document.getElementById('e_phone').value = btn.getAttribute('data-phone') || '';
+    document.getElementById('e_job_title').value = btn.getAttribute('data-job') || '';
+    editModal.show();
+  });
+
+  document.addEventListener('click', function(e){
+    var btn = e.target && e.target.closest ? e.target.closest('.js-emp-del') : null;
+    if (!btn || !delModal) return;
+    document.getElementById('d_emp_id').value = btn.getAttribute('data-id') || '';
+    document.getElementById('d_emp_name').textContent = btn.getAttribute('data-name') || '';
+    delModal.show();
+  });
 })();
 </script>
