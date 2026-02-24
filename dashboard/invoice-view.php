@@ -224,7 +224,7 @@ if ($is_print || $is_pdf) {
         /* Avoid relying on flex gap (Dompdf may not support it reliably) */
         .grid{display:flex;flex-wrap:wrap;margin:-8px;}
         .col{flex:1;min-width:260px;padding:8px;}
-        .card{border:1px solid rgba(226,232,240,.9);border-radius:12px;padding:14px;background:rgba(255,255,255,.92);box-shadow:0 8px 22px rgba(15,23,42,.05);}
+        .card{border:1px solid rgba(226,232,240,.9);border-radius:12px;padding:14px;background:rgba(255,255,255,.82);box-shadow:0 8px 22px rgba(15,23,42,.05);}
         .card h4{margin:0 0 8px 0;font-size:13px;letter-spacing:.3px;text-transform:uppercase;color:var(--muted);}
         .row{display:flex;justify-content:space-between;gap:12px;margin:4px 0;}
         .row .k{color:var(--muted);font-size:12px;}
@@ -260,7 +260,7 @@ if ($is_print || $is_pdf) {
 
         /* Dompdf can be unreliable with flex centering; use absolute centering */
         .watermark{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1;pointer-events:none;width:140mm;max-width:85%;text-align:center;}
-        .watermark img{width:100%;height:auto;opacity:.085;}
+        .watermark img{width:100%;height:auto;opacity:.14;}
         .topbar{position:relative;z-index:2;}
         .content{position:relative;z-index:2;}
         .footer{position:relative;z-index:2;}
