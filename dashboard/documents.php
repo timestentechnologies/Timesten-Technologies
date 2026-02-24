@@ -10,6 +10,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_doc_email'])) {
         exit;
     }
 
+    mysqli_query($con, "CREATE TABLE IF NOT EXISTS email_settings (
+      id INT PRIMARY KEY,
+      smtp_host VARCHAR(255) NULL,
+      smtp_port INT NULL,
+      smtp_user VARCHAR(255) NULL,
+      smtp_pass VARCHAR(255) NULL,
+      smtp_secure VARCHAR(20) NULL,
+      from_email VARCHAR(255) NULL,
+      from_name VARCHAR(255) NULL,
+      logo_url TEXT NULL,
+      updated_at DATETIME NULL
+    )");
+    mysqli_query(
+        $con,
+        "INSERT INTO email_settings (id, smtp_host, smtp_port, smtp_user, smtp_pass, smtp_secure, from_email, from_name, logo_url, updated_at)
+         SELECT 1, 'smtp.gmail.com', 587, 'timestenkenya@gmail.com', 'zfye pewm vvvx kbuz', 'tls', 'timestenkenya@gmail.com', 'TimesTen Website', '', NOW()
+         WHERE NOT EXISTS (SELECT 1 FROM email_settings WHERE id=1)"
+    );
+    $es_rs = mysqli_query($con, "SELECT * FROM email_settings WHERE id=1 LIMIT 1");
+    $es = $es_rs ? mysqli_fetch_assoc($es_rs) : null;
+    $smtp_host = $es && !empty($es['smtp_host']) ? (string)$es['smtp_host'] : 'smtp.gmail.com';
+    $smtp_port = $es && !empty($es['smtp_port']) ? (int)$es['smtp_port'] : 587;
+    $smtp_user = $es && !empty($es['smtp_user']) ? (string)$es['smtp_user'] : 'timestenkenya@gmail.com';
+    $smtp_pass = $es && !empty($es['smtp_pass']) ? (string)$es['smtp_pass'] : 'zfye pewm vvvx kbuz';
+    $smtp_secure = $es && !empty($es['smtp_secure']) ? (string)$es['smtp_secure'] : 'tls';
+    $from_email = $es && !empty($es['from_email']) ? (string)$es['from_email'] : $smtp_user;
+    $from_name = $es && !empty($es['from_name']) ? (string)$es['from_name'] : 'TimesTen Website';
+    $logo_url = $es && !empty($es['logo_url']) ? (string)$es['logo_url'] : '';
+
     $to_raw = trim((string)($_POST['to_emails'] ?? ''));
     $doc_title = trim((string)($_POST['doc_title'] ?? 'Document'));
     $doc_url = trim((string)($_POST['doc_url'] ?? ''));
@@ -32,11 +61,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_doc_email'])) {
     }
 
     $subject = 'Document: ' . $doc_title;
-    $body = "<p><strong>" . htmlspecialchars($doc_title) . "</strong></p>";
-    $body .= "<p><a href='" . htmlspecialchars($doc_url) . "' target='_blank'>Open document</a></p>";
-    if (strlen($extra_msg) > 0) {
-        $body .= "<hr><p>" . nl2br(htmlspecialchars($extra_msg)) . "</p>";
+    $safe_title = htmlspecialchars($doc_title);
+    $safe_url = htmlspecialchars($doc_url);
+    $safe_msg = strlen($extra_msg) > 0 ? nl2br(htmlspecialchars($extra_msg)) : '';
+    $logo_html = '';
+    if (strlen(trim($logo_url)) > 5) {
+        $logo_html = "<div style='text-align:center;margin-bottom:16px;'><img src='" . htmlspecialchars($logo_url) . "' alt='Logo' style='max-width:170px;height:auto;'></div>";
     }
+    $msg_block = '';
+    if (strlen($safe_msg) > 0) {
+        $msg_block = "<div style='margin-top:16px;padding:14px 16px;background:#f8fafc;border:1px solid #e5e7eb;border-radius:10px;color:#0f172a;line-height:1.55;">$safe_msg</div>";
+    }
+
+    $body = "<!doctype html><html><head><meta charset='utf-8'></head><body style='margin:0;padding:0;background:#f3f4f6;font-family:Arial,Helvetica,sans-serif;'>";
+    $body .= "<div style='padding:24px 12px;'>";
+    $body .= "<div style='max-width:640px;margin:0 auto;background:#ffffff;border-radius:14px;overflow:hidden;border:1px solid #e5e7eb;'>";
+    $body .= "<div style='padding:22px 22px 10px 22px;background:#ffffff;'>";
+    $body .= $logo_html;
+    $body .= "<h2 style='margin:0 0 6px 0;font-size:20px;color:#111827;'>Document shared with you</h2>";
+    $body .= "<div style='font-size:14px;color:#6b7280;margin-bottom:14px;'>" . htmlspecialchars($from_name) . "</div>";
+    $body .= "<div style='padding:14px 16px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:12px;'>";
+    $body .= "<div style='font-size:14px;color:#6b7280;margin-bottom:6px;'>Document</div>";
+    $body .= "<div style='font-size:16px;color:#111827;font-weight:700;margin-bottom:14px;'>$safe_title</div>";
+    $body .= "<div style='text-align:center;margin:14px 0 6px 0;'>";
+    $body .= "<a href='$safe_url' target='_blank' style='display:inline-block;background:#1d4ed8;color:#ffffff;text-decoration:none;padding:12px 18px;border-radius:10px;font-weight:700;font-size:14px;'>Open Document</a>";
+    $body .= "</div>";
+    $body .= "<div style='text-align:center;font-size:12px;color:#6b7280;margin-top:10px;'>If the button doesn't work, copy and paste this link:</div>";
+    $body .= "<div style='word-break:break-all;font-size:12px;color:#2563eb;text-align:center;margin-top:6px;'><a href='$safe_url' target='_blank' style='color:#2563eb;'>$safe_url</a></div>";
+    $body .= "</div>";
+    $body .= $msg_block;
+    $body .= "</div>";
+    $body .= "<div style='padding:14px 22px;background:#f9fafb;border-top:1px solid #e5e7eb;font-size:12px;color:#6b7280;text-align:center;'>";
+    $body .= "This email was sent from " . htmlspecialchars($from_name) . ".</div>";
+    $body .= "</div></div></body></html>";
 
     $sent = false;
     $err = '';
@@ -48,37 +105,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_doc_email'])) {
 
             $mail = new PHPMailer\PHPMailer\PHPMailer(true);
             $mail->isSMTP();
-            $mail->Host = 'smtp.gmail.com';
+            $mail->Host = $smtp_host;
             $mail->SMTPAuth = true;
-            $mail->Username = 'timestenkenya@gmail.com';
-            $mail->Password = 'zfye pewm vvvx kbuz';
-            $mail->SMTPSecure = 'tls';
-            $mail->Port = 587;
-            $mail->setFrom('timestenkenya@gmail.com', 'TimesTen Website');
+            $mail->Username = $smtp_user;
+            $mail->Password = $smtp_pass;
+            $mail->SMTPSecure = $smtp_secure;
+            $mail->Port = $smtp_port;
+            $mail->setFrom($from_email, $from_name);
             foreach ($to_list as $t) {
                 $mail->addAddress($t);
             }
             $mail->isHTML(true);
             $mail->Subject = $subject;
             $mail->Body = $body;
+            $mail->AltBody = $doc_title . "\n" . $doc_url . (strlen($extra_msg) ? ("\n\n" . $extra_msg) : '');
             $sent = $mail->send();
         } elseif (file_exists(__DIR__ . '/../PHPMailer/PHPMailerAutoload.php')) {
             require_once __DIR__ . '/../PHPMailer/PHPMailerAutoload.php';
             $mail = new PHPMailer();
             $mail->isSMTP();
-            $mail->Host = 'smtp.gmail.com';
+            $mail->Host = $smtp_host;
             $mail->SMTPAuth = true;
-            $mail->Username = 'timestenkenya@gmail.com';
-            $mail->Password = 'zfye pewm vvvx kbuz';
-            $mail->SMTPSecure = 'tls';
-            $mail->Port = 587;
-            $mail->setFrom('timestenkenya@gmail.com', 'TimesTen Website');
+            $mail->Username = $smtp_user;
+            $mail->Password = $smtp_pass;
+            $mail->SMTPSecure = $smtp_secure;
+            $mail->Port = $smtp_port;
+            $mail->setFrom($from_email, $from_name);
             foreach ($to_list as $t) {
                 $mail->addAddress($t);
             }
             $mail->isHTML(true);
             $mail->Subject = $subject;
             $mail->Body = $body;
+            $mail->AltBody = $doc_title . "\n" . $doc_url . (strlen($extra_msg) ? ("\n\n" . $extra_msg) : '');
             $sent = $mail->send();
         } else {
             $err = 'Email library not found.';

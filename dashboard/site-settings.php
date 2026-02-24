@@ -1,6 +1,63 @@
 <?php include"header.php";?>
 <?php include"sidebar.php";?>
 
+<?php
+mysqli_query($con, "CREATE TABLE IF NOT EXISTS email_settings (
+  id INT PRIMARY KEY,
+  smtp_host VARCHAR(255) NULL,
+  smtp_port INT NULL,
+  smtp_user VARCHAR(255) NULL,
+  smtp_pass VARCHAR(255) NULL,
+  smtp_secure VARCHAR(20) NULL,
+  from_email VARCHAR(255) NULL,
+  from_name VARCHAR(255) NULL,
+  logo_url TEXT NULL,
+  updated_at DATETIME NULL
+)");
+mysqli_query(
+    $con,
+    "INSERT INTO email_settings (id, smtp_host, smtp_port, smtp_user, smtp_pass, smtp_secure, from_email, from_name, logo_url, updated_at)
+     SELECT 1, 'smtp.gmail.com', 587, 'timestenkenya@gmail.com', 'zfye pewm vvvx kbuz', 'tls', 'timestenkenya@gmail.com', 'TimesTen Website', '', NOW()
+     WHERE NOT EXISTS (SELECT 1 FROM email_settings WHERE id=1)"
+);
+
+$email_errormsg = '';
+if (isset($_POST['save_email'])) {
+    $smtp_host = mysqli_real_escape_string($con, $_POST['smtp_host']);
+    $smtp_port = (int)$_POST['smtp_port'];
+    $smtp_user = mysqli_real_escape_string($con, $_POST['smtp_user']);
+    $smtp_pass = mysqli_real_escape_string($con, $_POST['smtp_pass']);
+    $smtp_secure = mysqli_real_escape_string($con, $_POST['smtp_secure']);
+    $from_email = mysqli_real_escape_string($con, $_POST['from_email']);
+    $from_name = mysqli_real_escape_string($con, $_POST['from_name']);
+    $logo_url = mysqli_real_escape_string($con, $_POST['logo_url']);
+
+    if ($smtp_port < 1) { $smtp_port = 587; }
+    if (strlen(trim($smtp_host)) < 2 || strlen(trim($smtp_user)) < 3) {
+        $email_errormsg = "<div class='alert alert-danger alert-dismissible alert-outline fade show'>SMTP Host and Username are required.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+    } else {
+        $qb2 = mysqli_query(
+            $con,
+            "UPDATE email_settings SET smtp_host='$smtp_host', smtp_port=$smtp_port, smtp_user='$smtp_user', smtp_pass='$smtp_pass', smtp_secure='$smtp_secure', from_email='$from_email', from_name='$from_name', logo_url='$logo_url', updated_at=NOW() WHERE id=1"
+        );
+        if ($qb2) {
+            $email_errormsg = "<div class='alert alert-success alert-dismissible alert-outline fade show'>Email settings updated.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+        }
+    }
+}
+
+$es_rs = mysqli_query($con, "SELECT * FROM email_settings WHERE id=1 LIMIT 1");
+$es = $es_rs ? mysqli_fetch_assoc($es_rs) : null;
+$smtp_host_v = $es ? (string)$es['smtp_host'] : 'smtp.gmail.com';
+$smtp_port_v = $es && !empty($es['smtp_port']) ? (int)$es['smtp_port'] : 587;
+$smtp_user_v = $es ? (string)$es['smtp_user'] : '';
+$smtp_pass_v = $es ? (string)$es['smtp_pass'] : '';
+$smtp_secure_v = $es ? (string)$es['smtp_secure'] : 'tls';
+$from_email_v = $es ? (string)$es['from_email'] : '';
+$from_name_v = $es ? (string)$es['from_name'] : 'TimesTen Website';
+$logo_url_v = $es ? (string)$es['logo_url'] : '';
+?>
+
 <!-- ============================================================== -->
 <!-- Start right Content here -->
 <!-- ============================================================== -->
@@ -225,6 +282,64 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                             </div>
                         </div>
                         <!--end col-->
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xxl-9">
+                            <div class="card mt-3">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0">Email (SMTP) Settings</h5>
+                                </div>
+                                <div class="card-body p-4">
+                                    <?php if (strlen($email_errormsg) > 0) { print $email_errormsg; } ?>
+                                    <form action="" method="post">
+                                        <div class="row g-3">
+                                            <div class="col-12 col-md-6">
+                                                <label class="form-label">SMTP Host</label>
+                                                <input type="text" name="smtp_host" class="form-control" value="<?php print htmlspecialchars($smtp_host_v); ?>">
+                                            </div>
+                                            <div class="col-12 col-md-3">
+                                                <label class="form-label">SMTP Port</label>
+                                                <input type="number" name="smtp_port" class="form-control" value="<?php print (int)$smtp_port_v; ?>">
+                                            </div>
+                                            <div class="col-12 col-md-3">
+                                                <label class="form-label">Security</label>
+                                                <select name="smtp_secure" class="form-select">
+                                                    <option value="tls" <?php print ($smtp_secure_v==='tls'?'selected':''); ?>>TLS</option>
+                                                    <option value="ssl" <?php print ($smtp_secure_v==='ssl'?'selected':''); ?>>SSL</option>
+                                                    <option value="" <?php print ($smtp_secure_v===''?'selected':''); ?>>None</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <label class="form-label">SMTP Username</label>
+                                                <input type="text" name="smtp_user" class="form-control" value="<?php print htmlspecialchars($smtp_user_v); ?>">
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <label class="form-label">SMTP Password / App Password</label>
+                                                <input type="text" name="smtp_pass" class="form-control" value="<?php print htmlspecialchars($smtp_pass_v); ?>">
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <label class="form-label">From Email</label>
+                                                <input type="text" name="from_email" class="form-control" value="<?php print htmlspecialchars($from_email_v); ?>">
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <label class="form-label">From Name</label>
+                                                <input type="text" name="from_name" class="form-control" value="<?php print htmlspecialchars($from_name_v); ?>">
+                                            </div>
+                                            <div class="col-12">
+                                                <label class="form-label">Email Logo URL (optional)</label>
+                                                <input type="text" name="logo_url" class="form-control" placeholder="https://.../logo.png" value="<?php print htmlspecialchars($logo_url_v); ?>">
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="hstack gap-2 justify-content-end">
+                                                    <button type="submit" name="save_email" class="btn btn-primary">Update Email Settings</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
 
