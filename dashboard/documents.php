@@ -83,10 +83,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_doc_email'])) {
     $from_name = $es && !empty($es['from_name']) ? (string)$es['from_name'] : 'TimesTen Website';
     $logo_url = $es && !empty($es['logo_url']) ? (string)$es['logo_url'] : '';
 
-    $to_raw = trim((string)($_POST['to_emails'] ?? ''));
-    $doc_title = trim((string)($_POST['doc_title'] ?? 'Document'));
-    $doc_url = trim((string)($_POST['doc_url'] ?? ''));
-    $extra_msg = trim((string)($_POST['message'] ?? ''));
+    $to_raw = isset($_POST['to_emails']) ? trim((string)$_POST['to_emails']) : '';
+    $doc_title = isset($_POST['doc_title']) ? trim((string)$_POST['doc_title']) : 'Document';
+    $doc_url = isset($_POST['doc_url']) ? trim((string)$_POST['doc_url']) : '';
+    $extra_msg = isset($_POST['message']) ? trim((string)$_POST['message']) : '';
 
     $emails = preg_split('/[\s,;]+/', $to_raw);
     $to_list = [];
@@ -268,10 +268,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_doc_id'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['upload_doc'])) {
-    $title = trim((string)($_POST['title'] ?? ''));
-    $category_id = (int)($_POST['category_id'] ?? 0);
-    $doc_type = (string)($_POST['doc_type'] ?? 'file');
-    $link_url = trim((string)($_POST['link_url'] ?? ''));
+    $title = isset($_POST['title']) ? trim((string)$_POST['title']) : '';
+    $category_id = isset($_POST['category_id']) ? (int)$_POST['category_id'] : 0;
+    $doc_type = isset($_POST['doc_type']) ? (string)$_POST['doc_type'] : 'file';
+    $link_url = isset($_POST['link_url']) ? trim((string)$_POST['link_url']) : '';
 
     if (strlen($title) < 2) {
         $_SESSION['documents_flash_error'] = "<div class='alert alert-danger alert-dismissible alert-outline fade show'>Title is required.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
