@@ -207,7 +207,7 @@ if ($is_print || $is_pdf) {
         /* Decorative shapes (use real DOM nodes because Dompdf may ignore :before/:after) */
         .decor{position:absolute;border-radius:999px;pointer-events:none;}
         .decor.tr{width:160mm;height:160mm;top:-110mm;right:-110mm;background:var(--primary);opacity:.12;}
-        .decor.bl{width:160mm;height:160mm;bottom:-120mm;left:-120mm;background:var(--accent);opacity:.10;}
+        .decor.bl{width:160mm;height:160mm;bottom:-85mm;left:-85mm;background:var(--accent);opacity:.10;}
 
         .topbar{padding:18px 22px;border-bottom:1px solid rgba(226,232,240,.9);display:flex;gap:14px;align-items:center;background:transparent;}
         .brand{display:flex;gap:12px;align-items:center;}
@@ -218,8 +218,9 @@ if ($is_print || $is_pdf) {
         .tag .value{font-size:18px;font-weight:800;color:var(--accent);}
 
         .content{padding:18px 22px;position:relative;z-index:1;}
-        .grid{display:flex;gap:16px;flex-wrap:wrap;}
-        .col{flex:1;min-width:260px;}
+        /* Avoid relying on flex gap (Dompdf may not support it reliably) */
+        .grid{display:flex;flex-wrap:wrap;margin:-8px;}
+        .col{flex:1;min-width:260px;padding:8px;}
         .card{border:1px solid rgba(226,232,240,.9);border-radius:12px;padding:14px;background:rgba(255,255,255,.92);box-shadow:0 8px 22px rgba(15,23,42,.05);}
         .card h4{margin:0 0 8px 0;font-size:13px;letter-spacing:.3px;text-transform:uppercase;color:var(--muted);}
         .row{display:flex;justify-content:space-between;gap:12px;margin:4px 0;}
@@ -230,8 +231,9 @@ if ($is_print || $is_pdf) {
         thead th{font-size:12px;text-transform:uppercase;letter-spacing:.35px;color:var(--muted);text-align:left;border-bottom:1px solid rgba(226,232,240,.9);padding:10px 8px;background:rgba(241,245,249,.55);}
         tbody td{padding:10px 8px;border-bottom:1px solid #f1f5f9;font-size:13px;vertical-align:top;}
         td.num, th.num{text-align:right;}
-        .totals{display:flex;justify-content:flex-end;margin-top:14px;}
-        .totals .box{width:340px;border:1px solid var(--border);border-radius:12px;padding:12px;}
+        /* Avoid relying on flex justify-content (Dompdf can misplace) */
+        .totals{width:100%;margin-top:14px;}
+        .totals .box{width:340px;border:1px solid var(--border);border-radius:12px;padding:12px;margin-left:auto;}
         .totals .box .row .v{font-size:13px;}
         .totals .box .grand{padding-top:8px;margin-top:8px;border-top:1px dashed var(--border);}
         .totals .box .grand .v{font-size:16px;color:var(--accent);}
@@ -248,7 +250,7 @@ if ($is_print || $is_pdf) {
         .pdf .btns{display:none !important;}
         .pdf .hint{display:none !important;}
 
-        @page{size:A4;margin:12mm;}
+        @page{size:A4;margin:0;}
         @media print{
           body{background:#fff;}
           .page{width:auto;min-height:auto;margin:0;padding:0;}
