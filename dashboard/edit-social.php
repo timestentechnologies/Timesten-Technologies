@@ -83,7 +83,7 @@ $link_v = $row ? (string)$row['social_link'] : '';
 
                     <div class="row">
                         <div class="col-xxl-9">
-                            <div class="card mt-xxl-n5">
+                            <div class="card mt-3">
                                 <div class="card-header">
                                     <ul class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0" role="tablist">
                                         <li class="nav-item">
