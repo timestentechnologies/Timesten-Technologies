@@ -39,6 +39,22 @@ $comp_amount = isset($p['comp_amount']) ? (string)$p['comp_amount'] : '';
 
 $amount = (float)$p['amount'];
 $deductions = isset($p['deductions']) ? (float)$p['deductions'] : 0.0;
+$deduction_lines = [];
+$deduction_lines_sum = 0.0;
+$dl_rs = mysqli_query($con, "SELECT title, amount FROM employee_payment_deductions WHERE payment_id=$pay_id ORDER BY id ASC");
+if ($dl_rs) {
+    while ($r = mysqli_fetch_assoc($dl_rs)) {
+        $t = !empty($r['title']) ? (string)$r['title'] : '';
+        $a = isset($r['amount']) ? (float)$r['amount'] : 0.0;
+        if (strlen(trim($t)) > 0 && $a > 0) {
+            $deduction_lines[] = ['title' => $t, 'amount' => $a];
+            $deduction_lines_sum += $a;
+        }
+    }
+}
+if ($deduction_lines_sum > 0) {
+    $deductions = $deduction_lines_sum;
+}
 $net_amount = max(0.0, $amount - $deductions);
 $pay_date = !empty($p['pay_date']) ? (string)$p['pay_date'] : '';
 $payment_method = !empty($p['payment_method']) ? (string)$p['payment_method'] : '';
@@ -251,6 +267,11 @@ ob_start();
             <div class="box">
               <div class="row"><div class="k">Gross Pay</div><div class="v"><span class="pill success">KES <?php print number_format($amount,2); ?></span></div></div>
               <div class="row"><div class="k">Deductions</div><div class="v">KES <?php print number_format($deductions,2); ?></div></div>
+              <?php if (count($deduction_lines) > 0) { ?>
+                <?php foreach ($deduction_lines as $dl) { ?>
+                  <div class="row"><div class="k" style="padding-left:14px;">- <?php print htmlspecialchars((string)$dl['title']); ?></div><div class="v">KES <?php print number_format((float)$dl['amount'],2); ?></div></div>
+                <?php } ?>
+              <?php } ?>
               <div class="row"><div class="k">Compensation</div><div class="v"><?php
                 $c = trim((string)$comp_type);
                 $a = trim((string)$comp_amount);

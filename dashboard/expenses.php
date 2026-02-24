@@ -159,6 +159,18 @@ $ex_rs = mysqli_query(
 if ($ex_rs) {
     while ($r = mysqli_fetch_assoc($ex_rs)) { $expenses[] = $r; }
 }
+
+$latest_pay_by_emp = [];
+$lp_rs = mysqli_query($con, "SELECT employee_id, MAX(id) AS last_id FROM employee_payments GROUP BY employee_id");
+if ($lp_rs) {
+    while ($r = mysqli_fetch_assoc($lp_rs)) {
+        $eid = (int)($r['employee_id'] ?? 0);
+        $lid = (int)($r['last_id'] ?? 0);
+        if ($eid > 0 && $lid > 0) {
+            $latest_pay_by_emp[$eid] = $lid;
+        }
+    }
+}
 ?>
 
 <div class="main-content">
@@ -322,6 +334,7 @@ if ($ex_rs) {
                         $cat = htmlspecialchars((string)$x['category_name']);
                         $vd = htmlspecialchars((string)$x['vendor']);
                         $emp = htmlspecialchars((string)$x['employee_name']);
+                        $emp_id = (int)($x['employee_id'] ?? 0);
                         $am = (float)$x['amount'];
                         $pm = htmlspecialchars((string)$x['payment_method']);
                         $rf = htmlspecialchars((string)$x['receipt_file']);
@@ -329,6 +342,12 @@ if ($ex_rs) {
                         if (!empty($x['payment_id'])) {
                             $pid = (int)$x['payment_id'];
                             $rc .= "<a href='payslip-view.php?id=$pid' target='_blank' class='btn btn-sm btn-soft-secondary'>Payslip</a> ";
+                        } else {
+                            $cat_raw = strtolower(trim((string)($x['category_name'] ?? '')));
+                            if ($emp_id > 0 && $cat_raw === 'salary' && isset($latest_pay_by_emp[$emp_id])) {
+                                $pid = (int)$latest_pay_by_emp[$emp_id];
+                                $rc .= "<a href='payslip-view.php?id=$pid' target='_blank' class='btn btn-sm btn-soft-secondary'>Payslip</a> ";
+                            }
                         }
                         if (strlen($rf) > 0) {
                             $rc .= "<a href='uploads/expenses/$rf' target='_blank' class='btn btn-sm btn-soft-primary'>File</a>";

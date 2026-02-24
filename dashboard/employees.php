@@ -85,6 +85,14 @@ mysqli_query($con, "CREATE TABLE IF NOT EXISTS employee_payments (
   created_at DATETIME NULL
 )");
 
+mysqli_query($con, "CREATE TABLE IF NOT EXISTS employee_payment_deductions (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  payment_id INT NOT NULL,
+  title VARCHAR(120) NOT NULL,
+  amount DECIMAL(12,2) NOT NULL,
+  created_at DATETIME NULL
+)");
+
 $col_deductions = mysqli_query($con, "SHOW COLUMNS FROM employee_payments LIKE 'deductions'");
 if (!$col_deductions || mysqli_num_rows($col_deductions) < 1) {
     @mysqli_query($con, "ALTER TABLE employee_payments ADD COLUMN deductions DECIMAL(12,2) NULL AFTER amount");
@@ -325,13 +333,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_employee'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pay_employee'])) {
     $emp_id = (int)($_POST['employee_id'] ?? 0);
     $amount = (float)($_POST['amount'] ?? 0);
-    $deductions = (float)($_POST['deductions'] ?? 0);
+    $deductions_total = (float)($_POST['deductions'] ?? 0);
     $pay_date = trim((string)($_POST['pay_date'] ?? ''));
     $payment_method = trim((string)($_POST['payment_method'] ?? ''));
     $reference = trim((string)($_POST['reference'] ?? ''));
     $notes = trim((string)($_POST['notes'] ?? ''));
 
-    if ($emp_id < 1 || $amount <= 0 || $deductions < 0 || $deductions > $amount) {
+    $ded_titles = isset($_POST['deduction_title']) && is_array($_POST['deduction_title']) ? $_POST['deduction_title'] : [];
+    $ded_amounts = isset($_POST['deduction_amount']) && is_array($_POST['deduction_amount']) ? $_POST['deduction_amount'] : [];
+    $ded_rows = [];
+    $ded_sum = 0.0;
+    $max = max(count($ded_titles), count($ded_amounts));
+    for ($i = 0; $i < $max; $i++) {
+        $t = isset($ded_titles[$i]) ? trim((string)$ded_titles[$i]) : '';
+        $a_raw = isset($ded_amounts[$i]) ? trim((string)$ded_amounts[$i]) : '';
+        if ($t === '' && $a_raw === '') {
+            continue;
+        }
+        $a = (float)$a_raw;
+        if (strlen($t) < 2 || $a <= 0) {
+            $_SESSION['employees_flash_error'] = "<div class='alert alert-danger alert-dismissible alert-outline fade show'>Invalid deduction line. Each deduction must have a name and amount greater than 0.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+            header('Location: employees.php');
+            exit;
+        }
+        $ded_sum += $a;
+        $ded_rows[] = ['title' => $t, 'amount' => $a];
+    }
+    if ($ded_sum > 0) {
+        $deductions_total = $ded_sum;
+    }
+
+    if ($emp_id < 1 || $amount <= 0 || $deductions_total < 0 || $deductions_total > $amount) {
         $_SESSION['employees_flash_error'] = "<div class='alert alert-danger alert-dismissible alert-outline fade show'>Invalid payment details.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
         header('Location: employees.php');
         exit;
@@ -347,12 +379,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pay_employee'])) {
     $user_s = mysqli_real_escape_string($con, (string)$username);
     $date_sql = strlen($pay_date) ? ("'" . mysqli_real_escape_string($con, $pay_date) . "'") : ("'" . date('Y-m-d') . "'");
     $amount_sql = (string)((float)$amount);
-    $deductions_sql = (string)((float)$deductions);
-    $net_amount = max(0, $amount - $deductions);
+    $deductions_sql = (string)((float)$deductions_total);
+    $net_amount = max(0, $amount - $deductions_total);
     $net_amount_sql = (string)((float)$net_amount);
 
     mysqli_query($con, "INSERT INTO employee_payments (employee_id, amount, deductions, pay_date, payment_method, reference, notes, created_by, created_at) VALUES ($emp_id, $amount_sql, $deductions_sql, $date_sql, '$pm_s', '$ref_s', '$notes_s', '$user_s', NOW())");
     $pay_id = (int)mysqli_insert_id($con);
+
+    if ($pay_id > 0 && count($ded_rows) > 0) {
+        foreach ($ded_rows as $dr) {
+            $t_s = mysqli_real_escape_string($con, (string)$dr['title']);
+            $a_sql = (string)((float)$dr['amount']);
+            mysqli_query($con, "INSERT INTO employee_payment_deductions (payment_id, title, amount, created_at) VALUES ($pay_id, '$t_s', $a_sql, NOW())");
+        }
+    }
 
     $salary_cat_id = 0;
     $salary_cat_name_s = mysqli_real_escape_string($con, 'Salary');
@@ -437,7 +477,18 @@ if ($q) {
                   </div>
                   <div class="col-12 col-md-6">
                     <label class="form-label">Deductions</label>
-                    <input type="number" step="0.01" class="form-control" name="deductions" id="p_deductions" value="0">
+                    <input type="hidden" class="form-control" name="deductions" id="p_deductions" value="0">
+                    <div class="border rounded-3 p-2" style="background:#fff;">
+                      <div class="d-flex align-items-center justify-content-between mb-2">
+                        <div class="text-muted small">Add deductions line by line</div>
+                        <button type="button" class="btn btn-sm btn-soft-secondary" id="btnAddDedRow">Add line</button>
+                      </div>
+                      <div id="dedRows"></div>
+                      <div class="d-flex justify-content-between mt-2">
+                        <div class="text-muted small">Total</div>
+                        <div class="fw-semibold" id="dedTotal">0.00</div>
+                      </div>
+                    </div>
                   </div>
                   <div class="col-12 col-md-6">
                     <label class="form-label">Payment Method</label>

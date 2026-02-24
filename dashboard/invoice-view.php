@@ -772,6 +772,7 @@ $public_link = $base . '/invoice-view.php?id=' . $invoice_id;
             <a href="payments.php?invoice_id=<?php print (int)$invoice_id; ?>" class="btn btn-soft-success btn-sm">Record Payment</a>
             <a href="invoice-view.php?id=<?php print (int)$invoice_id; ?>&print=1&autoprint=1" target="_blank" class="btn btn-soft-secondary btn-sm">Print</a>
             <a href="invoice-view.php?id=<?php print (int)$invoice_id; ?>&pdf=1" class="btn btn-soft-primary btn-sm">Download PDF</a>
+            <button type="button" class="btn btn-soft-info btn-sm" id="btnInvoiceEmail" data-to="<?php print htmlspecialchars((string)$invoice['customer_email']); ?>">Send Email</button>
             <a href="invoices.php" class="btn btn-light btn-sm">Back</a>
           </div>
         </div>
@@ -957,6 +958,45 @@ $public_link = $base . '/invoice-view.php?id=' . $invoice_id;
           </div>
         </div>
       </div>
+
+      <script>
+      (function(){
+        var btn = document.getElementById('btnInvoiceEmail');
+        if (!btn) return;
+        btn.addEventListener('click', function(){
+          var to = (btn.getAttribute('data-to') || '').trim();
+          if (!to) {
+            to = prompt('Send to email:', '');
+          } else {
+            to = prompt('Send to email:', to);
+          }
+          if (!to) return;
+          var msg = prompt('Message (optional):', 'Please find your invoice attached as a link.');
+          var fd = new FormData();
+          fd.append('send_doc_email', '1');
+          fd.append('to_emails', to);
+          fd.append('doc_title', <?php print json_encode('Invoice ' . (string)$invoice['invoice_no']); ?>);
+          fd.append('doc_url', <?php print json_encode($public_link); ?>);
+          if (msg) fd.append('message', msg);
+
+          btn.disabled = true;
+          fetch('documents.php', { method: 'POST', body: fd, credentials: 'same-origin' })
+            .then(function(r){ return r.json(); })
+            .then(function(data){
+              btn.disabled = false;
+              if (data && data.status === 'success') {
+                alert('Email sent.');
+              } else {
+                alert((data && data.message) ? data.message : 'Failed to send email');
+              }
+            })
+            .catch(function(){
+              btn.disabled = false;
+              alert('Failed to send email');
+            });
+        });
+      })();
+      </script>
 
     </div>
   </div>
