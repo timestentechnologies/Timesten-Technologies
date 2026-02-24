@@ -143,7 +143,28 @@ if ($is_print || $is_pdf) {
     if ($is_pdf) {
         $logo_abs = @realpath(__DIR__ . '/' . $logo_path);
         if ($logo_abs && is_file($logo_abs)) {
-            $logo_src = 'file://' . $logo_abs;
+            $mime = '';
+            if (function_exists('finfo_open')) {
+                $fi = @finfo_open(FILEINFO_MIME_TYPE);
+                if ($fi) {
+                    $mime = (string)@finfo_file($fi, $logo_abs);
+                    @finfo_close($fi);
+                }
+            }
+            if (strlen($mime) < 3) {
+                $ext = strtolower((string)pathinfo($logo_abs, PATHINFO_EXTENSION));
+                if ($ext === 'png') { $mime = 'image/png'; }
+                elseif ($ext === 'jpg' || $ext === 'jpeg') { $mime = 'image/jpeg'; }
+                elseif ($ext === 'gif') { $mime = 'image/gif'; }
+                elseif ($ext === 'svg') { $mime = 'image/svg+xml'; }
+            }
+
+            $bin = @file_get_contents($logo_abs);
+            if ($bin !== false && strlen($mime) > 3) {
+                $logo_src = 'data:' . $mime . ';base64,' . base64_encode($bin);
+            } else {
+                $logo_src = 'file://' . $logo_abs;
+            }
         }
     }
 
