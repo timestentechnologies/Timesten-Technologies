@@ -112,12 +112,7 @@ if ($is_print) {
         $company_email = !empty($ct['email1']) ? (string)$ct['email1'] : '';
     }
 
-    $logo_path = 'assets/images/logo-dark.png';
-    $lg_rs = mysqli_query($con, "SELECT ufile FROM logo LIMIT 1");
-    $lg = $lg_rs ? mysqli_fetch_row($lg_rs) : null;
-    if ($lg && !empty($lg[0])) {
-        $logo_path = 'uploads/logo/' . $lg[0];
-    }
+    $logo_path = 'assets/images/logo-light.png';
 
     $inv_no = htmlspecialchars((string)$invoice['invoice_no']);
     $cust_name = htmlspecialchars((string)$invoice['customer_name']);
@@ -147,9 +142,9 @@ if ($is_print) {
           --bg:#ffffff;
         }
         *{box-sizing:border-box;}
-        body{margin:0;background:#f6f7fb;font-family:Arial, Helvetica, sans-serif;color:var(--text);}
-        .page{max-width:900px;margin:24px auto;padding:0 12px;}
-        .sheet{background:var(--bg);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 8px 30px rgba(15,23,42,.08);}
+        body{margin:0;background:#ffffff;font-family:Arial, Helvetica, sans-serif;color:var(--text);}
+        .page{width:210mm;min-height:297mm;margin:0 auto;padding:0;}
+        .sheet{background:var(--bg);min-height:297mm;border:1px solid var(--border);border-radius:0;overflow:hidden;box-shadow:none;}
         .topbar{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;gap:14px;align-items:center;}
         .brand{display:flex;gap:12px;align-items:center;}
         .brand img{height:34px;max-width:220px;object-fit:contain;}
@@ -187,8 +182,8 @@ if ($is_print) {
         @page{size:A4;margin:12mm;}
         @media print{
           body{background:#fff;}
-          .page{max-width:none;margin:0;padding:0;}
-          .sheet{border:none;border-radius:0;box-shadow:none;}
+          .page{width:auto;min-height:auto;margin:0;padding:0;}
+          .sheet{border:none;border-radius:0;box-shadow:none;min-height:auto;}
           .btns{display:none !important;}
         }
       </style>
@@ -294,7 +289,8 @@ if ($is_print) {
             <div class="small">Thank you for your business.</div>
             <div class="btns">
               <button class="btn" onclick="window.close();">Close</button>
-              <button class="btn primary" onclick="window.print();">Print / Save PDF</button>
+              <button class="btn" onclick="window.print();">Print</button>
+              <button class="btn primary" onclick="window.print();">Download PDF</button>
             </div>
           </div>
         </div>
@@ -596,7 +592,8 @@ $public_link = $base . '/invoice-view.php?id=' . $invoice_id;
           </div>
           <div class="ms-auto d-flex flex-wrap gap-2">
             <a href="payments.php?invoice_id=<?php print (int)$invoice_id; ?>" class="btn btn-soft-success btn-sm">Record Payment</a>
-            <a href="invoice-view.php?id=<?php print (int)$invoice_id; ?>&print=1&autoprint=1" target="_blank" class="btn btn-soft-secondary btn-sm">Print / Download PDF</a>
+            <a href="invoice-view.php?id=<?php print (int)$invoice_id; ?>&print=1&autoprint=1" target="_blank" class="btn btn-soft-secondary btn-sm">Print</a>
+            <a href="invoice-view.php?id=<?php print (int)$invoice_id; ?>&print=1" target="_blank" class="btn btn-soft-primary btn-sm">Download PDF</a>
             <a href="invoices.php" class="btn btn-light btn-sm">Back</a>
           </div>
         </div>
