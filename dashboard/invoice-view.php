@@ -258,8 +258,9 @@ if ($is_print || $is_pdf) {
         .pdf .page{margin:0 auto;}
         .pdf .sheet{height:297mm;border:none;border-radius:0;box-shadow:none;}
 
-        .watermark{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:0;pointer-events:none;}
-        .watermark img{width:120mm;max-width:75%;height:auto;opacity:.06;}
+        /* Dompdf can be unreliable with flex centering; use absolute centering */
+        .watermark{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:0;pointer-events:none;width:140mm;max-width:85%;text-align:center;}
+        .watermark img{width:100%;height:auto;opacity:.06;}
         .topbar{position:relative;z-index:1;}
         .content{position:relative;z-index:1;}
         .footer{position:relative;z-index:1;}
