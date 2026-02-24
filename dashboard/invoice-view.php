@@ -191,6 +191,9 @@ if ($is_print || $is_pdf) {
         :root{
           --primary:#f97316;
           --accent:#7c3aed;
+          --accent_dark:#4c1d95;
+          --success:#16a34a;
+          --danger:#dc2626;
           --text:#0f172a;
           --muted:#64748b;
           --border:#e5e7eb;
@@ -211,11 +214,11 @@ if ($is_print || $is_pdf) {
 
         .topbar{padding:14px 22px;border-bottom:1px solid rgba(226,232,240,.9);display:flex;gap:14px;align-items:center;background:transparent;}
         .brand{display:flex;gap:12px;align-items:center;}
-        .brand img{height:34px;max-width:220px;object-fit:contain;}
+        .brand img{height:46px;max-width:260px;object-fit:contain;}
         .brand-title{font-weight:800;letter-spacing:.2px;}
         .tag{margin-left:auto;text-align:right;}
         .tag .label{font-size:12px;color:var(--muted);}
-        .tag .value{font-size:18px;font-weight:800;color:var(--accent);}
+        .tag .value{font-size:18px;font-weight:900;color:var(--accent_dark);}
 
         .content{padding:18px 22px;position:relative;z-index:1;}
         /* Avoid relying on flex gap (Dompdf may not support it reliably) */
@@ -226,6 +229,8 @@ if ($is_print || $is_pdf) {
         .row{display:flex;justify-content:space-between;gap:12px;margin:4px 0;}
         .row .k{color:var(--muted);font-size:12px;}
         .row .v{font-weight:700;font-size:12px;text-align:right;}
+        .amt.paid{color:var(--success);font-weight:900;}
+        .amt.due{color:var(--danger);font-weight:900;}
 
         table{width:100%;border-collapse:collapse;margin-top:14px;}
         thead th{font-size:12px;text-transform:uppercase;letter-spacing:.35px;color:var(--muted);text-align:left;border-bottom:1px solid rgba(226,232,240,.9);padding:10px 8px;background:rgba(241,245,249,.55);}
@@ -253,6 +258,12 @@ if ($is_print || $is_pdf) {
         .pdf .page{margin:0 auto;}
         .pdf .sheet{height:297mm;border:none;border-radius:0;box-shadow:none;}
 
+        .watermark{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:0;pointer-events:none;}
+        .watermark img{width:120mm;max-width:75%;height:auto;opacity:.06;}
+        .topbar{position:relative;z-index:1;}
+        .content{position:relative;z-index:1;}
+        .footer{position:relative;z-index:1;}
+
         @page{size:A4;margin:0;}
         @media print{
           body{background:#fff;}
@@ -273,16 +284,12 @@ if ($is_print || $is_pdf) {
         <div class="sheet">
           <div class="decor tr"></div>
           <div class="decor bl"></div>
+          <div class="watermark"><img src="<?php print htmlspecialchars($logo_src); ?>" alt=""></div>
           <div class="topbar">
             <div class="brand">
               <img src="<?php print htmlspecialchars($logo_src); ?>" alt="Logo">
               <div>
                 <div class="brand-title"><?php print htmlspecialchars($company_name); ?></div>
-                <div class="small" style="color:var(--muted);font-size:12px;">
-                  <?php if (strlen(trim($company_phone))>0) { print htmlspecialchars($company_phone) . " "; } ?>
-                  <?php if (strlen(trim($company_email))>0) { print htmlspecialchars($company_email) . " "; } ?>
-                  <?php if (strlen(trim($company_url))>0) { print htmlspecialchars($company_url); } ?>
-                </div>
               </div>
             </div>
             <div class="tag">
@@ -318,8 +325,8 @@ if ($is_print || $is_pdf) {
                   <div class="row"><div class="k">Issue Date</div><div class="v"><?php print $issue_date; ?></div></div>
                   <div class="row"><div class="k">Due Date</div><div class="v"><?php print $due_date; ?></div></div>
                   <div class="row"><div class="k">Subtotal</div><div class="v"><?php print number_format($subtotal,2); ?></div></div>
-                  <div class="row"><div class="k">Paid</div><div class="v"><?php print number_format($paid,2); ?></div></div>
-                  <div class="row"><div class="k">Balance</div><div class="v"><?php print number_format($balance,2); ?></div></div>
+                  <div class="row"><div class="k">Paid</div><div class="v"><span class="amt paid"><?php print number_format($paid,2); ?></span></div></div>
+                  <div class="row"><div class="k">Balance</div><div class="v"><span class="amt due"><?php print number_format($balance,2); ?></span></div></div>
                 </div>
               </div>
             </div>
@@ -357,8 +364,8 @@ if ($is_print || $is_pdf) {
             <div class="totals">
               <div class="box">
                 <div class="row"><div class="k">Subtotal</div><div class="v"><?php print number_format($subtotal,2); ?></div></div>
-                <div class="row"><div class="k">Paid</div><div class="v"><?php print number_format($paid,2); ?></div></div>
-                <div class="row grand"><div class="k" style="font-weight:800;">Balance Due</div><div class="v" style="font-weight:900;"><?php print number_format($balance,2); ?></div></div>
+                <div class="row"><div class="k">Paid</div><div class="v"><span class="amt paid"><?php print number_format($paid,2); ?></span></div></div>
+                <div class="row grand"><div class="k" style="font-weight:800;">Balance Due</div><div class="v" style="font-weight:900;"><span class="amt due"><?php print number_format($balance,2); ?></span></div></div>
               </div>
             </div>
 
