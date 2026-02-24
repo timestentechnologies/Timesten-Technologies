@@ -208,7 +208,7 @@ if ($is_print || $is_pdf) {
         .sheet{background:var(--bg);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:0 10px 34px rgba(15,23,42,.10);position:relative;}
 
         /* Decorative shapes (use real DOM nodes because Dompdf may ignore :before/:after) */
-        .decor{position:absolute;border-radius:999px;pointer-events:none;}
+        .decor{position:absolute;border-radius:999px;pointer-events:none;z-index:0;}
         .decor.tr{width:160mm;height:160mm;top:-110mm;right:-110mm;background:var(--primary);opacity:.12;}
         .decor.bl{width:160mm;height:160mm;bottom:-85mm;left:-85mm;background:var(--accent);opacity:.10;}
 
@@ -259,11 +259,11 @@ if ($is_print || $is_pdf) {
         .pdf .sheet{height:297mm;border:none;border-radius:0;box-shadow:none;}
 
         /* Dompdf can be unreliable with flex centering; use absolute centering */
-        .watermark{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:0;pointer-events:none;width:140mm;max-width:85%;text-align:center;}
-        .watermark img{width:100%;height:auto;opacity:.06;}
-        .topbar{position:relative;z-index:1;}
-        .content{position:relative;z-index:1;}
-        .footer{position:relative;z-index:1;}
+        .watermark{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1;pointer-events:none;width:140mm;max-width:85%;text-align:center;}
+        .watermark img{width:100%;height:auto;opacity:.085;}
+        .topbar{position:relative;z-index:2;}
+        .content{position:relative;z-index:2;}
+        .footer{position:relative;z-index:2;}
 
         @page{size:A4;margin:0;}
         @media print{
