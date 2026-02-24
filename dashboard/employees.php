@@ -107,6 +107,34 @@ if (isset($_SESSION['employees_flash_error'])) {
 
 $username = isset($_SESSION['username']) ? $_SESSION['username'] : '';
 
+if (isset($_GET['ajax']) && (string)$_GET['ajax'] === 'latest_payslip') {
+    header('Content-Type: application/json; charset=utf-8');
+    $emp_id = isset($_GET['employee_id']) ? (int)$_GET['employee_id'] : 0;
+    if ($emp_id < 1) {
+        echo json_encode(['ok' => false]);
+        exit;
+    }
+    $rs = mysqli_query(
+        $con,
+        "SELECT id, amount, deductions, pay_date, created_at FROM employee_payments WHERE employee_id=$emp_id ORDER BY id DESC LIMIT 1"
+    );
+    $row = $rs ? mysqli_fetch_assoc($rs) : null;
+    if (!$row) {
+        echo json_encode(['ok' => true, 'exists' => false]);
+        exit;
+    }
+    echo json_encode([
+        'ok' => true,
+        'exists' => true,
+        'id' => (int)$row['id'],
+        'amount' => (float)$row['amount'],
+        'deductions' => isset($row['deductions']) ? (float)$row['deductions'] : 0.0,
+        'pay_date' => (string)($row['pay_date'] ?? ''),
+        'created_at' => (string)($row['created_at'] ?? ''),
+    ]);
+    exit;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_employee'])) {
     $full_name = trim((string)($_POST['full_name'] ?? ''));
     $email = trim((string)($_POST['email'] ?? ''));
@@ -495,7 +523,7 @@ if ($q) {
             <div class="modal-body">
               <div class="d-flex flex-wrap gap-3 align-items-center mb-3">
                 <div class="flex-shrink-0">
-                  <img id="v_emp_photo" src="" alt="photo" style="width:72px;height:72px;object-fit:cover;border-radius:50%;display:none;">
+                  <img id="v_emp_photo" src="" alt="photo" class="d-none" style="width:72px;height:72px;object-fit:cover;border-radius:50%;">
                   <div id="v_emp_photo_placeholder" class="bg-light text-muted d-flex align-items-center justify-content-center" style="width:72px;height:72px;border-radius:50%;">
                     <span class="fw-semibold" id="v_emp_initials"></span>
                   </div>
@@ -541,6 +569,13 @@ if ($q) {
                   <div class="p-3 border rounded-3">
                     <div class="text-muted small">CV Document ID</div>
                     <div class="fw-medium" id="v_emp_cvdoc"></div>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <div class="p-3 border rounded-3">
+                    <div class="text-muted small">Payslip</div>
+                    <div class="fw-medium" id="v_emp_payslip">Loading...</div>
                   </div>
                 </div>
               </div>
@@ -760,29 +795,61 @@ if ($q) {
     var img = document.getElementById('v_emp_photo');
     var ph = document.getElementById('v_emp_photo_placeholder');
     if (img) {
+      img.classList.add('d-none');
+      img.src = '';
+    }
+    if (ph) {
+      ph.classList.remove('d-none');
+    }
+    if (img) {
       img.onload = null;
       img.onerror = null;
     }
     if (photo.length > 0 && img && ph) {
-      img.style.display = '';
-      ph.style.display = 'none';
+      img.classList.add('d-none');
+      ph.classList.remove('d-none');
       img.onload = function(){
-        img.style.display = '';
-        ph.style.display = 'none';
+        img.classList.remove('d-none');
+        ph.classList.add('d-none');
       };
       img.onerror = function(){
-        img.style.display = 'none';
-        ph.style.display = '';
+        img.classList.add('d-none');
+        ph.classList.remove('d-none');
       };
       img.src = 'uploads/employees/' + photo;
     } else {
-      if (img) {
-        img.src = '';
-        img.style.display = 'none';
-      }
-      if (ph) {
-        ph.style.display = '';
-      }
+      if (img) { img.classList.add('d-none'); }
+      if (ph) { ph.classList.remove('d-none'); }
+    }
+
+    var payslipEl = document.getElementById('v_emp_payslip');
+    if (payslipEl) {
+      payslipEl.textContent = 'Loading...';
+      var eid = btn.getAttribute('data-id') || '';
+      fetch('employees.php?ajax=latest_payslip&employee_id=' + encodeURIComponent(eid))
+        .then(function(r){ return r.json(); })
+        .then(function(data){
+          if (!data || !data.ok) {
+            payslipEl.textContent = 'Not available';
+            return;
+          }
+          if (!data.exists) {
+            payslipEl.textContent = 'No payslip yet';
+            return;
+          }
+          var text = 'Payment #' + data.id;
+          if (data.pay_date) text += ' - ' + data.pay_date;
+          var a = document.createElement('a');
+          a.href = 'payslip-view.php?id=' + data.id;
+          a.target = '_blank';
+          a.className = 'text-decoration-underline';
+          a.textContent = text;
+          payslipEl.innerHTML = '';
+          payslipEl.appendChild(a);
+        })
+        .catch(function(){
+          payslipEl.textContent = 'Not available';
+        });
     }
     viewModal.show();
   });
