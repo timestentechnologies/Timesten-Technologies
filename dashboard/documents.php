@@ -3,22 +3,23 @@ ob_start();
 
 if (isset($_GET['debug']) && (string)$_GET['debug'] === '1') {
     header('Content-Type: text/html; charset=utf-8');
+    $BASE_DIR = dirname(__FILE__);
     $mysqli_ok = class_exists('mysqli');
     $db_loaded = false;
     if ($mysqli_ok) {
-        if (file_exists(__DIR__ . '/z_db.php')) {
-            include __DIR__ . '/z_db.php';
+        if (file_exists($BASE_DIR . '/z_db.php')) {
+            include $BASE_DIR . '/z_db.php';
             $db_loaded = true;
-        } elseif (file_exists(__DIR__ . '/../z_db.php')) {
-            include __DIR__ . '/../z_db.php';
+        } elseif (file_exists($BASE_DIR . '/../z_db.php')) {
+            include $BASE_DIR . '/../z_db.php';
             $db_loaded = true;
         }
     }
     session_start();
     $authed = isset($_SESSION['username']);
     $has_con = $mysqli_ok && isset($con) && ($con instanceof mysqli);
-    $has_phpmailer6 = file_exists(__DIR__ . '/../PHPMailer-6.8.0/src/PHPMailer.php');
-    $has_phpmailer_legacy = file_exists(__DIR__ . '/../PHPMailer/PHPMailerAutoload.php');
+    $has_phpmailer6 = file_exists($BASE_DIR . '/../PHPMailer-6.8.0/src/PHPMailer.php');
+    $has_phpmailer_legacy = file_exists($BASE_DIR . '/../PHPMailer/PHPMailerAutoload.php');
 
     echo "<!doctype html><html><head><meta charset='utf-8'><title>Documents Debug</title><style>body{font-family:Arial,Helvetica,sans-serif;background:#f3f4f6;margin:0;padding:24px;color:#0f172a;} .card{max-width:820px;margin:0 auto;background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;} pre{white-space:pre-wrap;background:#0b1220;color:#e2e8f0;padding:12px;border-radius:10px;}</style></head><body><div class='card'><h2 style='margin:0 0 10px 0;'>documents.php debug</h2>";
     echo "<pre>db_loaded=" . ($db_loaded ? 'true' : 'false') . "\n";
@@ -27,34 +28,35 @@ if (isset($_GET['debug']) && (string)$_GET['debug'] === '1') {
     echo "authed=" . ($authed ? 'true' : 'false') . "\n";
     echo "phpmailer6=" . ($has_phpmailer6 ? 'true' : 'false') . "\n";
     echo "phpmailer_legacy=" . ($has_phpmailer_legacy ? 'true' : 'false') . "\n";
-    echo "__DIR__=" . __DIR__ . "\n";
+    echo "BASE_DIR=" . $BASE_DIR . "\n";
     echo "</pre>";
     echo "</div></body></html>";
     exit;
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_doc_email'])) {
+    $BASE_DIR = dirname(__FILE__);
     $mysqli_ok = class_exists('mysqli');
     $db_loaded = false;
     if ($mysqli_ok) {
-        if (file_exists(__DIR__ . '/z_db.php')) {
-            include __DIR__ . '/z_db.php';
+        if (file_exists($BASE_DIR . '/z_db.php')) {
+            include $BASE_DIR . '/z_db.php';
             $db_loaded = true;
-        } elseif (file_exists(__DIR__ . '/../z_db.php')) {
-            include __DIR__ . '/../z_db.php';
+        } elseif (file_exists($BASE_DIR . '/../z_db.php')) {
+            include $BASE_DIR . '/../z_db.php';
             $db_loaded = true;
         }
     }
     session_start();
     if (!isset($_SESSION['username'])) {
         header('Content-Type: application/json');
-        echo json_encode(['status' => 'error', 'message' => 'Unauthorized']);
+        echo json_encode(array('status' => 'error', 'message' => 'Unauthorized'));
         exit;
     }
 
     if (!$db_loaded || !$mysqli_ok || !isset($con) || !($con instanceof mysqli)) {
         header('Content-Type: application/json');
-        echo json_encode(['status' => 'error', 'message' => 'Database connection not available.']);
+        echo json_encode(array('status' => 'error', 'message' => 'Database connection not available.'));
         exit;
     }
 
@@ -93,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_doc_email'])) {
     $extra_msg = isset($_POST['message']) ? trim((string)$_POST['message']) : '';
 
     $emails = preg_split('/[\s,;]+/', $to_raw);
-    $to_list = [];
+    $to_list = array();
     foreach ($emails as $em) {
         $em = trim($em);
         if (strlen($em) < 5) { continue; }
@@ -104,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_doc_email'])) {
 
     if (count($to_list) < 1 || strlen($doc_url) < 5) {
         header('Content-Type: application/json');
-        echo json_encode(['status' => 'error', 'message' => 'Please provide valid recipient email(s) and a document link.']);
+        echo json_encode(array('status' => 'error', 'message' => 'Please provide valid recipient email(s) and a document link.'));
         exit;
     }
 
@@ -146,12 +148,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_doc_email'])) {
     $sent = false;
     $err = '';
     try {
-        if (file_exists(__DIR__ . '/../PHPMailer-6.8.0/src/PHPMailer.php')) {
-            require_once __DIR__ . '/../PHPMailer-6.8.0/src/PHPMailer.php';
-            require_once __DIR__ . '/../PHPMailer-6.8.0/src/SMTP.php';
-            require_once __DIR__ . '/../PHPMailer-6.8.0/src/Exception.php';
+        if (file_exists($BASE_DIR . '/../PHPMailer-6.8.0/src/PHPMailer.php')) {
+            require_once $BASE_DIR . '/../PHPMailer-6.8.0/src/PHPMailer.php';
+            require_once $BASE_DIR . '/../PHPMailer-6.8.0/src/SMTP.php';
+            require_once $BASE_DIR . '/../PHPMailer-6.8.0/src/Exception.php';
 
-            $mail = new PHPMailer\PHPMailer\PHPMailer(true);
+            $cls = 'PHPMailer\\PHPMailer\\PHPMailer';
+            $mail = new $cls(true);
             $mail->isSMTP();
             $mail->Host = $smtp_host;
             $mail->SMTPAuth = true;
@@ -168,8 +171,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_doc_email'])) {
             $mail->Body = $body;
             $mail->AltBody = $doc_title . "\n" . $doc_url . (strlen($extra_msg) ? ("\n\n" . $extra_msg) : '');
             $sent = $mail->send();
-        } elseif (file_exists(__DIR__ . '/../PHPMailer/PHPMailerAutoload.php')) {
-            require_once __DIR__ . '/../PHPMailer/PHPMailerAutoload.php';
+        } elseif (file_exists($BASE_DIR . '/../PHPMailer/PHPMailerAutoload.php')) {
+            require_once $BASE_DIR . '/../PHPMailer/PHPMailerAutoload.php';
             $mail = new PHPMailer();
             $mail->isSMTP();
             $mail->Host = $smtp_host;
@@ -196,9 +199,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_doc_email'])) {
 
     header('Content-Type: application/json');
     if ($sent) {
-        echo json_encode(['status' => 'success', 'message' => 'Email sent.']);
+        echo json_encode(array('status' => 'success', 'message' => 'Email sent.'));
     } else {
-        echo json_encode(['status' => 'error', 'message' => (strlen($err) ? $err : 'Failed to send email.')]);
+        echo json_encode(array('status' => 'error', 'message' => (strlen($err) ? $err : 'Failed to send email.')));
     }
     exit;
 }
@@ -243,7 +246,7 @@ $cat_id = isset($_GET['cat']) ? (int)$_GET['cat'] : 0;
 $view = isset($_GET['view']) ? (string)$_GET['view'] : 'grid';
 if ($view !== 'grid' && $view !== 'list') { $view = 'grid'; }
 
-$cats = [];
+$cats = array();
 $active_cat_name = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_doc_id'])) {
@@ -253,7 +256,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_doc_id'])) {
         $doc = $doc_q ? mysqli_fetch_assoc($doc_q) : null;
         if ($doc) {
             if ($doc['doc_type'] === 'file' && !empty($doc['file_name'])) {
-                $fp = __DIR__ . '/uploads/documents/' . $doc['file_name'];
+                $fp = dirname(__FILE__) . '/uploads/documents/' . $doc['file_name'];
                 if (is_file($fp)) {
                     @unlink($fp);
                 }
@@ -263,7 +266,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_doc_id'])) {
         }
     }
 
-    $qs = [];
+    $qs = array();
     if ($cat_id > 0) { $qs[] = 'cat=' . (int)$cat_id; }
     if (strlen($view) > 0) { $qs[] = 'view=' . urlencode($view); }
     $to = 'documents.php' . (count($qs) ? ('?' . implode('&', $qs)) : '');
@@ -287,7 +290,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['upload_doc'])) {
         if (!isset($_FILES['doc_file']) || $_FILES['doc_file']['error'] !== UPLOAD_ERR_OK) {
             $_SESSION['documents_flash_error'] = "<div class='alert alert-danger alert-dismissible alert-outline fade show'>File is required.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
         } else {
-            $uploads_dir = __DIR__ . '/uploads/documents';
+            $uploads_dir = dirname(__FILE__) . '/uploads/documents';
             if (!is_dir($uploads_dir)) {
                 @mkdir($uploads_dir, 0775, true);
             }
@@ -317,7 +320,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['upload_doc'])) {
         $_SESSION['documents_flash_success'] = "<div class='alert alert-success alert-dismissible alert-outline fade show'>Link saved.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
     }
 
-    $qs = [];
+    $qs = array();
     $qs[] = 'cat=' . (int)$category_id;
     if (strlen($view) > 0) { $qs[] = 'view=' . urlencode($view); }
     $to = 'documents.php' . (count($qs) ? ('?' . implode('&', $qs)) : '');
@@ -343,7 +346,7 @@ if ($cat_id > 0) {
     if (strlen($active_cat_name) < 1) { $cat_id = 0; }
 }
 
-$docs = [];
+$docs = array();
 $where = "1=1";
 if ($cat_id > 0) {
     $where .= " AND category_id=$cat_id";
