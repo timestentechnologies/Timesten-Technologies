@@ -1,6 +1,11 @@
 <?php
 ob_start();
-include "header.php";
+include "z_db.php";
+session_start();
+if (!isset($_SESSION['username'])) {
+    print "<script>window.location='login.php';</script>";
+    exit;
+}
 
 $expense_id = (int)($_GET['id'] ?? 0);
 $is_pdf = isset($_GET['pdf']) && (string)$_GET['pdf'] === '1';
@@ -34,6 +39,15 @@ $description = !empty($x['description']) ? (string)$x['description'] : '';
 $amount = (float)$x['amount'];
 $expense_date = !empty($x['expense_date']) ? (string)$x['expense_date'] : '';
 $employee = !empty($x['employee_name']) ? (string)$x['employee_name'] : '';
+$employee_id = !empty($x['employee_id']) ? (int)$x['employee_id'] : 0;
+$employee_email = '';
+if ($employee_id > 0) {
+    $em_rs = mysqli_query($con, "SELECT email FROM employees WHERE id=$employee_id LIMIT 1");
+    $em_row = $em_rs ? mysqli_fetch_assoc($em_rs) : null;
+    if ($em_row && !empty($em_row['email'])) {
+        $employee_email = (string)$em_row['email'];
+    }
+}
 $payment_method = !empty($x['payment_method']) ? (string)$x['payment_method'] : '';
 $reference = !empty($x['reference']) ? (string)$x['reference'] : '';
 $receipt_file = !empty($x['receipt_file']) ? (string)$x['receipt_file'] : '';
@@ -89,6 +103,12 @@ if ($is_pdf && $abs_logo_path && file_exists($abs_logo_path)) {
 
 $rcpt_no = 'EXP-' . str_pad((string)$expense_id, 6, '0', STR_PAD_LEFT);
 $today = date('Y-m-d');
+
+$scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+$host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
+$path = isset($_SERVER['SCRIPT_NAME']) ? rtrim(str_replace('expense-receipt-view.php', '', $_SERVER['SCRIPT_NAME']), '/') : '';
+$base = $scheme . '://' . $host . $path;
+$doc_link = $base . '/expense-receipt-view.php?id=' . $expense_id;
 
 ob_start();
 ?>
@@ -266,6 +286,7 @@ ob_start();
             <button class="btn" onclick="window.close();">Close</button>
             <?php if (!$is_pdf) { ?>
               <a class="btn" href="expense-receipt-view.php?id=<?php print $expense_id; ?>&pdf=1" target="_blank" style="text-decoration:none;display:inline-block;">Download PDF</a>
+              <button class="btn" type="button" id="btnSendEmail" data-to="<?php print htmlspecialchars($employee_email); ?>">Send Email</button>
             <?php } ?>
             <button class="btn primary" onclick="window.print();">Print</button>
           </div>
@@ -275,6 +296,47 @@ ob_start();
 
     <?php if ($autoprint) { ?>
       <script>window.addEventListener('load', function(){ setTimeout(function(){ window.print(); }, 300); });</script>
+    <?php } ?>
+
+    <?php if (!$is_pdf) { ?>
+    <script>
+    (function(){
+      var btn = document.getElementById('btnSendEmail');
+      if (!btn) return;
+      btn.addEventListener('click', function(){
+        var to = (btn.getAttribute('data-to') || '').trim();
+        if (!to) {
+          to = prompt('Send to email:', '');
+        } else {
+          to = prompt('Send to email:', to);
+        }
+        if (!to) return;
+        var msg = prompt('Message (optional):', 'Please find your receipt attached as a link.');
+        var fd = new FormData();
+        fd.append('send_doc_email', '1');
+        fd.append('to_emails', to);
+        fd.append('doc_title', <?php print json_encode('Expense Receipt ' . $rcpt_no); ?>);
+        fd.append('doc_url', <?php print json_encode($doc_link); ?>);
+        if (msg) fd.append('message', msg);
+
+        btn.disabled = true;
+        fetch('documents.php', { method: 'POST', body: fd, credentials: 'same-origin' })
+          .then(function(r){ return r.json(); })
+          .then(function(data){
+            btn.disabled = false;
+            if (data && data.status === 'success') {
+              alert('Email sent.');
+            } else {
+              alert((data && data.message) ? data.message : 'Failed to send email');
+            }
+          })
+          .catch(function(){
+            btn.disabled = false;
+            alert('Failed to send email');
+          });
+      });
+    })();
+    </script>
     <?php } ?>
   </body>
 </html>
