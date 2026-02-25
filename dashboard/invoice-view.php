@@ -4,6 +4,7 @@ ob_start();
 $invoice_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $is_print = isset($_GET['print']) && (string)$_GET['print'] === '1';
 $is_pdf = isset($_GET['pdf']) && (string)$_GET['pdf'] === '1';
+$is_quote = isset($_GET['quote']) && (string)$_GET['quote'] === '1';
 
 if ($is_print || $is_pdf) {
     include "z_db.php";
@@ -231,7 +232,7 @@ if ($is_print || $is_pdf) {
     <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>Invoice <?php print $inv_no; ?></title>
+      <title><?php print $is_quote ? 'Quotation ' : 'Invoice '; ?><?php print $inv_no; ?></title>
       <style>
         :root{
           --primary:#f97316;
@@ -348,7 +349,7 @@ if ($is_print || $is_pdf) {
               </div>
             </div>
             <div class="tag">
-              <div class="label">Invoice</div>
+              <div class="label"><?php print $is_quote ? 'Quotation' : 'Invoice'; ?></div>
               <div class="value"><?php print $inv_no; ?></div>
               <div class="label">Date: <?php print htmlspecialchars($today); ?></div>
             </div>
@@ -419,8 +420,10 @@ if ($is_print || $is_pdf) {
                 <div class="row"><div class="k">Subtotal</div><div class="v"><?php print number_format($subtotal,2); ?></div></div>
                 <div class="row"><div class="k">Tax<?php if (!empty($tax_exempt)) { print ' (Exempt)'; } else { print ' (' . number_format((float)$tax_rate,2) . '%)'; } ?></div><div class="v"><?php print number_format((float)$tax_amount,2); ?></div></div>
                 <div class="row"><div class="k">Total</div><div class="v" style="font-weight:900;"><?php print number_format($total,2); ?></div></div>
+                <?php if (!$is_quote) { ?>
                 <div class="row"><div class="k">Paid</div><div class="v"><span class="amt paid"><?php print number_format($paid,2); ?></span></div></div>
                 <div class="row grand"><div class="k" style="font-weight:800;">Balance Due</div><div class="v" style="font-weight:900;"><span class="amt due"><?php print number_format($balance,2); ?></span></div></div>
+                <?php } ?>
               </div>
             </div>
 
@@ -471,7 +474,8 @@ if ($is_print || $is_pdf) {
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->loadHtml($html);
         $dompdf->render();
-        $filename = 'Invoice-' . preg_replace('/[^A-Za-z0-9_-]+/', '-', (string)$invoice['invoice_no']) . '.pdf';
+        $prefix = $is_quote ? 'Quotation-' : 'Invoice-';
+        $filename = $prefix . preg_replace('/[^A-Za-z0-9_-]+/', '-', (string)$invoice['invoice_no']) . '.pdf';
         $dompdf->stream($filename, ['Attachment' => true]);
         exit;
     }
@@ -792,8 +796,10 @@ $public_link = $base . '/invoice-view.php?id=' . $invoice_id;
           </div>
           <div class="ms-auto d-flex flex-wrap gap-2">
             <a href="payments.php?invoice_id=<?php print (int)$invoice_id; ?>" class="btn btn-soft-success btn-sm">Record Payment</a>
-            <a href="invoice-view.php?id=<?php print (int)$invoice_id; ?>&print=1&autoprint=1" target="_blank" class="btn btn-soft-secondary btn-sm">Print</a>
-            <a href="invoice-view.php?id=<?php print (int)$invoice_id; ?>&pdf=1" class="btn btn-soft-primary btn-sm">Download PDF</a>
+            <a href="invoice-view.php?id=<?php print (int)$invoice_id; ?>&print=1&autoprint=1" target="_blank" class="btn btn-soft-secondary btn-sm">Print Invoice</a>
+            <a href="invoice-view.php?id=<?php print (int)$invoice_id; ?>&pdf=1" class="btn btn-soft-primary btn-sm">Invoice PDF</a>
+            <a href="invoice-view.php?id=<?php print (int)$invoice_id; ?>&quote=1&print=1&autoprint=1" target="_blank" class="btn btn-outline-secondary btn-sm">Print Quotation</a>
+            <a href="invoice-view.php?id=<?php print (int)$invoice_id; ?>&quote=1&pdf=1" class="btn btn-outline-primary btn-sm">Quotation PDF</a>
             <button type="button" class="btn btn-soft-info btn-sm" id="btnInvoiceEmail" data-to="<?php print htmlspecialchars((string)$invoice['customer_email']); ?>" data-title="<?php print htmlspecialchars('Invoice ' . (string)$invoice['invoice_no']); ?>" data-url="<?php print htmlspecialchars((string)$public_link); ?>">Send Email</button>
             <a href="invoices.php" class="btn btn-light btn-sm">Back</a>
           </div>
