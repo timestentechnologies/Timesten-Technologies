@@ -172,11 +172,11 @@ if (isset($_GET['pdf']) && $_GET['pdf'] === '1') {
       .wrap{position:relative;z-index:2;padding:18px 22px;}
 
       .decor{position:absolute;z-index:1;pointer-events:none;border-radius:999px;opacity:.22;}
-      .decor.tr{right:-48mm;top:-46mm;width:120mm;height:120mm;background:#fde68a;}
-      .decor.bl{left:-56mm;bottom:-58mm;width:140mm;height:140mm;background:#ddd6fe;}
+      .decor.tr{right:-34mm;top:-32mm;width:90mm;height:90mm;background:#fde68a;}
+      .decor.bl{left:-40mm;bottom:-42mm;width:105mm;height:105mm;background:#ddd6fe;}
 
       .watermark{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1;pointer-events:none;width:160mm;max-width:90%;text-align:center;}
-      .watermark img{width:100%;height:auto;opacity:.10;}
+      .watermark img{width:100%;height:auto;opacity:.06;}
 
       .hdr{display:table;width:100%;margin-bottom:14px;}
       .hdr .l{display:table-cell;vertical-align:top;width:45%;}

@@ -926,6 +926,13 @@ if ($q) {
     var name = btn.getAttribute('data-name') || '';
     document.getElementById('p_emp_name').textContent = name;
 
+    var dedWrap = document.getElementById('dedRows');
+    var dedTotalEl = document.getElementById('dedTotal');
+    var dedHidden = document.getElementById('p_deductions');
+    if (dedWrap) { dedWrap.innerHTML = ''; }
+    if (dedTotalEl) { dedTotalEl.textContent = '0.00'; }
+    if (dedHidden) { dedHidden.value = '0'; }
+
     var ct = (btn.getAttribute('data-comptype') || '').toLowerCase();
     var ca = btn.getAttribute('data-compamount') || '';
     var compTxt = '';
@@ -946,6 +953,60 @@ if ($q) {
     }
 
     payModal.show();
+  });
+
+  function recalcDeductions() {
+    var wrap = document.getElementById('dedRows');
+    var totalEl = document.getElementById('dedTotal');
+    var hidden = document.getElementById('p_deductions');
+    if (!wrap || !totalEl || !hidden) return;
+    var sum = 0;
+    var inputs = wrap.querySelectorAll('input[name="deduction_amount[]"]');
+    inputs.forEach(function(inp){
+      var v = parseFloat(inp.value || '0');
+      if (!isNaN(v) && v > 0) sum += v;
+    });
+    totalEl.textContent = sum.toFixed(2);
+    hidden.value = String(sum.toFixed(2));
+  }
+
+  function addDeductionRow(title, amount) {
+    var wrap = document.getElementById('dedRows');
+    if (!wrap) return;
+    var row = document.createElement('div');
+    row.className = 'd-flex gap-2 align-items-center mb-2';
+    row.innerHTML = "<input type='text' class='form-control form-control-sm' name='deduction_title[]' placeholder='e.g. PAYE' value='" + (title ? String(title).replace(/"/g,'&quot;') : '') + "'>" +
+      "<input type='number' step='0.01' min='0' class='form-control form-control-sm' name='deduction_amount[]' placeholder='0.00' value='" + (amount ? String(amount).replace(/"/g,'&quot;') : '') + "'>" +
+      "<button type='button' class='btn btn-sm btn-soft-danger js-del-ded' title='Remove'>×</button>";
+    wrap.appendChild(row);
+    recalcDeductions();
+    var amt = row.querySelector('input[name="deduction_amount[]"]');
+    if (amt) { setTimeout(function(){ try { amt.focus(); } catch(e){} }, 0); }
+  }
+
+  var btnAddDed = document.getElementById('btnAddDedRow');
+  if (btnAddDed) {
+    btnAddDed.addEventListener('click', function(){
+      addDeductionRow('', '');
+    });
+  }
+
+  document.addEventListener('input', function(e){
+    var t = e.target;
+    if (!t) return;
+    if (t.name === 'deduction_amount[]' || t.name === 'deduction_title[]') {
+      recalcDeductions();
+    }
+  });
+
+  document.addEventListener('click', function(e){
+    var del = e.target && e.target.closest ? e.target.closest('.js-del-ded') : null;
+    if (!del) return;
+    var row = del.closest('.d-flex');
+    if (row && row.parentNode) {
+      row.parentNode.removeChild(row);
+      recalcDeductions();
+    }
   });
 
   document.addEventListener('click', function(e){
