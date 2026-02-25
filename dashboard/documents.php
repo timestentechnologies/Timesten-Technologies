@@ -120,7 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_doc_email'])) {
     }
     $msg_block = '';
     if (strlen($safe_msg) > 0) {
-        $msg_block = "<div style='margin-top:16px;padding:14px 16px;background:#f8fafc;border:1px solid #e5e7eb;border-radius:10px;color:#0f172a;line-height:1.55;">$safe_msg</div>";
+        $msg_block = "<div style='margin-top:16px;padding:14px 16px;background:#f8fafc;border:1px solid #e5e7eb;border-radius:10px;color:#0f172a;line-height:1.55;'>" . $safe_msg . "</div>";
     }
 
     $body = "<!doctype html><html><head><meta charset='utf-8'></head><body style='margin:0;padding:0;background:#f3f4f6;font-family:Arial,Helvetica,sans-serif;'>";
