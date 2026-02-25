@@ -270,6 +270,8 @@ if ($is_print || $is_pdf) {
         .grid{display:flex;flex-wrap:wrap;margin:-8px;}
         .col{flex:1;min-width:260px;padding:8px;}
         .card{border:1px solid rgba(226,232,240,.9);border-radius:12px;padding:14px;background:rgba(255,255,255,.82);box-shadow:0 8px 22px rgba(15,23,42,.05);}
+        .col.half{flex:0 0 50%;min-width:0;}
+        .col.full{flex:0 0 100%;min-width:0;}
         .card h4{margin:0 0 8px 0;font-size:13px;letter-spacing:.3px;text-transform:uppercase;color:var(--muted);}
         .row{display:flex;justify-content:space-between;gap:12px;margin:4px 0;}
         .row .k{color:var(--muted);font-size:12px;}
@@ -350,7 +352,7 @@ if ($is_print || $is_pdf) {
 
           <div class="content">
             <div class="grid">
-              <div class="col">
+              <div class="col half">
                 <div class="card">
                   <h4>Billed From</h4>
                   <div style="font-weight:800;font-size:13px;"><?php print htmlspecialchars($company_name); ?></div>
@@ -359,7 +361,7 @@ if ($is_print || $is_pdf) {
                   <?php if (strlen(trim($company_url))>0) { ?><div style="font-size:12px;color:var(--muted);"><?php print htmlspecialchars($company_url); ?></div><?php } ?>
                 </div>
               </div>
-              <div class="col">
+              <div class="col half">
                 <div class="card">
                   <h4>Billed To</h4>
                   <div style="font-weight:800;font-size:13px;"><?php print $cust_name; ?></div>
@@ -368,16 +370,11 @@ if ($is_print || $is_pdf) {
                   <?php if (strlen(trim($cust_address))>0) { ?><div style="font-size:12px;color:var(--muted);white-space:pre-line;"><?php print $cust_address; ?></div><?php } ?>
                 </div>
               </div>
-              <div class="col">
+              <div class="col full">
                 <div class="card">
                   <h4>Details</h4>
                   <div class="row"><div class="k">Issue Date</div><div class="v"><?php print $issue_date; ?></div></div>
                   <div class="row"><div class="k">Due Date</div><div class="v"><?php print $due_date; ?></div></div>
-                  <div class="row"><div class="k">Subtotal</div><div class="v"><?php print number_format($subtotal,2); ?></div></div>
-                  <div class="row"><div class="k">Tax<?php if (!empty($tax_exempt)) { print ' (Exempt)'; } else { print ' (' . number_format((float)$tax_rate,2) . '%)'; } ?></div><div class="v"><?php print number_format((float)$tax_amount,2); ?></div></div>
-                  <div class="row"><div class="k">Total</div><div class="v"><?php print number_format($total,2); ?></div></div>
-                  <div class="row"><div class="k">Paid</div><div class="v"><span class="amt paid"><?php print number_format($paid,2); ?></span></div></div>
-                  <div class="row"><div class="k">Balance</div><div class="v"><span class="amt due"><?php print number_format($balance,2); ?></span></div></div>
                 </div>
               </div>
             </div>
