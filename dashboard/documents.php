@@ -263,6 +263,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_doc_email'])) {
                 $mail->addAddress($t);
             }
 
+            if ($doc_kind === 'document' && $doc_id > 0) {
+                $d_rs = mysqli_query($con, "SELECT doc_type, file_name, original_name FROM documents WHERE id=$doc_id LIMIT 1");
+                $d = $d_rs ? mysqli_fetch_assoc($d_rs) : null;
+                if ($d && isset($d['doc_type']) && (string)$d['doc_type'] === 'file' && !empty($d['file_name'])) {
+                    $fn = basename((string)$d['file_name']);
+                    $orig = !empty($d['original_name']) ? (string)$d['original_name'] : $fn;
+                    $fp = dirname(__FILE__) . '/uploads/documents/' . $fn;
+                    if (is_file($fp) && is_readable($fp)) {
+                        $mail->addAttachment($fp, $orig);
+                    }
+                }
+            }
+
             if ($doc_id > 0 && ($doc_kind === 'invoice' || $doc_kind === 'payslip' || $doc_kind === 'expense') && strlen($token) > 10) {
                 $pdf_url = '';
                 $filename = 'Document.pdf';
@@ -312,6 +325,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_doc_email'])) {
             $mail->setFrom($from_email, $from_name);
             foreach ($to_list as $t) {
                 $mail->addAddress($t);
+            }
+
+            if ($doc_kind === 'document' && $doc_id > 0) {
+                $d_rs = mysqli_query($con, "SELECT doc_type, file_name, original_name FROM documents WHERE id=$doc_id LIMIT 1");
+                $d = $d_rs ? mysqli_fetch_assoc($d_rs) : null;
+                if ($d && isset($d['doc_type']) && (string)$d['doc_type'] === 'file' && !empty($d['file_name'])) {
+                    $fn = basename((string)$d['file_name']);
+                    $orig = !empty($d['original_name']) ? (string)$d['original_name'] : $fn;
+                    $fp = dirname(__FILE__) . '/uploads/documents/' . $fn;
+                    if (is_file($fp) && is_readable($fp)) {
+                        $mail->addAttachment($fp, $orig);
+                    }
+                }
             }
             $mail->isHTML(true);
             $mail->Subject = $subject;
@@ -772,6 +798,8 @@ $publicBase = $scheme . '://' . $host . $basePath;
                 <div class="modal-body">
                   <form id="emailDocForm">
                     <input type="hidden" name="send_doc_email" value="1">
+                    <input type="hidden" name="doc_kind" id="email_doc_kind" value="document">
+                    <input type="hidden" name="doc_id" id="email_doc_id" value="0">
                     <input type="hidden" name="doc_title" id="email_doc_title" value="">
                     <input type="hidden" name="doc_url" id="email_doc_url" value="">
 
@@ -925,6 +953,8 @@ $publicBase = $scheme . '://' . $host . $basePath;
 
   var emailModalEl = document.getElementById('emailDocModal');
   var emailForm = document.getElementById('emailDocForm');
+  var emailKind = document.getElementById('email_doc_kind');
+  var emailId = document.getElementById('email_doc_id');
   var emailTitle = document.getElementById('email_doc_title');
   var emailUrl = document.getElementById('email_doc_url');
   var emailTo = document.getElementById('email_to');
@@ -940,8 +970,11 @@ $publicBase = $scheme . '://' . $host . $basePath;
     e.preventDefault();
     var title = btn.getAttribute('data-title') || 'Document';
     var url = btn.getAttribute('data-url') || '';
+    var id = btn.getAttribute('data-id') || '0';
     if (emailTitle) emailTitle.value = title;
     if (emailUrl) emailUrl.value = url;
+    if (emailKind) emailKind.value = 'document';
+    if (emailId) emailId.value = id;
     if (emailTo) emailTo.value = '';
     var msg = document.getElementById('email_msg');
     if (msg) msg.value = '';
@@ -951,6 +984,7 @@ $publicBase = $scheme . '://' . $host . $basePath;
   if (emailForm) {
     emailForm.addEventListener('submit', function(ev){
       ev.preventDefault();
+      var oldTxt = emailBtn ? emailBtn.textContent : '';
       if (emailBtn) {
         emailBtn.disabled = true;
         emailBtn.textContent = 'Sending...';
@@ -959,20 +993,30 @@ $publicBase = $scheme . '://' . $host . $basePath;
       fetch('documents.php', { method: 'POST', body: fd })
         .then(function(r){ return r.json(); })
         .then(function(data){
+          if (emailBtn) {
+            emailBtn.disabled = false;
+            emailBtn.textContent = oldTxt;
+          }
           if (data && data.status === 'success') {
             showToast('Email sent', 'success');
-            if (emailModal) emailModal.hide();
+            if (emailModal) {
+              setTimeout(function(){ try { emailModal.hide(); } catch(e){} }, 650);
+            }
           } else {
             showToast((data && data.message) ? data.message : 'Failed to send email', 'danger');
           }
         })
         .catch(function(){
+          if (emailBtn) {
+            emailBtn.disabled = false;
+            emailBtn.textContent = oldTxt;
+          }
           showToast('Failed to send email', 'danger');
         })
         .finally(function(){
           if (emailBtn) {
             emailBtn.disabled = false;
-            emailBtn.textContent = 'Send';
+            emailBtn.textContent = oldTxt;
           }
         });
     });
