@@ -272,10 +272,12 @@ if ($is_print || $is_pdf) {
         .card{border:1px solid rgba(226,232,240,.9);border-radius:12px;padding:14px;background:rgba(255,255,255,.82);box-shadow:0 8px 22px rgba(15,23,42,.05);}
         .col.half{flex:0 0 50%;min-width:0;}
         .col.full{flex:0 0 100%;min-width:0;}
-        .twocol{width:100%;border-collapse:separate;border-spacing:16px 0;margin:0;}
-        .twocol td{vertical-align:top;width:50%;padding:0;}
+        .twocol{width:100%;border-collapse:separate;border-spacing:0;margin:0 !important;}
+        .twocol td{vertical-align:top;width:50%;padding:0 8px;}
+        .twocol td:first-child{padding-left:0;}
+        .twocol td:last-child{padding-right:0;}
         .card h4{margin:0 0 8px 0;font-size:13px;letter-spacing:.3px;text-transform:uppercase;color:var(--muted);}
-        .row{display:flex;justify-content:space-between;gap:12px;margin:4px 0;}
+        .row{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:4px 0;}
         .row .k{color:var(--muted);font-size:12px;}
         .row .v{font-weight:700;font-size:12px;text-align:right;}
         .amt.paid{color:var(--success);font-weight:900;}
@@ -309,7 +311,7 @@ if ($is_print || $is_pdf) {
 
         /* Dompdf can be unreliable with flex centering; use absolute centering */
         .watermark{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1;pointer-events:none;width:160mm;max-width:90%;text-align:center;}
-        .watermark img{width:100%;height:auto;opacity:.18;}
+        .watermark img{width:100%;height:auto;opacity:.12;}
         .topbar{position:relative;z-index:2;}
         .content{position:relative;z-index:2;}
         .footer{position:relative;z-index:2;}
