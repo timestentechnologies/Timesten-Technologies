@@ -165,8 +165,19 @@ if (isset($_GET['pdf']) && $_GET['pdf'] === '1') {
     }
 
     $html = "<!doctype html><html><head><meta charset='utf-8'><style>
-      body{font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#0f172a;margin:0;padding:0;}
-      .wrap{padding:18px 22px;}
+      @page{size:A4;margin:0;}
+      body{font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#0f172a;margin:0;padding:0;background:#fff;}
+      .page{width:210mm;min-height:297mm;margin:0 auto;background:#fff;}
+      .sheet{position:relative;width:210mm;min-height:297mm;overflow:hidden;}
+      .wrap{position:relative;z-index:2;padding:18px 22px;}
+
+      .decor{position:absolute;z-index:1;pointer-events:none;border-radius:999px;opacity:.22;}
+      .decor.tr{right:-48mm;top:-46mm;width:120mm;height:120mm;background:#fde68a;}
+      .decor.bl{left:-56mm;bottom:-58mm;width:140mm;height:140mm;background:#ddd6fe;}
+
+      .watermark{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1;pointer-events:none;width:160mm;max-width:90%;text-align:center;}
+      .watermark img{width:100%;height:auto;opacity:.10;}
+
       .hdr{display:table;width:100%;margin-bottom:14px;}
       .hdr .l{display:table-cell;vertical-align:top;width:45%;}
       .hdr .r{display:table-cell;vertical-align:top;width:55%;text-align:right;}
@@ -180,7 +191,11 @@ if (isset($_GET['pdf']) && $_GET['pdf'] === '1') {
       td.num,th.num{text-align:right;}
       .in{color:#16a34a;font-weight:700;}
       .out{color:#dc2626;font-weight:700;}
-    </style></head><body><div class='wrap'>";
+    </style></head><body><div class='page'><div class='sheet'><div class='decor tr'></div><div class='decor bl'></div>";
+    if (strlen(trim($logo_src)) > 5) {
+        $html .= "<div class='watermark'><img src='" . htmlspecialchars($logo_src) . "' alt=''></div>";
+    }
+    $html .= "<div class='wrap'>";
     $html .= "<div class='hdr'><div class='l'>" . $logo_html . "<div class='name'>" . $safe_name . "</div>";
     if (strlen($safe_addr)) { $html .= "<div class='muted'>" . nl2br($safe_addr) . "</div>"; }
     $line = '';
@@ -203,7 +218,7 @@ if (isset($_GET['pdf']) && $_GET['pdf'] === '1') {
     if (count($rows) < 1) {
         $html .= "<tr><td colspan='5' class='muted'>No transactions in this range.</td></tr>";
     }
-    $html .= "</tbody></table></div></body></html>";
+    $html .= "</tbody></table></div></div></div></body></html>";
 
     $autoload = __DIR__ . '/../vendor/autoload.php';
     if (!file_exists($autoload)) {
