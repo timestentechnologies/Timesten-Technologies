@@ -1084,28 +1084,38 @@ $public_link = $base . '/invoice-view.php?id=' . $invoice_id;
             }
             return;
           }
+
+          var oldTxt = sendBtn.textContent;
           var fd = new FormData(document.getElementById('invoiceEmailForm'));
           sendBtn.disabled = true;
-          fetch('documents.php', { method: 'POST', body: fd, credentials: 'same-origin' })
-            .then(function(r){ return r.json(); })
-            .then(function(data){
-              sendBtn.disabled = false;
-              if (data && data.status === 'success') {
-                if (alertEl) {
-                  alertEl.innerHTML = "<div class='alert alert-success'>Email sent.</div>";
+          sendBtn.textContent = 'Sending...';
+          setTimeout(function(){
+            fetch('documents.php', { method: 'POST', body: fd, credentials: 'same-origin' })
+              .then(function(r){ return r.json(); })
+              .then(function(data){
+                sendBtn.disabled = false;
+                sendBtn.textContent = oldTxt;
+                if (data && data.status === 'success') {
+                  if (alertEl) {
+                    alertEl.innerHTML = "<div class='alert alert-success'>Email sent.</div>";
+                  }
+                  try {
+                    setTimeout(function(){ closeModal(); }, 650);
+                  } catch (e) {}
+                } else {
+                  if (alertEl) {
+                    alertEl.innerHTML = "<div class='alert alert-danger'>" + ((data && data.message) ? data.message : 'Failed to send email') + "</div>";
+                  }
                 }
-              } else {
+              })
+              .catch(function(){
+                sendBtn.disabled = false;
+                sendBtn.textContent = oldTxt;
                 if (alertEl) {
-                  alertEl.innerHTML = "<div class='alert alert-danger'>" + ((data && data.message) ? data.message : 'Failed to send email') + "</div>";
+                  alertEl.innerHTML = "<div class='alert alert-danger'>Failed to send email.</div>";
                 }
-              }
-            })
-            .catch(function(){
-              sendBtn.disabled = false;
-              if (alertEl) {
-                alertEl.innerHTML = "<div class='alert alert-danger'>Failed to send email.</div>";
-              }
-            });
+              });
+          }, 10);
         });
       })();
       </script>

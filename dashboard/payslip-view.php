@@ -461,6 +461,8 @@ ob_start();
           showAlert('err', 'Please enter at least one recipient email.');
           return;
         }
+        showAlert('ok', 'Sending...');
+        var oldTxt = sendBtn.textContent;
         var fd = new FormData();
         fd.append('send_doc_email', '1');
         fd.append('to_emails', to);
@@ -472,20 +474,28 @@ ob_start();
         if (msg) fd.append('message', msg);
 
         sendBtn.disabled = true;
-        fetch('documents.php', { method: 'POST', body: fd, credentials: 'same-origin' })
-          .then(function(r){ return r.json(); })
-          .then(function(data){
-            sendBtn.disabled = false;
-            if (data && data.status === 'success') {
-              showAlert('ok', 'Email sent.');
-            } else {
-              showAlert('err', (data && data.message) ? data.message : 'Failed to send email');
-            }
-          })
-          .catch(function(){
-            sendBtn.disabled = false;
-            showAlert('err', 'Failed to send email');
-          });
+        sendBtn.textContent = 'Sending...';
+        setTimeout(function(){
+          fetch('documents.php', { method: 'POST', body: fd, credentials: 'same-origin' })
+            .then(function(r){ return r.json(); })
+            .then(function(data){
+              sendBtn.disabled = false;
+              sendBtn.textContent = oldTxt;
+              if (data && data.status === 'success') {
+                showAlert('ok', 'Email sent.');
+                try {
+                  setTimeout(function(){ closeModal(); }, 650);
+                } catch (e) {}
+              } else {
+                showAlert('err', (data && data.message) ? data.message : 'Failed to send email');
+              }
+            })
+            .catch(function(){
+              sendBtn.disabled = false;
+              sendBtn.textContent = oldTxt;
+              showAlert('err', 'Failed to send email');
+            });
+        }, 10);
       });
     })();
     </script>

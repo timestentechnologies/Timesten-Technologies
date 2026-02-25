@@ -990,35 +990,31 @@ $publicBase = $scheme . '://' . $host . $basePath;
         emailBtn.textContent = 'Sending...';
       }
       var fd = new FormData(emailForm);
-      fetch('documents.php', { method: 'POST', body: fd })
-        .then(function(r){ return r.json(); })
-        .then(function(data){
-          if (emailBtn) {
-            emailBtn.disabled = false;
-            emailBtn.textContent = oldTxt;
-          }
-          if (data && data.status === 'success') {
-            showToast('Email sent', 'success');
-            if (emailModal) {
-              setTimeout(function(){ try { emailModal.hide(); } catch(e){} }, 650);
+      setTimeout(function(){
+        fetch('documents.php', { method: 'POST', body: fd })
+          .then(function(r){ return r.json(); })
+          .then(function(data){
+            if (emailBtn) {
+              emailBtn.disabled = false;
+              emailBtn.textContent = oldTxt;
             }
-          } else {
-            showToast((data && data.message) ? data.message : 'Failed to send email', 'danger');
-          }
-        })
-        .catch(function(){
-          if (emailBtn) {
-            emailBtn.disabled = false;
-            emailBtn.textContent = oldTxt;
-          }
-          showToast('Failed to send email', 'danger');
-        })
-        .finally(function(){
-          if (emailBtn) {
-            emailBtn.disabled = false;
-            emailBtn.textContent = oldTxt;
-          }
-        });
+            if (data && data.status === 'success') {
+              showToast('Email sent', 'success');
+              if (emailModal) {
+                setTimeout(function(){ try { emailModal.hide(); } catch(e){} }, 650);
+              }
+            } else {
+              showToast((data && data.message) ? data.message : 'Failed to send email', 'danger');
+            }
+          })
+          .catch(function(){
+            if (emailBtn) {
+              emailBtn.disabled = false;
+              emailBtn.textContent = oldTxt;
+            }
+            showToast('Failed to send email', 'danger');
+          });
+      }, 10);
     });
   }
 
