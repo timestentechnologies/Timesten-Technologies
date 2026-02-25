@@ -202,13 +202,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_doc_email'])) {
 
     $company_meta = '';
     $company_meta .= "<div style='font-size:12px;color:#6b7280;line-height:1.55;text-align:center;margin-top:8px;'>";
-    $company_meta .= htmlspecialchars($company_name);
-    if (strlen($company_address)) { $company_meta .= "<br>" . nl2br(htmlspecialchars($company_address)); }
+    if (strlen($company_address)) { $company_meta .= nl2br(htmlspecialchars($company_address)); }
     $line2 = '';
     if (strlen($company_phone)) { $line2 .= htmlspecialchars($company_phone); }
-    if (strlen($company_email)) { $line2 .= (strlen($line2) ? ' • ' : '') . htmlspecialchars($company_email); }
-    if (strlen($company_url)) { $line2 .= (strlen($line2) ? ' • ' : '') . htmlspecialchars($company_url); }
-    if (strlen($line2)) { $company_meta .= "<br>" . $line2; }
+    if (strlen($company_email)) { $line2 .= (strlen($line2) ? ' | ' : '') . htmlspecialchars($company_email); }
+    if (strlen($company_url)) { $line2 .= (strlen($line2) ? ' | ' : '') . htmlspecialchars($company_url); }
+    if (strlen($line2)) {
+        if (strlen($company_address)) { $company_meta .= "<br>"; }
+        $company_meta .= $line2;
+    }
     $company_meta .= "</div>";
     $msg_block = '';
     if (strlen($safe_msg) > 0) {
@@ -248,6 +250,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_doc_email'])) {
 
             $cls = 'PHPMailer\\PHPMailer\\PHPMailer';
             $mail = new $cls(true);
+            $mail->CharSet = 'UTF-8';
             $mail->isSMTP();
             $mail->Host = $smtp_host;
             $mail->SMTPAuth = true;
@@ -298,6 +301,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_doc_email'])) {
         } elseif (file_exists($BASE_DIR . '/../PHPMailer/PHPMailerAutoload.php')) {
             require_once $BASE_DIR . '/../PHPMailer/PHPMailerAutoload.php';
             $mail = new PHPMailer();
+            $mail->CharSet = 'UTF-8';
             $mail->isSMTP();
             $mail->Host = $smtp_host;
             $mail->SMTPAuth = true;
