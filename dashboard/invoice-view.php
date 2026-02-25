@@ -272,6 +272,8 @@ if ($is_print || $is_pdf) {
         .card{border:1px solid rgba(226,232,240,.9);border-radius:12px;padding:14px;background:rgba(255,255,255,.82);box-shadow:0 8px 22px rgba(15,23,42,.05);}
         .col.half{flex:0 0 50%;min-width:0;}
         .col.full{flex:0 0 100%;min-width:0;}
+        .twocol{width:100%;border-collapse:separate;border-spacing:16px 0;margin:0;}
+        .twocol td{vertical-align:top;width:50%;padding:0;}
         .card h4{margin:0 0 8px 0;font-size:13px;letter-spacing:.3px;text-transform:uppercase;color:var(--muted);}
         .row{display:flex;justify-content:space-between;gap:12px;margin:4px 0;}
         .row .k{color:var(--muted);font-size:12px;}
@@ -351,32 +353,33 @@ if ($is_print || $is_pdf) {
           </div>
 
           <div class="content">
-            <div class="grid">
-              <div class="col half">
-                <div class="card">
-                  <h4>Billed From</h4>
-                  <div style="font-weight:800;font-size:13px;"><?php print htmlspecialchars($company_name); ?></div>
-                  <?php if (strlen(trim($company_email))>0) { ?><div style="font-size:12px;color:var(--muted);"><?php print htmlspecialchars($company_email); ?></div><?php } ?>
-                  <?php if (strlen(trim($company_phone))>0) { ?><div style="font-size:12px;color:var(--muted);"><?php print htmlspecialchars($company_phone); ?></div><?php } ?>
-                  <?php if (strlen(trim($company_url))>0) { ?><div style="font-size:12px;color:var(--muted);"><?php print htmlspecialchars($company_url); ?></div><?php } ?>
-                </div>
-              </div>
-              <div class="col half">
-                <div class="card">
-                  <h4>Billed To</h4>
-                  <div style="font-weight:800;font-size:13px;"><?php print $cust_name; ?></div>
-                  <?php if (strlen(trim($cust_email))>0) { ?><div style="font-size:12px;color:var(--muted);"><?php print $cust_email; ?></div><?php } ?>
-                  <?php if (strlen(trim($cust_phone))>0) { ?><div style="font-size:12px;color:var(--muted);"><?php print $cust_phone; ?></div><?php } ?>
-                  <?php if (strlen(trim($cust_address))>0) { ?><div style="font-size:12px;color:var(--muted);white-space:pre-line;"><?php print $cust_address; ?></div><?php } ?>
-                </div>
-              </div>
-              <div class="col full">
-                <div class="card">
-                  <h4>Details</h4>
-                  <div class="row"><div class="k">Issue Date</div><div class="v"><?php print $issue_date; ?></div></div>
-                  <div class="row"><div class="k">Due Date</div><div class="v"><?php print $due_date; ?></div></div>
-                </div>
-              </div>
+            <table class="twocol">
+              <tr>
+                <td>
+                  <div class="card">
+                    <h4>Billed From</h4>
+                    <div style="font-weight:800;font-size:13px;"><?php print htmlspecialchars($company_name); ?></div>
+                    <?php if (strlen(trim($company_email))>0) { ?><div style="font-size:12px;color:var(--muted);"><?php print htmlspecialchars($company_email); ?></div><?php } ?>
+                    <?php if (strlen(trim($company_phone))>0) { ?><div style="font-size:12px;color:var(--muted);"><?php print htmlspecialchars($company_phone); ?></div><?php } ?>
+                    <?php if (strlen(trim($company_url))>0) { ?><div style="font-size:12px;color:var(--muted);"><?php print htmlspecialchars($company_url); ?></div><?php } ?>
+                  </div>
+                </td>
+                <td>
+                  <div class="card">
+                    <h4>Billed To</h4>
+                    <div style="font-weight:800;font-size:13px;"><?php print $cust_name; ?></div>
+                    <?php if (strlen(trim($cust_email))>0) { ?><div style="font-size:12px;color:var(--muted);"><?php print $cust_email; ?></div><?php } ?>
+                    <?php if (strlen(trim($cust_phone))>0) { ?><div style="font-size:12px;color:var(--muted);"><?php print $cust_phone; ?></div><?php } ?>
+                    <?php if (strlen(trim($cust_address))>0) { ?><div style="font-size:12px;color:var(--muted);white-space:pre-line;"><?php print $cust_address; ?></div><?php } ?>
+                  </div>
+                </td>
+              </tr>
+            </table>
+
+            <div class="card" style="margin-top:16px;">
+              <h4>Details</h4>
+              <div class="row"><div class="k">Issue Date</div><div class="v"><?php print $issue_date; ?></div></div>
+              <div class="row"><div class="k">Due Date</div><div class="v"><?php print $due_date; ?></div></div>
             </div>
 
             <table>
