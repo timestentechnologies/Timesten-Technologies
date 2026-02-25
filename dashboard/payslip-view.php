@@ -30,8 +30,28 @@ if (!$db_loaded || !isset($con) || !($con instanceof mysqli)) {
 }
 session_start();
 if (!isset($_SESSION['username'])) {
-    print "<script>window.location='login.php';</script>";
-    exit;
+    $tok = isset($_GET['t']) ? (string)$_GET['t'] : '';
+    $pay_id_tmp = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+    $ok = false;
+    if ($pay_id_tmp > 0 && strlen($tok) > 10) {
+        mysqli_query($con, "CREATE TABLE IF NOT EXISTS doc_access_tokens (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          doc_kind VARCHAR(30) NOT NULL,
+          doc_id INT NOT NULL,
+          token VARCHAR(100) NOT NULL,
+          expires_at DATETIME NOT NULL,
+          created_at DATETIME NULL,
+          UNIQUE KEY uniq_token (token),
+          KEY idx_doc (doc_kind, doc_id)
+        )");
+        $t_s = mysqli_real_escape_string($con, $tok);
+        $rs = mysqli_query($con, "SELECT id FROM doc_access_tokens WHERE doc_kind='payslip' AND doc_id=$pay_id_tmp AND token='$t_s' AND expires_at > NOW() LIMIT 1");
+        $ok = ($rs && mysqli_num_rows($rs) > 0);
+    }
+    if (!$ok) {
+        print "<script>window.location='login.php';</script>";
+        exit;
+    }
 }
 
 $pay_id = (int)($_GET['id'] ?? 0);
@@ -444,6 +464,8 @@ ob_start();
         var fd = new FormData();
         fd.append('send_doc_email', '1');
         fd.append('to_emails', to);
+        fd.append('doc_kind', 'payslip');
+        fd.append('doc_id', <?php print (int)$pay_id; ?>);
         fd.append('doc_title', <?php print json_encode('Payslip ' . $pay_no); ?>);
         fd.append('doc_url', <?php print json_encode($doc_link); ?>);
         var msg = (msgEl.value || '').trim();

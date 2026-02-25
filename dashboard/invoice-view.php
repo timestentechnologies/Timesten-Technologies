@@ -9,8 +9,28 @@ if ($is_print || $is_pdf) {
     include "z_db.php";
     session_start();
     if (!isset($_SESSION['username'])) {
-        print "<script>window.location='login.php';</script>";
-        exit;
+        $tok = isset($_GET['t']) ? (string)$_GET['t'] : '';
+        $inv_id_tmp = $invoice_id;
+        $ok = false;
+        if ($inv_id_tmp > 0 && strlen($tok) > 10) {
+            mysqli_query($con, "CREATE TABLE IF NOT EXISTS doc_access_tokens (
+              id INT AUTO_INCREMENT PRIMARY KEY,
+              doc_kind VARCHAR(30) NOT NULL,
+              doc_id INT NOT NULL,
+              token VARCHAR(100) NOT NULL,
+              expires_at DATETIME NOT NULL,
+              created_at DATETIME NULL,
+              UNIQUE KEY uniq_token (token),
+              KEY idx_doc (doc_kind, doc_id)
+            )");
+            $t_s = mysqli_real_escape_string($con, $tok);
+            $rs = mysqli_query($con, "SELECT id FROM doc_access_tokens WHERE doc_kind='invoice' AND doc_id=$inv_id_tmp AND token='$t_s' AND expires_at > NOW() LIMIT 1");
+            $ok = ($rs && mysqli_num_rows($rs) > 0);
+        }
+        if (!$ok) {
+            print "<script>window.location='login.php';</script>";
+            exit;
+        }
     }
 
     mysqli_query($con, "CREATE TABLE IF NOT EXISTS invoice_settings (
@@ -970,6 +990,8 @@ $public_link = $base . '/invoice-view.php?id=' . $invoice_id;
               <div id="invEmailAlert"></div>
               <form id="invoiceEmailForm">
                 <input type="hidden" name="send_doc_email" value="1">
+                <input type="hidden" name="doc_kind" value="invoice">
+                <input type="hidden" name="doc_id" value="<?php print (int)$invoice_id; ?>">
                 <input type="hidden" name="doc_title" id="inv_doc_title" value="">
                 <input type="hidden" name="doc_url" id="inv_doc_url" value="">
                 <div class="mb-3">

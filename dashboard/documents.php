@@ -72,6 +72,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_doc_email'])) {
       logo_url TEXT NULL,
       updated_at DATETIME NULL
     )");
+
+    mysqli_query($con, "CREATE TABLE IF NOT EXISTS doc_access_tokens (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      doc_kind VARCHAR(30) NOT NULL,
+      doc_id INT NOT NULL,
+      token VARCHAR(100) NOT NULL,
+      expires_at DATETIME NOT NULL,
+      created_at DATETIME NULL,
+      UNIQUE KEY uniq_token (token),
+      KEY idx_doc (doc_kind, doc_id)
+    )");
     mysqli_query(
         $con,
         "INSERT INTO email_settings (id, smtp_host, smtp_port, smtp_user, smtp_pass, smtp_secure, from_email, from_name, logo_url, updated_at)
@@ -89,10 +100,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_doc_email'])) {
     $from_name = $es && !empty($es['from_name']) ? (string)$es['from_name'] : 'TimesTen Website';
     $logo_url = $es && !empty($es['logo_url']) ? (string)$es['logo_url'] : '';
 
+    $doc_kind = isset($_POST['doc_kind']) ? strtolower(trim((string)$_POST['doc_kind'])) : '';
+    $doc_id = isset($_POST['doc_id']) ? (int)$_POST['doc_id'] : 0;
+
     $to_raw = isset($_POST['to_emails']) ? trim((string)$_POST['to_emails']) : '';
     $doc_title = isset($_POST['doc_title']) ? trim((string)$_POST['doc_title']) : 'Document';
     $doc_url = isset($_POST['doc_url']) ? trim((string)$_POST['doc_url']) : '';
     $extra_msg = isset($_POST['message']) ? trim((string)$_POST['message']) : '';
+
+    $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+    $host = isset($_SERVER['HTTP_HOST']) ? (string)$_SERVER['HTTP_HOST'] : '';
+    $path = isset($_SERVER['SCRIPT_NAME']) ? rtrim(str_replace('documents.php', '', (string)$_SERVER['SCRIPT_NAME']), '/') : '';
+    $base = $scheme . '://' . $host . $path;
+
+    $token = '';
+    $token_url = '';
+    if ($doc_id > 0 && ($doc_kind === 'invoice' || $doc_kind === 'payslip' || $doc_kind === 'expense')) {
+        try {
+            $token = bin2hex(random_bytes(24));
+        } catch (Exception $e) {
+            $token = bin2hex(openssl_random_pseudo_bytes(24));
+        }
+        $tk_s = mysqli_real_escape_string($con, $token);
+        $dk_s = mysqli_real_escape_string($con, $doc_kind);
+        mysqli_query($con, "DELETE FROM doc_access_tokens WHERE doc_kind='$dk_s' AND doc_id=$doc_id AND expires_at < NOW()");
+        mysqli_query($con, "INSERT INTO doc_access_tokens (doc_kind, doc_id, token, expires_at, created_at) VALUES ('$dk_s', $doc_id, '$tk_s', DATE_ADD(NOW(), INTERVAL 7 DAY), NOW())");
+
+        if ($doc_kind === 'invoice') {
+            $token_url = $base . '/invoice-view.php?id=' . $doc_id . '&print=1&t=' . urlencode($token);
+        } elseif ($doc_kind === 'payslip') {
+            $token_url = $base . '/payslip-view.php?id=' . $doc_id . '&t=' . urlencode($token);
+        } else {
+            $token_url = $base . '/expense-receipt-view.php?id=' . $doc_id . '&t=' . urlencode($token);
+        }
+        $doc_url = $token_url;
+    }
 
     $emails = preg_split('/[\s,;]+/', $to_raw);
     $to_list = array();
@@ -114,10 +156,60 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_doc_email'])) {
     $safe_title = htmlspecialchars($doc_title);
     $safe_url = htmlspecialchars($doc_url);
     $safe_msg = strlen($extra_msg) > 0 ? nl2br(htmlspecialchars($extra_msg)) : '';
-    $logo_html = '';
-    if (strlen(trim($logo_url)) > 5) {
-        $logo_html = "<div style='text-align:center;margin-bottom:16px;'><img src='" . htmlspecialchars($logo_url) . "' alt='Logo' style='max-width:170px;height:auto;'></div>";
+
+    $company_name = $from_name;
+    $company_url = '';
+    $company_phone = '';
+    $company_email = $from_email;
+    $company_address = '';
+
+    $sc_rs = mysqli_query($con, "SELECT site_title, site_url FROM siteconfig WHERE id=1 LIMIT 1");
+    $sc = $sc_rs ? mysqli_fetch_assoc($sc_rs) : null;
+    if ($sc) {
+        if (!empty($sc['site_title'])) { $company_name = (string)$sc['site_title']; }
+        if (!empty($sc['site_url'])) { $company_url = (string)$sc['site_url']; }
     }
+
+    $has_addr_col = false;
+    $col_rs = mysqli_query($con, "SHOW COLUMNS FROM sitecontact LIKE 'address'");
+    $has_addr_col = ($col_rs && mysqli_num_rows($col_rs) > 0);
+    $ct_sql = $has_addr_col ? "SELECT phone1, email1, address FROM sitecontact WHERE id=1 LIMIT 1" : "SELECT phone1, email1 FROM sitecontact WHERE id=1 LIMIT 1";
+    $ct_rs = mysqli_query($con, $ct_sql);
+    $ct = $ct_rs ? mysqli_fetch_assoc($ct_rs) : null;
+    if ($ct) {
+        $company_phone = !empty($ct['phone1']) ? (string)$ct['phone1'] : '';
+        $company_email = !empty($ct['email1']) ? (string)$ct['email1'] : $company_email;
+        if ($has_addr_col && !empty($ct['address'])) {
+            $company_address = (string)$ct['address'];
+        }
+    }
+
+    $logo_src = '';
+    mysqli_query($con, "CREATE TABLE IF NOT EXISTS invoice_settings (id INT PRIMARY KEY, invoice_logo VARCHAR(255) NULL, updated_at DATETIME NULL)");
+    mysqli_query($con, "INSERT INTO invoice_settings (id, invoice_logo, updated_at) SELECT 1, '', NOW() WHERE NOT EXISTS (SELECT 1 FROM invoice_settings WHERE id=1)");
+    $invset_rs = mysqli_query($con, "SELECT invoice_logo FROM invoice_settings WHERE id=1 LIMIT 1");
+    $invset = $invset_rs ? mysqli_fetch_assoc($invset_rs) : null;
+    if ($invset && !empty($invset['invoice_logo'])) {
+        $logo_src = $base . '/uploads/logo/' . rawurlencode((string)$invset['invoice_logo']);
+    } elseif (strlen(trim($logo_url)) > 5) {
+        $logo_src = $logo_url;
+    }
+
+    $logo_html = '';
+    if (strlen(trim($logo_src)) > 5) {
+        $logo_html = "<div style='text-align:center;margin-bottom:14px;'><img src='" . htmlspecialchars($logo_src) . "' alt='Logo' style='max-width:180px;height:auto;'></div>";
+    }
+
+    $company_meta = '';
+    $company_meta .= "<div style='font-size:12px;color:#6b7280;line-height:1.55;text-align:center;margin-top:8px;'>";
+    $company_meta .= htmlspecialchars($company_name);
+    if (strlen($company_address)) { $company_meta .= "<br>" . nl2br(htmlspecialchars($company_address)); }
+    $line2 = '';
+    if (strlen($company_phone)) { $line2 .= htmlspecialchars($company_phone); }
+    if (strlen($company_email)) { $line2 .= (strlen($line2) ? ' • ' : '') . htmlspecialchars($company_email); }
+    if (strlen($company_url)) { $line2 .= (strlen($line2) ? ' • ' : '') . htmlspecialchars($company_url); }
+    if (strlen($line2)) { $company_meta .= "<br>" . $line2; }
+    $company_meta .= "</div>";
     $msg_block = '';
     if (strlen($safe_msg) > 0) {
         $msg_block = "<div style='margin-top:16px;padding:14px 16px;background:#f8fafc;border:1px solid #e5e7eb;border-radius:10px;color:#0f172a;line-height:1.55;'>" . $safe_msg . "</div>";
@@ -129,7 +221,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_doc_email'])) {
     $body .= "<div style='padding:22px 22px 10px 22px;background:#ffffff;'>";
     $body .= $logo_html;
     $body .= "<h2 style='margin:0 0 6px 0;font-size:20px;color:#111827;'>Document shared with you</h2>";
-    $body .= "<div style='font-size:14px;color:#6b7280;margin-bottom:14px;'>" . htmlspecialchars($from_name) . "</div>";
+    $body .= "<div style='font-size:14px;color:#6b7280;margin-bottom:8px;'>" . htmlspecialchars($company_name) . "</div>";
+    $body .= $company_meta;
     $body .= "<div style='padding:14px 16px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:12px;'>";
     $body .= "<div style='font-size:14px;color:#6b7280;margin-bottom:6px;'>Document</div>";
     $body .= "<div style='font-size:16px;color:#111827;font-weight:700;margin-bottom:14px;'>$safe_title</div>";
@@ -142,7 +235,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_doc_email'])) {
     $body .= $msg_block;
     $body .= "</div>";
     $body .= "<div style='padding:14px 22px;background:#f9fafb;border-top:1px solid #e5e7eb;font-size:12px;color:#6b7280;text-align:center;'>";
-    $body .= "This email was sent from " . htmlspecialchars($from_name) . ".</div>";
+    $body .= "This email was sent from " . htmlspecialchars($company_name) . ".</div>";
     $body .= "</div></div></body></html>";
 
     $sent = false;
@@ -165,6 +258,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_doc_email'])) {
             $mail->setFrom($from_email, $from_name);
             foreach ($to_list as $t) {
                 $mail->addAddress($t);
+            }
+
+            if ($doc_id > 0 && ($doc_kind === 'invoice' || $doc_kind === 'payslip' || $doc_kind === 'expense') && strlen($token) > 10) {
+                $pdf_url = '';
+                $filename = 'Document.pdf';
+                if ($doc_kind === 'invoice') {
+                    $pdf_url = $base . '/invoice-view.php?id=' . $doc_id . '&pdf=1&t=' . urlencode($token);
+                    $filename = 'Invoice-' . (string)$doc_id . '.pdf';
+                } elseif ($doc_kind === 'payslip') {
+                    $pdf_url = $base . '/payslip-view.php?id=' . $doc_id . '&pdf=1&t=' . urlencode($token);
+                    $filename = 'Payslip-' . (string)$doc_id . '.pdf';
+                } else {
+                    $pdf_url = $base . '/expense-receipt-view.php?id=' . $doc_id . '&pdf=1&t=' . urlencode($token);
+                    $filename = 'Expense-Receipt-' . (string)$doc_id . '.pdf';
+                }
+
+                if (function_exists('curl_init') && strlen($pdf_url) > 10) {
+                    $ch = curl_init();
+                    curl_setopt($ch, CURLOPT_URL, $pdf_url);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                    curl_setopt($ch, CURLOPT_TIMEOUT, 25);
+                    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+                    $pdf_data = curl_exec($ch);
+                    $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                    curl_close($ch);
+                    if ($pdf_data !== false && $code >= 200 && $code < 300 && substr((string)$pdf_data, 0, 4) === '%PDF') {
+                        $mail->addStringAttachment($pdf_data, $filename, 'base64', 'application/pdf');
+                    }
+                }
             }
             $mail->isHTML(true);
             $mail->Subject = $subject;
