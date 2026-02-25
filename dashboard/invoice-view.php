@@ -215,6 +215,16 @@ if ($is_print || $is_pdf) {
     }
 
     $inv_no = htmlspecialchars((string)$invoice['invoice_no']);
+    // For quotations, show a QUO- style number visually, but keep the stored invoice_no as-is
+    $inv_no_display = $inv_no;
+    if ($is_quote) {
+        $tmp = preg_replace('/^INV-/i', 'QUO-', $inv_no);
+        if (!is_string($tmp) || $tmp === '') { $tmp = $inv_no; }
+        if ($tmp === $inv_no) {
+            $tmp = 'QUO-' . $inv_no;
+        }
+        $inv_no_display = $tmp;
+    }
     $cust_name = htmlspecialchars((string)$invoice['customer_name']);
     $cust_email = htmlspecialchars((string)$invoice['customer_email']);
     $cust_phone = htmlspecialchars((string)$invoice['customer_phone']);
@@ -232,7 +242,7 @@ if ($is_print || $is_pdf) {
     <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title><?php print $is_quote ? 'Quotation ' : 'Invoice '; ?><?php print $inv_no; ?></title>
+      <title><?php print $is_quote ? 'Quotation ' : 'Invoice '; ?><?php print $inv_no_display; ?></title>
       <style>
         :root{
           --primary:#f97316;
@@ -350,7 +360,7 @@ if ($is_print || $is_pdf) {
             </div>
             <div class="tag">
               <div class="label"><?php print $is_quote ? 'Quotation' : 'Invoice'; ?></div>
-              <div class="value"><?php print $inv_no; ?></div>
+              <div class="value"><?php print $inv_no_display; ?></div>
               <div class="label">Date: <?php print htmlspecialchars($today); ?></div>
             </div>
           </div>

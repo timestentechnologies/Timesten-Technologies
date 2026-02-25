@@ -52,7 +52,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['username'])) {
     }
 }
 
-// HTML content remains the same
+// Determine favicon from logo settings
+$favicon_path = 'assets/images/favicon.ico';
+$logo_rs = mysqli_query($con, "SELECT xfile FROM logo WHERE id=1 LIMIT 1");
+if ($logo_rs) {
+    $logo_row = mysqli_fetch_assoc($logo_rs);
+    if ($logo_row && !empty($logo_row['xfile'])) {
+        $favicon_path = 'uploads/logo/' . $logo_row['xfile'];
+    }
+}
 ?>
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none">
@@ -62,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['username'])) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
   <meta content="Themesbrand" name="author" />
-  <link rel="shortcut icon" href="assets/images/favicon.ico">
+  <link rel="shortcut icon" href="<?php echo htmlspecialchars($favicon_path); ?>">
   <script src="assets/js/layout.js"></script>
   <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
   <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
@@ -89,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['username'])) {
                         $ufile = $r[0];
                         ?>
                         <a href="index.php" class="d-block">
-                          <img src="uploads/logo/<?php echo htmlspecialchars($ufile); ?>" alt="" height="18">
+                          <img src="uploads/logo/<?php echo htmlspecialchars($ufile); ?>" alt="" height="40">
                         </a>
                       </div>
                     </div>

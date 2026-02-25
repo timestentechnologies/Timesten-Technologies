@@ -156,6 +156,16 @@ if ($has_page_visits_table) {
     mysqli_query($con, "INSERT INTO page_visits (page_url, ip_address, user_agent, device_type, location, created_at) VALUES ('$page_url_s', '$ip_s', '$ua_s', '$device_s', '$location_s', NOW())");
 }
 
+// Favicon from logo settings (xfile)
+$favicon_path = 'assets/images/Timestenfavicon.png';
+$logo_rs = mysqli_query($con, "SELECT xfile FROM logo WHERE id=1 LIMIT 1");
+if ($logo_rs) {
+    $logo_row = mysqli_fetch_assoc($logo_rs);
+    if ($logo_row && !empty($logo_row['xfile'])) {
+        $favicon_path = 'uploads/logo/' . $logo_row['xfile'];
+    }
+}
+
 ?>
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none">
@@ -171,7 +181,7 @@ if ($has_page_visits_table) {
     <meta content="Themesbrand" name="author" />
     <base href="/dashboard/">
     <!-- App favicon -->
-    <link rel="shortcut icon" href="assets/images/Timestenfavicon.png">
+    <link rel="shortcut icon" href="<?php echo htmlspecialchars($favicon_path); ?>">
 
     <!-- jsvectormap css -->
     <link href="assets/libs/jsvectormap/css/jsvectormap.min.css" rel="stylesheet" type="text/css" />
