@@ -56,8 +56,6 @@ while($row = mysqli_fetch_array($result))
                                                 <i class="fas fa-home"></i> Edit Portfolio
                                             </a>
                                         </li>
-
-
                                     </ul>
                                 </div>
 
@@ -122,6 +120,16 @@ $service_detail = mysqli_real_escape_string($con,$_POST['service_detail']);
      }
  }
 }
+
+                                // Fetch existing media for this portfolio
+                                $existing_media = [];
+                                $tm_rs2 = mysqli_query($con, "SHOW TABLES LIKE 'portfolio_media'");
+                                if ($tm_rs2 && mysqli_num_rows($tm_rs2) > 0) {
+                                    $media_rs = mysqli_query($con, "SELECT * FROM portfolio_media WHERE portfolio_id='$todo' ORDER BY created_at DESC");
+                                    while ($mrow = mysqli_fetch_assoc($media_rs)) {
+                                        $existing_media[] = $mrow;
+                                    }
+                                }
            ?>
 
 
@@ -186,10 +194,55 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                                                             <input type="file" class="form-control" name="media_files[]" multiple>
                                                         </div>
                                                     </div>
+
+                                                    <!-- ===== Existing Media Gallery ===== -->
+                                                    <?php if (!empty($existing_media)): ?>
+                                                    <div class="col-lg-12">
+                                                        <div class="mb-3">
+                                                            <label class="form-label fw-semibold">Current Media Files</label>
+                                                            <div class="d-flex flex-wrap gap-3" id="existing-media-container">
+                                                                <?php foreach ($existing_media as $media): ?>
+                                                                <div class="position-relative border rounded p-1 text-center" id="media-item-<?php echo $media['id']; ?>" style="width:130px;">
+
+                                                                    <?php if ($media['media_type'] === 'image'): ?>
+                                                                        <img src="uploads/portfolio/<?php echo htmlspecialchars($media['file_path']); ?>"
+                                                                             alt="media"
+                                                                             class="img-fluid rounded"
+                                                                             style="width:120px;height:100px;object-fit:cover;">
+
+                                                                    <?php elseif ($media['media_type'] === 'video'): ?>
+                                                                        <video width="120" height="100" controls style="object-fit:cover;border-radius:4px;">
+                                                                            <source src="uploads/portfolio/<?php echo htmlspecialchars($media['file_path']); ?>">
+                                                                        </video>
+
+                                                                    <?php else: ?>
+                                                                        <a href="uploads/portfolio/<?php echo htmlspecialchars($media['file_path']); ?>"
+                                                                           target="_blank"
+                                                                           class="d-flex flex-column align-items-center justify-content-center text-muted text-decoration-none"
+                                                                           style="width:120px;height:100px;">
+                                                                            <i class="fas fa-file-alt fa-3x mb-1"></i>
+                                                                            <small class="text-truncate w-100 px-1"><?php echo htmlspecialchars($media['file_path']); ?></small>
+                                                                        </a>
+                                                                    <?php endif; ?>
+
+                                                                    <button type="button"
+                                                                            class="btn btn-danger btn-sm position-absolute top-0 end-0 p-0 lh-1 remove-media-btn"
+                                                                            data-id="<?php echo $media['id']; ?>"
+                                                                            title="Remove"
+                                                                            style="width:22px;height:22px;font-size:12px;border-radius:50%;">
+                                                                        &times;
+                                                                    </button>
+                                                                </div>
+                                                                <?php endforeach; ?>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <?php endif; ?>
+                                                    <!-- ===== End Existing Media Gallery ===== -->
+
                                                     <div class="col-lg-12">
                                                         <div class="hstack gap-2 justify-content-end">
                                                             <button type="submit" name="save" class="btn btn-primary">Update Portfolio</button>
-
                                                         </div>
                                                     </div>
                                                     <!--end col-->
@@ -197,10 +250,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                                                 <!--end row-->
                                             </form>
                                         </div>
-                                        <!--end tab-pane-->
-
-                                        <!--end tab-pane-->
-
                                         <!--end tab-pane-->
                                     </div>
                                 </div>
@@ -216,3 +265,35 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             <!-- End Page-content -->
 
             <?php include"footer.php";?>
+</div>
+
+<!-- ===== Remove Portfolio Media Script ===== -->
+<script>
+document.querySelectorAll('.remove-media-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        var mediaId = this.getAttribute('data-id');
+        if (!confirm('Are you sure you want to remove this media file?')) return;
+
+        var formData = new FormData();
+        formData.append('remove_media_id', mediaId);
+
+        fetch('remove_portfolio_media.php?id=<?php echo urlencode($_GET['id']); ?>', {
+            method: 'POST',
+            body: formData
+        })
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+            if (data.success) {
+                var item = document.getElementById('media-item-' + mediaId);
+                if (item) item.remove();
+            } else {
+                alert('Could not remove: ' + (data.error || 'Unknown error'));
+            }
+        })
+        .catch(function(err) {
+            alert('An error occurred: ' + err.message);
+        });
+    });
+});
+</script>
+<!-- ===== End Remove Portfolio Media Script ===== -->
