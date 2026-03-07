@@ -260,3 +260,18 @@ Stack trace:
 #0 /home3/opulentl/timestentechnologies.co.ke/sitemap.php(58): mysqli_query(Object(mysqli), 'SELECT id, crea...')
 #1 {main}
   thrown in /home3/opulentl/timestentechnologies.co.ke/sitemap.php on line 58
+[05-Mar-2026 11:48:56 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'updated_at' in 'SELECT' in /home3/opulentl/timestentechnologies.co.ke/sitemap.php:58
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/sitemap.php(58): mysqli_query(Object(mysqli), 'SELECT id, crea...')
+#1 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/sitemap.php on line 58
+[06-Mar-2026 11:07:44 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'updated_at' in 'SELECT' in /home3/opulentl/timestentechnologies.co.ke/sitemap.php:58
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/sitemap.php(58): mysqli_query(Object(mysqli), 'SELECT id, crea...')
+#1 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/sitemap.php on line 58
+[07-Mar-2026 11:04:50 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'updated_at' in 'SELECT' in /home3/opulentl/timestentechnologies.co.ke/sitemap.php:58
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/sitemap.php(58): mysqli_query(Object(mysqli), 'SELECT id, crea...')
+#1 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/sitemap.php on line 58
