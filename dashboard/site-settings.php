@@ -2,6 +2,15 @@
 <?php include"sidebar.php";?>
 
 <?php
+$has_preloader_name_col = false;
+$preloader_col_rs = mysqli_query($con, "SHOW COLUMNS FROM siteconfig LIKE 'show_preloader_name'");
+if ($preloader_col_rs && mysqli_num_rows($preloader_col_rs) > 0) {
+    $has_preloader_name_col = true;
+}
+if (!$has_preloader_name_col) {
+    @mysqli_query($con, "ALTER TABLE siteconfig ADD COLUMN show_preloader_name TINYINT(1) NOT NULL DEFAULT 1");
+}
+
 mysqli_query($con, "CREATE TABLE IF NOT EXISTS email_settings (
   id INT PRIMARY KEY,
   smtp_host VARCHAR(255) NULL,
@@ -163,6 +172,7 @@ $site_about = mysqli_real_escape_string($con,$_POST['site_about']);
 $site_footer = mysqli_real_escape_string($con,$_POST['site_footer']);
 $follow_text = mysqli_real_escape_string($con,$_POST['follow_text']);
 $site_url = mysqli_real_escape_string($con,$_POST['site_url']);
+$show_preloader_name = isset($_POST['show_preloader_name']) ? 1 : 0;
 
  if ( strlen($site_keyword) < 1 ){
 $msg=$msg."Site Keyword field can not be empty.<BR>";
@@ -186,7 +196,7 @@ $uploads_dir = 'uploads';
 
 if($status=="OK")
 {
-$qb=mysqli_query($con,"update siteconfig set site_keyword='$site_keyword', site_desc='$site_desc', site_title='$site_title',site_about='$site_about',site_footer='$site_footer',follow_text='$follow_text',site_url='$site_url' where id=1");
+$qb=mysqli_query($con,"update siteconfig set site_keyword='$site_keyword', site_desc='$site_desc', site_title='$site_title',site_about='$site_about',site_footer='$site_footer',follow_text='$follow_text',site_url='$site_url', show_preloader_name=$show_preloader_name where id=1");
 
 		if($qb){
 		    	$errormsg= "
@@ -239,6 +249,7 @@ while($row = mysqli_fetch_array($result))
   $follow_text="$row[follow_text]";
   $site_desc="$row[site_desc]";
   $site_url="$row[site_url]";
+  $show_preloader_name_v = isset($row['show_preloader_name']) ? (int)$row['show_preloader_name'] : 1;
 }
   ?>
 
@@ -304,6 +315,16 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                                                         <div class="mb-3">
                                                             <label for="firstnameInput" class="form-label">Website URL </label>
                                                             <input type="text" class="form-control" id="firstnameInput" name="site_url" placeholder="https://website.com"  value="<?php print $site_url ?>">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Preloader Name</label>
+                                                            <div class="form-check form-switch">
+                                                                <input class="form-check-input" type="checkbox" id="showPreloaderName" name="show_preloader_name" value="1" <?php print ((isset($show_preloader_name_v) && (int)$show_preloader_name_v === 1) ? 'checked' : ''); ?>>
+                                                                <label class="form-check-label" for="showPreloaderName">Show “Timesten Technologies” on loading screen</label>
+                                                            </div>
                                                         </div>
                                                     </div>
 

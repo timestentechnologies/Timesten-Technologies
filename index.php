@@ -238,6 +238,15 @@
         <!-- ***** Promo Area Start ***** -->
         <section class="section promo-area ptb_100">
             <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-12 col-md-10 col-lg-7">
+                        <!-- Section Heading -->
+                        <div class="section-heading text-center">
+                            <h2><?php print $why_title; ?></h2>
+                            <p class="d-none d-sm-block mt-4"><?php print $why_text; ?></p>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
 
 
