@@ -207,3 +207,71 @@ Stack trace:
 #2 /home3/opulentl/timestentechnologies.co.ke/index.php(1): include('/home3/opulentl...')
 #3 {main}
   thrown in /home3/opulentl/timestentechnologies.co.ke/z_db.php on line 2
+[23-Feb-2026 13:20:53 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'updated_at' in 'SELECT' in /home3/opulentl/timestentechnologies.co.ke/sitemap.php:58
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/sitemap.php(58): mysqli_query(Object(mysqli), 'SELECT id, crea...')
+#1 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/sitemap.php on line 58
+[24-Feb-2026 10:02:53 UTC] PHP Warning:  copy(): https:// wrapper is disabled in the server configuration by allow_url_fopen=0 in Command line code on line 1
+[24-Feb-2026 10:02:53 UTC] PHP Warning:  copy(https://getcomposer.org/installer): Failed to open stream: no suitable wrapper could be found in Command line code on line 1
+[24-Feb-2026 11:28:11 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'updated_at' in 'SELECT' in /home3/opulentl/timestentechnologies.co.ke/sitemap.php:58
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/sitemap.php(58): mysqli_query(Object(mysqli), 'SELECT id, crea...')
+#1 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/sitemap.php on line 58
+[25-Feb-2026 05:16:15 UTC] PHP Parse error:  syntax error, unexpected token "<" in /home3/opulentl/timestentechnologies.co.ke/dashboard/documents.php on line 123
+[25-Feb-2026 10:43:26 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'updated_at' in 'SELECT' in /home3/opulentl/timestentechnologies.co.ke/sitemap.php:58
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/sitemap.php(58): mysqli_query(Object(mysqli), 'SELECT id, crea...')
+#1 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/sitemap.php on line 58
+[26-Feb-2026 11:12:27 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'updated_at' in 'SELECT' in /home3/opulentl/timestentechnologies.co.ke/sitemap.php:58
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/sitemap.php(58): mysqli_query(Object(mysqli), 'SELECT id, crea...')
+#1 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/sitemap.php on line 58
+[27-Feb-2026 22:57:30 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'updated_at' in 'SELECT' in /home3/opulentl/timestentechnologies.co.ke/sitemap.php:58
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/sitemap.php(58): mysqli_query(Object(mysqli), 'SELECT id, crea...')
+#1 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/sitemap.php on line 58
+[28-Feb-2026 12:25:40 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'updated_at' in 'SELECT' in /home3/opulentl/timestentechnologies.co.ke/sitemap.php:58
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/sitemap.php(58): mysqli_query(Object(mysqli), 'SELECT id, crea...')
+#1 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/sitemap.php on line 58
+[01-Mar-2026 11:23:08 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'updated_at' in 'SELECT' in /home3/opulentl/timestentechnologies.co.ke/sitemap.php:58
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/sitemap.php(58): mysqli_query(Object(mysqli), 'SELECT id, crea...')
+#1 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/sitemap.php on line 58
+[02-Mar-2026 10:43:27 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'updated_at' in 'SELECT' in /home3/opulentl/timestentechnologies.co.ke/sitemap.php:58
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/sitemap.php(58): mysqli_query(Object(mysqli), 'SELECT id, crea...')
+#1 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/sitemap.php on line 58
+[03-Mar-2026 10:36:01 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'updated_at' in 'SELECT' in /home3/opulentl/timestentechnologies.co.ke/sitemap.php:58
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/sitemap.php(58): mysqli_query(Object(mysqli), 'SELECT id, crea...')
+#1 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/sitemap.php on line 58
+[04-Mar-2026 10:04:36 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'updated_at' in 'SELECT' in /home3/opulentl/timestentechnologies.co.ke/sitemap.php:58
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/sitemap.php(58): mysqli_query(Object(mysqli), 'SELECT id, crea...')
+#1 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/sitemap.php on line 58
+[05-Mar-2026 11:48:56 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'updated_at' in 'SELECT' in /home3/opulentl/timestentechnologies.co.ke/sitemap.php:58
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/sitemap.php(58): mysqli_query(Object(mysqli), 'SELECT id, crea...')
+#1 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/sitemap.php on line 58
+[06-Mar-2026 11:07:44 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'updated_at' in 'SELECT' in /home3/opulentl/timestentechnologies.co.ke/sitemap.php:58
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/sitemap.php(58): mysqli_query(Object(mysqli), 'SELECT id, crea...')
+#1 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/sitemap.php on line 58
+[07-Mar-2026 11:04:50 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'updated_at' in 'SELECT' in /home3/opulentl/timestentechnologies.co.ke/sitemap.php:58
+Stack trace:
+#0 /home3/opulentl/timestentechnologies.co.ke/sitemap.php(58): mysqli_query(Object(mysqli), 'SELECT id, crea...')
+#1 {main}
+  thrown in /home3/opulentl/timestentechnologies.co.ke/sitemap.php on line 58

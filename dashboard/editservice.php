@@ -6,49 +6,49 @@ include "sidebar.php";
 $todo = mysqli_real_escape_string($con, $_GET['id']);
 
 // Fetch existing service record
-$query = "SELECT * FROM service WHERE id='$todo'";
+$query  = "SELECT * FROM service WHERE id='$todo'";
 $result = mysqli_query($con, $query);
-$row = mysqli_fetch_assoc($result);
+$row    = mysqli_fetch_assoc($result);
 
-$service_title = $row['service_title'];
-$service_desc = $row['service_desc'];
+$service_title  = $row['service_title'];
+$service_desc   = $row['service_desc'];
 $service_detail = $row['service_detail'];
-$service_url = isset($row['service_url']) ? $row['service_url'] : '';
-$existing_file = $row['ufile'];
+$service_url    = isset($row['service_url']) ? $row['service_url'] : '';
+$existing_file  = $row['ufile'];
 
-$status = "OK";
-$msg = "";
+$status   = "OK";
+$msg      = "";
 $errormsg = "";
 
 // Handle form submission
 if (isset($_POST['save'])) {
-    $service_title = mysqli_real_escape_string($con, $_POST['service_title']);
-    $service_desc = mysqli_real_escape_string($con, $_POST['service_desc']);
+    $service_title  = mysqli_real_escape_string($con, $_POST['service_title']);
+    $service_desc   = mysqli_real_escape_string($con, $_POST['service_desc']);
     $service_detail = mysqli_real_escape_string($con, $_POST['service_detail']);
-    $service_url = mysqli_real_escape_string($con, $_POST['service_url']);
+    $service_url    = mysqli_real_escape_string($con, $_POST['service_url']);
 
     $update_image_sql = "";
-    $new_file_name = "";
+    $new_file_name    = "";
 
     // Handle file upload if a new one is provided
     if (isset($_FILES['ufile']) && $_FILES['ufile']['error'] === UPLOAD_ERR_OK) {
-        $uploads_dir = 'uploads/services';
-        $tmp_name = $_FILES["ufile"]["tmp_name"];
+        $uploads_dir   = 'uploads/services';
+        $tmp_name      = $_FILES["ufile"]["tmp_name"];
         $original_name = basename($_FILES["ufile"]["name"]);
-        $random_digit = rand(1000, 9999);
+        $random_digit  = rand(1000, 9999);
         $new_file_name = $random_digit . '_' . preg_replace("/[^a-zA-Z0-9.]/", "", $original_name);
-        $file_type = mime_content_type($tmp_name);
-        $allowed_types = ['image/jpeg', 'image/png','image/webp', 'image/jpg'];
+        $file_type     = mime_content_type($tmp_name);
+        $allowed_types = ['image/jpeg', 'image/png', 'image/webp', 'image/jpg'];
 
         if (in_array($file_type, $allowed_types)) {
             if (move_uploaded_file($tmp_name, "$uploads_dir/$new_file_name")) {
                 $update_image_sql = ", ufile = '$new_file_name'";
             } else {
-                $msg .= "Image upload failed.<br>";
+                $msg   .= "Image upload failed.<br>";
                 $status = "NOTOK";
             }
         } else {
-            $msg .= "Only JPG and PNG files are allowed.<br>";
+            $msg   .= "Only JPG and PNG files are allowed.<br>";
             $status = "NOTOK";
         }
     }
@@ -56,7 +56,7 @@ if (isset($_POST['save'])) {
     // Run update query
     if ($status == "OK") {
         $sql = "UPDATE service SET service_title='$service_title', service_desc='$service_desc', service_detail='$service_detail', service_url='$service_url' $update_image_sql WHERE id='$todo'";
-        $qb = mysqli_query($con, $sql);
+        $qb  = mysqli_query($con, $sql);
 
         if ($qb) {
             $has_service_media_table = false;
@@ -72,11 +72,11 @@ if (isset($_POST['save'])) {
                     if (!isset($_FILES['media_files']['error'][$i]) || $_FILES['media_files']['error'][$i] !== UPLOAD_ERR_OK) {
                         continue;
                     }
-                    $tmp_name_extra = $_FILES['media_files']['tmp_name'][$i];
+                    $tmp_name_extra      = $_FILES['media_files']['tmp_name'][$i];
                     $original_name_extra = basename($_FILES['media_files']['name'][$i]);
-                    $random_digit_extra = rand(1000, 9999);
-                    $safe_name_extra = preg_replace("/[^a-zA-Z0-9.\-_]/", "", $original_name_extra);
-                    $new_file_extra = $random_digit_extra . '_' . $safe_name_extra;
+                    $random_digit_extra  = rand(1000, 9999);
+                    $safe_name_extra     = preg_replace("/[^a-zA-Z0-9.\-_]/", "", $original_name_extra);
+                    $new_file_extra      = $random_digit_extra . '_' . $safe_name_extra;
 
                     $file_type_extra = mime_content_type($tmp_name_extra);
                     $media_type = 'document';
@@ -109,6 +109,16 @@ if (isset($_POST['save'])) {
                         $msg
                         <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
                     </div>";
+    }
+}
+
+// Fetch existing media files for this service
+$existing_media = [];
+$tm_rs2 = mysqli_query($con, "SHOW TABLES LIKE 'service_media'");
+if ($tm_rs2 && mysqli_num_rows($tm_rs2) > 0) {
+    $media_rs = mysqli_query($con, "SELECT * FROM service_media WHERE service_id='$todo' ORDER BY created_at DESC");
+    while ($media_row = mysqli_fetch_assoc($media_rs)) {
+        $existing_media[] = $media_row;
     }
 }
 ?>
@@ -203,6 +213,51 @@ if (isset($_POST['save'])) {
                                                 </div>
                                             </div>
 
+                                            <!-- ===== Existing Media Gallery ===== -->
+                                            <?php if (!empty($existing_media)): ?>
+                                            <div class="col-lg-12">
+                                                <div class="mb-3">
+                                                    <label class="form-label fw-semibold">Current Media Files</label>
+                                                    <div class="d-flex flex-wrap gap-3" id="existing-media-container">
+                                                        <?php foreach ($existing_media as $media): ?>
+                                                        <div class="position-relative border rounded p-1 text-center" id="media-item-<?php echo $media['id']; ?>" style="width:130px;">
+
+                                                            <?php if ($media['media_type'] === 'image'): ?>
+                                                                <img src="uploads/services/<?php echo htmlspecialchars($media['file_path']); ?>"
+                                                                     alt="media"
+                                                                     class="img-fluid rounded"
+                                                                     style="width:120px;height:100px;object-fit:cover;">
+
+                                                            <?php elseif ($media['media_type'] === 'video'): ?>
+                                                                <video width="120" height="100" controls style="object-fit:cover;border-radius:4px;">
+                                                                    <source src="uploads/services/<?php echo htmlspecialchars($media['file_path']); ?>">
+                                                                </video>
+
+                                                            <?php else: ?>
+                                                                <a href="uploads/services/<?php echo htmlspecialchars($media['file_path']); ?>"
+                                                                   target="_blank"
+                                                                   class="d-flex flex-column align-items-center justify-content-center text-muted text-decoration-none"
+                                                                   style="width:120px;height:100px;">
+                                                                    <i class="fas fa-file-alt fa-3x mb-1"></i>
+                                                                    <small class="text-truncate w-100 px-1"><?php echo htmlspecialchars($media['file_path']); ?></small>
+                                                                </a>
+                                                            <?php endif; ?>
+
+                                                            <button type="button"
+                                                                    class="btn btn-danger btn-sm position-absolute top-0 end-0 p-0 lh-1 remove-media-btn"
+                                                                    data-id="<?php echo $media['id']; ?>"
+                                                                    title="Remove"
+                                                                    style="width:22px;height:22px;font-size:12px;border-radius:50%;">
+                                                                &times;
+                                                            </button>
+                                                        </div>
+                                                        <?php endforeach; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <?php endif; ?>
+                                            <!-- ===== End Existing Media Gallery ===== -->
+
                                             <div class="col-lg-12">
                                                 <div class="hstack gap-2 justify-content-end">
                                                     <button type="submit" name="save" class="btn btn-primary">Update Service</button>
@@ -212,14 +267,44 @@ if (isset($_POST['save'])) {
                                         </div>
                                     </form>
 
-                                </div> <!-- tab-pane -->
-                            </div> <!-- tab-content -->
-                        </div> <!-- card-body -->
-                    </div> <!-- card -->
-                </div> <!-- col -->
-            </div> <!-- row -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        </div> <!-- container-fluid -->
-    </div> <!-- page-content -->
+        </div>
+    </div>
     <?php include "footer.php"; ?>
-</div> <!-- main-content -->
+</div>
+
+<script>
+document.querySelectorAll('.remove-media-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        var mediaId = this.getAttribute('data-id');
+        if (!confirm('Are you sure you want to remove this media file?')) return;
+
+        var formData = new FormData();
+        formData.append('remove_media_id', mediaId);
+
+        // Calls the dedicated handler file — no header.php conflict
+        fetch('remove_service_media.php?id=<?php echo urlencode($_GET['id']); ?>', {
+            method: 'POST',
+            body: formData
+        })
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+            if (data.success) {
+                var item = document.getElementById('media-item-' + mediaId);
+                if (item) item.remove();
+            } else {
+                alert('Could not remove: ' + (data.error || 'Unknown error'));
+            }
+        })
+        .catch(function(err) {
+            alert('An error occurred: ' + err.message);
+        });
+    });
+});
+</script>
