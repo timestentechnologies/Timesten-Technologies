@@ -2,6 +2,15 @@
 <?php include"sidebar.php";?>
 
 <?php
+$has_enable_preloader_col = false;
+$enable_preloader_col_rs = mysqli_query($con, "SHOW COLUMNS FROM siteconfig LIKE 'enable_preloader'");
+if ($enable_preloader_col_rs && mysqli_num_rows($enable_preloader_col_rs) > 0) {
+    $has_enable_preloader_col = true;
+}
+if (!$has_enable_preloader_col) {
+    @mysqli_query($con, "ALTER TABLE siteconfig ADD COLUMN enable_preloader TINYINT(1) NOT NULL DEFAULT 1");
+}
+
 $has_preloader_name_col = false;
 $preloader_col_rs = mysqli_query($con, "SHOW COLUMNS FROM siteconfig LIKE 'show_preloader_name'");
 if ($preloader_col_rs && mysqli_num_rows($preloader_col_rs) > 0) {
@@ -172,6 +181,7 @@ $site_about = mysqli_real_escape_string($con,$_POST['site_about']);
 $site_footer = mysqli_real_escape_string($con,$_POST['site_footer']);
 $follow_text = mysqli_real_escape_string($con,$_POST['follow_text']);
 $site_url = mysqli_real_escape_string($con,$_POST['site_url']);
+$enable_preloader = isset($_POST['enable_preloader']) ? 1 : 0;
 $show_preloader_name = isset($_POST['show_preloader_name']) ? 1 : 0;
 
  if ( strlen($site_keyword) < 1 ){
@@ -196,7 +206,7 @@ $uploads_dir = 'uploads';
 
 if($status=="OK")
 {
-$qb=mysqli_query($con,"update siteconfig set site_keyword='$site_keyword', site_desc='$site_desc', site_title='$site_title',site_about='$site_about',site_footer='$site_footer',follow_text='$follow_text',site_url='$site_url', show_preloader_name=$show_preloader_name where id=1");
+$qb=mysqli_query($con,"update siteconfig set site_keyword='$site_keyword', site_desc='$site_desc', site_title='$site_title',site_about='$site_about',site_footer='$site_footer',follow_text='$follow_text',site_url='$site_url', enable_preloader=$enable_preloader, show_preloader_name=$show_preloader_name where id=1");
 
 		if($qb){
 		    	$errormsg= "
@@ -249,6 +259,7 @@ while($row = mysqli_fetch_array($result))
   $follow_text="$row[follow_text]";
   $site_desc="$row[site_desc]";
   $site_url="$row[site_url]";
+  $enable_preloader_v = isset($row['enable_preloader']) ? (int)$row['enable_preloader'] : 1;
   $show_preloader_name_v = isset($row['show_preloader_name']) ? (int)$row['show_preloader_name'] : 1;
 }
   ?>
@@ -320,10 +331,21 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
 
                                                     <div class="col-lg-6">
                                                         <div class="mb-3">
+                                                            <label class="form-label">Preloader</label>
+                                                            <div class="form-check form-switch">
+                                                                <input class="form-check-input" type="checkbox" id="enablePreloader" name="enable_preloader" value="1" <?php print ((isset($enable_preloader_v) && (int)$enable_preloader_v === 1) ? 'checked' : ''); ?>>
+                                                                <label class="form-check-label" for="enablePreloader">Enable loading screen (preloader)</label>
+                                                            </div>
+                                                            <div class="form-text">Turn this off to load the page directly.</div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-3">
                                                             <label class="form-label">Preloader Name</label>
                                                             <div class="form-check form-switch">
                                                                 <input class="form-check-input" type="checkbox" id="showPreloaderName" name="show_preloader_name" value="1" <?php print ((isset($show_preloader_name_v) && (int)$show_preloader_name_v === 1) ? 'checked' : ''); ?>>
-                                                                <label class="form-check-label" for="showPreloaderName">Show “Timesten Technologies” on loading screen</label>
+                                                                <label class="form-check-label" for="showPreloaderName">Show “Timesten Technologies” text on loading screen</label>
                                                             </div>
                                                         </div>
                                                     </div>

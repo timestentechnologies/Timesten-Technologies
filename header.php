@@ -201,6 +201,10 @@ if (strlen(trim($impact_text)) < 1) {
     $site_about = "$r[site_about]";
     $site_footer = "$r[site_footer]";
     $follow_text = "$r[follow_text]";
+    $enable_preloader = true;
+    if (isset($r['enable_preloader'])) {
+        $enable_preloader = ((int)$r['enable_preloader']) === 1;
+    }
     $show_preloader_name = true;
     if (isset($r['show_preloader_name'])) {
         $show_preloader_name = ((int)$r['show_preloader_name']) === 1;
@@ -382,65 +386,67 @@ if (strlen(trim($impact_text)) < 1) {
 </head>
 
 <body>
-    <!--====== Preloader Area Start ======-->
-    <div id="preloader">
-        <!-- Digimax Preloader -->
-        <div id="digimax-preloader" class="digimax-preloader">
-            <!-- Preloader Animation -->
-            <div class="preloader-animation">
-                <!-- Spinner -->
-                <div class="spinner"></div>
-                <!-- Loader -->
-                <?php if ($show_preloader_name) { ?>
-                    <div class="loader">
-                        <span data-text-preloader="T" class="animated-letters">T</span>
-                        <span data-text-preloader="I" class="animated-letters">I</span>
-                        <span data-text-preloader="M" class="animated-letters">M</span>
-                        <span data-text-preloader="E" class="animated-letters">E</span>
-                        <span data-text-preloader="S" class="animated-letters">S</span>
-                        <span data-text-preloader="T" class="animated-letters">T</span>
-                        <span data-text-preloader="E" class="animated-letters">E</span>
-                        <span data-text-preloader="N" class="animated-letters">N</span>
-                        <span data-text-preloader="T" class="animated-letters">T</span>
-                        <span data-text-preloader="E" class="animated-letters">E</span>
-                        <span data-text-preloader="C" class="animated-letters">C</span>
-                        <span data-text-preloader="H" class="animated-letters">H</span>
-                        <span data-text-preloader="N" class="animated-letters">N</span>
-                        <span data-text-preloader="O" class="animated-letters">O</span>
-                        <span data-text-preloader="L" class="animated-letters">L</span>
-                        <span data-text-preloader="O" class="animated-letters">O</span>
-                        <span data-text-preloader="G" class="animated-letters">G</span>
-                        <span data-text-preloader="I" class="animated-letters">I</span>
-                        <span data-text-preloader="E" class="animated-letters">E</span>
-                        <span data-text-preloader="S" class="animated-letters">S</span>
-                    </div>
-                <?php } ?>
-                <p class="fw-5 text-center text-uppercase">Connecting...</p>
-            </div>
-            <!-- Loader Animation -->
-            <div class="loader-animation">
-                <div class="row h-100">
-                    <!-- Single Loader -->
-                    <div class="col-3 single-loader p-0">
-                        <div class="loader-bg"></div>
-                    </div>
-                    <!-- Single Loader -->
-                    <div class="col-3 single-loader p-0">
-                        <div class="loader-bg"></div>
-                    </div>
-                    <!-- Single Loader -->
-                    <div class="col-3 single-loader p-0">
-                        <div class="loader-bg"></div>
-                    </div>
-                    <!-- Single Loader -->
-                    <div class="col-3 single-loader p-0">
-                        <div class="loader-bg"></div>
+    <?php if ($enable_preloader) { ?>
+        <!--====== Preloader Area Start ======-->
+        <div id="preloader">
+            <!-- Digimax Preloader -->
+            <div id="digimax-preloader" class="digimax-preloader">
+                <!-- Preloader Animation -->
+                <div class="preloader-animation">
+                    <!-- Spinner -->
+                    <div class="spinner"></div>
+                    <!-- Loader -->
+                    <?php if ($show_preloader_name) { ?>
+                        <div class="loader">
+                            <span data-text-preloader="T" class="animated-letters">T</span>
+                            <span data-text-preloader="I" class="animated-letters">I</span>
+                            <span data-text-preloader="M" class="animated-letters">M</span>
+                            <span data-text-preloader="E" class="animated-letters">E</span>
+                            <span data-text-preloader="S" class="animated-letters">S</span>
+                            <span data-text-preloader="T" class="animated-letters">T</span>
+                            <span data-text-preloader="E" class="animated-letters">E</span>
+                            <span data-text-preloader="N" class="animated-letters">N</span>
+                            <span data-text-preloader="T" class="animated-letters">T</span>
+                            <span data-text-preloader="E" class="animated-letters">E</span>
+                            <span data-text-preloader="C" class="animated-letters">C</span>
+                            <span data-text-preloader="H" class="animated-letters">H</span>
+                            <span data-text-preloader="N" class="animated-letters">N</span>
+                            <span data-text-preloader="O" class="animated-letters">O</span>
+                            <span data-text-preloader="L" class="animated-letters">L</span>
+                            <span data-text-preloader="O" class="animated-letters">O</span>
+                            <span data-text-preloader="G" class="animated-letters">G</span>
+                            <span data-text-preloader="I" class="animated-letters">I</span>
+                            <span data-text-preloader="E" class="animated-letters">E</span>
+                            <span data-text-preloader="S" class="animated-letters">S</span>
+                        </div>
+                    <?php } ?>
+                    <p class="fw-5 text-center text-uppercase">Connecting...</p>
+                </div>
+                <!-- Loader Animation -->
+                <div class="loader-animation">
+                    <div class="row h-100">
+                        <!-- Single Loader -->
+                        <div class="col-3 single-loader p-0">
+                            <div class="loader-bg"></div>
+                        </div>
+                        <!-- Single Loader -->
+                        <div class="col-3 single-loader p-0">
+                            <div class="loader-bg"></div>
+                        </div>
+                        <!-- Single Loader -->
+                        <div class="col-3 single-loader p-0">
+                            <div class="loader-bg"></div>
+                        </div>
+                        <!-- Single Loader -->
+                        <div class="col-3 single-loader p-0">
+                            <div class="loader-bg"></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!--====== Preloader Area End ======-->
+        <!--====== Preloader Area End ======-->
+    <?php } ?>
 
     <!--====== Scroll To Top Area Start ======-->
     <!--<div id="scrollUp" title="Scroll To Top">-->
