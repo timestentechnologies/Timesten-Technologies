@@ -411,9 +411,11 @@
         }
 
         .view-btn {
-            border: 2px solid #3b1b6a;
+            border: 2px solid #f6a70a;
             color: #3b1b6a;
             margin-left: 5px;
+            background-color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
         }
 
         .view-btn.active {
