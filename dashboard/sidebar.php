@@ -113,6 +113,10 @@ $ufile = $r[0];
                         </li>
 
                         <li class="nav-item">
+                            <a class="nav-link" href="backup.php" data-key="t-analytics">  <i class="ri-database-2-line"></i> <span> Database Backup </span></a>
+                        </li>
+
+                        <li class="nav-item">
                             <a class="nav-link" href="documents.php" data-key="t-analytics">  <i class="ri-folder-3-line"></i> <span> Documents </span></a>
                         </li>
 
