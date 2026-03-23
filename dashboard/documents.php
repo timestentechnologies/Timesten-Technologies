@@ -437,6 +437,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['bulk_delete_docs'])) 
     exit;
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['rename_doc_id'])) {
+    $doc_id = (int)$_POST['rename_doc_id'];
+    $new_title = isset($_POST['rename_title']) ? trim((string)$_POST['rename_title']) : '';
+    $new_original = isset($_POST['rename_original_name']) ? trim((string)$_POST['rename_original_name']) : '';
+
+    if ($doc_id > 0 && strlen($new_title) >= 1) {
+        $doc_q = mysqli_query($con, "SELECT id, doc_type FROM documents WHERE id=$doc_id LIMIT 1");
+        $doc = $doc_q ? mysqli_fetch_assoc($doc_q) : null;
+        if ($doc) {
+            $title_s = mysqli_real_escape_string($con, $new_title);
+            if ((string)$doc['doc_type'] === 'file') {
+                if (strlen($new_original) >= 1) {
+                    $orig_s = mysqli_real_escape_string($con, $new_original);
+                    mysqli_query($con, "UPDATE documents SET title='$title_s', original_name='$orig_s' WHERE id=$doc_id LIMIT 1");
+                } else {
+                    mysqli_query($con, "UPDATE documents SET title='$title_s' WHERE id=$doc_id LIMIT 1");
+                }
+            } else {
+                mysqli_query($con, "UPDATE documents SET title='$title_s' WHERE id=$doc_id LIMIT 1");
+            }
+            $_SESSION['documents_flash_success'] = "<div class='alert alert-success alert-dismissible alert-outline fade show'>Document renamed.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+        }
+    } else {
+        $_SESSION['documents_flash_error'] = "<div class='alert alert-danger alert-dismissible alert-outline fade show'>Title is required.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+    }
+
+    $qs = array();
+    if ($cat_id > 0) { $qs[] = 'cat=' . (int)$cat_id; }
+    if (strlen($view) > 0) { $qs[] = 'view=' . urlencode($view); }
+    $to = 'documents.php' . (count($qs) ? ('?' . implode('&', $qs)) : '');
+    header('Location: ' . $to);
+    exit;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_doc_id'])) {
     $doc_id = (int)$_POST['delete_doc_id'];
     if ($doc_id > 0) {
@@ -764,12 +798,12 @@ $publicBase = $scheme . '://' . $host . $basePath;
                           print "<div class='mt-3 rounded border bg-light' style='overflow:hidden;'>";
                           if ($isImg) {
                               print "<a href='$open_h' target='_blank' class='d-block' style='line-height:0;'>";
-                              print "<img src='$open_h' alt='' style='width:100%;height:220px;object-fit:cover;display:block;'>";
+                              print "<img src='$open_h' alt='' style='width:100%;height:140px;object-fit:cover;display:block;'>";
                               print "</a>";
                           } elseif ($isPdf) {
-                              print "<iframe src='$open_h' style='width:100%;height:220px;border:0;display:block;background:#fff;' loading='lazy'></iframe>";
+                              print "<iframe src='$open_h' style='width:100%;height:160px;border:0;display:block;background:#fff;' loading='lazy'></iframe>";
                           } else {
-                              print "<div class='d-flex align-items-center justify-content-center text-muted' style='height:220px;'>No preview</div>";
+                              print "<div class='d-flex align-items-center justify-content-center text-muted' style='height:120px;'>No preview</div>";
                           }
                           print "</div>";
                       }
@@ -780,12 +814,15 @@ $publicBase = $scheme . '://' . $host . $basePath;
                       }
                       if (strlen($wa) > 0) {
                           print "<a class='btn btn-sm btn-soft-success' href='$wa_h' target='_blank' rel='noopener' title='WhatsApp'><i class='ri-whatsapp-line'></i></a>";
-                          print "<button type='button' class='btn btn-sm btn-soft-secondary js-email-doc' data-title='" . htmlspecialchars($d['title']) . "' data-url='$share_h' title='Email'><i class='ri-mail-line'></i></button>";
+                          print "<button type='button' class='btn btn-sm btn-soft-secondary js-email-doc' data-title='" . htmlspecialchars($d['title']) . "' data-url='$share_h' data-id='$id' title='Email'><i class='ri-mail-line'></i></button>";
                           print "<button type='button' class='btn btn-sm btn-soft-info js-copy-link' data-url='$share_h' title='Copy link'><i class='ri-link'></i></button>";
                           if ($d['doc_type'] === 'file') {
                               print "<a class='btn btn-sm btn-soft-dark' href='$share_h' download title='Download'><i class='ri-download-2-line'></i></a>";
                           }
                       }
+                      $orig_btn = htmlspecialchars((string)$d['original_name']);
+                      $dtype_btn = htmlspecialchars((string)$d['doc_type']);
+                      print "<button type='button' class='btn btn-sm btn-soft-warning js-rename-doc' data-id='$id' data-title='" . htmlspecialchars((string)$d['title']) . "' data-orig='$orig_btn' data-type='$dtype_btn'>Rename</button>";
                       print "<form method='post' class='d-inline' onsubmit=\"return confirm('Delete this document?');\">";
                       print "<input type='hidden' name='delete_doc_id' value='$id'>";
                       print "<button type='submit' class='btn btn-sm btn-soft-danger'>Delete</button>";
@@ -866,12 +903,15 @@ $publicBase = $scheme . '://' . $host . $basePath;
                           }
                           if (strlen($wa) > 0) {
                               print "<a class='btn btn-sm btn-soft-success' href='$wa_h' target='_blank' rel='noopener' title='WhatsApp'><i class='ri-whatsapp-line'></i></a> ";
-                              print "<button type='button' class='btn btn-sm btn-soft-secondary js-email-doc' data-title='" . htmlspecialchars($d['title']) . "' data-url='$share_h' title='Email'><i class='ri-mail-line'></i></button> ";
+                              print "<button type='button' class='btn btn-sm btn-soft-secondary js-email-doc' data-title='" . htmlspecialchars($d['title']) . "' data-url='$share_h' data-id='$id' title='Email'><i class='ri-mail-line'></i></button> ";
                               print "<button type='button' class='btn btn-sm btn-soft-info js-copy-link' data-url='$share_h' title='Copy link'><i class='ri-link'></i></button> ";
                               if ($d['doc_type'] === 'file') {
                                   print "<a class='btn btn-sm btn-soft-dark' href='$share_h' download title='Download'><i class='ri-download-2-line'></i></a> ";
                               }
                           }
+                          $orig_btn = htmlspecialchars((string)$d['original_name']);
+                          $dtype_btn = htmlspecialchars((string)$d['doc_type']);
+                          print "<button type='button' class='btn btn-sm btn-soft-warning js-rename-doc' data-id='$id' data-title='" . htmlspecialchars((string)$d['title']) . "' data-orig='$orig_btn' data-type='$dtype_btn'>Rename</button> ";
                           print "<form method='post' class='d-inline' onsubmit=\"return confirm('Delete this document?');\">";
                           print "<input type='hidden' name='delete_doc_id' value='$id'>";
                           print "<button type='submit' class='btn btn-sm btn-soft-danger'>Delete</button>";
@@ -952,6 +992,38 @@ $publicBase = $scheme . '://' . $host . $basePath;
                 <div class="modal-footer">
                   <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
                   <button type="submit" form="addDocumentForm" class="btn btn-primary">Save</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal fade" id="renameDocModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Rename Document</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form method="post" id="renameDocForm">
+                    <input type="hidden" name="rename_doc_id" id="rename_doc_id" value="0">
+                    <input type="hidden" id="rename_doc_type" value="">
+
+                    <div class="mb-3">
+                      <label class="form-label" for="rename_title">Title</label>
+                      <input type="text" class="form-control" name="rename_title" id="rename_title" required>
+                    </div>
+
+                    <div class="mb-0" id="rename_original_wrap">
+                      <label class="form-label" for="rename_original_name">File name (display)</label>
+                      <input type="text" class="form-control" name="rename_original_name" id="rename_original_name" placeholder="e.g. policy.pdf">
+                      <div class="form-text">This does not change the stored file path, only the displayed name.</div>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                  <button type="submit" form="renameDocForm" class="btn btn-primary">Save</button>
                 </div>
               </div>
             </div>
@@ -1215,6 +1287,40 @@ $publicBase = $scheme . '://' . $host . $basePath;
   if (emailModalEl) {
     emailModal = new bootstrap.Modal(emailModalEl);
   }
+
+  var renameModalEl = document.getElementById('renameDocModal');
+  var renameModal = null;
+  if (renameModalEl) {
+    renameModal = new bootstrap.Modal(renameModalEl);
+  }
+  var renameId = document.getElementById('rename_doc_id');
+  var renameType = document.getElementById('rename_doc_type');
+  var renameTitle = document.getElementById('rename_title');
+  var renameOrigWrap = document.getElementById('rename_original_wrap');
+  var renameOrig = document.getElementById('rename_original_name');
+
+  document.addEventListener('click', function(e){
+    var btn = e.target && e.target.closest ? e.target.closest('.js-rename-doc') : null;
+    if (!btn || !renameModal) return;
+    e.preventDefault();
+    var id = btn.getAttribute('data-id') || '0';
+    var title = btn.getAttribute('data-title') || '';
+    var orig = btn.getAttribute('data-orig') || '';
+    var type = btn.getAttribute('data-type') || '';
+    if (renameId) renameId.value = id;
+    if (renameType) renameType.value = type;
+    if (renameTitle) renameTitle.value = title;
+    if (renameOrig) renameOrig.value = orig;
+    if (renameOrigWrap) {
+      if ((type || '').toLowerCase() === 'file') {
+        renameOrigWrap.classList.remove('d-none');
+      } else {
+        renameOrigWrap.classList.add('d-none');
+        if (renameOrig) renameOrig.value = '';
+      }
+    }
+    renameModal.show();
+  });
 
   document.addEventListener('click', function(e){
     var btn = e.target && e.target.closest ? e.target.closest('.js-email-doc') : null;
