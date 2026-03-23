@@ -267,9 +267,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_doc_email'])) {
                 $d_rs = mysqli_query($con, "SELECT doc_type, file_name, original_name FROM documents WHERE id=$doc_id LIMIT 1");
                 $d = $d_rs ? mysqli_fetch_assoc($d_rs) : null;
                 if ($d && isset($d['doc_type']) && (string)$d['doc_type'] === 'file' && !empty($d['file_name'])) {
-                    $fn = basename((string)$d['file_name']);
-                    $orig = !empty($d['original_name']) ? (string)$d['original_name'] : $fn;
-                    $fp = dirname(__FILE__) . '/uploads/documents/' . $fn;
+                    $rel_fn = ltrim(str_replace('\\', '/', (string)$d['file_name']), '/');
+                    $orig   = !empty($d['original_name']) ? (string)$d['original_name'] : basename($rel_fn);
+                    $fp     = dirname(__FILE__) . '/uploads/documents/' . $rel_fn;
                     if (is_file($fp) && is_readable($fp)) {
                         $mail->addAttachment($fp, $orig);
                     }
@@ -331,9 +331,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_doc_email'])) {
                 $d_rs = mysqli_query($con, "SELECT doc_type, file_name, original_name FROM documents WHERE id=$doc_id LIMIT 1");
                 $d = $d_rs ? mysqli_fetch_assoc($d_rs) : null;
                 if ($d && isset($d['doc_type']) && (string)$d['doc_type'] === 'file' && !empty($d['file_name'])) {
-                    $fn = basename((string)$d['file_name']);
-                    $orig = !empty($d['original_name']) ? (string)$d['original_name'] : $fn;
-                    $fp = dirname(__FILE__) . '/uploads/documents/' . $fn;
+                    $rel_fn = ltrim(str_replace('\\', '/', (string)$d['file_name']), '/');
+                    $orig   = !empty($d['original_name']) ? (string)$d['original_name'] : basename($rel_fn);
+                    $fp     = dirname(__FILE__) . '/uploads/documents/' . $rel_fn;
                     if (is_file($fp) && is_readable($fp)) {
                         $mail->addAttachment($fp, $orig);
                     }
@@ -472,6 +472,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['upload_doc'])) {
                 $file_errors      = array($_FILES['doc_file']['error']);
             }
 
+            // Resolve category name for subfolder use
+            $cat_name_raw = '';
+            if ($category_id > 0) {
+                $cn_q = mysqli_query($con, "SELECT name FROM document_categories WHERE id=$category_id LIMIT 1");
+                $cn_r = $cn_q ? mysqli_fetch_assoc($cn_q) : null;
+                if ($cn_r && !empty($cn_r['name'])) {
+                    $cat_name_raw = (string)$cn_r['name'];
+                }
+            }
+
+            // Title provided  → uploads/documents/{safe_cat}/{safe_title}/
+            // Title blank     → uploads/documents/  (flat, as before)
+            $safe_cat_dir   = trim(preg_replace('/[^a-zA-Z0-9\-_]/', '_', $cat_name_raw));
+            $safe_title_dir = strlen($title) >= 2 ? trim(preg_replace('/[^a-zA-Z0-9\-_ ]/', '_', $title)) : '';
+
+            if (strlen($safe_title_dir) >= 1 && strlen($safe_cat_dir) >= 1) {
+                $target_dir      = $uploads_dir . '/' . $safe_cat_dir . '/' . $safe_title_dir;
+                $relative_prefix = $safe_cat_dir . '/' . $safe_title_dir . '/';
+            } else {
+                $target_dir      = $uploads_dir;
+                $relative_prefix = '';
+            }
+
+            if (!is_dir($target_dir)) {
+                @mkdir($target_dir, 0775, true);
+            }
+
             $uploaded = 0;
             $failed   = 0;
             $uploader_s = mysqli_real_escape_string($con, $username);
@@ -487,7 +514,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['upload_doc'])) {
                 $random_digit  = rand(1000, 9999);
                 $stored_name   = $random_digit . '_' . $safe_original;
 
-                // Use the supplied title only for the first/only file; otherwise use filename (without extension)
+                // Doc title: supplied title for single-file; filename stem for multi / blank
                 if (strlen($title) >= 2 && count($file_names_raw) === 1) {
                     $doc_title = $title;
                 } else {
@@ -495,12 +522,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['upload_doc'])) {
                     if (strlen($doc_title) < 1) { $doc_title = $original_name; }
                 }
 
-                if (!move_uploaded_file($tmp_name, $uploads_dir . '/' . $stored_name)) {
+                if (!move_uploaded_file($tmp_name, $target_dir . '/' . $stored_name)) {
                     $failed++;
                     continue;
                 }
+
+                // db file_name carries the relative sub-path so open/download links resolve correctly
+                $db_file_name = $relative_prefix . $stored_name;
+
                 $title_s = mysqli_real_escape_string($con, $doc_title);
-                $file_s  = mysqli_real_escape_string($con, $stored_name);
+                $file_s  = mysqli_real_escape_string($con, $db_file_name);
                 $orig_s  = mysqli_real_escape_string($con, $original_name);
                 mysqli_query($con, "INSERT INTO documents (category_id, title, doc_type, file_name, original_name, link_url, uploaded_by, created_at) VALUES ($category_id, '$title_s', 'file', '$file_s', '$orig_s', NULL, '$uploader_s', NOW())");
                 $uploaded++;
