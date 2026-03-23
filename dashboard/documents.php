@@ -966,6 +966,25 @@ $publicBase = $scheme . '://' . $host . $basePath;
             </div>
           </div>
 
+          <!-- Bulk delete confirmation modal -->
+          <div class="modal fade px-4" id="bulkDeleteConfirmModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content border-0 shadow-lg">
+                <div class="modal-body text-center p-5">
+                  <div class="mb-4">
+                    <i class="ri-delete-bin-line text-danger display-3"></i>
+                  </div>
+                  <h4 class="mb-3 text-dark fw-bold">Delete <span id="bulkDeleteConfirmCount">0</span> Selected Documents?</h4>
+                  <p class="text-muted fs-15 mb-4">This action cannot be undone. Are you sure you want to permanently delete these items?</p>
+                  <div class="d-flex justify-content-center gap-3">
+                    <button type="button" class="btn btn-light btn-lg px-4 fw-medium" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger btn-lg px-4 fw-bold" id="bulkDeleteConfirmBtn">Yes, Delete All</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -1270,23 +1289,34 @@ $publicBase = $scheme . '://' . $host . $basePath;
 
   if (bulkForm) {
     bulkForm.addEventListener('submit', function(e){
+      e.preventDefault();
       var checked = document.querySelectorAll('.doc-checkbox:checked');
-      if (checked.length < 1) {
-        e.preventDefault();
-        return;
+      if (checked.length < 1) return;
+
+      var bdm = document.getElementById('bulkDeleteConfirmModal');
+      var bdc = document.getElementById('bulkDeleteConfirmCount');
+      if (bdm && bdc) {
+        bdc.textContent = checked.length;
+        var modal = new bootstrap.Modal(bdm);
+        modal.show();
+
+        var confirmBtn = document.getElementById('bulkDeleteConfirmBtn');
+        if (confirmBtn) {
+          confirmBtn.onclick = function() {
+            confirmBtn.disabled = true;
+            confirmBtn.textContent = 'Deleting...';
+            // Inject hidden inputs
+            checked.forEach(function(cb){
+              var hid = document.createElement('input');
+              hid.type = 'hidden';
+              hid.name = 'bulk_delete_docs[]';
+              hid.value = cb.value;
+              bulkForm.appendChild(hid);
+            });
+            bulkForm.submit();
+          };
+        }
       }
-      if (!confirm('Delete ' + checked.length + ' selected documents?')) {
-        e.preventDefault();
-        return;
-      }
-      // Inject hidden inputs
-      checked.forEach(function(cb){
-        var hid = document.createElement('input');
-        hid.type = 'hidden';
-        hid.name = 'bulk_delete_docs[]';
-        hid.value = cb.value;
-        bulkForm.appendChild(hid);
-      });
     });
   }
 })();
