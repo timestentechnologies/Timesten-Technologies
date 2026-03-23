@@ -403,6 +403,40 @@ if ($view !== 'grid' && $view !== 'list') { $view = 'grid'; }
 $cats = array();
 $active_cat_name = '';
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['bulk_delete_docs'])) {
+    $raw_ids = isset($_POST['bulk_delete_docs']) && is_array($_POST['bulk_delete_docs'])
+        ? $_POST['bulk_delete_docs'] : array();
+    $ids = array();
+    foreach ($raw_ids as $rid) {
+        $rid = (int)$rid;
+        if ($rid > 0) { $ids[] = $rid; }
+    }
+    if (count($ids) > 0) {
+        $ids_in = implode(',', $ids);
+        $d_rs = mysqli_query($con, "SELECT id, doc_type, file_name FROM documents WHERE id IN ($ids_in)");
+        $del_count = 0;
+        if ($d_rs) {
+            while ($d = mysqli_fetch_assoc($d_rs)) {
+                if ($d['doc_type'] === 'file' && !empty($d['file_name'])) {
+                    $rel_fn = ltrim(str_replace('\\', '/', (string)$d['file_name']), '/');
+                    $fp = dirname(__FILE__) . '/uploads/documents/' . $rel_fn;
+                    if (is_file($fp)) { @unlink($fp); }
+                }
+                $del_count++;
+            }
+        }
+        mysqli_query($con, "DELETE FROM documents WHERE id IN ($ids_in)");
+        $word = $del_count === 1 ? 'Document' : "$del_count documents";
+        $_SESSION['documents_flash_success'] = "<div class='alert alert-success alert-dismissible alert-outline fade show'>$word deleted.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+    }
+    $qs = array();
+    if ($cat_id > 0) { $qs[] = 'cat=' . (int)$cat_id; }
+    if (strlen($view) > 0) { $qs[] = 'view=' . urlencode($view); }
+    $to = 'documents.php' . (count($qs) ? ('?' . implode('&', $qs)) : '');
+    header('Location: ' . $to);
+    exit;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_doc_id'])) {
     $doc_id = (int)$_POST['delete_doc_id'];
     if ($doc_id > 0) {
@@ -651,10 +685,23 @@ $publicBase = $scheme . '://' . $host . $basePath;
           </div>
 
           <div class="card">
-            <div class="card-header d-flex flex-wrap align-items-center">
+            <div class="card-header d-flex flex-wrap align-items-center gap-2">
               <h5 class="card-title mb-0"><?php print $cat_id > 0 ? htmlspecialchars($active_cat_name) : 'All Documents'; ?></h5>
-              <div class="ms-auto" style="min-width:260px;">
-                <input type="text" class="form-control" id="docSearch" placeholder="Search documents...">
+              <!-- Bulk delete bar (hidden until at least one item is checked) -->
+              <form method="post" id="bulkDeleteForm" class="d-inline ms-1">
+                <input type="hidden" name="bulk_delete_docs" value="">
+                <!-- individual hidden inputs injected by JS -->
+                <span id="bulkBar" class="d-none align-items-center gap-2">
+                  <span class="text-muted fs-12" id="bulkCount"></span>
+                  <button type="submit" class="btn btn-sm btn-danger" id="bulkDeleteBtn">Delete Selected</button>
+                </span>
+              </form>
+              <div class="ms-auto d-flex align-items-center gap-2">
+                <div class="form-check mb-0" id="selectAllWrap" style="display:none!important;">
+                  <input class="form-check-input" type="checkbox" id="selectAllDocs">
+                  <label class="form-check-label text-muted fs-12" for="selectAllDocs">All</label>
+                </div>
+                <input type="text" class="form-control form-control-sm" id="docSearch" placeholder="Search documents..." style="min-width:200px;">
               </div>
             </div>
             <div class="card-body">
@@ -728,6 +775,7 @@ $publicBase = $scheme . '://' . $host . $basePath;
                   <table class="table table-striped table-sm align-middle mb-0" id="docsTable">
                     <thead>
                       <tr>
+                        <th style="width:36px;"><input class="form-check-input" type="checkbox" id="selectAllList"></th>
                         <th>Title</th>
                         <th>Category</th>
                         <th>Type</th>
@@ -738,7 +786,7 @@ $publicBase = $scheme . '://' . $host . $basePath;
                     <tbody>
                       <?php
                       if (count($docs) < 1) {
-                          print "<tr><td colspan='5' class='text-center text-muted'>No documents found.</td></tr>";
+                          print "<tr><td colspan='6' class='text-center text-muted'>No documents found.</td></tr>";
                       }
                       foreach ($docs as $d) {
                           $id = (int)$d['id'];
@@ -766,6 +814,7 @@ $publicBase = $scheme . '://' . $host . $basePath;
                           $em_h = htmlspecialchars($em);
 
                           print "<tr>";
+                          print "<td><input class='form-check-input doc-checkbox' type='checkbox' value='$id'></td>";
                           print "<td data-search='$title'>$title</td>";
                           print "<td>$catn</td>";
                           print "<td>$type</td>";
