@@ -720,10 +720,19 @@ $publicBase = $scheme . '://' . $host . $basePath;
 
                       $open = '';
                       $shareUrl = '';
+                      $fileExt = '';
                       if ($d['doc_type'] === 'file' && !empty($d['file_name'])) {
-                          $fn = rawurlencode($d['file_name']);
+                          $rel = ltrim(str_replace('\\', '/', (string)$d['file_name']), '/');
+                          $parts = explode('/', $rel);
+                          $encParts = array();
+                          foreach ($parts as $p) {
+                              if ($p === '') { continue; }
+                              $encParts[] = rawurlencode($p);
+                          }
+                          $fn = implode('/', $encParts);
                           $open = "uploads/documents/$fn";
                           $shareUrl = $publicBase . "/uploads/documents/$fn";
+                          $fileExt = strtolower(pathinfo($rel, PATHINFO_EXTENSION));
                       }
                       if ($d['doc_type'] === 'link' && !empty($d['link_url'])) {
                           $open = $d['link_url'];
@@ -748,6 +757,22 @@ $publicBase = $scheme . '://' . $host . $basePath;
                       print "<div class='text-muted fs-12'>" . $created . "</div>";
                       print "</div>";
                       print "</div>";
+
+                      if ($d['doc_type'] === 'file' && strlen($open) > 0) {
+                          $isImg = in_array($fileExt, array('jpg','jpeg','png','gif','webp','bmp','svg'));
+                          $isPdf = ($fileExt === 'pdf');
+                          print "<div class='mt-3 rounded border bg-light' style='overflow:hidden;'>";
+                          if ($isImg) {
+                              print "<a href='$open_h' target='_blank' class='d-block' style='line-height:0;'>";
+                              print "<img src='$open_h' alt='' style='width:100%;height:220px;object-fit:cover;display:block;'>";
+                              print "</a>";
+                          } elseif ($isPdf) {
+                              print "<iframe src='$open_h' style='width:100%;height:220px;border:0;display:block;background:#fff;' loading='lazy'></iframe>";
+                          } else {
+                              print "<div class='d-flex align-items-center justify-content-center text-muted' style='height:220px;'>No preview</div>";
+                          }
+                          print "</div>";
+                      }
 
                       print "<div class='d-flex flex-wrap gap-2 mt-3 position-relative' style='z-index:2;'>";
                       if (strlen($open) > 0) {
@@ -798,10 +823,19 @@ $publicBase = $scheme . '://' . $host . $basePath;
 
                           $open = '';
                           $shareUrl = '';
+                          $fileExt = '';
                           if ($d['doc_type'] === 'file' && !empty($d['file_name'])) {
-                              $fn = rawurlencode($d['file_name']);
+                              $rel = ltrim(str_replace('\\', '/', (string)$d['file_name']), '/');
+                              $parts = explode('/', $rel);
+                              $encParts = array();
+                              foreach ($parts as $p) {
+                                  if ($p === '') { continue; }
+                                  $encParts[] = rawurlencode($p);
+                              }
+                              $fn = implode('/', $encParts);
                               $open = "uploads/documents/$fn";
                               $shareUrl = $publicBase . "/uploads/documents/$fn";
+                              $fileExt = strtolower(pathinfo($rel, PATHINFO_EXTENSION));
                           }
                           if ($d['doc_type'] === 'link' && !empty($d['link_url'])) {
                               $open = $d['link_url'];
@@ -816,7 +850,13 @@ $publicBase = $scheme . '://' . $host . $basePath;
 
                           print "<tr>";
                           print "<td><input class='form-check-input doc-checkbox' type='checkbox' value='$id'></td>";
-                          print "<td data-search='$title'>$title</td>";
+                          if ($d['doc_type'] === 'file' && strlen($open) > 0 && in_array($fileExt, array('jpg','jpeg','png','gif','webp','bmp','svg'))) {
+                              print "<td data-search='$title'><a href='$open_h' target='_blank' class='text-decoration-none'><img src='$open_h' alt='' style='width:34px;height:34px;object-fit:cover;border-radius:6px;margin-right:8px;border:1px solid #e5e7eb;vertical-align:middle;'><span style='vertical-align:middle;'>$title</span></a></td>";
+                          } elseif ($d['doc_type'] === 'file' && strlen($open) > 0 && $fileExt === 'pdf') {
+                              print "<td data-search='$title'><a href='$open_h' target='_blank' class='text-decoration-none'><span class='badge bg-danger-subtle text-danger me-2'>PDF</span>$title</a></td>";
+                          } else {
+                              print "<td data-search='$title'>$title</td>";
+                          }
                           print "<td>$catn</td>";
                           print "<td>$type</td>";
                           print "<td>$created</td>";
