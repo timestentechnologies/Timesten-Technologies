@@ -697,7 +697,7 @@ $publicBase = $scheme . '://' . $host . $basePath;
                 </span>
               </form>
               <div class="ms-auto d-flex align-items-center gap-2">
-                <div class="form-check mb-0" id="selectAllWrap" style="display:none!important;">
+                <div class="form-check mb-0" id="selectAllWrap">
                   <input class="form-check-input" type="checkbox" id="selectAllDocs">
                   <label class="form-check-label text-muted fs-12" for="selectAllDocs">All</label>
                 </div>
@@ -740,6 +740,7 @@ $publicBase = $scheme . '://' . $host . $basePath;
                       print "<div class='card mb-0 border border-warning' style='border-width:2px !important;'>";
                       print "<div class='card-body'>";
                       print "<div class='d-flex align-items-start'>";
+                      print "<div class='form-check me-2'><input class='form-check-input doc-checkbox' type='checkbox' value='$id'></div>";
                       print "<div class='avatar-sm me-3'><span class='avatar-title bg-light text-primary rounded-circle fs-3'><i class='ri-file-2-line'></i></span></div>";
                       print "<div class='flex-grow-1'>";
                       print "<div class='fw-semibold doc-title'>$title</div>";
@@ -1218,6 +1219,73 @@ $publicBase = $scheme . '://' . $host . $basePath;
       cards.forEach(function(el){
         var text = el.innerText.toLowerCase();
         el.style.display = text.indexOf(q) !== -1 ? '' : 'none';
+      });
+    });
+  }
+
+  // Multi-delete logic
+  var bulkBar = document.getElementById('bulkBar');
+  var bulkCountTxt = document.getElementById('bulkCount');
+  var bulkForm = document.getElementById('bulkDeleteForm');
+  var selectAllGrid = document.getElementById('selectAllDocs');
+  var selectAllList = document.getElementById('selectAllList');
+
+  function updateBulkBar() {
+    var checkboxes = document.querySelectorAll('.doc-checkbox:checked');
+    var count = checkboxes.length;
+    if (count > 0) {
+      if (bulkBar) bulkBar.classList.replace('d-none', 'd-flex');
+      if (bulkCountTxt) bulkCountTxt.textContent = count + (count === 1 ? ' item' : ' items') + ' selected';
+    } else {
+      if (bulkBar) bulkBar.classList.replace('d-flex', 'd-none');
+    }
+  }
+
+  document.addEventListener('change', function(e){
+    if (e.target && e.target.classList.contains('doc-checkbox')) {
+      updateBulkBar();
+    }
+  });
+
+  if (selectAllGrid) {
+    selectAllGrid.addEventListener('change', function(){
+      var state = selectAllGrid.checked;
+      document.querySelectorAll('.doc-checkbox').forEach(function(cb){
+        cb.checked = state;
+      });
+      if (selectAllList) selectAllList.checked = state;
+      updateBulkBar();
+    });
+  }
+  if (selectAllList) {
+    selectAllList.addEventListener('change', function(){
+      var state = selectAllList.checked;
+      document.querySelectorAll('.doc-checkbox').forEach(function(cb){
+        cb.checked = state;
+      });
+      if (selectAllGrid) selectAllGrid.checked = state;
+      updateBulkBar();
+    });
+  }
+
+  if (bulkForm) {
+    bulkForm.addEventListener('submit', function(e){
+      var checked = document.querySelectorAll('.doc-checkbox:checked');
+      if (checked.length < 1) {
+        e.preventDefault();
+        return;
+      }
+      if (!confirm('Delete ' + checked.length + ' selected documents?')) {
+        e.preventDefault();
+        return;
+      }
+      // Inject hidden inputs
+      checked.forEach(function(cb){
+        var hid = document.createElement('input');
+        hid.type = 'hidden';
+        hid.name = 'bulk_delete_docs[]';
+        hid.value = cb.value;
+        bulkForm.appendChild(hid);
       });
     });
   }
