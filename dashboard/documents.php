@@ -434,44 +434,87 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['upload_doc'])) {
     $doc_type = isset($_POST['doc_type']) ? (string)$_POST['doc_type'] : 'file';
     $link_url = isset($_POST['link_url']) ? trim((string)$_POST['link_url']) : '';
 
-    if (strlen($title) < 2) {
-        $_SESSION['documents_flash_error'] = "<div class='alert alert-danger alert-dismissible alert-outline fade show'>Title is required.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
-    } elseif ($category_id < 1) {
+    if ($category_id < 1) {
         $_SESSION['documents_flash_error'] = "<div class='alert alert-danger alert-dismissible alert-outline fade show'>Please select a category.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
     } elseif ($doc_type === 'link' && strlen($link_url) < 5) {
         $_SESSION['documents_flash_error'] = "<div class='alert alert-danger alert-dismissible alert-outline fade show'>Link URL is required.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+    } elseif ($doc_type === 'link') {
+        if (strlen($title) < 2) {
+            $_SESSION['documents_flash_error'] = "<div class='alert alert-danger alert-dismissible alert-outline fade show'>Title is required for links.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+        } else {
+            $title_s = mysqli_real_escape_string($con, $title);
+            $link_s = mysqli_real_escape_string($con, $link_url);
+            $uploader_s = mysqli_real_escape_string($con, $username);
+            mysqli_query($con, "INSERT INTO documents (category_id, title, doc_type, file_name, original_name, link_url, uploaded_by, created_at) VALUES ($category_id, '$title_s', 'link', NULL, NULL, '$link_s', '$uploader_s', NOW())");
+            $_SESSION['documents_flash_success'] = "<div class='alert alert-success alert-dismissible alert-outline fade show'>Link saved.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+        }
     } elseif ($doc_type === 'file') {
-        if (!isset($_FILES['doc_file']) || $_FILES['doc_file']['error'] !== UPLOAD_ERR_OK) {
-            $_SESSION['documents_flash_error'] = "<div class='alert alert-danger alert-dismissible alert-outline fade show'>File is required.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+        // Support multiple file uploads
+        $has_files = isset($_FILES['doc_file']) && is_array($_FILES['doc_file']['name']) && count($_FILES['doc_file']['name']) > 0;
+        $single_file = isset($_FILES['doc_file']) && !is_array($_FILES['doc_file']['name']) && $_FILES['doc_file']['error'] === UPLOAD_ERR_OK;
+
+        if (!$has_files && !$single_file) {
+            $_SESSION['documents_flash_error'] = "<div class='alert alert-danger alert-dismissible alert-outline fade show'>At least one file is required.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
         } else {
             $uploads_dir = dirname(__FILE__) . '/uploads/documents';
             if (!is_dir($uploads_dir)) {
                 @mkdir($uploads_dir, 0775, true);
             }
 
-            $tmp_name = $_FILES['doc_file']['tmp_name'];
-            $original_name = basename($_FILES['doc_file']['name']);
-            $safe_original = preg_replace("/[^a-zA-Z0-9.\-_]/", "", $original_name);
-            $random_digit = rand(1000, 9999);
-            $file_name = $random_digit . '_' . $safe_original;
-
-            if (!move_uploaded_file($tmp_name, $uploads_dir . '/' . $file_name)) {
-                $_SESSION['documents_flash_error'] = "<div class='alert alert-danger alert-dismissible alert-outline fade show'>File upload failed.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+            // Normalise single/multi into a unified array
+            if ($has_files) {
+                $file_names_raw   = $_FILES['doc_file']['name'];
+                $file_tmp_names   = $_FILES['doc_file']['tmp_name'];
+                $file_errors      = $_FILES['doc_file']['error'];
             } else {
-                $title_s = mysqli_real_escape_string($con, $title);
-                $file_s = mysqli_real_escape_string($con, $file_name);
-                $orig_s = mysqli_real_escape_string($con, $original_name);
-                $uploader_s = mysqli_real_escape_string($con, $username);
+                $file_names_raw   = array($_FILES['doc_file']['name']);
+                $file_tmp_names   = array($_FILES['doc_file']['tmp_name']);
+                $file_errors      = array($_FILES['doc_file']['error']);
+            }
+
+            $uploaded = 0;
+            $failed   = 0;
+            $uploader_s = mysqli_real_escape_string($con, $username);
+
+            foreach ($file_names_raw as $idx => $raw_name) {
+                if ($file_errors[$idx] !== UPLOAD_ERR_OK) {
+                    $failed++;
+                    continue;
+                }
+                $tmp_name      = $file_tmp_names[$idx];
+                $original_name = basename($raw_name);
+                $safe_original = preg_replace("/[^a-zA-Z0-9.\-_]/", "", $original_name);
+                $random_digit  = rand(1000, 9999);
+                $stored_name   = $random_digit . '_' . $safe_original;
+
+                // Use the supplied title only for the first/only file; otherwise use filename (without extension)
+                if (strlen($title) >= 2 && count($file_names_raw) === 1) {
+                    $doc_title = $title;
+                } else {
+                    $doc_title = pathinfo($original_name, PATHINFO_FILENAME);
+                    if (strlen($doc_title) < 1) { $doc_title = $original_name; }
+                }
+
+                if (!move_uploaded_file($tmp_name, $uploads_dir . '/' . $stored_name)) {
+                    $failed++;
+                    continue;
+                }
+                $title_s = mysqli_real_escape_string($con, $doc_title);
+                $file_s  = mysqli_real_escape_string($con, $stored_name);
+                $orig_s  = mysqli_real_escape_string($con, $original_name);
                 mysqli_query($con, "INSERT INTO documents (category_id, title, doc_type, file_name, original_name, link_url, uploaded_by, created_at) VALUES ($category_id, '$title_s', 'file', '$file_s', '$orig_s', NULL, '$uploader_s', NOW())");
-                $_SESSION['documents_flash_success'] = "<div class='alert alert-success alert-dismissible alert-outline fade show'>Document uploaded.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+                $uploaded++;
+            }
+
+            if ($uploaded > 0 && $failed === 0) {
+                $word = $uploaded === 1 ? 'Document' : "$uploaded documents";
+                $_SESSION['documents_flash_success'] = "<div class='alert alert-success alert-dismissible alert-outline fade show'>$word uploaded successfully.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+            } elseif ($uploaded > 0) {
+                $_SESSION['documents_flash_success'] = "<div class='alert alert-warning alert-dismissible alert-outline fade show'>$uploaded uploaded, $failed failed.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+            } else {
+                $_SESSION['documents_flash_error'] = "<div class='alert alert-danger alert-dismissible alert-outline fade show'>File upload failed. Please try again.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
             }
         }
-    } else {
-        $title_s = mysqli_real_escape_string($con, $title);
-        $link_s = mysqli_real_escape_string($con, $link_url);
-        $uploader_s = mysqli_real_escape_string($con, $username);
-        mysqli_query($con, "INSERT INTO documents (category_id, title, doc_type, file_name, original_name, link_url, uploaded_by, created_at) VALUES ($category_id, '$title_s', 'link', NULL, NULL, '$link_s', '$uploader_s', NOW())");
-        $_SESSION['documents_flash_success'] = "<div class='alert alert-success alert-dismissible alert-outline fade show'>Link saved.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
     }
 
     $qs = array();
@@ -735,9 +778,10 @@ $publicBase = $scheme . '://' . $host . $basePath;
                     <input type="hidden" name="upload_doc" value="1">
 
                     <div class="row g-3">
-                      <div class="col-12">
-                        <label class="form-label" for="title">Title</label>
-                        <input type="text" class="form-control" id="title" name="title" placeholder="e.g. Company Policy" required>
+                      <div class="col-12" id="title_box">
+                        <label class="form-label" for="title">Title <span class="text-muted fw-normal" id="title_hint">(optional when uploading multiple files)</span></label>
+                        <input type="text" class="form-control" id="title" name="title" placeholder="e.g. Company Policy">
+                        <div class="form-text" id="title_sub">Leave blank to use each file's name as the title.</div>
                       </div>
 
                       <div class="col-12">
@@ -768,9 +812,13 @@ $publicBase = $scheme . '://' . $host . $basePath;
                       </div>
 
                       <div class="col-12" id="file_box">
-                        <label class="form-label" for="doc_file">File</label>
-                        <input class="form-control" type="file" id="doc_file" name="doc_file">
-                        <div class="form-text">Any file type is allowed.</div>
+                        <label class="form-label" for="doc_file">Files</label>
+                        <input class="form-control" type="file" id="doc_file" name="doc_file[]" multiple>
+                        <div class="form-text">Any file type is allowed. You can select multiple files at once.</div>
+                        <div id="file_preview" class="mt-2" style="display:none;">
+                          <div class="fw-semibold fs-12 text-muted mb-1" id="file_preview_count"></div>
+                          <ul class="list-unstyled mb-0" id="file_preview_list" style="max-height:140px;overflow-y:auto;font-size:13px;"></ul>
+                        </div>
                       </div>
 
                       <div class="col-12 d-none" id="link_box">
@@ -893,6 +941,30 @@ $publicBase = $scheme . '://' . $host . $basePath;
   var linkRadio = document.getElementById('type_link');
   var fileBox = document.getElementById('file_box');
   var linkBox = document.getElementById('link_box');
+  var titleBox = document.getElementById('title_box');
+  var titleHint = document.getElementById('title_hint');
+  var titleSub = document.getElementById('title_sub');
+  var titleInput = document.getElementById('title');
+  var docFileInput = document.getElementById('doc_file');
+  var filePreview = document.getElementById('file_preview');
+  var filePreviewCount = document.getElementById('file_preview_count');
+  var filePreviewList = document.getElementById('file_preview_list');
+
+  function updateTitleHint() {
+    if (!titleInput) return;
+    var isLink = linkRadio && linkRadio.checked;
+    if (isLink) {
+      // Link mode: title required
+      titleInput.setAttribute('required', 'required');
+      if (titleHint) titleHint.style.display = 'none';
+      if (titleSub) titleSub.style.display = 'none';
+    } else {
+      titleInput.removeAttribute('required');
+      if (titleHint) titleHint.style.display = '';
+      if (titleSub) titleSub.style.display = '';
+    }
+  }
+
   if (fileRadio && linkRadio && fileBox && linkBox) {
     function toggle(){
       if (linkRadio.checked) {
@@ -902,10 +974,50 @@ $publicBase = $scheme . '://' . $host . $basePath;
         fileBox.classList.remove('d-none');
         linkBox.classList.add('d-none');
       }
+      updateTitleHint();
     }
     fileRadio.addEventListener('change', toggle);
     linkRadio.addEventListener('change', toggle);
     toggle();
+  }
+
+  // File preview – show list of selected filenames
+  if (docFileInput) {
+    docFileInput.addEventListener('change', function() {
+      var files = docFileInput.files;
+      if (!filePreview || !filePreviewCount || !filePreviewList) return;
+      if (!files || files.length === 0) {
+        filePreview.style.display = 'none';
+        return;
+      }
+      filePreviewCount.textContent = files.length === 1 ? '1 file selected' : files.length + ' files selected';
+      filePreviewList.innerHTML = '';
+      for (var i = 0; i < files.length; i++) {
+        var li = document.createElement('li');
+        li.className = 'd-flex align-items-center gap-1 py-1 border-bottom';
+        li.innerHTML = '<i class="ri-file-2-line text-primary"></i><span class="text-truncate">' + files[i].name + '</span>';
+        filePreviewList.appendChild(li);
+      }
+      filePreview.style.display = '';
+      // If only one file, suggest using its name in the title field if blank
+      if (files.length === 1 && titleInput && titleInput.value.trim() === '') {
+        var suggestedName = files[0].name.replace(/\.[^/.]+$/, '');
+        titleInput.placeholder = suggestedName;
+      } else if (titleInput) {
+        titleInput.placeholder = 'e.g. Company Policy';
+      }
+    });
+  }
+
+  // Reset file preview when modal is closed
+  var addDocModalEl = document.getElementById('addDocumentModal');
+  if (addDocModalEl) {
+    addDocModalEl.addEventListener('hidden.bs.modal', function() {
+      if (docFileInput) docFileInput.value = '';
+      if (filePreview) filePreview.style.display = 'none';
+      if (filePreviewList) filePreviewList.innerHTML = '';
+      if (titleInput) { titleInput.value = ''; titleInput.placeholder = 'e.g. Company Policy'; }
+    });
   }
 
   var input = document.getElementById('docSearch');
