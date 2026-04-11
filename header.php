@@ -5,10 +5,12 @@ if (session_status() === PHP_SESSION_NONE) {
 include "z_db.php";
 if (isset($_GET['ref']) && !empty($_GET['ref'])) {
     $ref_token = mysqli_real_escape_string($con, $_GET['ref']);
-    // Verify token exists
-    $check_ref = mysqli_query($con, "SELECT id FROM referrers WHERE token = '$ref_token'");
+    // Verify token exists and get referrer name
+    $check_ref = mysqli_query($con, "SELECT id, name FROM referrers WHERE token = '$ref_token'");
     if (mysqli_num_rows($check_ref) > 0) {
+        $ref_row = mysqli_fetch_assoc($check_ref);
         $_SESSION['referral_token'] = $ref_token;
+        $_SESSION['referrer_name'] = $ref_row['name'];
     }
 }
 ?>

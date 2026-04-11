@@ -72,8 +72,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             mysqli_query($con, $query);
             
             // --- REFERRAL SYSTEM INTEGRATION ---
-            if (isset($_SESSION['referral_token'])) {
+            // Check for ref token from session or form POST
+            $ref_token = null;
+            if (isset($_POST['ref_token']) && !empty($_POST['ref_token'])) {
+                $ref_token = mysqli_real_escape_string($con, $_POST['ref_token']);
+            } elseif (isset($_SESSION['referral_token'])) {
                 $ref_token = mysqli_real_escape_string($con, $_SESSION['referral_token']);
+            }
+            
+            if ($ref_token) {
                 $ref_res = mysqli_query($con, "SELECT id, name, email FROM referrers WHERE token = '$ref_token'");
                 if (mysqli_num_rows($ref_res) > 0) {
                     $ref_row = mysqli_fetch_assoc($ref_res);

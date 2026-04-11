@@ -58,8 +58,18 @@
                     <div class="col-12 col-lg-6 pt-4 pt-lg-0">
                         <!-- Contact Box -->
                         <div class="contact-box text-center">
+                            <?php if (isset($_SESSION['referral_token']) && !empty($_SESSION['referral_token'])): ?>
+                                <div class="alert alert-info mb-4" style="background: linear-gradient(45deg, #3b1b6a 0%, #2a124d 100%); color: white; border: none; border-radius: 10px;">
+                                    <i class="fas fa-user-friends mr-2"></i>
+                                    You were referred by: <strong><?php echo htmlspecialchars($_SESSION['referrer_name'] ?? 'Someone'); ?></strong>
+                                    <br><small>Your referral code: <code class="text-white bg-dark px-2 py-1 rounded"><?php echo htmlspecialchars($_SESSION['referral_token']); ?></code></small>
+                                </div>
+                            <?php endif; ?>
                             <!-- Contact Form -->
                             <form id="contactForm" method="post">
+                                <?php if (isset($_SESSION['referral_token']) && !empty($_SESSION['referral_token'])): ?>
+                                    <input type="hidden" name="ref_token" value="<?php echo htmlspecialchars($_SESSION['referral_token']); ?>">
+                                <?php endif; ?>
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="form-group">

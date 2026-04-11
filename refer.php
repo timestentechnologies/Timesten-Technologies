@@ -34,7 +34,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
     $name = mysqli_real_escape_string($con, $_POST['name']);
     $email = mysqli_real_escape_string($con, $_POST['email']);
     $phone = mysqli_real_escape_string($con, $_POST['phone']);
-    $token = bin2hex(random_bytes(8));
+    // Generate simple referral code: FIRSTNAME + 4 random chars (e.g., JOHN7G48)
+$name_part = strtoupper(preg_replace('/[^a-zA-Z]/', '', $name)); // Keep only letters
+$name_part = substr($name_part, 0, 4); // Max 4 letters from name
+$random_part = substr(strtoupper(bin2hex(random_bytes(2))), 0, 4); // 4 random chars
+$token = $name_part . $random_part;
 
     $check = mysqli_query($con, "SELECT id FROM referrers WHERE email = '$email' OR (phone = '$phone' AND phone != '')");
     if (mysqli_num_rows($check) > 0) {
@@ -76,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
                     $mail->addBCC('support@timestentechnologies.co.ke', 'Support');
                     $mail->addBCC('info@timestentechnologies.co.ke', 'Info');
                     
-                    $referral_url = "https://" . $_SERVER['HTTP_HOST'] . "/?ref=" . $token;
+                    $referral_url = "https://" . $_SERVER['HTTP_HOST'] . "/?ref=" . urlencode($token);
                     $dashboard_url = "https://" . $_SERVER['HTTP_HOST'] . "/refer?token=" . $token;
                     
                     $mail->isHTML(true);
@@ -294,7 +298,7 @@ include "header.php";
                             <div class="referral-link-box p-4 bg-primary text-white rounded-lg mb-5">
                                 <h5 class="text-white mb-3">Your Unique Referral Link:</h5>
                                 <div class="input-group">
-                                    <input type="text" class="form-control bg-white" id="referralLink" value="<?php echo "https://" . $_SERVER['HTTP_HOST'] . "/?ref=" . $referrer['token']; ?>" readonly>
+                                    <input type="text" class="form-control bg-white" id="referralLink" value="<?php echo "https://" . $_SERVER['HTTP_HOST'] . "/?ref=" . urlencode($referrer['token']); ?>" readonly>
                                     <div class="input-group-append">
                                         <button class="btn btn-dark" onclick="copyLink()">Copy Link</button>
                                     </div>
