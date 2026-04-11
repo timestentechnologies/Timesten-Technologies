@@ -160,7 +160,7 @@ if ($rs) {
                                                 <ul class="dropdown-menu dropdown-menu-end">
                                                     <li><a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#replyModal" data-inquiry-id="<?php echo $inquiry['id']; ?>" data-name="<?php echo htmlspecialchars($inquiry['name']); ?>" data-email="<?php echo htmlspecialchars($inquiry['email']); ?>" data-phone="<?php echo htmlspecialchars($inquiry['phone']); ?>"><i class="ri-mail-line align-bottom me-2 text-muted"></i> Reply</a></li>
                                                     <li><a href="tel:<?php echo $inquiry['phone']; ?>" class="dropdown-item"><i class="ri-phone-line align-bottom me-2 text-muted"></i> Call</a></li>
-                                                    <li><a href="#" class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" data-delete-id="<?php echo $inquiry['id']; ?>" data-name="<?php echo htmlspecialchars($inquiry['name']);"><i class="ri-delete-bin-line align-bottom me-2 text-danger"></i> Delete</a></li>
+                                                    <li><a href="#" class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" data-delete-id="<?php echo $inquiry['id']; ?>" data-name="<?php echo htmlspecialchars($inquiry['name']); ?>" ><i class="ri-delete-bin-line align-bottom me-2 text-danger"></i> Delete</a></li>
                                                 </ul>
                                             </div>
                                         </td>
