@@ -107,15 +107,21 @@ $token = $name_part . $random_part;
                             <div class='content'>
                                 <p>Hi <strong>" . htmlspecialchars($name) . "</strong>,</p>
                                 <p>Thank you for joining the TimesTen Technologies Refer & Earn program! You're now ready to start earning rewards.</p>
+                                                                <h3>Your Referral Code:</h3>
+                                <div class='link-box' style='background: #3b1b6a; color: white; border: 2px dashed #3b1b6a;'>
+                                    <h2 style='color: white; margin: 0; letter-spacing: 2px;'>" . htmlspecialchars($token) . "</h2>
+                                    <p style='color: #fbb904; margin: 5px 0 0 0; font-size: 12px;'>Share this code OR use the link below</p>
+                                </div>
                                 
-                                <h3>Your Unique Referral Link:</h3>
+                                <h3>Your Referral Link:</h3>
                                 <div class='link-box'>
                                     <a href='" . $referral_url . "'>" . $referral_url . "</a>
                                 </div>
                                 
-                                <p><strong>How it works:</strong></p>
+                                <p><strong>Two ways to earn:</strong></p>
                                 <ul>
-                                    <li>Share your referral link with friends and colleagues</li>
+                                    <li><strong>Option 1:</strong> Share your referral code <code style='background:#f67011;color:white;padding:2px 6px;border-radius:3px;'>" . htmlspecialchars($token) . "</code> - your friends can enter it on any contact form</li>
+                                    <li><strong>Option 2:</strong> Share your full referral link</li>
                                     <li>Earn <strong>100 points</strong> for each person who contacts us</li>
                                     <li>Redeem your points for rewards (1000 points minimum)</li>
                                 </ul>

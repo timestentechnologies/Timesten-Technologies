@@ -72,9 +72,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             mysqli_query($con, $query);
             
             // --- REFERRAL SYSTEM INTEGRATION ---
-            // Check for ref token from session or form POST
+            // Check for ref token from session or form POST (ref_code is the visible field name)
             $ref_token = null;
-            if (isset($_POST['ref_token']) && !empty($_POST['ref_token'])) {
+            if (isset($_POST['ref_code']) && !empty($_POST['ref_code'])) {
+                $ref_token = mysqli_real_escape_string($con, $_POST['ref_code']);
+            } elseif (isset($_POST['ref_token']) && !empty($_POST['ref_token'])) {
                 $ref_token = mysqli_real_escape_string($con, $_POST['ref_token']);
             } elseif (isset($_SESSION['referral_token'])) {
                 $ref_token = mysqli_real_escape_string($con, $_SESSION['referral_token']);

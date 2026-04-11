@@ -258,6 +258,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                                         <div class="form-group">
                                             <input type="text" class="form-control" name="phone" id="phone" placeholder="Phone" required="required">
                                         </div>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="ref_code" id="ref_code" placeholder="Referral Code (Optional)" value="<?php echo isset($_SESSION['referral_token']) ? htmlspecialchars($_SESSION['referral_token']) : ''; ?>">
+                                        </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-group">

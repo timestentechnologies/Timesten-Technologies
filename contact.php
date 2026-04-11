@@ -67,9 +67,6 @@
                             <?php endif; ?>
                             <!-- Contact Form -->
                             <form id="contactForm" method="post">
-                                <?php if (isset($_SESSION['referral_token']) && !empty($_SESSION['referral_token'])): ?>
-                                    <input type="hidden" name="ref_token" value="<?php echo htmlspecialchars($_SESSION['referral_token']); ?>">
-                                <?php endif; ?>
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="form-group">
@@ -81,6 +78,9 @@
                                         </div>
                                         <div class="form-group">
                                             <input type="text" class="form-control" name="phone" id="phone" placeholder="Phone" required="required">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="ref_code" id="ref_code" placeholder="Referral Code (Optional)" value="<?php echo isset($_SESSION['referral_token']) ? htmlspecialchars($_SESSION['referral_token']) : ''; ?>">
                                         </div>
                                     </div>
                                     <div class="col-12">
