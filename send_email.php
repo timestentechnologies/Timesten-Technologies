@@ -38,9 +38,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $phone = isset($_POST['phone']) ? htmlspecialchars($_POST['phone'], ENT_QUOTES, 'UTF-8') : '';
     $message = isset($_POST['message']) ? htmlspecialchars($_POST['message'], ENT_QUOTES, 'UTF-8') : '';
     
-    // Log submission for debugging
-    $log_entry = date('Y-m-d H:i:s') . " - New submission: Name: $name, Email: $email, Phone: $phone\n";
+    // Log submission for debugging - including ref_code
+    $ref_code_debug = isset($_POST['ref_code']) ? $_POST['ref_code'] : 'NOT SET';
+    $log_entry = date('Y-m-d H:i:s') . " - New submission: Name: $name, Email: $email, Phone: $phone, Ref_Code: $ref_code_debug\n";
     file_put_contents($log_file, $log_entry, FILE_APPEND);
+    file_put_contents($log_file, date('Y-m-d H:i:s') . " - POST data: " . print_r($_POST, true) . "\n", FILE_APPEND);
     
     // Validate form data
     $errors = array();
@@ -89,27 +91,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         // Save to database
         $ref_code = isset($_POST['ref_code']) ? mysqli_real_escape_string($con, $_POST['ref_code']) : '';
+        file_put_contents($log_file, date('Y-m-d H:i:s') . " - Saving ref_code: '$ref_code'\n", FILE_APPEND);
+        
         $query = "INSERT INTO contact_messages (name, email, phone, message, ref_code, created_at) 
                   VALUES ('$name', '$email', '$phone', '$message', '$ref_code', NOW())";
         
         if (!mysqli_query($con, $query)) {
-            error_log("Contact message save failed: " . mysqli_error($con));
+            file_put_contents($log_file, date('Y-m-d H:i:s') . " - DB Error: " . mysqli_error($con) . "\n", FILE_APPEND);
+        } else {
+            file_put_contents($log_file, date('Y-m-d H:i:s') . " - Contact message saved successfully with ref_code: '$ref_code'\n", FILE_APPEND);
         }
             
             // --- REFERRAL SYSTEM INTEGRATION ---
             // Check for ref token from session or form POST (ref_code is the visible field name)
             $ref_token = null;
+            file_put_contents($log_file, date('Y-m-d H:i:s') . " - Checking for ref_code in POST...\n", FILE_APPEND);
+            
             if (isset($_POST['ref_code']) && !empty($_POST['ref_code'])) {
                 $ref_token = mysqli_real_escape_string($con, $_POST['ref_code']);
+                file_put_contents($log_file, date('Y-m-d H:i:s') . " - Found ref_code in POST: $ref_token\n", FILE_APPEND);
             } elseif (isset($_POST['ref_token']) && !empty($_POST['ref_token'])) {
                 $ref_token = mysqli_real_escape_string($con, $_POST['ref_token']);
+                file_put_contents($log_file, date('Y-m-d H:i:s') . " - Found ref_token in POST: $ref_token\n", FILE_APPEND);
             } elseif (isset($_SESSION['referral_token'])) {
                 $ref_token = mysqli_real_escape_string($con, $_SESSION['referral_token']);
+                file_put_contents($log_file, date('Y-m-d H:i:s') . " - Found referral_token in SESSION: $ref_token\n", FILE_APPEND);
+            } else {
+                file_put_contents($log_file, date('Y-m-d H:i:s') . " - No ref_code, ref_token, or session token found\n", FILE_APPEND);
             }
             
             if ($ref_token) {
+                file_put_contents($log_file, date('Y-m-d H:i:s') . " - Looking up referrer with token: $ref_token\n", FILE_APPEND);
                 $ref_res = mysqli_query($con, "SELECT id, name, email FROM referrers WHERE token = '$ref_token'");
                 if (mysqli_num_rows($ref_res) > 0) {
+                    file_put_contents($log_file, date('Y-m-d H:i:s') . " - Referrer found!\n", FILE_APPEND);
                     $ref_row = mysqli_fetch_assoc($ref_res);
                     $referrer_id = $ref_row['id'];
                     $referrer_name = $ref_row['name'];
@@ -118,10 +133,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     // Insert into referred_clients
                     $ref_client_query = "INSERT INTO referred_clients (referrer_id, name, email, phone, message, created_at) 
                                        VALUES ('$referrer_id', '$name', '$email', '$phone', '$message', NOW())";
+                    file_put_contents($log_file, date('Y-m-d H:i:s') . " - Attempting to save referred client for referrer_id: $referrer_id\n", FILE_APPEND);
                     if (!mysqli_query($con, $ref_client_query)) {
-                        error_log("Referred client save failed: " . mysqli_error($con));
+                        file_put_contents($log_file, date('Y-m-d H:i:s') . " - Referred client save FAILED: " . mysqli_error($con) . "\n", FILE_APPEND);
                     } else {
-                        error_log("Referred client saved successfully for referrer_id: $referrer_id");
+                        file_put_contents($log_file, date('Y-m-d H:i:s') . " - Referred client saved SUCCESSFULLY for referrer_id: $referrer_id\n", FILE_APPEND);
                     }
                     
                     // Increment points
@@ -144,6 +160,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         // For simplicity, we'll try to use the same $mail instance or send a separate mail.
                         // We'll skip complex PHPMailer setup here to not bloat the code, but in a real case, we'd reuse the mail component.
                     }
+                } else {
+                    file_put_contents($log_file, date('Y-m-d H:i:s') . " - No referrer found with token: $ref_token\n", FILE_APPEND);
                 }
             }
             // --- END REFERRAL SYSTEM INTEGRATION ---
