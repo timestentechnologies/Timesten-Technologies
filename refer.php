@@ -81,21 +81,21 @@ $page_title = "Refer & Earn";
 include "header.php";
 ?>
 
-<div class="breadcrumb-area">
+<section class="section breadcrumb-area overlay-dark d-flex align-items-center">
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <div class="breadcrumb-content">
-                    <h2>Refer & Earn</h2>
+                <div class="breadcrumb-content d-flex flex-column align-items-center text-center">
+                    <h2 class="text-white text-uppercase mb-3">Refer & Earn</h2>
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="home">Home</a></li>
-                        <li class="breadcrumb-item active">Refer & Earn</li>
+                        <li class="breadcrumb-item"><a class="text-uppercase text-white" href="home">Home</a></li>
+                        <li class="breadcrumb-item text-white active">Refer & Earn</li>
                     </ol>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 
 <section class="refer-area ptb_100">
     <div class="container">
