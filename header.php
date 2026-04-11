@@ -1,4 +1,17 @@
-<?php include "z_db.php";?>
+<?php 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+include "z_db.php";
+if (isset($_GET['ref']) && !empty($_GET['ref'])) {
+    $ref_token = mysqli_real_escape_string($con, $_GET['ref']);
+    // Verify token exists
+    $check_ref = mysqli_query($con, "SELECT id FROM referrers WHERE token = '$ref_token'");
+    if (mysqli_num_rows($check_ref) > 0) {
+        $_SESSION['referral_token'] = $ref_token;
+    }
+}
+?>
 <?php
 $has_page_visits_table = false;
 $pv_rs = mysqli_query($con, "SHOW TABLES LIKE 'page_visits'");
@@ -512,6 +525,10 @@ if (strlen(trim($impact_text)) < 1) {
 
                         <li class="nav-item">
                             <a href="careers" class="nav-link">Careers</a>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a href="refer" class="nav-link" style="color: #f67011; font-weight: bold;">Refer & Earn</a>
                         </li>
 
                     </ul>

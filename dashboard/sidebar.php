@@ -217,6 +217,22 @@ $ufile = $r[0];
 
 
                         <li class="nav-item">
+                            <a class="nav-link menu-link" href="#sidebarReferrals" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="sidebarReferrals">
+                                <i class="ri-user-shared-line"></i> <span data-key="t-landing"> Referral Program </span>
+                            </a>
+                            <div class="menu-dropdown collapse" id="sidebarReferrals" style="">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="referrers" class="nav-link"> Referrers </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="referred_clients" class="nav-link"> Referred Clients </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarK" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="sidebarLanding">
                                 <i class="ri-tools-fill"></i> <span data-key="t-landing"> Site Configuration </span>
                             </a>

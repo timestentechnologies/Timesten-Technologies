@@ -2791,6 +2791,10 @@ body.dark,
     z-index: 1;
 }
 
+.breadcrumb-content {
+    padding-top: 120px;
+}
+
 .breadcrumb-content > h2 {
     display: inline-block;
     font-size: 60px;
@@ -2817,10 +2821,10 @@ body.dark,
     color: #fff;
 }
 
-.blog .breadcrumb-item > a,
-.blog .breadcrumb-item,
-.blog .breadcrumb-item::before,
-.blog .breadcrumb-item.active {
+.breadcrumb-item > a,
+.breadcrumb-item,
+.breadcrumb-item::before,
+.breadcrumb-item.active {
     color: #fff;
 }
 

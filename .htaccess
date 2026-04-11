@@ -1,5 +1,6 @@
 RewriteEngine On    # Turn on the rewriting engine
 
+# HTTPS redirect - uncomment for production
 RewriteCond %{HTTPS} off
 RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
@@ -31,3 +32,4 @@ RewriteRule    ^jobdetail/([A-Za-z0-9-]+)/?$    jobdetail.php?id=$1    [NC,L]
 RewriteRule    ^privacy/?$    privacy.php    [NC,L]
 RewriteRule    ^terms/?$    terms.php    [NC,L]
 RewriteRule    ^cookie/?$    cookie.php    [NC,L]
+RewriteRule    ^refer/?$     refer.php     [NC,L]
