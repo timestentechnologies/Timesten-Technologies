@@ -44,6 +44,8 @@ RewriteRule    ^jobquestions/([A-Za-z0-9-]+)/?$    job-questions.php?job_id=$1  
 RewriteRule    ^jobapplications/([A-Za-z0-9-]+)/?$    job-applications.php?job_id=$1    [NC,L]
 
 RewriteRule    ^customers/?$    customers.php    [NC,L]
+RewriteRule    ^referrers/?$    referrers.php    [NC,L]
+RewriteRule    ^referred_clients/?$    referred_clients.php    [NC,L]
 RewriteRule    ^invoices/?$    invoices.php    [NC,L]
 RewriteRule    ^invoice/([A-Za-z0-9-]+)/?$    invoice-view.php?id=$1    [NC,L]
 RewriteRule    ^payments/?$    payments.php    [NC,L]
