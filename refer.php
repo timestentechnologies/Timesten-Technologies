@@ -390,25 +390,9 @@ include "header.php";
     </div>
 </section>
 
-<!-- Copy Success Modal -->
-<div class="modal fade" id="copyModal" tabindex="-1" role="dialog" aria-labelledby="copyModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-success text-white">
-                <h5 class="modal-title" id="copyModalLabel"><i class="fas fa-check-circle mr-2"></i>Success!</h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body text-center py-4">
-                <i class="fas fa-copy fa-3x text-success mb-3"></i>
-                <p class="mb-0">Referral link copied to clipboard!</p>
-            </div>
-            <div class="modal-footer justify-content-center">
-                <button type="button" class="btn btn-success" data-dismiss="modal">OK</button>
-            </div>
-        </div>
-    </div>
+<!-- Copy Success Toast -->
+<div id="copyToast" style="display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #28a745; color: white; padding: 12px 24px; border-radius: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 9999; font-size: 14px; white-space: nowrap;">
+    <i class="fas fa-check-circle mr-2"></i>Link copied!
 </div>
 
 <script>
@@ -417,7 +401,13 @@ function copyLink() {
     copyText.select();
     copyText.setSelectionRange(0, 99999);
     document.execCommand("copy");
-    $('#copyModal').modal('show');
+    
+    // Show small toast
+    var toast = document.getElementById("copyToast");
+    toast.style.display = "block";
+    setTimeout(function() {
+        toast.style.display = "none";
+    }, 2000);
 }
 </script>
 
