@@ -233,6 +233,12 @@ $ufile = $r[0];
                         </li>
 
                         <li class="nav-item">
+                            <a href="inquiries" class="nav-link">
+                                <i class="ri-mail-open-line"></i> <span data-key="t-landing"> Inquiries </span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarK" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="sidebarLanding">
                                 <i class="ri-tools-fill"></i> <span data-key="t-landing"> Site Configuration </span>
                             </a>

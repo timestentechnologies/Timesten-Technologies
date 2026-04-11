@@ -63,13 +63,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     // If no validation errors, proceed with sending email
     if (empty($errors)) {
-        // Save to database
-        $query = "INSERT INTO contact_messages (name, email, phone, message, created_at) 
-                  VALUES ('$name', '$email', '$phone', '$message', NOW())";
+        // Create contact_messages table if it doesn't exist
+        mysqli_query($con, "CREATE TABLE IF NOT EXISTS contact_messages (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(255) NOT NULL,
+            email VARCHAR(255),
+            phone VARCHAR(50),
+            message TEXT,
+            ref_code VARCHAR(50),
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )");
         
-        // Try to execute the query if the table exists
-        try {
-            mysqli_query($con, $query);
+        // Also create referred_clients table if needed
+        mysqli_query($con, "CREATE TABLE IF NOT EXISTS referred_clients (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            referrer_id INT NOT NULL,
+            name VARCHAR(255) NOT NULL,
+            email VARCHAR(255),
+            phone VARCHAR(50),
+            message TEXT,
+            status ENUM('Pending', 'Converted', 'Paid') DEFAULT 'Pending',
+            commission_amount DECIMAL(10,2) DEFAULT 0.00,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )");
+        
+        // Save to database
+        $ref_code = isset($_POST['ref_code']) ? mysqli_real_escape_string($con, $_POST['ref_code']) : '';
+        $query = "INSERT INTO contact_messages (name, email, phone, message, ref_code, created_at) 
+                  VALUES ('$name', '$email', '$phone', '$message', '$ref_code', NOW())";
+        
+        if (!mysqli_query($con, $query)) {
+            error_log("Contact message save failed: " . mysqli_error($con));
+        }
             
             // --- REFERRAL SYSTEM INTEGRATION ---
             // Check for ref token from session or form POST (ref_code is the visible field name)
@@ -93,7 +118,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     // Insert into referred_clients
                     $ref_client_query = "INSERT INTO referred_clients (referrer_id, name, email, phone, message, created_at) 
                                        VALUES ('$referrer_id', '$name', '$email', '$phone', '$message', NOW())";
-                    mysqli_query($con, $ref_client_query);
+                    if (!mysqli_query($con, $ref_client_query)) {
+                        error_log("Referred client save failed: " . mysqli_error($con));
+                    } else {
+                        error_log("Referred client saved successfully for referrer_id: $referrer_id");
+                    }
                     
                     // Increment points
                     mysqli_query($con, "UPDATE referrers SET points = points + 100 WHERE id = '$referrer_id'");
