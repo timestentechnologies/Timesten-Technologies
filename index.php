@@ -626,21 +626,23 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                             
                             <!-- Success Modal -->
                             <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header" style="background-color: #3b1b6a; color: white;">
-                                            <h5 class="modal-title" id="successModalLabel">Message Sent!</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: white;">
+                                <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                                    <div class="modal-content" style="border: 3px solid #28a745; border-radius: 15px; overflow: hidden;">
+                                        <div class="modal-header py-2" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; border: none;">
+                                            <h6 class="modal-title w-100 text-center font-weight-bold" id="successModalLabel" style="font-size: 1rem;">✓ Message Sent!</h6>
+                                            <button type="button" class="close position-absolute" style="right: 10px; color: white; opacity: 0.8;" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <div class="modal-body text-center py-4">
-                                            <i class="fas fa-check-circle fa-4x mb-3" style="color: #3b1b6a;"></i>
-                                            <h4>Thank You!</h4>
-                                            <p>Your message has been sent successfully. We'll get back to you as soon as possible.</p>
+                                        <div class="modal-body text-center py-3 px-3">
+                                            <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #28a745 0%, #20c997 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px;">
+                                                <i class="fas fa-check" style="color: white; font-size: 28px;"></i>
+                                            </div>
+                                            <h5 class="mb-1" style="color: #28a745; font-weight: 600;">Thank You!</h5>
+                                            <p class="mb-0 text-muted" style="font-size: 0.9rem; line-height: 1.4;">Your message has been sent successfully. We'll get back to you soon!</p>
                                         </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <div class="modal-footer justify-content-center py-2" style="border-top: 1px solid #e9ecef;">
+                                            <button type="button" class="btn btn-sm px-4" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; border: none; border-radius: 20px; font-weight: 500;" data-dismiss="modal">OK, Great!</button>
                                         </div>
                                     </div>
                                 </div>
