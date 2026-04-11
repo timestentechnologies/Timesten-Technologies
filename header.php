@@ -391,9 +391,27 @@ if (strlen(trim($impact_text)) < 1) {
     <style>
     .navbar-brand-regular,
 .navbar-brand-sticky {
-    width: 100px; /* Reduced from 200px to fit Contact Us button */
+    width: 180px; /* Keep logo size */
     height: auto; /* Maintain aspect ratio */
     filter: brightness(1.1) contrast(1.2); /* Enhance image clarity */
+}
+
+/* Push logo to left edge and reduce container padding */
+.navbar > .container {
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+    max-width: 100% !important;
+}
+
+.navbar-brand {
+    margin-right: 10px !important;
+    padding-left: 0 !important;
+}
+
+/* Reduce menu item padding to save space */
+.navbar-nav .nav-link {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
 }
 
 </style>
