@@ -4,7 +4,7 @@
   <footer class="section footer-area">
             <!-- Footer Top -->
             <div class="footer-top ptb_100">
-                <div class="container">
+                <div class="container" style="max-width: 98%; padding-left: 15px; padding-right: 15px;">
                     <div class="row">
                         <div class="col-12 col-sm-6 col-lg-3">
                             <!-- Footer Items -->
@@ -93,7 +93,7 @@ print "
             </div>
             <!-- Footer Bottom -->
             <div class="footer-bottom bg-grey">
-                <div class="container">
+                <div class="container" style="max-width: 98%; padding-left: 15px; padding-right: 15px;">
                     <div class="row">
                         <div class="col-12">
                             <!-- Copyright Area -->
