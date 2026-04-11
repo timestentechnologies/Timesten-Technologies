@@ -89,12 +89,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )");
         
-        // Save to database
+        // Save to database - escape values for SQL
         $ref_code = isset($_POST['ref_code']) ? mysqli_real_escape_string($con, $_POST['ref_code']) : '';
+        $db_name = mysqli_real_escape_string($con, $name);
+        $db_email = mysqli_real_escape_string($con, $email);
+        $db_phone = mysqli_real_escape_string($con, $phone);
+        $db_message = mysqli_real_escape_string($con, $message);
+        
         file_put_contents($log_file, date('Y-m-d H:i:s') . " - Saving ref_code: '$ref_code'\n", FILE_APPEND);
         
         $query = "INSERT INTO contact_messages (name, email, phone, message, ref_code, created_at) 
-                  VALUES ('$name', '$email', '$phone', '$message', '$ref_code', NOW())";
+                  VALUES ('$db_name', '$db_email', '$db_phone', '$db_message', '$ref_code', NOW())";
+        
+        file_put_contents($log_file, date('Y-m-d H:i:s') . " - SQL Query: $query\n", FILE_APPEND);
         
         if (!mysqli_query($con, $query)) {
             file_put_contents($log_file, date('Y-m-d H:i:s') . " - DB Error: " . mysqli_error($con) . "\n", FILE_APPEND);
@@ -130,10 +137,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $referrer_name = $ref_row['name'];
                     $referrer_email = $ref_row['email'];
                     
-                    // Insert into referred_clients
+                    // Insert into referred_clients - use escaped values
                     $ref_client_query = "INSERT INTO referred_clients (referrer_id, name, email, phone, message, created_at) 
-                                       VALUES ('$referrer_id', '$name', '$email', '$phone', '$message', NOW())";
-                    file_put_contents($log_file, date('Y-m-d H:i:s') . " - Attempting to save referred client for referrer_id: $referrer_id\n", FILE_APPEND);
+                                       VALUES ('$referrer_id', '$db_name', '$db_email', '$db_phone', '$db_message', NOW())";
+                    file_put_contents($log_file, date('Y-m-d H:i:s') . " - Referred clients SQL: $ref_client_query\n", FILE_APPEND);
                     if (!mysqli_query($con, $ref_client_query)) {
                         file_put_contents($log_file, date('Y-m-d H:i:s') . " - Referred client save FAILED: " . mysqli_error($con) . "\n", FILE_APPEND);
                     } else {
