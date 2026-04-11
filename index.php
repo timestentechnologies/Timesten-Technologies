@@ -774,4 +774,48 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                 })();
             </script>
             
+<script>
+$(document).ready(function() {
+    $('#contactForm').on('submit', function(e) {
+        e.preventDefault();
+        
+        // Show loading spinner
+        $('#submitBtn').prop('disabled', true);
+        $('#loadingSpinner').removeClass('d-none');
+        
+        $.ajax({
+            type: 'POST',
+            url: 'send_email.php',
+            data: $(this).serialize(),
+            dataType: 'json',
+            success: function(response) {
+                // Hide loading spinner
+                $('#submitBtn').prop('disabled', false);
+                $('#loadingSpinner').addClass('d-none');
+                
+                if (response.status === 'success') {
+                    // Show success modal
+                    $('#successModal').modal('show');
+                    // Clear form
+                    $('#contactForm')[0].reset();
+                } else {
+                    // Show error modal with message
+                    $('#errorMessage').html(response.message);
+                    $('#errorModal').modal('show');
+                }
+            },
+            error: function() {
+                // Hide loading spinner
+                $('#submitBtn').prop('disabled', false);
+                $('#loadingSpinner').addClass('d-none');
+                
+                // Show error modal
+                $('#errorMessage').html('A server error occurred. Please try again later.');
+                $('#errorModal').modal('show');
+            }
+        });
+    });
+});
+</script>
+      
       <?php include "footer.php"; ?>

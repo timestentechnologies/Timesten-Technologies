@@ -446,16 +446,43 @@ $ufile = $tr['ufile'];
 <script>
 $(document).ready(function() {
     $('#contactForm').on('submit', function(e) {
-        // For regular form submission, we don't prevent default
-        // But we can still show loading state
+        e.preventDefault();
+        
+        // Show loading spinner
         $('#submitBtn').prop('disabled', true);
         $('#loadingSpinner').removeClass('d-none');
         
-        // Re-enable button after a delay to prevent multiple submissions
-        setTimeout(function() {
-            $('#submitBtn').prop('disabled', false);
-            $('#loadingSpinner').addClass('d-none');
-        }, 2000);
+        $.ajax({
+            type: 'POST',
+            url: 'send_email.php',
+            data: $(this).serialize(),
+            dataType: 'json',
+            success: function(response) {
+                // Hide loading spinner
+                $('#submitBtn').prop('disabled', false);
+                $('#loadingSpinner').addClass('d-none');
+                
+                if (response.status === 'success') {
+                    // Show success modal
+                    $('#successModal').modal('show');
+                    // Clear form
+                    $('#contactForm')[0].reset();
+                } else {
+                    // Show error modal with message
+                    $('#errorMessage').html(response.message);
+                    $('#errorModal').modal('show');
+                }
+            },
+            error: function() {
+                // Hide loading spinner
+                $('#submitBtn').prop('disabled', false);
+                $('#loadingSpinner').addClass('d-none');
+                
+                // Show error modal
+                $('#errorMessage').html('A server error occurred. Please try again later.');
+                $('#errorModal').modal('show');
+            }
+        });
     });
 });
 </script>
