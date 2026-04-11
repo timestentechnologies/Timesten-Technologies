@@ -391,7 +391,7 @@ if (strlen(trim($impact_text)) < 1) {
     <style>
     .navbar-brand-regular,
 .navbar-brand-sticky {
-    width: 200px; /* Adjust the width as needed */
+    width: 150px; /* Reduced from 200px to fit Contact Us button */
     height: auto; /* Maintain aspect ratio */
     filter: brightness(1.1) contrast(1.2); /* Enhance image clarity */
 }

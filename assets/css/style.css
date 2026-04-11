@@ -1150,27 +1150,6 @@ header {
     display: inline !important;
 }
 /*############################################*/
-/* Ensure Contact Us button is always visible */
-.navbar-nav.action {
-    display: flex !important;
-    flex-shrink: 0;
-}
-
-/* Medium screen adjustments */
-@media (max-width: 991px) {
-    .navbar-expand .navbar-nav.items {
-        gap: 4px;
-    }
-    .navbar-expand .navbar-nav.items .nav-link {
-        padding: 0.5rem 0.4rem;
-        font-size: 14px;
-    }
-    .navbar-nav.action .btn {
-        padding: 8px 12px;
-        font-size: 13px;
-    }
-}
-
 /* Mobile View - Responsive Styles */
 @media (max-width: 468px) {
     /* Hide the menu items and social icons on mobile */
