@@ -47,7 +47,160 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
     } else {
         $query = "INSERT INTO referrers (name, email, phone, token) VALUES ('$name', '$email', '$phone', '$token')";
         if (mysqli_query($con, $query)) {
-            $message = "Registration successful! Start referring and earning.";
+            $message = "Registration successful! Check your email for your referral link.";
+            
+            // Send email with referral link
+            if (!empty($email) && file_exists('PHPMailer-6.8.0/src/PHPMailer.php')) {
+                require 'PHPMailer-6.8.0/src/PHPMailer.php';
+                require 'PHPMailer-6.8.0/src/SMTP.php';
+                require 'PHPMailer-6.8.0/src/Exception.php';
+                
+                try {
+                    $mail = new PHPMailer\PHPMailer\PHPMailer(true);
+                    $mail->isSMTP();
+                    $mail->Host = 'smtp.gmail.com';
+                    $mail->SMTPAuth = true;
+                    $mail->Username = 'timestenkenya@gmail.com';
+                    $mail->Password = 'zfye pewm vvvx kbuz';
+                    $mail->SMTPSecure = 'tls';
+                    $mail->Port = 587;
+                    $mail->SMTPDebug = 0;
+                    
+                    $mail->setFrom('timestenkenya@gmail.com', 'TimesTen Technologies');
+                    $mail->addAddress($email, $name);
+                    
+                    // Add admin recipients
+                    $mail->addBCC('timestentechnologies@gmail.com', 'Admin');
+                    $mail->addBCC('mercyshii002@gmail.com', 'Admin');
+                    $mail->addBCC('sales@timestentechnologies.co.ke', 'Sales');
+                    $mail->addBCC('support@timestentechnologies.co.ke', 'Support');
+                    $mail->addBCC('info@timestentechnologies.co.ke', 'Info');
+                    
+                    $referral_url = "https://" . $_SERVER['HTTP_HOST'] . "/?ref=" . $token;
+                    $dashboard_url = "https://" . $_SERVER['HTTP_HOST'] . "/refer?token=" . $token;
+                    
+                    $mail->isHTML(true);
+                    $mail->Subject = 'Welcome to TimesTen Refer & Earn Program!';
+                    $mail->Body = "
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <style>
+                            body { font-family: Arial, sans-serif; line-height: 1.6; color: #262626; }
+                            .container { max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 5px; }
+                            .header { background-color: #f67011; color: white; padding: 15px; text-align: center; border-radius: 5px 5px 0 0; }
+                            .content { padding: 20px; background-color: #f9f9f9; }
+                            .link-box { background: #fff; border: 2px dashed #f67011; padding: 15px; margin: 15px 0; text-align: center; border-radius: 5px; }
+                            .btn { display: inline-block; background: #f67011; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; margin: 10px 0; }
+                            .footer { text-align: center; margin-top: 20px; font-size: 12px; color: #878787; }
+                        </style>
+                    </head>
+                    <body>
+                        <div class='container'>
+                            <div class='header'>
+                                <h2>Welcome to Refer & Earn!</h2>
+                            </div>
+                            <div class='content'>
+                                <p>Hi <strong>" . htmlspecialchars($name) . "</strong>,</p>
+                                <p>Thank you for joining the TimesTen Technologies Refer & Earn program! You're now ready to start earning rewards.</p>
+                                
+                                <h3>Your Unique Referral Link:</h3>
+                                <div class='link-box'>
+                                    <a href='" . $referral_url . "'>" . $referral_url . "</a>
+                                </div>
+                                
+                                <p><strong>How it works:</strong></p>
+                                <ul>
+                                    <li>Share your referral link with friends and colleagues</li>
+                                    <li>Earn <strong>100 points</strong> for each person who contacts us</li>
+                                    <li>Redeem your points for rewards (1000 points minimum)</li>
+                                </ul>
+                                
+                                <center>
+                                    <a href='" . $dashboard_url . "' class='btn'>View Your Dashboard</a>
+                                </center>
+                                
+                                <p>Track your referrals and points at any time by visiting your dashboard.</p>
+                            </div>
+                            <div class='footer'>
+                                <p>Best regards,<br>TimesTen Technologies Team</p>
+                            </div>
+                        </div>
+                    </body>
+                    </html>
+                    ";
+                    
+                    $mail->send();
+                    
+                    // Send separate notification to admin team
+                    try {
+                        $adminMail = new PHPMailer\PHPMailer\PHPMailer(true);
+                        $adminMail->isSMTP();
+                        $adminMail->Host = 'smtp.gmail.com';
+                        $adminMail->SMTPAuth = true;
+                        $adminMail->Username = 'timestenkenya@gmail.com';
+                        $adminMail->Password = 'zfye pewm vvvx kbuz';
+                        $adminMail->SMTPSecure = 'tls';
+                        $adminMail->Port = 587;
+                        $adminMail->SMTPDebug = 0;
+                        
+                        $adminMail->setFrom('timestenkenya@gmail.com', 'TimesTen Technologies');
+                        $adminMail->addAddress('timestentechnologies@gmail.com', 'Admin');
+                        $adminMail->addAddress('mercyshii002@gmail.com', 'Admin');
+                        $adminMail->addAddress('sales@timestentechnologies.co.ke', 'Sales');
+                        $adminMail->addAddress('support@timestentechnologies.co.ke', 'Support');
+                        $adminMail->addAddress('info@timestentechnologies.co.ke', 'Info');
+                        
+                        $adminMail->isHTML(true);
+                        $adminMail->Subject = 'New Referral Program Registration';
+                        $adminMail->Body = "
+                        <!DOCTYPE html>
+                        <html>
+                        <head>
+                            <style>
+                                body { font-family: Arial, sans-serif; line-height: 1.6; color: #262626; }
+                                .container { max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 5px; }
+                                .header { background-color: #3b1b6a; color: white; padding: 15px; text-align: center; border-radius: 5px 5px 0 0; }
+                                .content { padding: 20px; background-color: #f9f9f9; }
+                                .field { margin-bottom: 10px; }
+                                .label { font-weight: bold; color: #3b1b6a; }
+                                .footer { text-align: center; margin-top: 20px; font-size: 12px; color: #878787; }
+                            </style>
+                        </head>
+                        <body>
+                            <div class='container'>
+                                <div class='header'>
+                                    <h2>New Referral Program Registration</h2>
+                                </div>
+                                <div class='content'>
+                                    <p>A new user has registered for the Refer & Earn program.</p>
+                                    
+                                    <div class='field'><span class='label'>Name:</span> " . htmlspecialchars($name) . "</div>
+                                    <div class='field'><span class='label'>Email:</span> " . htmlspecialchars($email) . "</div>
+                                    <div class='field'><span class='label'>Phone:</span> " . htmlspecialchars($phone) . "</div>
+                                    <div class='field'><span class='label'>Referral Token:</span> " . $token . "</div>
+                                    <div class='field'><span class='label'>Dashboard:</span> <a href='" . $dashboard_url . "'>View Dashboard</a></div>
+                                    
+                                    <p>Registration time: " . date('Y-m-d H:i:s') . "</p>
+                                </div>
+                                <div class='footer'>
+                                    <p>TimesTen Technologies Referral System</p>
+                                </div>
+                            </div>
+                        </body>
+                        </html>
+                        ";
+                        
+                        $adminMail->send();
+                    } catch (Exception $e) {
+                        error_log("Admin notification email failed: " . $e->getMessage());
+                    }
+                    
+                } catch (Exception $e) {
+                    // Silently log error but don't show to user
+                    error_log("Referral email failed: " . $e->getMessage());
+                }
+            }
         } else {
             $message = "Error: " . mysqli_error($con);
             $status = "error";
