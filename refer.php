@@ -386,13 +386,34 @@ include "header.php";
     </div>
 </section>
 
+<!-- Copy Success Modal -->
+<div class="modal fade" id="copyModal" tabindex="-1" role="dialog" aria-labelledby="copyModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title" id="copyModalLabel"><i class="fas fa-check-circle mr-2"></i>Success!</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center py-4">
+                <i class="fas fa-copy fa-3x text-success mb-3"></i>
+                <p class="mb-0">Referral link copied to clipboard!</p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-success" data-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 function copyLink() {
     var copyText = document.getElementById("referralLink");
     copyText.select();
     copyText.setSelectionRange(0, 99999);
     document.execCommand("copy");
-    alert("Referral link copied to clipboard!");
+    $('#copyModal').modal('show');
 }
 </script>
 
