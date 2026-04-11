@@ -4,9 +4,9 @@
   <footer class="section footer-area">
             <!-- Footer Top -->
             <div class="footer-top ptb_100">
-                <div class="container" style="max-width: 98%;">
-                    <div class="row justify-content-center" style="margin-left: 0; margin-right: 0;">
-                        <div class="col-12 col-sm-6 col-lg-3" style="padding-left: 10px; padding-right: 10px;">
+                <div class="container-fluid" style="padding-left: 40px; padding-right: 40px;">
+                    <div class="row" style="margin-left: -10px; margin-right: -10px;">
+                        <div class="col-12 col-sm-6 col-lg-3" style="padding-left: 15px; padding-right: 15px;">
                             <!-- Footer Items -->
                             <div class="footer-items">
                                 <!-- Footer Title -->
@@ -14,7 +14,7 @@
                                 <p class="mb-2"><?php print $site_about?></p>
                             </div>
                         </div>
-                        <div class="col-12 col-sm-6 col-lg-3" style="padding-left: 10px; padding-right: 10px;">
+                        <div class="col-12 col-sm-6 col-lg-3" style="padding-left: 15px; padding-right: 15px;">
                             <!-- Footer Items -->
                             <div class="footer-items">
                                 <!-- Footer Title -->
@@ -41,7 +41,7 @@ print "
                             </div>
                         </div>
 
-                        <div class="col-12 col-sm-6 col-lg-3" style="padding-left: 10px; padding-right: 10px;">
+                        <div class="col-12 col-sm-6 col-lg-3" style="padding-left: 15px; padding-right: 15px;">
                             <!-- Footer Items -->
                             <div class="footer-items">
                                 <!-- Footer Title -->
@@ -72,7 +72,7 @@ print "
                             </div>
                         </div>
 
-                        <div class="col-12 col-sm-6 col-lg-3" style="padding-left: 10px; padding-right: 10px;">
+                        <div class="col-12 col-sm-6 col-lg-3" style="padding-left: 15px; padding-right: 15px;">
                             <!-- Footer Items -->
                             <div class="footer-items">
                                 <!-- Footer Title -->
@@ -93,7 +93,7 @@ print "
             </div>
             <!-- Footer Bottom -->
             <div class="footer-bottom bg-grey">
-                <div class="container" style="max-width: 98%; padding-left: 15px; padding-right: 15px;">
+                <div class="container-fluid" style="padding-left: 40px; padding-right: 40px;">
                     <div class="row">
                         <div class="col-12">
                             <!-- Copyright Area -->
