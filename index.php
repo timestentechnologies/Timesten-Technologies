@@ -626,23 +626,23 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                             
                             <!-- Success Modal -->
                             <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-                                    <div class="modal-content" style="border: 3px solid #28a745; border-radius: 15px; overflow: hidden;">
-                                        <div class="modal-header py-2" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; border: none;">
-                                            <h6 class="modal-title w-100 text-center font-weight-bold" id="successModalLabel" style="font-size: 1rem;">✓ Message Sent!</h6>
-                                            <button type="button" class="close position-absolute" style="right: 10px; color: white; opacity: 0.8;" data-dismiss="modal" aria-label="Close">
+                                <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 320px;">
+                                    <div class="modal-content" style="border: none; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+                                        <div class="modal-header py-2" style="background: linear-gradient(135deg, #3b1b6a 0%, #5a2d8c 100%); color: white; border: none;">
+                                            <h6 class="modal-title w-100 text-center font-weight-bold" id="successModalLabel" style="font-size: 0.95rem;">Message Sent!</h6>
+                                            <button type="button" class="close position-absolute" style="right: 12px; top: 8px; color: white; opacity: 0.9; font-size: 1.2rem;" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <div class="modal-body text-center py-3 px-3">
-                                            <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #28a745 0%, #20c997 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px;">
-                                                <i class="fas fa-check" style="color: white; font-size: 28px;"></i>
+                                        <div class="modal-body text-center py-4 px-4">
+                                            <div style="width: 70px; height: 70px; background: linear-gradient(135deg, #ff8c42 0%, #ff6b35 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; box-shadow: 0 4px 15px rgba(255, 108, 53, 0.4);">
+                                                <i class="fas fa-check" style="color: white; font-size: 32px;"></i>
                                             </div>
-                                            <h5 class="mb-1" style="color: #28a745; font-weight: 600;">Thank You!</h5>
-                                            <p class="mb-0 text-muted" style="font-size: 0.9rem; line-height: 1.4;">Your message has been sent successfully. We'll get back to you soon!</p>
+                                            <h5 class="mb-2" style="color: #3b1b6a; font-weight: 700; font-size: 1.3rem;">Thank You!</h5>
+                                            <p class="mb-0" style="font-size: 0.85rem; line-height: 1.5; color: #666;">Your message has been sent successfully. We'll get back to you soon!</p>
                                         </div>
-                                        <div class="modal-footer justify-content-center py-2" style="border-top: 1px solid #e9ecef;">
-                                            <button type="button" class="btn btn-sm px-4" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; border: none; border-radius: 20px; font-weight: 500;" data-dismiss="modal">OK, Great!</button>
+                                        <div class="modal-footer justify-content-center py-3" style="border-top: none; background: #f8f9fa;">
+                                            <button type="button" class="btn px-4" style="background: linear-gradient(135deg, #ff8c42 0%, #ff6b35 100%); color: white; border: none; border-radius: 25px; font-weight: 600; font-size: 0.9rem; box-shadow: 0 4px 15px rgba(255, 108, 53, 0.3);" data-dismiss="modal">OK, Great!</button>
                                         </div>
                                     </div>
                                 </div>
