@@ -147,11 +147,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
             // --- END REFERRAL SYSTEM INTEGRATION ---
-            
-        } catch (Exception $e) {
-            // If table doesn't exist, we'll just continue with sending the email
-            file_put_contents($log_file, date('Y-m-d H:i:s') . " - DB Error: " . $e->getMessage() . "\n", FILE_APPEND);
-        }
         
         // Create email body
         $email_body = "
