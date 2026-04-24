@@ -8363,3 +8363,2871 @@
 2025-07-11 15:08:55	2	SERVER -> CLIENT: 221 2.0.0 closing connection a640c23a62f3a-ae6e82df4dasm308650266b.157 - gsmtp
 
 2025-07-11 15:08:55	3	Connection: closed
+2026-04-11 16:31:42	3	Connection: opening to smtp.gmail.com:587, timeout=300, options=array()
+2026-04-11 16:31:42	3	Connection: opening to smtp.gmail.com:587, timeout=300, options=array()
+2026-04-11 16:31:42	3	Connection: opened
+2026-04-11 16:31:42	3	Connection: opened
+2026-04-11 16:31:42	2	SERVER -> CLIENT: 220 smtp.gmail.com ESMTP 5b1f17b1804b1-488d53808b2sm184413225e9.11 - gsmtp
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: EHLO timestentechnologies.co.ke
+
+2026-04-11 16:31:42	2	SERVER -> CLIENT: 220 smtp.gmail.com ESMTP 5b1f17b1804b1-488d681ec15sm48559005e9.20 - gsmtp
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: EHLO timestentechnologies.co.ke
+
+2026-04-11 16:31:42	2	SERVER -> CLIENT: 250-smtp.gmail.com at your service, [178.162.234.23]
+250-SIZE 35882577
+250-8BITMIME
+250-STARTTLS
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: STARTTLS
+
+2026-04-11 16:31:42	2	SERVER -> CLIENT: 220 2.0.0 Ready to start TLS
+
+2026-04-11 16:31:42	2	SERVER -> CLIENT: 250-smtp.gmail.com at your service, [178.162.234.23]
+250-SIZE 35882577
+250-8BITMIME
+250-STARTTLS
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: STARTTLS
+
+2026-04-11 16:31:42	2	SERVER -> CLIENT: 220 2.0.0 Ready to start TLS
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: EHLO timestentechnologies.co.ke
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: EHLO timestentechnologies.co.ke
+
+2026-04-11 16:31:42	2	SERVER -> CLIENT: 250-smtp.gmail.com at your service, [178.162.234.23]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: AUTH LOGIN
+
+2026-04-11 16:31:42	2	SERVER -> CLIENT: 334 VXNlcm5hbWU6
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: [credentials hidden]
+2026-04-11 16:31:42	2	SERVER -> CLIENT: 250-smtp.gmail.com at your service, [178.162.234.23]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: AUTH LOGIN
+
+2026-04-11 16:31:42	2	SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: [credentials hidden]
+2026-04-11 16:31:42	2	SERVER -> CLIENT: 334 VXNlcm5hbWU6
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: [credentials hidden]
+2026-04-11 16:31:42	2	SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: [credentials hidden]
+2026-04-11 16:31:42	2	SERVER -> CLIENT: 235 2.7.0 Accepted
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: MAIL FROM:<timestenkenya@gmail.com>
+
+2026-04-11 16:31:42	2	SERVER -> CLIENT: 250 2.1.0 OK 5b1f17b1804b1-488d53808b2sm184413225e9.11 - gsmtp
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: RCPT TO:<timestenkenya@gmail.com>
+
+2026-04-11 16:31:42	2	SERVER -> CLIENT: 235 2.7.0 Accepted
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: MAIL FROM:<timestenkenya@gmail.com>
+
+2026-04-11 16:31:42	2	SERVER -> CLIENT: 250 2.1.5 OK 5b1f17b1804b1-488d53808b2sm184413225e9.11 - gsmtp
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: DATA
+
+2026-04-11 16:31:42	2	SERVER -> CLIENT: 250 2.1.0 OK 5b1f17b1804b1-488d681ec15sm48559005e9.20 - gsmtp
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: RCPT TO:<timestenkenya@gmail.com>
+
+2026-04-11 16:31:42	2	SERVER -> CLIENT: 250 2.1.5 OK 5b1f17b1804b1-488d681ec15sm48559005e9.20 - gsmtp
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: DATA
+
+2026-04-11 16:31:42	2	SERVER -> CLIENT: 354 Go ahead 5b1f17b1804b1-488d53808b2sm184413225e9.11 - gsmtp
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: Date: Sat, 11 Apr 2026 16:31:42 +0000
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: To: timestenkenya@gmail.com
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: From: TimesTen Website <timestenkenya@gmail.com>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: Reply-To: Alex Chomba Mwangi <chombaalex2019@gmail.com>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: Subject: New Contact Form Submission - TimesTen Technologies
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: Message-ID: <Z4QXpu9GdYRMSupRSpJ5BTWpBufz9DSpZv8R5nornE@timestentechnologies.co.ke>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: X-Mailer: PHPMailer 6.8.0 (https://github.com/PHPMailer/PHPMailer)
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: MIME-Version: 1.0
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: Content-Type: text/html; charset=iso-8859-1
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: 
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: 
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:         <!DOCTYPE html>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:         <html>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:         <head>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:             <style>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                 body {
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     font-family: Arial, sans-serif;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     line-height: 1.6;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     color: #262626;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                 }
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                 .container {
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     max-width: 600px;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     margin: 0 auto;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     padding: 20px;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     border: 1px solid #ddd;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     border-radius: 5px;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                 }
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                 .header {
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     background-color: #f67011;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     background-image: linear-gradient(135deg, #f67011 0%, #ff4d00 100%);
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     color: white;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     padding: 15px;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     text-align: center;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     border-radius: 5px 5px 0 0;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                 }
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                 .content {
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     padding: 20px;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     background-color: #f9f9f9;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                 }
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                 .field {
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     margin-bottom: 15px;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                 }
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                 .label {
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     font-weight: bold;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     color: #f67011;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                 }
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                 .footer {
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     text-align: center;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     margin-top: 20px;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     font-size: 12px;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     color: #878787;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     border-top: 2px solid #f1f1f1;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     padding-top: 15px;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                 }
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:             </style>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:         </head>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:         <body>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:             <div class='container'>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                 <div class='header'>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     <h2>New Contact Form Submission</h2>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                 </div>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                 <div class='content'>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     <p>A new contact form has been submitted on the TimesTen Technologies website.</p>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                         <span class='label'>Name:</span> Alex Chomba Mwangi
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     </div>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                         <span class='label'>Email:</span> chombaalex2019@gmail.com
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     </div>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                         <span class='label'>Phone:</span> 0718883983
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     </div>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                         <span class='label'>Message:</span><br>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                         Hello can  i get a website at 20k
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     </div>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                 </div>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                 <div class='footer'>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     <p>This email was sent from the contact form on TimesTen Technologies website.</p>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                 </div>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:             </div>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:         </body>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:         </html>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:         
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: 
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: .
+
+2026-04-11 16:31:42	2	SERVER -> CLIENT: 354 Go ahead 5b1f17b1804b1-488d681ec15sm48559005e9.20 - gsmtp
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: Date: Sat, 11 Apr 2026 16:31:42 +0000
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: To: timestenkenya@gmail.com
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: From: TimesTen Website <timestenkenya@gmail.com>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: Reply-To: Alex Chomba Mwangi <chombaalex2019@gmail.com>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: Subject: New Contact Form Submission - TimesTen Technologies
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: Message-ID: <4YVX6cbmO1vKAzksu1LGAZVJJx2qAeMl9aYA5Q4vhhQ@timestentechnologies.co.ke>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: X-Mailer: PHPMailer 6.8.0 (https://github.com/PHPMailer/PHPMailer)
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: MIME-Version: 1.0
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: Content-Type: text/html; charset=iso-8859-1
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: 
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: 
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:         <!DOCTYPE html>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:         <html>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:         <head>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:             <style>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                 body {
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     font-family: Arial, sans-serif;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     line-height: 1.6;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     color: #262626;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                 }
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                 .container {
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     max-width: 600px;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     margin: 0 auto;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     padding: 20px;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     border: 1px solid #ddd;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     border-radius: 5px;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                 }
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                 .header {
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     background-color: #f67011;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     background-image: linear-gradient(135deg, #f67011 0%, #ff4d00 100%);
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     color: white;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     padding: 15px;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     text-align: center;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     border-radius: 5px 5px 0 0;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                 }
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                 .content {
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     padding: 20px;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     background-color: #f9f9f9;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                 }
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                 .field {
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     margin-bottom: 15px;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                 }
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                 .label {
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     font-weight: bold;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     color: #f67011;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                 }
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                 .footer {
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     text-align: center;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     margin-top: 20px;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     font-size: 12px;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     color: #878787;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     border-top: 2px solid #f1f1f1;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     padding-top: 15px;
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                 }
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:             </style>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:         </head>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:         <body>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:             <div class='container'>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                 <div class='header'>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     <h2>New Contact Form Submission</h2>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                 </div>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                 <div class='content'>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     <p>A new contact form has been submitted on the TimesTen Technologies website.</p>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                         <span class='label'>Name:</span> Alex Chomba Mwangi
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     </div>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                         <span class='label'>Email:</span> chombaalex2019@gmail.com
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     </div>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                         <span class='label'>Phone:</span> 0718883983
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     </div>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                         <span class='label'>Message:</span><br>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                         Hello can  i get a website at 20k
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     </div>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                 </div>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                 <div class='footer'>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                     <p>This email was sent from the contact form on TimesTen Technologies website.</p>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:                 </div>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:             </div>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:         </body>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:         </html>
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER:         
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: 
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: .
+
+2026-04-11 16:31:42	2	SERVER -> CLIENT: 250 2.0.0 OK  1775925101 5b1f17b1804b1-488d53808b2sm184413225e9.11 - gsmtp
+
+2026-04-11 16:31:42	1	CLIENT -> SERVER: QUIT
+
+2026-04-11 16:31:42	2	SERVER -> CLIENT: 221 2.0.0 closing connection 5b1f17b1804b1-488d53808b2sm184413225e9.11 - gsmtp
+
+2026-04-11 16:31:42	3	Connection: closed
+2026-04-11 16:31:43	2	SERVER -> CLIENT: 250 2.0.0 OK  1775925101 5b1f17b1804b1-488d681ec15sm48559005e9.20 - gsmtp
+
+2026-04-11 16:31:43	1	CLIENT -> SERVER: QUIT
+
+2026-04-11 16:31:43	2	SERVER -> CLIENT: 221 2.0.0 closing connection 5b1f17b1804b1-488d681ec15sm48559005e9.20 - gsmtp
+
+2026-04-11 16:31:43	3	Connection: closed
+2026-04-11 16:35:07	3	Connection: opening to smtp.gmail.com:587, timeout=300, options=array()
+2026-04-11 16:35:07	3	Connection: opened
+2026-04-11 16:35:07	2	SERVER -> CLIENT: 220 smtp.gmail.com ESMTP ffacd0b85a97d-43d63de2e4csm18607721f8f.2 - gsmtp
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER: EHLO timestentechnologies.co.ke
+
+2026-04-11 16:35:07	2	SERVER -> CLIENT: 250-smtp.gmail.com at your service, [178.162.234.23]
+250-SIZE 35882577
+250-8BITMIME
+250-STARTTLS
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER: STARTTLS
+
+2026-04-11 16:35:07	2	SERVER -> CLIENT: 220 2.0.0 Ready to start TLS
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER: EHLO timestentechnologies.co.ke
+
+2026-04-11 16:35:07	2	SERVER -> CLIENT: 250-smtp.gmail.com at your service, [178.162.234.23]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER: AUTH LOGIN
+
+2026-04-11 16:35:07	2	SERVER -> CLIENT: 334 VXNlcm5hbWU6
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER: [credentials hidden]
+2026-04-11 16:35:07	2	SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER: [credentials hidden]
+2026-04-11 16:35:07	2	SERVER -> CLIENT: 235 2.7.0 Accepted
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER: MAIL FROM:<timestenkenya@gmail.com>
+
+2026-04-11 16:35:07	2	SERVER -> CLIENT: 250 2.1.0 OK ffacd0b85a97d-43d63de2e4csm18607721f8f.2 - gsmtp
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER: RCPT TO:<timestenkenya@gmail.com>
+
+2026-04-11 16:35:07	2	SERVER -> CLIENT: 250 2.1.5 OK ffacd0b85a97d-43d63de2e4csm18607721f8f.2 - gsmtp
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER: DATA
+
+2026-04-11 16:35:07	2	SERVER -> CLIENT: 354 Go ahead ffacd0b85a97d-43d63de2e4csm18607721f8f.2 - gsmtp
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER: Date: Sat, 11 Apr 2026 16:35:07 +0000
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER: To: timestenkenya@gmail.com
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER: From: TimesTen Website <timestenkenya@gmail.com>
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER: Reply-To: Alex Chomba Mwangi <chombaalex2019@gmail.com>
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER: Subject: New Contact Form Submission - TimesTen Technologies
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER: Message-ID: <OgctYnutQnNHjA1GyRXo660RjAxgPykUcRXcCg3nw@timestentechnologies.co.ke>
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER: X-Mailer: PHPMailer 6.8.0 (https://github.com/PHPMailer/PHPMailer)
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER: MIME-Version: 1.0
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER: Content-Type: text/html; charset=iso-8859-1
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER: 
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER: 
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:         <!DOCTYPE html>
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:         <html>
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:         <head>
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:             <style>
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                 body {
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                     font-family: Arial, sans-serif;
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                     line-height: 1.6;
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                     color: #262626;
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                 }
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                 .container {
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                     max-width: 600px;
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                     margin: 0 auto;
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                     padding: 20px;
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                     border: 1px solid #ddd;
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                     border-radius: 5px;
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                 }
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                 .header {
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                     background-color: #f67011;
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                     background-image: linear-gradient(135deg, #f67011 0%, #ff4d00 100%);
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                     color: white;
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                     padding: 15px;
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                     text-align: center;
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                     border-radius: 5px 5px 0 0;
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                 }
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                 .content {
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                     padding: 20px;
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                     background-color: #f9f9f9;
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                 }
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                 .field {
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                     margin-bottom: 15px;
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                 }
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                 .label {
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                     font-weight: bold;
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                     color: #f67011;
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                 }
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                 .footer {
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                     text-align: center;
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                     margin-top: 20px;
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                     font-size: 12px;
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                     color: #878787;
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                     border-top: 2px solid #f1f1f1;
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                     padding-top: 15px;
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                 }
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:             </style>
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:         </head>
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:         <body>
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:             <div class='container'>
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                 <div class='header'>
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                     <h2>New Contact Form Submission</h2>
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                 </div>
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                 <div class='content'>
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                     <p>A new contact form has been submitted on the TimesTen Technologies website.</p>
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                     
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                         <span class='label'>Name:</span> Alex Chomba Mwangi
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                     </div>
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                     
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                         <span class='label'>Email:</span> chombaalex2019@gmail.com
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                     </div>
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                     
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                         <span class='label'>Phone:</span> 0718883983
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                     </div>
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                     
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                         <span class='label'>Message:</span><br>
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                         chombaalex2019@gmail.com
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                     </div>
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                 </div>
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                 <div class='footer'>
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                     <p>This email was sent from the contact form on TimesTen Technologies website.</p>
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:                 </div>
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:             </div>
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:         </body>
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:         </html>
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER:         
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER: 
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER: .
+
+2026-04-11 16:35:07	2	SERVER -> CLIENT: 250 2.0.0 OK  1775925306 ffacd0b85a97d-43d63de2e4csm18607721f8f.2 - gsmtp
+
+2026-04-11 16:35:07	1	CLIENT -> SERVER: QUIT
+
+2026-04-11 16:35:07	2	SERVER -> CLIENT: 221 2.0.0 closing connection ffacd0b85a97d-43d63de2e4csm18607721f8f.2 - gsmtp
+
+2026-04-11 16:35:07	3	Connection: closed
+2026-04-11 17:08:27	3	Connection: opening to smtp.gmail.com:587, timeout=300, options=array()
+2026-04-11 17:08:27	3	Connection: opened
+2026-04-11 17:08:27	2	SERVER -> CLIENT: 220 smtp.gmail.com ESMTP ffacd0b85a97d-43d63e5c981sm17940965f8f.33 - gsmtp
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER: EHLO timestentechnologies.co.ke
+
+2026-04-11 17:08:27	2	SERVER -> CLIENT: 250-smtp.gmail.com at your service, [178.162.234.23]
+250-SIZE 35882577
+250-8BITMIME
+250-STARTTLS
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER: STARTTLS
+
+2026-04-11 17:08:27	2	SERVER -> CLIENT: 220 2.0.0 Ready to start TLS
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER: EHLO timestentechnologies.co.ke
+
+2026-04-11 17:08:27	2	SERVER -> CLIENT: 250-smtp.gmail.com at your service, [178.162.234.23]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER: AUTH LOGIN
+
+2026-04-11 17:08:27	2	SERVER -> CLIENT: 334 VXNlcm5hbWU6
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER: [credentials hidden]
+2026-04-11 17:08:27	2	SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER: [credentials hidden]
+2026-04-11 17:08:27	2	SERVER -> CLIENT: 235 2.7.0 Accepted
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER: MAIL FROM:<timestenkenya@gmail.com>
+
+2026-04-11 17:08:27	2	SERVER -> CLIENT: 250 2.1.0 OK ffacd0b85a97d-43d63e5c981sm17940965f8f.33 - gsmtp
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER: RCPT TO:<timestenkenya@gmail.com>
+
+2026-04-11 17:08:27	2	SERVER -> CLIENT: 250 2.1.5 OK ffacd0b85a97d-43d63e5c981sm17940965f8f.33 - gsmtp
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER: DATA
+
+2026-04-11 17:08:27	2	SERVER -> CLIENT: 354 Go ahead ffacd0b85a97d-43d63e5c981sm17940965f8f.33 - gsmtp
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER: Date: Sat, 11 Apr 2026 17:08:27 +0000
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER: To: timestenkenya@gmail.com
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER: From: TimesTen Website <timestenkenya@gmail.com>
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER: Reply-To: Alex Chomba Mwangi <chombaalex2019@gmail.com>
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER: Subject: New Contact Form Submission - TimesTen Technologies
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER: Message-ID: <20cvBcnU44B3RpucwdvZG5F1fHhzYuIT8IBuFsOZY@timestentechnologies.co.ke>
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER: X-Mailer: PHPMailer 6.8.0 (https://github.com/PHPMailer/PHPMailer)
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER: MIME-Version: 1.0
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER: Content-Type: text/html; charset=iso-8859-1
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER: 
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER: 
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:         <!DOCTYPE html>
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:         <html>
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:         <head>
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:             <style>
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                 body {
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                     font-family: Arial, sans-serif;
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                     line-height: 1.6;
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                     color: #262626;
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                 }
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                 .container {
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                     max-width: 600px;
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                     margin: 0 auto;
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                     padding: 20px;
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                     border: 1px solid #ddd;
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                     border-radius: 5px;
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                 }
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                 .header {
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                     background-color: #f67011;
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                     background-image: linear-gradient(135deg, #f67011 0%, #ff4d00 100%);
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                     color: white;
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                     padding: 15px;
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                     text-align: center;
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                     border-radius: 5px 5px 0 0;
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                 }
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                 .content {
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                     padding: 20px;
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                     background-color: #f9f9f9;
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                 }
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                 .field {
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                     margin-bottom: 15px;
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                 }
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                 .label {
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                     font-weight: bold;
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                     color: #f67011;
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                 }
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                 .footer {
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                     text-align: center;
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                     margin-top: 20px;
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                     font-size: 12px;
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                     color: #878787;
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                     border-top: 2px solid #f1f1f1;
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                     padding-top: 15px;
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                 }
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:             </style>
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:         </head>
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:         <body>
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:             <div class='container'>
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                 <div class='header'>
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                     <h2>New Contact Form Submission</h2>
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                 </div>
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                 <div class='content'>
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                     <p>A new contact form has been submitted on the TimesTen Technologies website.</p>
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                     
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                         <span class='label'>Name:</span> Alex Chomba Mwangi
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                     </div>
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                     
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                         <span class='label'>Email:</span> chombaalex2019@gmail.com
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                     </div>
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                     
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                         <span class='label'>Phone:</span> 0718883983
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                     </div>
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                     
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                         <span class='label'>Message:</span><br>
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                         I need a website for hospital bookings
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                     </div>
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                 </div>
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                 <div class='footer'>
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                     <p>This email was sent from the contact form on TimesTen Technologies website.</p>
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:                 </div>
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:             </div>
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:         </body>
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:         </html>
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER:         
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER: 
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER: .
+
+2026-04-11 17:08:27	2	SERVER -> CLIENT: 250 2.0.0 OK  1775927306 ffacd0b85a97d-43d63e5c981sm17940965f8f.33 - gsmtp
+
+2026-04-11 17:08:27	1	CLIENT -> SERVER: QUIT
+
+2026-04-11 17:08:28	2	SERVER -> CLIENT: 221 2.0.0 closing connection ffacd0b85a97d-43d63e5c981sm17940965f8f.33 - gsmtp
+
+2026-04-11 17:08:28	3	Connection: closed
+2026-04-11 17:19:25	3	Connection: opening to smtp.gmail.com:587, timeout=300, options=array()
+2026-04-11 17:19:25	3	Connection: opened
+2026-04-11 17:19:25	2	SERVER -> CLIENT: 220 smtp.gmail.com ESMTP 5b1f17b1804b1-488d67b4a46sm113709315e9.4 - gsmtp
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER: EHLO timestentechnologies.co.ke
+
+2026-04-11 17:19:25	2	SERVER -> CLIENT: 250-smtp.gmail.com at your service, [178.162.234.23]
+250-SIZE 35882577
+250-8BITMIME
+250-STARTTLS
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER: STARTTLS
+
+2026-04-11 17:19:25	2	SERVER -> CLIENT: 220 2.0.0 Ready to start TLS
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER: EHLO timestentechnologies.co.ke
+
+2026-04-11 17:19:25	2	SERVER -> CLIENT: 250-smtp.gmail.com at your service, [178.162.234.23]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER: AUTH LOGIN
+
+2026-04-11 17:19:25	2	SERVER -> CLIENT: 334 VXNlcm5hbWU6
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER: [credentials hidden]
+2026-04-11 17:19:25	2	SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER: [credentials hidden]
+2026-04-11 17:19:25	2	SERVER -> CLIENT: 235 2.7.0 Accepted
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER: MAIL FROM:<timestenkenya@gmail.com>
+
+2026-04-11 17:19:25	2	SERVER -> CLIENT: 250 2.1.0 OK 5b1f17b1804b1-488d67b4a46sm113709315e9.4 - gsmtp
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER: RCPT TO:<timestenkenya@gmail.com>
+
+2026-04-11 17:19:25	2	SERVER -> CLIENT: 250 2.1.5 OK 5b1f17b1804b1-488d67b4a46sm113709315e9.4 - gsmtp
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER: DATA
+
+2026-04-11 17:19:25	2	SERVER -> CLIENT: 354 Go ahead 5b1f17b1804b1-488d67b4a46sm113709315e9.4 - gsmtp
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER: Date: Sat, 11 Apr 2026 17:19:25 +0000
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER: To: timestenkenya@gmail.com
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER: From: TimesTen Website <timestenkenya@gmail.com>
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER: Reply-To: Alex Chomba Mwangi <chombaalex2019@gmail.com>
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER: Subject: New Contact Form Submission - TimesTen Technologies
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER: Message-ID: <6sqRR9LOkEVHlmIypXuAuEydfiE3tnoOVkbJZSjm2w@timestentechnologies.co.ke>
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER: X-Mailer: PHPMailer 6.8.0 (https://github.com/PHPMailer/PHPMailer)
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER: MIME-Version: 1.0
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER: Content-Type: text/html; charset=iso-8859-1
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER: 
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER: 
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:         <!DOCTYPE html>
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:         <html>
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:         <head>
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:             <style>
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                 body {
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                     font-family: Arial, sans-serif;
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                     line-height: 1.6;
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                     color: #262626;
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                 }
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                 .container {
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                     max-width: 600px;
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                     margin: 0 auto;
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                     padding: 20px;
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                     border: 1px solid #ddd;
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                     border-radius: 5px;
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                 }
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                 .header {
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                     background-color: #f67011;
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                     background-image: linear-gradient(135deg, #f67011 0%, #ff4d00 100%);
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                     color: white;
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                     padding: 15px;
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                     text-align: center;
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                     border-radius: 5px 5px 0 0;
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                 }
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                 .content {
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                     padding: 20px;
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                     background-color: #f9f9f9;
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                 }
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                 .field {
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                     margin-bottom: 15px;
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                 }
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                 .label {
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                     font-weight: bold;
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                     color: #f67011;
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                 }
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                 .footer {
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                     text-align: center;
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                     margin-top: 20px;
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                     font-size: 12px;
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                     color: #878787;
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                     border-top: 2px solid #f1f1f1;
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                     padding-top: 15px;
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                 }
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:             </style>
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:         </head>
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:         <body>
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:             <div class='container'>
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                 <div class='header'>
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                     <h2>New Contact Form Submission</h2>
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                 </div>
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                 <div class='content'>
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                     <p>A new contact form has been submitted on the TimesTen Technologies website.</p>
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                     
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                         <span class='label'>Name:</span> Alex Chomba Mwangi
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                     </div>
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                     
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                         <span class='label'>Email:</span> chombaalex2019@gmail.com
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                     </div>
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                     
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                         <span class='label'>Phone:</span> 0718883983
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                     </div>
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                     
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                         <span class='label'>Message:</span><br>
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                         I need a website budget arround 20k
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                     </div>
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                 </div>
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                 <div class='footer'>
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                     <p>This email was sent from the contact form on TimesTen Technologies website.</p>
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:                 </div>
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:             </div>
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:         </body>
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:         </html>
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER:         
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER: 
+
+2026-04-11 17:19:25	1	CLIENT -> SERVER: .
+
+2026-04-11 17:19:26	2	SERVER -> CLIENT: 250 2.0.0 OK  1775927964 5b1f17b1804b1-488d67b4a46sm113709315e9.4 - gsmtp
+
+2026-04-11 17:19:26	1	CLIENT -> SERVER: QUIT
+
+2026-04-11 17:19:26	2	SERVER -> CLIENT: 221 2.0.0 closing connection 5b1f17b1804b1-488d67b4a46sm113709315e9.4 - gsmtp
+
+2026-04-11 17:19:26	3	Connection: closed
+2026-04-11 17:26:14	3	Connection: opening to smtp.gmail.com:587, timeout=300, options=array()
+2026-04-11 17:26:14	3	Connection: opened
+2026-04-11 17:26:14	2	SERVER -> CLIENT: 220 smtp.gmail.com ESMTP 5b1f17b1804b1-488d53807d7sm255747785e9.10 - gsmtp
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER: EHLO timestentechnologies.co.ke
+
+2026-04-11 17:26:14	2	SERVER -> CLIENT: 250-smtp.gmail.com at your service, [178.162.234.23]
+250-SIZE 35882577
+250-8BITMIME
+250-STARTTLS
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER: STARTTLS
+
+2026-04-11 17:26:14	2	SERVER -> CLIENT: 220 2.0.0 Ready to start TLS
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER: EHLO timestentechnologies.co.ke
+
+2026-04-11 17:26:14	2	SERVER -> CLIENT: 250-smtp.gmail.com at your service, [178.162.234.23]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER: AUTH LOGIN
+
+2026-04-11 17:26:14	2	SERVER -> CLIENT: 334 VXNlcm5hbWU6
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER: [credentials hidden]
+2026-04-11 17:26:14	2	SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER: [credentials hidden]
+2026-04-11 17:26:14	2	SERVER -> CLIENT: 235 2.7.0 Accepted
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER: MAIL FROM:<timestenkenya@gmail.com>
+
+2026-04-11 17:26:14	2	SERVER -> CLIENT: 250 2.1.0 OK 5b1f17b1804b1-488d53807d7sm255747785e9.10 - gsmtp
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER: RCPT TO:<timestenkenya@gmail.com>
+
+2026-04-11 17:26:14	2	SERVER -> CLIENT: 250 2.1.5 OK 5b1f17b1804b1-488d53807d7sm255747785e9.10 - gsmtp
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER: DATA
+
+2026-04-11 17:26:14	2	SERVER -> CLIENT: 354 Go ahead 5b1f17b1804b1-488d53807d7sm255747785e9.10 - gsmtp
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER: Date: Sat, 11 Apr 2026 17:26:14 +0000
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER: To: timestenkenya@gmail.com
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER: From: TimesTen Website <timestenkenya@gmail.com>
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER: Reply-To: Alex Chomba Mwangi <chombaalex2019@gmail.com>
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER: Subject: New Contact Form Submission - TimesTen Technologies
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER: Message-ID: <Pdfm5TUZOgmomz36KmTEz7tcbssqcb4bEEoaqMTI@timestentechnologies.co.ke>
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER: X-Mailer: PHPMailer 6.8.0 (https://github.com/PHPMailer/PHPMailer)
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER: MIME-Version: 1.0
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER: Content-Type: text/html; charset=iso-8859-1
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER: 
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER: 
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:         <!DOCTYPE html>
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:         <html>
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:         <head>
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:             <style>
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                 body {
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                     font-family: Arial, sans-serif;
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                     line-height: 1.6;
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                     color: #262626;
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                 }
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                 .container {
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                     max-width: 600px;
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                     margin: 0 auto;
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                     padding: 20px;
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                     border: 1px solid #ddd;
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                     border-radius: 5px;
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                 }
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                 .header {
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                     background-color: #f67011;
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                     background-image: linear-gradient(135deg, #f67011 0%, #ff4d00 100%);
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                     color: white;
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                     padding: 15px;
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                     text-align: center;
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                     border-radius: 5px 5px 0 0;
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                 }
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                 .content {
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                     padding: 20px;
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                     background-color: #f9f9f9;
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                 }
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                 .field {
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                     margin-bottom: 15px;
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                 }
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                 .label {
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                     font-weight: bold;
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                     color: #f67011;
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                 }
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                 .footer {
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                     text-align: center;
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                     margin-top: 20px;
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                     font-size: 12px;
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                     color: #878787;
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                     border-top: 2px solid #f1f1f1;
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                     padding-top: 15px;
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                 }
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:             </style>
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:         </head>
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:         <body>
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:             <div class='container'>
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                 <div class='header'>
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                     <h2>New Contact Form Submission</h2>
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                 </div>
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                 <div class='content'>
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                     <p>A new contact form has been submitted on the TimesTen Technologies website.</p>
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                     
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                         <span class='label'>Name:</span> Alex Chomba Mwangi
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                     </div>
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                     
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                         <span class='label'>Email:</span> chombaalex2019@gmail.com
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                     </div>
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                     
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                         <span class='label'>Phone:</span> 0718883983
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                     </div>
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                     
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                         <span class='label'>Message:</span><br>
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                         chombaalex2019@gmail.com
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                     </div>
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                 </div>
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                 <div class='footer'>
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                     <p>This email was sent from the contact form on TimesTen Technologies website.</p>
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:                 </div>
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:             </div>
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:         </body>
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:         </html>
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER:         
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER: 
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER: .
+
+2026-04-11 17:26:14	2	SERVER -> CLIENT: 250 2.0.0 OK  1775928373 5b1f17b1804b1-488d53807d7sm255747785e9.10 - gsmtp
+
+2026-04-11 17:26:14	1	CLIENT -> SERVER: QUIT
+
+2026-04-11 17:26:14	2	SERVER -> CLIENT: 221 2.0.0 closing connection 5b1f17b1804b1-488d53807d7sm255747785e9.10 - gsmtp
+
+2026-04-11 17:26:14	3	Connection: closed
+2026-04-11 17:32:30	3	Connection: opening to smtp.gmail.com:587, timeout=300, options=array()
+2026-04-11 17:32:30	3	Connection: opened
+2026-04-11 17:32:30	2	SERVER -> CLIENT: 220 smtp.gmail.com ESMTP ffacd0b85a97d-43d6fc9d525sm1611971f8f.36 - gsmtp
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER: EHLO timestentechnologies.co.ke
+
+2026-04-11 17:32:30	2	SERVER -> CLIENT: 250-smtp.gmail.com at your service, [178.162.234.23]
+250-SIZE 35882577
+250-8BITMIME
+250-STARTTLS
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER: STARTTLS
+
+2026-04-11 17:32:30	2	SERVER -> CLIENT: 220 2.0.0 Ready to start TLS
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER: EHLO timestentechnologies.co.ke
+
+2026-04-11 17:32:30	2	SERVER -> CLIENT: 250-smtp.gmail.com at your service, [178.162.234.23]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER: AUTH LOGIN
+
+2026-04-11 17:32:30	2	SERVER -> CLIENT: 334 VXNlcm5hbWU6
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER: [credentials hidden]
+2026-04-11 17:32:30	2	SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER: [credentials hidden]
+2026-04-11 17:32:30	2	SERVER -> CLIENT: 235 2.7.0 Accepted
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER: MAIL FROM:<timestenkenya@gmail.com>
+
+2026-04-11 17:32:30	2	SERVER -> CLIENT: 250 2.1.0 OK ffacd0b85a97d-43d6fc9d525sm1611971f8f.36 - gsmtp
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER: RCPT TO:<timestenkenya@gmail.com>
+
+2026-04-11 17:32:30	2	SERVER -> CLIENT: 250 2.1.5 OK ffacd0b85a97d-43d6fc9d525sm1611971f8f.36 - gsmtp
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER: DATA
+
+2026-04-11 17:32:30	2	SERVER -> CLIENT: 354 Go ahead ffacd0b85a97d-43d6fc9d525sm1611971f8f.36 - gsmtp
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER: Date: Sat, 11 Apr 2026 17:32:30 +0000
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER: To: timestenkenya@gmail.com
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER: From: TimesTen Website <timestenkenya@gmail.com>
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER: Reply-To: Alex Chomba Mwangi <chombaalex2019@gmail.com>
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER: Subject: New Contact Form Submission - TimesTen Technologies
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER: Message-ID: <e7JRneYl9Z5Ho1zVBrNgUEsk4B99BDKqilNOHrTNUH8@timestentechnologies.co.ke>
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER: X-Mailer: PHPMailer 6.8.0 (https://github.com/PHPMailer/PHPMailer)
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER: MIME-Version: 1.0
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER: Content-Type: text/html; charset=iso-8859-1
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER: 
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER: 
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:         <!DOCTYPE html>
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:         <html>
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:         <head>
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:             <style>
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                 body {
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                     font-family: Arial, sans-serif;
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                     line-height: 1.6;
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                     color: #262626;
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                 }
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                 .container {
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                     max-width: 600px;
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                     margin: 0 auto;
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                     padding: 20px;
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                     border: 1px solid #ddd;
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                     border-radius: 5px;
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                 }
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                 .header {
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                     background-color: #f67011;
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                     background-image: linear-gradient(135deg, #f67011 0%, #ff4d00 100%);
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                     color: white;
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                     padding: 15px;
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                     text-align: center;
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                     border-radius: 5px 5px 0 0;
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                 }
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                 .content {
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                     padding: 20px;
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                     background-color: #f9f9f9;
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                 }
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                 .field {
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                     margin-bottom: 15px;
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                 }
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                 .label {
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                     font-weight: bold;
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                     color: #f67011;
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                 }
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                 .footer {
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                     text-align: center;
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                     margin-top: 20px;
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                     font-size: 12px;
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                     color: #878787;
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                     border-top: 2px solid #f1f1f1;
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                     padding-top: 15px;
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                 }
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:             </style>
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:         </head>
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:         <body>
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:             <div class='container'>
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                 <div class='header'>
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                     <h2>New Contact Form Submission</h2>
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                 </div>
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                 <div class='content'>
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                     <p>A new contact form has been submitted on the TimesTen Technologies website.</p>
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                     
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                         <span class='label'>Name:</span> Alex Chomba Mwangi
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                     </div>
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                     
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                         <span class='label'>Email:</span> chombaalex2019@gmail.com
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                     </div>
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                     
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                         <span class='label'>Phone:</span> 0718883983
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                     </div>
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                     
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                         <span class='label'>Message:</span><br>
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                         chombaalex2019@gmail.com 20k-30k
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                     </div>
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                 </div>
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                 <div class='footer'>
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                     <p>This email was sent from the contact form on TimesTen Technologies website.</p>
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:                 </div>
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:             </div>
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:         </body>
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:         </html>
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER:         
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER: 
+
+2026-04-11 17:32:30	1	CLIENT -> SERVER: .
+
+2026-04-11 17:32:31	2	SERVER -> CLIENT: 250 2.0.0 OK  1775928749 ffacd0b85a97d-43d6fc9d525sm1611971f8f.36 - gsmtp
+
+2026-04-11 17:32:31	1	CLIENT -> SERVER: QUIT
+
+2026-04-11 17:32:31	2	SERVER -> CLIENT: 221 2.0.0 closing connection ffacd0b85a97d-43d6fc9d525sm1611971f8f.36 - gsmtp
+
+2026-04-11 17:32:31	3	Connection: closed
+2026-04-11 17:37:07	3	Connection: opening to smtp.gmail.com:587, timeout=300, options=array()
+2026-04-11 17:37:07	3	Connection: opened
+2026-04-11 17:37:07	3	Connection: opening to smtp.gmail.com:587, timeout=300, options=array()
+2026-04-11 17:37:07	3	Connection: opened
+2026-04-11 17:37:07	2	SERVER -> CLIENT: 220 smtp.gmail.com ESMTP ffacd0b85a97d-43d63e50044sm17989142f8f.25 - gsmtp
+
+2026-04-11 17:37:07	1	CLIENT -> SERVER: EHLO timestentechnologies.co.ke
+
+2026-04-11 17:37:07	2	SERVER -> CLIENT: 250-smtp.gmail.com at your service, [178.162.234.23]
+250-SIZE 35882577
+250-8BITMIME
+250-STARTTLS
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+2026-04-11 17:37:07	1	CLIENT -> SERVER: STARTTLS
+
+2026-04-11 17:37:07	2	SERVER -> CLIENT: 220 smtp.gmail.com ESMTP 5b1f17b1804b1-488d5888a97sm192679805e9.2 - gsmtp
+
+2026-04-11 17:37:07	1	CLIENT -> SERVER: EHLO timestentechnologies.co.ke
+
+2026-04-11 17:37:07	2	SERVER -> CLIENT: 220 2.0.0 Ready to start TLS
+
+2026-04-11 17:37:07	2	SERVER -> CLIENT: 250-smtp.gmail.com at your service, [178.162.234.23]
+250-SIZE 35882577
+250-8BITMIME
+250-STARTTLS
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+2026-04-11 17:37:07	1	CLIENT -> SERVER: STARTTLS
+
+2026-04-11 17:37:07	2	SERVER -> CLIENT: 220 2.0.0 Ready to start TLS
+
+2026-04-11 17:37:07	1	CLIENT -> SERVER: EHLO timestentechnologies.co.ke
+
+2026-04-11 17:37:07	1	CLIENT -> SERVER: EHLO timestentechnologies.co.ke
+
+2026-04-11 17:37:07	2	SERVER -> CLIENT: 250-smtp.gmail.com at your service, [178.162.234.23]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+2026-04-11 17:37:07	1	CLIENT -> SERVER: AUTH LOGIN
+
+2026-04-11 17:37:07	2	SERVER -> CLIENT: 334 VXNlcm5hbWU6
+
+2026-04-11 17:37:07	1	CLIENT -> SERVER: [credentials hidden]
+2026-04-11 17:37:07	2	SERVER -> CLIENT: 250-smtp.gmail.com at your service, [178.162.234.23]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+2026-04-11 17:37:07	1	CLIENT -> SERVER: AUTH LOGIN
+
+2026-04-11 17:37:07	2	SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+
+2026-04-11 17:37:07	1	CLIENT -> SERVER: [credentials hidden]
+2026-04-11 17:37:07	2	SERVER -> CLIENT: 334 VXNlcm5hbWU6
+
+2026-04-11 17:37:07	1	CLIENT -> SERVER: [credentials hidden]
+2026-04-11 17:37:08	2	SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER: [credentials hidden]
+2026-04-11 17:37:08	2	SERVER -> CLIENT: 235 2.7.0 Accepted
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER: MAIL FROM:<timestenkenya@gmail.com>
+
+2026-04-11 17:37:08	2	SERVER -> CLIENT: 235 2.7.0 Accepted
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER: MAIL FROM:<timestenkenya@gmail.com>
+
+2026-04-11 17:37:08	2	SERVER -> CLIENT: 250 2.1.0 OK 5b1f17b1804b1-488d5888a97sm192679805e9.2 - gsmtp
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER: RCPT TO:<timestenkenya@gmail.com>
+
+2026-04-11 17:37:08	2	SERVER -> CLIENT: 250 2.1.0 OK ffacd0b85a97d-43d63e50044sm17989142f8f.25 - gsmtp
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER: RCPT TO:<timestenkenya@gmail.com>
+
+2026-04-11 17:37:08	2	SERVER -> CLIENT: 250 2.1.5 OK 5b1f17b1804b1-488d5888a97sm192679805e9.2 - gsmtp
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER: DATA
+
+2026-04-11 17:37:08	2	SERVER -> CLIENT: 250 2.1.5 OK ffacd0b85a97d-43d63e50044sm17989142f8f.25 - gsmtp
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER: DATA
+
+2026-04-11 17:37:08	2	SERVER -> CLIENT: 354 Go ahead 5b1f17b1804b1-488d5888a97sm192679805e9.2 - gsmtp
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER: Date: Sat, 11 Apr 2026 17:37:07 +0000
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER: To: timestenkenya@gmail.com
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER: From: TimesTen Website <timestenkenya@gmail.com>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER: Reply-To: Alex Chomba Mwangi <chombaalex2019@gmail.com>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER: Subject: New Contact Form Submission - TimesTen Technologies
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER: Message-ID: <kyEeiufaVSNoHxzkrexZXtMO4bagkS9w52Popk0jXWc@timestentechnologies.co.ke>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER: X-Mailer: PHPMailer 6.8.0 (https://github.com/PHPMailer/PHPMailer)
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER: MIME-Version: 1.0
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER: Content-Type: text/html; charset=iso-8859-1
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER: 
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER: 
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:         <!DOCTYPE html>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:         <html>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:         <head>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:             <style>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                 body {
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     font-family: Arial, sans-serif;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     line-height: 1.6;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     color: #262626;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                 }
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                 .container {
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     max-width: 600px;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     margin: 0 auto;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     padding: 20px;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     border: 1px solid #ddd;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     border-radius: 5px;
+
+2026-04-11 17:37:08	2	SERVER -> CLIENT: 354 Go ahead ffacd0b85a97d-43d63e50044sm17989142f8f.25 - gsmtp
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                 }
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER: Date: Sat, 11 Apr 2026 17:37:07 +0000
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                 .header {
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     background-color: #f67011;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     background-image: linear-gradient(135deg, #f67011 0%, #ff4d00 100%);
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER: To: timestenkenya@gmail.com
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     color: white;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER: From: TimesTen Website <timestenkenya@gmail.com>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     padding: 15px;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     text-align: center;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER: Reply-To: Alex Chomba Mwangi <chombaalex2019@gmail.com>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     border-radius: 5px 5px 0 0;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER: Subject: New Contact Form Submission - TimesTen Technologies
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                 }
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER: Message-ID: <hA91hBgdAf2TLBBdott0ICbOVi3Iir9fnSraonFFk@timestentechnologies.co.ke>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                 .content {
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER: X-Mailer: PHPMailer 6.8.0 (https://github.com/PHPMailer/PHPMailer)
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     padding: 20px;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     background-color: #f9f9f9;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER: MIME-Version: 1.0
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                 }
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER: Content-Type: text/html; charset=iso-8859-1
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                 .field {
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER: 
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     margin-bottom: 15px;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER: 
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                 }
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:         <!DOCTYPE html>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                 .label {
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     font-weight: bold;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:         <html>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     color: #f67011;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:         <head>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                 }
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:             <style>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                 .footer {
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                 body {
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     text-align: center;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     font-family: Arial, sans-serif;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     margin-top: 20px;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     line-height: 1.6;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     font-size: 12px;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     color: #878787;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     color: #262626;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     border-top: 2px solid #f1f1f1;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                 }
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     padding-top: 15px;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                 }
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:             </style>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                 .container {
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:         </head>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     max-width: 600px;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:         <body>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:             <div class='container'>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     margin: 0 auto;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                 <div class='header'>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     padding: 20px;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     <h2>New Contact Form Submission</h2>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     border: 1px solid #ddd;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                 </div>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     border-radius: 5px;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                 <div class='content'>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     <p>A new contact form has been submitted on the TimesTen Technologies website.</p>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                 }
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                 .header {
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     background-color: #f67011;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                         <span class='label'>Name:</span> Alex Chomba Mwangi
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     background-image: linear-gradient(135deg, #f67011 0%, #ff4d00 100%);
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     </div>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     color: white;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     padding: 15px;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                         <span class='label'>Email:</span> chombaalex2019@gmail.com
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     text-align: center;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     </div>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     border-radius: 5px 5px 0 0;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                 }
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                 .content {
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     padding: 20px;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                         <span class='label'>Phone:</span> 0718883983
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     background-color: #f9f9f9;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     </div>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                 }
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                 .field {
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                         <span class='label'>Message:</span><br>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     margin-bottom: 15px;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                         chombaalex2019@gmail.com
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     </div>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                 }
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                 </div>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                 .label {
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                 <div class='footer'>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     font-weight: bold;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     <p>This email was sent from the contact form on TimesTen Technologies website.</p>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     color: #f67011;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                 </div>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:             </div>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                 }
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:         </body>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                 .footer {
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:         </html>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     text-align: center;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:         
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     margin-top: 20px;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER: 
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     font-size: 12px;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER: .
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     color: #878787;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     border-top: 2px solid #f1f1f1;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     padding-top: 15px;
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                 }
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:             </style>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:         </head>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:         <body>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:             <div class='container'>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                 <div class='header'>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     <h2>New Contact Form Submission</h2>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                 </div>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                 <div class='content'>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     <p>A new contact form has been submitted on the TimesTen Technologies website.</p>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                         <span class='label'>Name:</span> Alex Chomba Mwangi
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     </div>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                         <span class='label'>Email:</span> chombaalex2019@gmail.com
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     </div>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                         <span class='label'>Phone:</span> 0718883983
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     </div>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                         <span class='label'>Message:</span><br>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                         chombaalex2019@gmail.com
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     </div>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                 </div>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                 <div class='footer'>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                     <p>This email was sent from the contact form on TimesTen Technologies website.</p>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:                 </div>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:             </div>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:         </body>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:         </html>
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER:         
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER: 
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER: .
+
+2026-04-11 17:37:08	2	SERVER -> CLIENT: 250 2.0.0 OK  1775929026 5b1f17b1804b1-488d5888a97sm192679805e9.2 - gsmtp
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER: QUIT
+
+2026-04-11 17:37:08	2	SERVER -> CLIENT: 221 2.0.0 closing connection 5b1f17b1804b1-488d5888a97sm192679805e9.2 - gsmtp
+
+2026-04-11 17:37:08	3	Connection: closed
+2026-04-11 17:37:08	2	SERVER -> CLIENT: 250 2.0.0 OK  1775929027 ffacd0b85a97d-43d63e50044sm17989142f8f.25 - gsmtp
+
+2026-04-11 17:37:08	1	CLIENT -> SERVER: QUIT
+
+2026-04-11 17:37:08	2	SERVER -> CLIENT: 221 2.0.0 closing connection ffacd0b85a97d-43d63e50044sm17989142f8f.25 - gsmtp
+
+2026-04-11 17:37:08	3	Connection: closed
+2026-04-11 18:01:52	3	Connection: opening to smtp.gmail.com:587, timeout=300, options=array()
+2026-04-11 18:01:52	3	Connection: opened
+2026-04-11 18:01:52	2	SERVER -> CLIENT: 220 smtp.gmail.com ESMTP ffacd0b85a97d-43d63deba9esm18517865f8f.10 - gsmtp
+
+2026-04-11 18:01:52	1	CLIENT -> SERVER: EHLO timestentechnologies.co.ke
+
+2026-04-11 18:01:52	2	SERVER -> CLIENT: 250-smtp.gmail.com at your service, [178.162.234.23]
+250-SIZE 35882577
+250-8BITMIME
+250-STARTTLS
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+2026-04-11 18:01:52	1	CLIENT -> SERVER: STARTTLS
+
+2026-04-11 18:01:52	2	SERVER -> CLIENT: 220 2.0.0 Ready to start TLS
+
+2026-04-11 18:01:52	1	CLIENT -> SERVER: EHLO timestentechnologies.co.ke
+
+2026-04-11 18:01:52	2	SERVER -> CLIENT: 250-smtp.gmail.com at your service, [178.162.234.23]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+2026-04-11 18:01:52	1	CLIENT -> SERVER: AUTH LOGIN
+
+2026-04-11 18:01:52	2	SERVER -> CLIENT: 334 VXNlcm5hbWU6
+
+2026-04-11 18:01:52	1	CLIENT -> SERVER: [credentials hidden]
+2026-04-11 18:01:52	2	SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+
+2026-04-11 18:01:52	1	CLIENT -> SERVER: [credentials hidden]
+2026-04-11 18:01:52	2	SERVER -> CLIENT: 235 2.7.0 Accepted
+
+2026-04-11 18:01:52	1	CLIENT -> SERVER: MAIL FROM:<timestenkenya@gmail.com>
+
+2026-04-11 18:01:52	2	SERVER -> CLIENT: 250 2.1.0 OK ffacd0b85a97d-43d63deba9esm18517865f8f.10 - gsmtp
+
+2026-04-11 18:01:52	1	CLIENT -> SERVER: RCPT TO:<timestenkenya@gmail.com>
+
+2026-04-11 18:01:52	2	SERVER -> CLIENT: 250 2.1.5 OK ffacd0b85a97d-43d63deba9esm18517865f8f.10 - gsmtp
+
+2026-04-11 18:01:52	1	CLIENT -> SERVER: DATA
+
+2026-04-11 18:01:54	2	SERVER -> CLIENT: 354 Go ahead ffacd0b85a97d-43d63deba9esm18517865f8f.10 - gsmtp
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER: Date: Sat, 11 Apr 2026 18:01:52 +0000
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER: To: timestenkenya@gmail.com
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER: From: TimesTen Website <timestenkenya@gmail.com>
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER: Reply-To: Alex Chomba Mwangi <chombaalex2019@gmail.com>
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER: Subject: New Contact Form Submission - TimesTen Technologies
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER: Message-ID: <OaRiCDIvli27V9BG5SSEh3i9UaB23EcjjOfXhmb8LY@timestentechnologies.co.ke>
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER: X-Mailer: PHPMailer 6.8.0 (https://github.com/PHPMailer/PHPMailer)
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER: MIME-Version: 1.0
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER: Content-Type: text/html; charset=iso-8859-1
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER: 
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER: 
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:         <!DOCTYPE html>
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:         <html>
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:         <head>
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:             <style>
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                 body {
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                     font-family: Arial, sans-serif;
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                     line-height: 1.6;
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                     color: #262626;
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                 }
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                 .container {
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                     max-width: 600px;
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                     margin: 0 auto;
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                     padding: 20px;
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                     border: 1px solid #ddd;
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                     border-radius: 5px;
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                 }
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                 .header {
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                     background-color: #f67011;
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                     background-image: linear-gradient(135deg, #f67011 0%, #ff4d00 100%);
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                     color: white;
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                     padding: 15px;
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                     text-align: center;
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                     border-radius: 5px 5px 0 0;
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                 }
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                 .content {
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                     padding: 20px;
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                     background-color: #f9f9f9;
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                 }
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                 .field {
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                     margin-bottom: 15px;
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                 }
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                 .label {
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                     font-weight: bold;
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                     color: #f67011;
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                 }
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                 .footer {
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                     text-align: center;
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                     margin-top: 20px;
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                     font-size: 12px;
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                     color: #878787;
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                     border-top: 2px solid #f1f1f1;
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                     padding-top: 15px;
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                 }
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:             </style>
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:         </head>
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:         <body>
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:             <div class='container'>
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                 <div class='header'>
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                     <h2>New Contact Form Submission</h2>
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                 </div>
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                 <div class='content'>
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                     <p>A new contact form has been submitted on the TimesTen Technologies website.</p>
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                     
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                         <span class='label'>Name:</span> Alex Chomba Mwangi
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                     </div>
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                     
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                         <span class='label'>Email:</span> chombaalex2019@gmail.com
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                     </div>
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                     
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                         <span class='label'>Phone:</span> 0718883983
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                     </div>
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                     
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                         <span class='label'>Message:</span><br>
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                         chombaalex2019@gmail.com 50K
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                     </div>
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                 </div>
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                 <div class='footer'>
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                     <p>This email was sent from the contact form on TimesTen Technologies website.</p>
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:                 </div>
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:             </div>
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:         </body>
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:         </html>
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER:         
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER: 
+
+2026-04-11 18:01:54	1	CLIENT -> SERVER: .
+
+2026-04-11 18:01:55	2	SERVER -> CLIENT: 250 2.0.0 OK  1775930513 ffacd0b85a97d-43d63deba9esm18517865f8f.10 - gsmtp
+
+2026-04-11 18:01:55	1	CLIENT -> SERVER: QUIT
+
+2026-04-11 18:01:55	2	SERVER -> CLIENT: 221 2.0.0 closing connection ffacd0b85a97d-43d63deba9esm18517865f8f.10 - gsmtp
+
+2026-04-11 18:01:55	3	Connection: closed
+2026-04-11 18:07:50	3	Connection: opening to smtp.gmail.com:587, timeout=300, options=array()
+2026-04-11 18:07:50	3	Connection: opened
+2026-04-11 18:07:50	2	SERVER -> CLIENT: 220 smtp.gmail.com ESMTP 5b1f17b1804b1-488d67ce3e4sm116944965e9.5 - gsmtp
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER: EHLO timestentechnologies.co.ke
+
+2026-04-11 18:07:50	2	SERVER -> CLIENT: 250-smtp.gmail.com at your service, [178.162.234.23]
+250-SIZE 35882577
+250-8BITMIME
+250-STARTTLS
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER: STARTTLS
+
+2026-04-11 18:07:50	2	SERVER -> CLIENT: 220 2.0.0 Ready to start TLS
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER: EHLO timestentechnologies.co.ke
+
+2026-04-11 18:07:50	2	SERVER -> CLIENT: 250-smtp.gmail.com at your service, [178.162.234.23]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER: AUTH LOGIN
+
+2026-04-11 18:07:50	2	SERVER -> CLIENT: 334 VXNlcm5hbWU6
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER: [credentials hidden]
+2026-04-11 18:07:50	2	SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER: [credentials hidden]
+2026-04-11 18:07:50	2	SERVER -> CLIENT: 235 2.7.0 Accepted
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER: MAIL FROM:<timestenkenya@gmail.com>
+
+2026-04-11 18:07:50	2	SERVER -> CLIENT: 250 2.1.0 OK 5b1f17b1804b1-488d67ce3e4sm116944965e9.5 - gsmtp
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER: RCPT TO:<timestenkenya@gmail.com>
+
+2026-04-11 18:07:50	2	SERVER -> CLIENT: 250 2.1.5 OK 5b1f17b1804b1-488d67ce3e4sm116944965e9.5 - gsmtp
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER: DATA
+
+2026-04-11 18:07:50	2	SERVER -> CLIENT: 354 Go ahead 5b1f17b1804b1-488d67ce3e4sm116944965e9.5 - gsmtp
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER: Date: Sat, 11 Apr 2026 18:07:50 +0000
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER: To: timestenkenya@gmail.com
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER: From: TimesTen Website <timestenkenya@gmail.com>
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER: Reply-To: Alex Chomba Mwangi <chombaalex2019@gmail.com>
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER: Subject: New Contact Form Submission - TimesTen Technologies
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER: Message-ID: <K1fka4lygOJ16ANR0yuV0QV3N2ZzV6b8cansCiCzgoI@timestentechnologies.co.ke>
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER: X-Mailer: PHPMailer 6.8.0 (https://github.com/PHPMailer/PHPMailer)
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER: MIME-Version: 1.0
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER: Content-Type: text/html; charset=iso-8859-1
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER: 
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER: 
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:         <!DOCTYPE html>
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:         <html>
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:         <head>
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:             <style>
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                 body {
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                     font-family: Arial, sans-serif;
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                     line-height: 1.6;
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                     color: #262626;
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                 }
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                 .container {
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                     max-width: 600px;
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                     margin: 0 auto;
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                     padding: 20px;
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                     border: 1px solid #ddd;
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                     border-radius: 5px;
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                 }
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                 .header {
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                     background-color: #f67011;
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                     background-image: linear-gradient(135deg, #f67011 0%, #ff4d00 100%);
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                     color: white;
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                     padding: 15px;
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                     text-align: center;
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                     border-radius: 5px 5px 0 0;
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                 }
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                 .content {
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                     padding: 20px;
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                     background-color: #f9f9f9;
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                 }
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                 .field {
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                     margin-bottom: 15px;
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                 }
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                 .label {
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                     font-weight: bold;
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                     color: #f67011;
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                 }
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                 .footer {
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                     text-align: center;
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                     margin-top: 20px;
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                     font-size: 12px;
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                     color: #878787;
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                     border-top: 2px solid #f1f1f1;
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                     padding-top: 15px;
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                 }
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:             </style>
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:         </head>
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:         <body>
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:             <div class='container'>
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                 <div class='header'>
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                     <h2>New Contact Form Submission</h2>
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                 </div>
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                 <div class='content'>
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                     <p>A new contact form has been submitted on the TimesTen Technologies website.</p>
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                     
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                         <span class='label'>Name:</span> Alex Chomba Mwangi
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                     </div>
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                     
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                         <span class='label'>Email:</span> chombaalex2019@gmail.com
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                     </div>
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                     
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                         <span class='label'>Phone:</span> 0718883983
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                     </div>
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                     
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                         <span class='label'>Message:</span><br>
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                         chombaalex2019@gmail.com
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                     </div>
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                 </div>
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                 <div class='footer'>
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                     <p>This email was sent from the contact form on TimesTen Technologies website.</p>
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:                 </div>
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:             </div>
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:         </body>
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:         </html>
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER:         
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER: 
+
+2026-04-11 18:07:50	1	CLIENT -> SERVER: .
+
+2026-04-11 18:07:51	2	SERVER -> CLIENT: 250 2.0.0 OK  1775930869 5b1f17b1804b1-488d67ce3e4sm116944965e9.5 - gsmtp
+
+2026-04-11 18:07:51	1	CLIENT -> SERVER: QUIT
+
+2026-04-11 18:07:51	2	SERVER -> CLIENT: 221 2.0.0 closing connection 5b1f17b1804b1-488d67ce3e4sm116944965e9.5 - gsmtp
+
+2026-04-11 18:07:51	3	Connection: closed
+2026-04-23 06:15:22	3	Connection: opening to smtp.gmail.com:587, timeout=300, options=array()
+2026-04-23 06:15:22	3	Connection: opened
+2026-04-23 06:15:22	2	SERVER -> CLIENT: 220 smtp.gmail.com ESMTP ffacd0b85a97d-43fe4e3a166sm49430204f8f.19 - gsmtp
+
+2026-04-23 06:15:22	1	CLIENT -> SERVER: EHLO timestentechnologies.co.ke
+
+2026-04-23 06:15:22	2	SERVER -> CLIENT: 250-smtp.gmail.com at your service, [178.162.234.23]
+250-SIZE 35882577
+250-8BITMIME
+250-STARTTLS
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+2026-04-23 06:15:22	1	CLIENT -> SERVER: STARTTLS
+
+2026-04-23 06:15:22	2	SERVER -> CLIENT: 220 2.0.0 Ready to start TLS
+
+2026-04-23 06:15:22	1	CLIENT -> SERVER: EHLO timestentechnologies.co.ke
+
+2026-04-23 06:15:22	2	SERVER -> CLIENT: 250-smtp.gmail.com at your service, [178.162.234.23]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+2026-04-23 06:15:22	1	CLIENT -> SERVER: AUTH LOGIN
+
+2026-04-23 06:15:22	2	SERVER -> CLIENT: 334 VXNlcm5hbWU6
+
+2026-04-23 06:15:22	1	CLIENT -> SERVER: [credentials hidden]
+2026-04-23 06:15:22	2	SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+
+2026-04-23 06:15:22	1	CLIENT -> SERVER: [credentials hidden]
+2026-04-23 06:15:22	2	SERVER -> CLIENT: 235 2.7.0 Accepted
+
+2026-04-23 06:15:22	1	CLIENT -> SERVER: MAIL FROM:<timestenkenya@gmail.com>
+
+2026-04-23 06:15:22	2	SERVER -> CLIENT: 250 2.1.0 OK ffacd0b85a97d-43fe4e3a166sm49430204f8f.19 - gsmtp
+
+2026-04-23 06:15:22	1	CLIENT -> SERVER: RCPT TO:<timestenkenya@gmail.com>
+
+2026-04-23 06:15:22	2	SERVER -> CLIENT: 250 2.1.5 OK ffacd0b85a97d-43fe4e3a166sm49430204f8f.19 - gsmtp
+
+2026-04-23 06:15:22	1	CLIENT -> SERVER: DATA
+
+2026-04-23 06:15:23	2	SERVER -> CLIENT: 354 Go ahead ffacd0b85a97d-43fe4e3a166sm49430204f8f.19 - gsmtp
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER: Date: Thu, 23 Apr 2026 06:15:22 +0000
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER: To: timestenkenya@gmail.com
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER: From: TimesTen Website <timestenkenya@gmail.com>
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER: Reply-To: Mogire John Anunda <Mogirejohn2006@gmail.com>
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER: Subject: New Contact Form Submission - TimesTen Technologies
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER: Message-ID: <kAfTHym1XtgIOwlCEMz1LJXHof0DucoyZilJdGsZqqo@timestentechnologies.co.ke>
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER: X-Mailer: PHPMailer 6.8.0 (https://github.com/PHPMailer/PHPMailer)
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER: MIME-Version: 1.0
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER: Content-Type: text/html; charset=iso-8859-1
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER: 
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER: 
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:         <!DOCTYPE html>
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:         <html>
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:         <head>
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:             <style>
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                 body {
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                     font-family: Arial, sans-serif;
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                     line-height: 1.6;
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                     color: #262626;
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                 }
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                 .container {
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                     max-width: 600px;
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                     margin: 0 auto;
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                     padding: 20px;
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                     border: 1px solid #ddd;
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                     border-radius: 5px;
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                 }
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                 .header {
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                     background-color: #f67011;
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                     background-image: linear-gradient(135deg, #f67011 0%, #ff4d00 100%);
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                     color: white;
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                     padding: 15px;
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                     text-align: center;
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                     border-radius: 5px 5px 0 0;
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                 }
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                 .content {
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                     padding: 20px;
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                     background-color: #f9f9f9;
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                 }
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                 .field {
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                     margin-bottom: 15px;
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                 }
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                 .label {
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                     font-weight: bold;
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                     color: #f67011;
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                 }
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                 .footer {
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                     text-align: center;
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                     margin-top: 20px;
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                     font-size: 12px;
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                     color: #878787;
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                     border-top: 2px solid #f1f1f1;
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                     padding-top: 15px;
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                 }
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:             </style>
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:         </head>
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:         <body>
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:             <div class='container'>
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                 <div class='header'>
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                     <h2>New Contact Form Submission</h2>
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                 </div>
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                 <div class='content'>
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                     <p>A new contact form has been submitted on the TimesTen Technologies website.</p>
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                     
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                         <span class='label'>Name:</span> Mogire John Anunda
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                     </div>
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                     
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                         <span class='label'>Email:</span> Mogirejohn2006@gmail.com
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                     </div>
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                     
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                         <span class='label'>Phone:</span> 0114885488
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                     </div>
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                     
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                     <div class='field'>
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                         <span class='label'>Message:</span><br>
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                         I would like to apply for an online marketing job.
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                     </div>
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                 </div>
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                 <div class='footer'>
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                     <p>This email was sent from the contact form on TimesTen Technologies website.</p>
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:                 </div>
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:             </div>
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:         </body>
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:         </html>
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER:         
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER: 
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER: .
+
+2026-04-23 06:15:23	2	SERVER -> CLIENT: 250 2.0.0 OK  1776924924 ffacd0b85a97d-43fe4e3a166sm49430204f8f.19 - gsmtp
+
+2026-04-23 06:15:23	1	CLIENT -> SERVER: QUIT
+
+2026-04-23 06:15:23	2	SERVER -> CLIENT: 221 2.0.0 closing connection ffacd0b85a97d-43fe4e3a166sm49430204f8f.19 - gsmtp
+
+2026-04-23 06:15:23	3	Connection: closed

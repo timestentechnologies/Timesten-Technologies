@@ -152,3 +152,149 @@
 2025-07-11 15:08:53 - Using PHPMailer 6.x
 2025-07-11 15:08:55 - Email sent successfully
 2025-07-11 15:08:55 - Email sent successfully
+2026-04-11 16:31:23 - New submission: Name: Alex Chomba Mwangi, Email: chombaalex2019@gmail.com, Phone: 0718883983
+2026-04-11 16:31:23 - Validation errors: Please enter a message (at least 10 characters).
+2026-04-11 16:31:23 - New submission: Name: Alex Chomba Mwangi, Email: chombaalex2019@gmail.com, Phone: 0718883983
+2026-04-11 16:31:23 - Validation errors: Please enter a message (at least 10 characters).
+2026-04-11 16:31:41 - New submission: Name: Alex Chomba Mwangi, Email: chombaalex2019@gmail.com, Phone: 0718883983
+2026-04-11 16:31:41 - DB Error: Table 'opulentl_timestentech.contact_messages' doesn't exist
+2026-04-11 16:31:41 - New submission: Name: Alex Chomba Mwangi, Email: chombaalex2019@gmail.com, Phone: 0718883983
+2026-04-11 16:31:41 - DB Error: Table 'opulentl_timestentech.contact_messages' doesn't exist
+2026-04-11 16:31:42 - Using PHPMailer 6.x
+2026-04-11 16:31:42 - Using PHPMailer 6.x
+2026-04-11 16:31:42 - Email sent successfully
+2026-04-11 16:31:43 - Email sent successfully
+2026-04-11 16:35:07 - New submission: Name: Alex Chomba Mwangi, Email: chombaalex2019@gmail.com, Phone: 0718883983
+2026-04-11 16:35:07 - DB Error: Table 'opulentl_timestentech.contact_messages' doesn't exist
+2026-04-11 16:35:07 - Using PHPMailer 6.x
+2026-04-11 16:35:07 - Email sent successfully
+2026-04-11 17:08:27 - New submission: Name: Alex Chomba Mwangi, Email: chombaalex2019@gmail.com, Phone: 0718883983
+2026-04-11 17:08:27 - DB Error: Table 'opulentl_timestentech.contact_messages' doesn't exist
+2026-04-11 17:08:27 - Using PHPMailer 6.x
+2026-04-11 17:08:28 - Email sent successfully
+2026-04-11 17:19:25 - New submission: Name: Alex Chomba Mwangi, Email: chombaalex2019@gmail.com, Phone: 0718883983
+2026-04-11 17:19:25 - Using PHPMailer 6.x
+2026-04-11 17:19:26 - Email sent successfully
+2026-04-11 17:26:13 - New submission: Name: Alex Chomba Mwangi, Email: chombaalex2019@gmail.com, Phone: 0718883983, Ref_Code: NOT SET
+2026-04-11 17:26:13 - POST data: Array
+(
+    [name] => Alex Chomba Mwangi
+    [email] => chombaalex2019@gmail.com
+    [phone] => 0718883983
+    [message] => chombaalex2019@gmail.com
+)
+
+2026-04-11 17:26:13 - Saving ref_code: ''
+2026-04-11 17:26:13 - Contact message saved successfully with ref_code: ''
+2026-04-11 17:26:13 - Checking for ref_code in POST...
+2026-04-11 17:26:13 - No ref_code, ref_token, or session token found
+2026-04-11 17:26:14 - Using PHPMailer 6.x
+2026-04-11 17:26:14 - Email sent successfully
+2026-04-11 17:32:30 - New submission: Name: Alex Chomba Mwangi, Email: chombaalex2019@gmail.com, Phone: 0718883983, Ref_Code: NOT SET
+2026-04-11 17:32:30 - POST data: Array
+(
+    [name] => Alex Chomba Mwangi
+    [email] => chombaalex2019@gmail.com
+    [phone] => 0718883983
+    [message] => chombaalex2019@gmail.com 20k-30k
+)
+
+2026-04-11 17:32:30 - Saving ref_code: ''
+2026-04-11 17:32:30 - SQL Query: INSERT INTO contact_messages (name, email, phone, message, ref_code, created_at) 
+                  VALUES ('Alex Chomba Mwangi', 'chombaalex2019@gmail.com', '0718883983', 'chombaalex2019@gmail.com 20k-30k', '', NOW())
+2026-04-11 17:32:30 - Contact message saved successfully with ref_code: ''
+2026-04-11 17:32:30 - Checking for ref_code in POST...
+2026-04-11 17:32:30 - No ref_code, ref_token, or session token found
+2026-04-11 17:32:30 - Using PHPMailer 6.x
+2026-04-11 17:32:31 - Email sent successfully
+2026-04-11 17:37:07 - New submission: Name: Alex Chomba Mwangi, Email: chombaalex2019@gmail.com, Phone: 0718883983, Ref_Code: NOT SET
+2026-04-11 17:37:07 - POST data: Array
+(
+    [name] => Alex Chomba Mwangi
+    [email] => chombaalex2019@gmail.com
+    [phone] => 0718883983
+    [message] => chombaalex2019@gmail.com
+)
+
+2026-04-11 17:37:07 - Saving ref_code: ''
+2026-04-11 17:37:07 - SQL Query: INSERT INTO contact_messages (name, email, phone, message, ref_code, created_at) 
+                  VALUES ('Alex Chomba Mwangi', 'chombaalex2019@gmail.com', '0718883983', 'chombaalex2019@gmail.com', '', NOW())
+2026-04-11 17:37:07 - Contact message saved successfully with ref_code: ''
+2026-04-11 17:37:07 - Checking for ref_code in POST...
+2026-04-11 17:37:07 - No ref_code, ref_token, or session token found
+2026-04-11 17:37:07 - Using PHPMailer 6.x
+2026-04-11 17:37:07 - New submission: Name: Alex Chomba Mwangi, Email: chombaalex2019@gmail.com, Phone: 0718883983, Ref_Code: ALEX3D0D
+2026-04-11 17:37:07 - POST data: Array
+(
+    [name] => Alex Chomba Mwangi
+    [email] => chombaalex2019@gmail.com
+    [phone] => 0718883983
+    [ref_code] => ALEX3D0D
+    [message] => chombaalex2019@gmail.com
+)
+
+2026-04-11 17:37:07 - Saving ref_code: 'ALEX3D0D'
+2026-04-11 17:37:07 - SQL Query: INSERT INTO contact_messages (name, email, phone, message, ref_code, created_at) 
+                  VALUES ('Alex Chomba Mwangi', 'chombaalex2019@gmail.com', '0718883983', 'chombaalex2019@gmail.com', 'ALEX3D0D', NOW())
+2026-04-11 17:37:07 - Contact message saved successfully with ref_code: 'ALEX3D0D'
+2026-04-11 17:37:07 - Checking for ref_code in POST...
+2026-04-11 17:37:07 - Found ref_code in POST: ALEX3D0D
+2026-04-11 17:37:07 - Looking up referrer with token: ALEX3D0D
+2026-04-11 17:37:07 - Referrer found!
+2026-04-11 17:37:07 - Referred clients SQL: INSERT INTO referred_clients (referrer_id, name, email, phone, message, created_at) 
+                                       VALUES ('4', 'Alex Chomba Mwangi', 'chombaalex2019@gmail.com', '0718883983', 'chombaalex2019@gmail.com', NOW())
+2026-04-11 17:37:07 - Referred client saved SUCCESSFULLY for referrer_id: 4
+2026-04-11 17:37:07 - Using PHPMailer 6.x
+2026-04-11 17:37:08 - Email sent successfully
+2026-04-11 17:37:08 - Email sent successfully
+2026-04-11 18:01:52 - New submission: Name: Alex Chomba Mwangi, Email: chombaalex2019@gmail.com, Phone: 0718883983, Ref_Code: NOT SET
+2026-04-11 18:01:52 - POST data: Array
+(
+    [name] => Alex Chomba Mwangi
+    [email] => chombaalex2019@gmail.com
+    [phone] => 0718883983
+    [message] => chombaalex2019@gmail.com 50K
+)
+
+2026-04-11 18:01:52 - Saving ref_code: ''
+2026-04-11 18:01:52 - SQL Query: INSERT INTO contact_messages (name, email, phone, message, ref_code, created_at) 
+                  VALUES ('Alex Chomba Mwangi', 'chombaalex2019@gmail.com', '0718883983', 'chombaalex2019@gmail.com 50K', '', NOW())
+2026-04-11 18:01:52 - Contact message saved successfully with ref_code: ''
+2026-04-11 18:01:52 - Checking for ref_code in POST...
+2026-04-11 18:01:52 - No ref_code, ref_token, or session token found
+2026-04-11 18:01:52 - Using PHPMailer 6.x
+2026-04-11 18:01:55 - Email sent successfully
+2026-04-11 18:07:49 - New submission: Name: Alex Chomba Mwangi, Email: chombaalex2019@gmail.com, Phone: 0718883983, Ref_Code: NOT SET
+2026-04-11 18:07:49 - POST data: Array
+(
+    [name] => Alex Chomba Mwangi
+    [email] => chombaalex2019@gmail.com
+    [phone] => 0718883983
+    [message] => chombaalex2019@gmail.com
+)
+
+2026-04-11 18:07:49 - Saving ref_code: ''
+2026-04-11 18:07:49 - SQL Query: INSERT INTO contact_messages (name, email, phone, message, ref_code, created_at) 
+                  VALUES ('Alex Chomba Mwangi', 'chombaalex2019@gmail.com', '0718883983', 'chombaalex2019@gmail.com', '', NOW())
+2026-04-11 18:07:49 - Contact message saved successfully with ref_code: ''
+2026-04-11 18:07:49 - Checking for ref_code in POST...
+2026-04-11 18:07:49 - No ref_code, ref_token, or session token found
+2026-04-11 18:07:49 - Using PHPMailer 6.x
+2026-04-11 18:07:51 - Email sent successfully
+2026-04-23 06:15:22 - New submission: Name: Mogire John Anunda, Email: Mogirejohn2006@gmail.com, Phone: 0114885488, Ref_Code: NOT SET
+2026-04-23 06:15:22 - POST data: Array
+(
+    [name] => Mogire John Anunda
+    [email] => Mogirejohn2006@gmail.com
+    [phone] => 0114885488
+    [message] => I would like to apply for an online marketing job.
+)
+
+2026-04-23 06:15:22 - Saving ref_code: ''
+2026-04-23 06:15:22 - SQL Query: INSERT INTO contact_messages (name, email, phone, message, ref_code, created_at) 
+                  VALUES ('Mogire John Anunda', 'Mogirejohn2006@gmail.com', '0114885488', 'I would like to apply for an online marketing job.', '', NOW())
+2026-04-23 06:15:22 - Contact message saved successfully with ref_code: ''
+2026-04-23 06:15:22 - Checking for ref_code in POST...
+2026-04-23 06:15:22 - No ref_code, ref_token, or session token found
+2026-04-23 06:15:22 - Using PHPMailer 6.x
+2026-04-23 06:15:23 - Email sent successfully
