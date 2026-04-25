@@ -122,7 +122,7 @@ if ($is_print || $is_pdf) {
     }
 
     $items = [];
-    $it_rs = mysqli_query($con, "SELECT * FROM finance_invoice_items WHERE invoice_id=$invoice_id ORDER BY id ASC");
+    $it_rs = mysqli_query($con, "SELECT it.*, p.name AS product_name, p.description AS product_description FROM finance_invoice_items it LEFT JOIN finance_products p ON p.id=it.product_id WHERE it.invoice_id=$invoice_id ORDER BY it.id ASC");
     if ($it_rs) {
         while ($r = mysqli_fetch_assoc($it_rs)) { $items[] = $r; }
     }
@@ -411,11 +411,20 @@ if ($is_print || $is_pdf) {
                   }
                   foreach ($items as $it) {
                       $ds = htmlspecialchars((string)$it['description']);
+                      $pn = htmlspecialchars((string)($it['product_name'] ?? ''));
+                      $pd = htmlspecialchars((string)($it['product_description'] ?? ''));
+                      $line_desc = $ds;
+                      if (strlen(trim($pn)) > 0) {
+                          $line_desc = $pn;
+                          if (strlen(trim($pd)) > 0) {
+                              $line_desc .= "<div style='color:var(--muted);font-size:12px;margin-top:2px;'>$pd</div>";
+                          }
+                      }
                       $qt = (float)$it['qty'];
                       $up = (float)$it['unit_price'];
                       $lt = (float)$it['line_total'];
                       print "<tr>";
-                      print "<td>$ds</td>";
+                      print "<td>$line_desc</td>";
                       print "<td class='num'>" . number_format($qt,2) . "</td>";
                       print "<td class='num'>" . number_format($up,2) . "</td>";
                       print "<td class='num' style='font-weight:800;'>" . number_format($lt,2) . "</td>";
@@ -672,8 +681,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_item'])) {
         }
 
         $pname_s = mysqli_real_escape_string($con, $new_product_name);
+        $pdesc_s = mysqli_real_escape_string($con, $desc);
         $pprice_sql = (string)((float)$new_product_price);
-        mysqli_query($con, "INSERT INTO finance_products (name, description, unit_price, active, created_at) VALUES ('$pname_s', '', $pprice_sql, 1, NOW())");
+        mysqli_query($con, "INSERT INTO finance_products (name, description, unit_price, active, created_at) VALUES ('$pname_s', '$pdesc_s', $pprice_sql, 1, NOW())");
         $product_id = (int)mysqli_insert_id($con);
 
         if (strlen(trim($desc)) < 1) {
@@ -752,7 +762,7 @@ if (!$invoice) {
 $summary = finance_recalc_invoice($con, $invoice_id);
 
 $items = [];
-$it_rs = mysqli_query($con, "SELECT * FROM finance_invoice_items WHERE invoice_id=$invoice_id ORDER BY id ASC");
+$it_rs = mysqli_query($con, "SELECT it.*, p.name AS product_name, p.description AS product_description FROM finance_invoice_items it LEFT JOIN finance_products p ON p.id=it.product_id WHERE it.invoice_id=$invoice_id ORDER BY it.id ASC");
 if ($it_rs) {
     while ($r = mysqli_fetch_assoc($it_rs)) { $items[] = $r; }
 }
@@ -885,11 +895,20 @@ $public_link = $base . '/invoice-view.php?id=' . $invoice_id;
                 foreach ($items as $it) {
                     $iid = (int)$it['id'];
                     $ds = htmlspecialchars((string)$it['description']);
+                    $pn = htmlspecialchars((string)($it['product_name'] ?? ''));
+                    $pd = htmlspecialchars((string)($it['product_description'] ?? ''));
+                    $line_desc = $ds;
+                    if (strlen(trim($pn)) > 0) {
+                        $line_desc = $pn;
+                        if (strlen(trim($pd)) > 0) {
+                            $line_desc .= "<div class='text-muted small'>$pd</div>";
+                        }
+                    }
                     $qt = (float)$it['qty'];
                     $up = (float)$it['unit_price'];
                     $lt = (float)$it['line_total'];
                     print "<tr>";
-                    print "<td>$ds</td>";
+                    print "<td>$line_desc</td>";
                     print "<td class='text-end'>" . number_format($qt,2) . "</td>";
                     print "<td class='text-end'>" . number_format($up,2) . "</td>";
                     print "<td class='text-end fw-semibold'>" . number_format($lt,2) . "</td>";
