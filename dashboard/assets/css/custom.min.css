@@ -1,6 +1,20 @@
 
 /*# sourceMappingURL=custom.min.css.map */
 
+/* Dark purple background for header and sidebar */
+#page-topbar,
+.topbar,
+.app-menu.navbar-menu,
+.navbar-menu {
+  background-color: #4c1d95 !important;
+}
+
+/* Dark purple sidebar background */
+.vertical-sidebar,
+.sidebar-menu {
+  background-color: #4c1d95 !important;
+}
+
 /* Override HK Grotesk with system fonts to prevent 404 errors */
 body, * {
   font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif !important;
