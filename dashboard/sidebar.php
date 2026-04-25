@@ -40,15 +40,14 @@ $ufile = $r[0];
       <div id="two-column-menu">
       </div>
       <ul class="navbar-nav" id="navbar-nav">
-        <li class="menu-title"><span data-key="t-menu">Dashboard</span></li>
+        <li class="menu-title"><span data-key="t-menu">Menu</span></li>
+
 
         <li class="nav-item">
                 <a href="dashboard" class="nav-link" data-key="t-analytics">  <i class="ri-dashboard-2-line"></i> <span data-key="t-dashboards"> Dashboard </span></a>
-        </li>
+              </li>
 
-        <li class="menu-title"><span data-key="t-menu">Website Content</span></li>
-
-        <li class="nav-item">
+              <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarB" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="sidebarLanding">
                                 <i class="ri-file-list-3-line"></i> <span data-key="t-landing">Manage Blog</span>
                             </a>
@@ -80,6 +79,7 @@ $ufile = $r[0];
                             </div>
                         </li>
 
+
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarPot" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="sidebarLanding">
                                 <i class="ri-rhythm-fill"></i> <span data-key="t-landing">Manage Portfolio</span>
@@ -91,6 +91,62 @@ $ufile = $r[0];
                                     </li>
                                     <li class="nav-item">
                                         <a href="portfolio" class="nav-link" data-key="t-nft-landing"> Portfolio List </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#sidebarCareers" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="sidebarCareers">
+                                <i class="ri-briefcase-4-line"></i> <span data-key="t-landing">Manage Careers</span>
+                            </a>
+                            <div class="menu-dropdown collapse" id="sidebarCareers" style="">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="createjob" class="nav-link" data-key="t-one-page"> Add Job </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="jobs" class="nav-link" data-key="t-nft-landing"> Jobs List </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="backup.php" data-key="t-analytics">  <i class="ri-database-2-line"></i> <span> Database Backup </span></a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="documents.php" data-key="t-analytics">  <i class="ri-folder-3-line"></i> <span> Documents </span></a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="employees.php" data-key="t-analytics">  <i class="ri-team-line"></i> <span> Employees </span></a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#sidebarFinance" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="sidebarFinance">
+                                <i class="ri-money-dollar-circle-line"></i> <span data-key="t-landing">Finance</span>
+                            </a>
+                            <div class="menu-dropdown collapse" id="sidebarFinance" style="">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="customers" class="nav-link"> Customers </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="invoices" class="nav-link"> Invoices </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="products" class="nav-link"> Products </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="payments" class="nav-link"> Payments </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="expenses" class="nav-link"> Expenses </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="statement" class="nav-link"> Statement </a>
                                     </li>
                                 </ul>
                             </div>
@@ -114,7 +170,6 @@ $ufile = $r[0];
                                 </ul>
                             </div>
                         </li>
-
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarX" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="sidebarLanding">
                                 <i class="ri-chrome-fill"></i> <span data-key="t-landing">Manage Social</span>
@@ -163,93 +218,8 @@ $ufile = $r[0];
                             </div>
                         </li>
 
-        <li class="menu-title"><span data-key="t-menu">HR & Employees</span></li>
 
-        <li class="nav-item">
-            <a class="nav-link" href="employees.php" data-key="t-analytics">  <i class="ri-team-line"></i> <span> Employees </span></a>
-        </li>
-
-        <li class="nav-item">
-                            <a class="nav-link menu-link" href="#sidebarCareers" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="sidebarCareers">
-                                <i class="ri-briefcase-4-line"></i> <span data-key="t-landing">Manage Careers</span>
-                            </a>
-                            <div class="menu-dropdown collapse" id="sidebarCareers" style="">
-                                <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item">
-                                        <a href="createjob" class="nav-link" data-key="t-one-page"> Add Job </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="jobs" class="nav-link" data-key="t-nft-landing"> Jobs List </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-
-        <li class="menu-title"><span data-key="t-menu">Finance</span></li>
-
-        <li class="nav-item">
-                            <a class="nav-link menu-link" href="#sidebarFinance" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="sidebarFinance">
-                                <i class="ri-money-dollar-circle-line"></i> <span data-key="t-landing">Finance</span>
-                            </a>
-                            <div class="menu-dropdown collapse" id="sidebarFinance" style="">
-                                <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item">
-                                        <a href="customers" class="nav-link"> Customers </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="invoices" class="nav-link"> Invoices </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="products" class="nav-link"> Products </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="payments" class="nav-link"> Payments </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="expenses" class="nav-link"> Expenses </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="statement" class="nav-link"> Statement </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-
-        <li class="menu-title"><span data-key="t-menu">System & Settings</span></li>
-
-        <li class="nav-item">
-            <a class="nav-link" href="backup.php" data-key="t-analytics">  <i class="ri-database-2-line"></i> <span> Database Backup </span></a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link" href="documents.php" data-key="t-analytics">  <i class="ri-folder-3-line"></i> <span> Documents </span></a>
-        </li>
-
-        <li class="nav-item">
-                            <a class="nav-link menu-link" href="#sidebarK" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="sidebarLanding">
-                                <i class="ri-tools-fill"></i> <span data-key="t-landing"> Site Configuration </span>
-                            </a>
-                            <div class="menu-dropdown collapse" id="sidebarK" style="">
-                                <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item">
-                                        <a href="settings" class="nav-link" data-key="t-one-page"> Site Settings </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="sections" class="nav-link" data-key="t-nft-landing"> Section Titles </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="logo" class="nav-link" data-key="t-nft-landing"> Update Logo </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="contact" class="nav-link" data-key="t-nft-landing"> Update Contact </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-
-        <li class="menu-title"><span data-key="t-menu">Communication</span></li>
-
-        <li class="nav-item">
+                        <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarReferrals" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="sidebarReferrals">
                                 <i class="ri-user-shared-line"></i> <span data-key="t-landing"> Referral Program </span>
                             </a>
@@ -269,6 +239,28 @@ $ufile = $r[0];
                             <a href="inquiries" class="nav-link">
                                 <i class="ri-mail-open-line"></i> <span data-key="t-landing"> Inquiries </span>
                             </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#sidebarK" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="sidebarLanding">
+                                <i class="ri-tools-fill"></i> <span data-key="t-landing"> Site Configuration </span>
+                            </a>
+                            <div class="menu-dropdown collapse" id="sidebarK" style="">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="settings" class="nav-link" data-key="t-one-page"> Site Settings </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="sections" class="nav-link" data-key="t-nft-landing"> Section Titles </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="logo" class="nav-link" data-key="t-nft-landing"> Update Logo </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="contact" class="nav-link" data-key="t-nft-landing"> Update Contact </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
 
 
