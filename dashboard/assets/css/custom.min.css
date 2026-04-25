@@ -18,6 +18,26 @@ body, * {
   font-weight: 700;
 }
 
+/* Force sidebar menu text visible on desktop */
+@media (min-width: 768px) {
+  .nav-link span {
+    display: inline !important;
+    opacity: 1 !important;
+  }
+  
+  .app-menu .nav-item .nav-link {
+    padding-left: 1rem !important;
+  }
+  
+  [data-sidebar-size="lg"] .navbar-brand-box .logo-lg {
+    display: block !important;
+  }
+  
+  [data-sidebar-size="lg"] .navbar-brand-box .logo-sm {
+    display: none !important;
+  }
+}
+
 /* Sidebar menu styling - high specificity to override theme */
 #navbar-nav .navbar-nav .nav-link,
 .app-menu .navbar-nav .nav-link {
