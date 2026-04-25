@@ -9,7 +9,7 @@
 .navbar-menu,
 .navbar-brand-box,
 .navbar-header {
-  background-color: #1e3a8a !important;
+  background-color: #000080 !important;
 }
 
 /* Navy blue sidebar background */
@@ -17,14 +17,24 @@
 .sidebar-menu,
 .vertical-menu,
 .sidebar {
-  background-color: #1e3a8a !important;
+  background-color: #000080 !important;
 }
 
 /* Header email section consistent with header color */
 .header-profile-user,
 .dropdown-menu,
-.topbar-user-menu {
-  background-color: #1e3a8a !important;
+.topbar-user-menu,
+.dropdown-item,
+.dropdown-menu .dropdown-item {
+  background-color: #000080 !important;
+  color: #ffffff !important;
+}
+
+/* White text for dropdown items */
+.dropdown-menu .dropdown-item:hover,
+.dropdown-menu .dropdown-item:focus {
+  background-color: #000080 !important;
+  color: #ffffff !important;
 }
 
 /* Override HK Grotesk with system fonts to prevent 404 errors */
