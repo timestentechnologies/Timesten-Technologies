@@ -21,19 +21,10 @@
   color: #f97316 !important;
 }
 
-/* Header logo visibility - only show horizontal logo when appropriate */
-[data-layout="vertical"] .horizontal-logo {
+/* Header logo visibility - completely hide horizontal logo */
+.horizontal-logo,
+.navbar-brand-box.horizontal-logo {
   display: none !important;
-}
-
-[data-layout="horizontal"] .horizontal-logo {
-  display: block !important;
-}
-
-.horizontal-logo .logo,
-.horizontal-logo img {
-  display: block !important;
-  max-height: 40px !important;
 }
 
 /* Sidebar logo visibility - ensure sidebar logo is always visible */
