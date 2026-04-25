@@ -137,6 +137,9 @@ $ufile = $r[0];
                                         <a href="invoices" class="nav-link"> Invoices </a>
                                     </li>
                                     <li class="nav-item">
+                                        <a href="products" class="nav-link"> Products </a>
+                                    </li>
+                                    <li class="nav-item">
                                         <a href="payments" class="nav-link"> Payments </a>
                                     </li>
                                     <li class="nav-item">
