@@ -262,8 +262,12 @@ if ($logo_rs2) {
 
             <div class="d-flex align-items-center">
 
-                <button type="button" class="btn btn-sm px-3 fs-20 header-item vertical-menu-btn" id="topnav-hamburger-icon" aria-label="Toggle Sidebar">
-                    <i class="ri-menu-2-line"></i>
+                <button type="button" class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger" id="topnav-hamburger-icon" aria-label="Toggle Sidebar">
+                    <span class="hamburger-icon">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </span>
                 </button>
 
                 <div class="dropdown d-md-none topbar-head-dropdown header-item">
