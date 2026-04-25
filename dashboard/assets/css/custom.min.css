@@ -83,7 +83,8 @@
 
 /* Avoid topbar overlapping sidebar on mobile */
 @media (max-width: 767.98px) {
-  .app-menu .navbar-menu {
+  .app-menu.navbar-menu,
+  .navbar-menu {
     padding-top: 70px !important;
   }
 }
