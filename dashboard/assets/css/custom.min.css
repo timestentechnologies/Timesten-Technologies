@@ -33,5 +33,17 @@
 }
 
 .vertical-overlay {
-  z-index: 1500 !important;
+  z-index: 1090 !important;
+}
+
+/* Ensure sidebar sits above overlay and remains clickable */
+.app-menu,
+.navbar-menu,
+.main-menu {
+  z-index: 1100 !important;
+}
+
+/* Overlay should block page content but not topbar */
+.vertical-overlay {
+  pointer-events: auto;
 }

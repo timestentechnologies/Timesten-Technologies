@@ -160,7 +160,7 @@ if ($has_page_visits_table) {
 $favicon_path = 'assets/images/Timestenfavicon.png';
 $header_logo_path_sm = 'assets/images/logo-sm.png';
 $header_logo_path_lg = 'assets/images/logo-dark.png';
-$logo_rs = mysqli_query($con, "SELECT xfile FROM logo WHERE id=1 LIMIT 1");
+$logo_rs = mysqli_query($con, "SELECT xfile FROM logo LIMIT 1");
 if ($logo_rs) {
     $logo_row = mysqli_fetch_assoc($logo_rs);
     if ($logo_row && !empty($logo_row['xfile'])) {
@@ -169,7 +169,7 @@ if ($logo_rs) {
 }
 
 // Header logo from logo settings (ufile)
-$logo_rs2 = mysqli_query($con, "SELECT ufile FROM logo WHERE id=1 LIMIT 1");
+$logo_rs2 = mysqli_query($con, "SELECT ufile FROM logo LIMIT 1");
 if ($logo_rs2) {
     $logo_row2 = mysqli_fetch_assoc($logo_rs2);
     if ($logo_row2 && !empty($logo_row2['ufile'])) {
