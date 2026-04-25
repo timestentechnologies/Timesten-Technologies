@@ -20,13 +20,20 @@ body, * {
 
 /* Force sidebar menu text visible on desktop */
 @media (min-width: 768px) {
-  .nav-link span {
-    display: inline !important;
-    opacity: 1 !important;
+  [data-sidebar-size="lg"] .app-menu,
+  [data-sidebar-size="lg"] .navbar-menu {
+    width: 250px !important;
   }
   
-  .app-menu .nav-item .nav-link {
+  [data-sidebar-size="lg"] .nav-link span {
+    display: inline !important;
+    opacity: 1 !important;
+    white-space: normal !important;
+  }
+  
+  [data-sidebar-size="lg"] .app-menu .nav-item .nav-link {
     padding-left: 1rem !important;
+    padding-right: 1rem !important;
   }
   
   [data-sidebar-size="lg"] .navbar-brand-box .logo-lg {
@@ -35,6 +42,11 @@ body, * {
   
   [data-sidebar-size="lg"] .navbar-brand-box .logo-sm {
     display: none !important;
+  }
+  
+  /* Ensure sidebar background covers full width */
+  [data-sidebar-size="lg"] .app-menu {
+    background-color: #3f4d80 !important;
   }
 }
 
