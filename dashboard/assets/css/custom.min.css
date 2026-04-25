@@ -71,14 +71,21 @@
 .navbar-brand-box.horizontal-logo {
   display: flex !important;
   align-items: center;
+  background-color: transparent !important;
 }
 
 .navbar-brand-box.horizontal-logo .logo {
   display: none;
+  background-color: transparent !important;
 }
 
 .navbar-brand-box.horizontal-logo .logo.logo-dark {
   display: block;
+  background-color: transparent !important;
+}
+
+.navbar-brand-box.horizontal-logo .logo img {
+  background-color: transparent !important;
 }
 
 /* Avoid topbar overlapping sidebar on mobile */

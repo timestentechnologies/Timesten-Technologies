@@ -37,7 +37,8 @@ $job = $job_q ? mysqli_fetch_assoc($job_q) : null;
             <a href="jobs" class="btn btn-soft-secondary btn-sm">Back</a>
           </div>
           <div class="card-body">
-            <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
+            <div class="table-responsive">
+              <table id="example" class="table table-bordered table-striped align-middle" style="width:100%">
               <thead>
                 <tr>
                   <th>Name</th>
@@ -71,7 +72,8 @@ $job = $job_q ? mysqli_fetch_assoc($job_q) : null;
                   }
                 ?>
               </tbody>
-            </table>
+              </table>
+            </div>
           </div>
         </div>
       </div>
