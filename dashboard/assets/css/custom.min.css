@@ -4,14 +4,19 @@
 /* Dark purple background for header and sidebar */
 #page-topbar,
 .topbar,
+.topbar-bg,
 .app-menu.navbar-menu,
-.navbar-menu {
+.navbar-menu,
+.navbar-brand-box,
+.navbar-header {
   background-color: #4c1d95 !important;
 }
 
 /* Dark purple sidebar background */
 .vertical-sidebar,
-.sidebar-menu {
+.sidebar-menu,
+.vertical-menu,
+.sidebar {
   background-color: #4c1d95 !important;
 }
 
