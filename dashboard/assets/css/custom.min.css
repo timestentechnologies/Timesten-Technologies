@@ -60,49 +60,54 @@ body, * {
   color: #f97316 !important;
 }
 
-.topnav-hamburger,
-.vertical-menu-btn {
-  position: relative;
-  z-index: 2100 !important;
-  pointer-events: auto !important;
-  cursor: pointer;
-}
+/* Mobile-only z-index and overlay fixes */
+@media (max-width: 767.98px) {
+  .topnav-hamburger,
+  .vertical-menu-btn {
+    position: relative;
+    z-index: 2100 !important;
+    pointer-events: auto !important;
+    cursor: pointer;
+  }
 
-.vertical-overlay {
-  z-index: 1090 !important;
-}
+  .vertical-overlay {
+    z-index: 1090 !important;
+  }
 
-/* Ensure sidebar sits above overlay and remains clickable */
-.app-menu,
-.navbar-menu,
-.main-menu {
-  z-index: 1100 !important;
-}
+  /* Ensure sidebar sits above overlay and remains clickable */
+  .app-menu,
+  .navbar-menu,
+  .main-menu {
+    z-index: 1100 !important;
+  }
 
-/* Overlay should block page content but not topbar */
-.vertical-overlay {
-  pointer-events: auto;
+  /* Overlay should block page content but not topbar */
+  .vertical-overlay {
+    pointer-events: auto;
+  }
 }
 
 /* Show one logo in topbar on mobile (avoid double dark/light logos) */
-.navbar-brand-box.horizontal-logo {
-  display: flex !important;
-  align-items: center;
-  background-color: transparent !important;
-}
+@media (max-width: 767.98px) {
+  .navbar-brand-box.horizontal-logo {
+    display: flex !important;
+    align-items: center;
+    background-color: transparent !important;
+  }
 
-.navbar-brand-box.horizontal-logo .logo {
-  display: none;
-  background-color: transparent !important;
-}
+  .navbar-brand-box.horizontal-logo .logo {
+    display: none;
+    background-color: transparent !important;
+  }
 
-.navbar-brand-box.horizontal-logo .logo.logo-dark {
-  display: block;
-  background-color: transparent !important;
-}
+  .navbar-brand-box.horizontal-logo .logo.logo-dark {
+    display: block;
+    background-color: transparent !important;
+  }
 
-.navbar-brand-box.horizontal-logo .logo img {
-  background-color: transparent !important;
+  .navbar-brand-box.horizontal-logo .logo img {
+    background-color: transparent !important;
+  }
 }
 
 /* Avoid topbar overlapping sidebar on mobile */
