@@ -27,6 +27,46 @@
   display: none !important;
 }
 
+/* Hide entire topbar/white header */
+#page-topbar,
+header#page-topbar {
+  display: none !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+/* Adjust layout wrapper when topbar is hidden */
+#layout-wrapper {
+  padding-top: 0 !important;
+}
+
+/* Adjust main content when topbar is hidden */
+.main-content,
+.page-content {
+  padding-top: 70px !important;
+}
+
+/* Mobile adjustments */
+@media (max-width: 991.98px) {
+  .main-content,
+  .page-content {
+    padding-top: 70px !important;
+  }
+  
+  /* Show vertical overlay for mobile sidebar toggle */
+  .vertical-overlay {
+    display: block !important;
+    z-index: 9999 !important;
+  }
+  
+  /* Show hamburger button on mobile */
+  .header-item[onclick="toggleMobileSidebar()"] {
+    display: block !important;
+  }
+}
+
 /* Sidebar logo visibility - ensure sidebar logo is always visible */
 .app-menu .navbar-brand-box,
 .navbar-brand-box {
@@ -68,15 +108,10 @@
   }
 }
 
-/* Sidebar toggle button - ensure always visible and clickable */
+/* Sidebar toggle button - hide the small circle button */
 #vertical-hover,
 .btn-vertical-sm-hover {
-  display: block !important;
-  cursor: pointer !important;
-  pointer-events: auto !important;
-  opacity: 1 !important;
-  z-index: 1000 !important;
-  position: relative !important;
+  display: none !important;
 }
 
 /* Fallback for missing hkgrotesk font */
