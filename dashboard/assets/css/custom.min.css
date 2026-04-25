@@ -36,6 +36,22 @@
   max-height: 40px !important;
 }
 
+/* Sidebar logo visibility - ensure sidebar logo is always visible in vertical layout */
+.app-menu .logo,
+.app-menu .logo img {
+  display: block !important;
+}
+
+/* Sidebar toggle button - ensure always visible and clickable */
+#vertical-hover,
+.btn-vertical-sm-hover {
+  display: block !important;
+  cursor: pointer !important;
+  pointer-events: auto !important;
+  opacity: 1 !important;
+  z-index: 1000 !important;
+}
+
 /* Fallback for missing hkgrotesk font */
 * {
   font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif !important;

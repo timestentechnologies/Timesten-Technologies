@@ -76,8 +76,12 @@ document.addEventListener('DOMContentLoaded', function() {
     var htmlElement = document.documentElement;
     
     if (verticalHoverBtn) {
+        verticalHoverBtn.style.cursor = 'pointer';
+        verticalHoverBtn.style.pointerEvents = 'auto';
+        
         verticalHoverBtn.addEventListener('click', function(e) {
             e.preventDefault();
+            e.stopPropagation();
             var currentSize = htmlElement.getAttribute('data-sidebar-size');
             if (currentSize === 'sm') {
                 htmlElement.setAttribute('data-sidebar-size', 'lg');
