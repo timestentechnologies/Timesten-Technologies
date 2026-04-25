@@ -1,6 +1,11 @@
 
 /*# sourceMappingURL=custom.min.css.map */
 
+/* Override HK Grotesk with system fonts to prevent 404 errors */
+body, * {
+  font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif !important;
+}
+
 /* Font fallback for missing hkgrotesk to prevent 404 errors */
 @font-face {
   font-family: 'HK Grotesk';
