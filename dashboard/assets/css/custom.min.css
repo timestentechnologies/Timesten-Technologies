@@ -1,6 +1,18 @@
 
 /*# sourceMappingURL=custom.min.css.map */
 
+/* Font fallback for missing hkgrotesk to prevent 404 errors */
+@font-face {
+  font-family: 'HK Grotesk';
+  src: local('Segoe UI'), local('Roboto'), local('Helvetica Neue'), local('Arial');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'HK Grotesk';
+  src: local('Segoe UI Bold'), local('Roboto Bold'), local('Helvetica Neue Bold'), local('Arial Bold');
+  font-weight: 700;
+}
+
 /* Sidebar menu styling - high specificity to override theme */
 #navbar-nav .navbar-nav .nav-link,
 .app-menu .navbar-nav .nav-link {
