@@ -256,24 +256,13 @@ if ($logo_rs2) {
                     </a>
                 </div>
 
-                <!-- Desktop sidebar collapse button -->
-                <button type="button" class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger d-none d-md-block"
-                    id="vertical-menu-btn">
-                    <span class="hamburger-icon">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </span>
-                </button>
-
                 <!-- App Search-->
 
             </div>
 
             <div class="d-flex align-items-center">
 
-                <!-- Mobile hamburger button -->
-                <button type="button" class="btn btn-sm px-3 fs-20 header-item vertical-menu-btn d-md-none" id="topnav-hamburger-icon" aria-label="Toggle Sidebar">
+                <button type="button" class="btn btn-sm px-3 fs-20 header-item vertical-menu-btn" id="topnav-hamburger-icon" aria-label="Toggle Sidebar">
                     <i class="ri-menu-2-line"></i>
                 </button>
 

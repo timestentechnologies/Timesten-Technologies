@@ -18,38 +18,6 @@ body, * {
   font-weight: 700;
 }
 
-/* Force sidebar menu text visible on desktop */
-@media (min-width: 768px) {
-  [data-sidebar-size="lg"] .app-menu,
-  [data-sidebar-size="lg"] .navbar-menu {
-    width: 250px !important;
-  }
-  
-  [data-sidebar-size="lg"] .nav-link span {
-    display: inline !important;
-    opacity: 1 !important;
-    white-space: normal !important;
-  }
-  
-  [data-sidebar-size="lg"] .app-menu .nav-item .nav-link {
-    padding-left: 1rem !important;
-    padding-right: 1rem !important;
-  }
-  
-  [data-sidebar-size="lg"] .navbar-brand-box .logo-lg {
-    display: block !important;
-  }
-  
-  [data-sidebar-size="lg"] .navbar-brand-box .logo-sm {
-    display: none !important;
-  }
-  
-  /* Ensure sidebar background covers full width */
-  [data-sidebar-size="lg"] .app-menu {
-    background-color: #3f4d80 !important;
-  }
-}
-
 /* Sidebar menu styling - high specificity to override theme */
 #navbar-nav .navbar-nav .nav-link,
 .app-menu .navbar-nav .nav-link {
@@ -92,54 +60,49 @@ body, * {
   color: #f97316 !important;
 }
 
-/* Mobile-only z-index and overlay fixes */
-@media (max-width: 767.98px) {
-  .topnav-hamburger,
-  .vertical-menu-btn {
-    position: relative;
-    z-index: 2100 !important;
-    pointer-events: auto !important;
-    cursor: pointer;
-  }
+.topnav-hamburger,
+.vertical-menu-btn {
+  position: relative;
+  z-index: 2100 !important;
+  pointer-events: auto !important;
+  cursor: pointer;
+}
 
-  .vertical-overlay {
-    z-index: 1090 !important;
-  }
+.vertical-overlay {
+  z-index: 1090 !important;
+}
 
-  /* Ensure sidebar sits above overlay and remains clickable */
-  .app-menu,
-  .navbar-menu,
-  .main-menu {
-    z-index: 1100 !important;
-  }
+/* Ensure sidebar sits above overlay and remains clickable */
+.app-menu,
+.navbar-menu,
+.main-menu {
+  z-index: 1100 !important;
+}
 
-  /* Overlay should block page content but not topbar */
-  .vertical-overlay {
-    pointer-events: auto;
-  }
+/* Overlay should block page content but not topbar */
+.vertical-overlay {
+  pointer-events: auto;
 }
 
 /* Show one logo in topbar on mobile (avoid double dark/light logos) */
-@media (max-width: 767.98px) {
-  .navbar-brand-box.horizontal-logo {
-    display: flex !important;
-    align-items: center;
-    background-color: transparent !important;
-  }
+.navbar-brand-box.horizontal-logo {
+  display: flex !important;
+  align-items: center;
+  background-color: transparent !important;
+}
 
-  .navbar-brand-box.horizontal-logo .logo {
-    display: none;
-    background-color: transparent !important;
-  }
+.navbar-brand-box.horizontal-logo .logo {
+  display: none;
+  background-color: transparent !important;
+}
 
-  .navbar-brand-box.horizontal-logo .logo.logo-dark {
-    display: block;
-    background-color: transparent !important;
-  }
+.navbar-brand-box.horizontal-logo .logo.logo-dark {
+  display: block;
+  background-color: transparent !important;
+}
 
-  .navbar-brand-box.horizontal-logo .logo img {
-    background-color: transparent !important;
-  }
+.navbar-brand-box.horizontal-logo .logo img {
+  background-color: transparent !important;
 }
 
 /* Avoid topbar overlapping sidebar on mobile */

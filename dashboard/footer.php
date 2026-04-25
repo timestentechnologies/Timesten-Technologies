@@ -74,8 +74,6 @@
         var btn = document.getElementById('topnav-hamburger-icon');
         if (!btn) { return; }
         btn.addEventListener('click', function (e) {
-            // Only apply custom toggle on mobile
-            if (window.innerWidth >= 768) { return; }
             if (e && typeof e.preventDefault === 'function') { e.preventDefault(); }
             if (e && typeof e.stopPropagation === 'function') { e.stopPropagation(); }
             if (e && typeof e.stopImmediatePropagation === 'function') { e.stopImmediatePropagation(); }
