@@ -25,7 +25,8 @@
                                     <a href="createjob" class="btn btn-primary btn-sm">Add Job</a>
                                 </div>
                                 <div class="card-body">
-                                    <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
+                                    <div class="table-responsive">
+                                        <table id="example" class="table table-bordered table-striped align-middle" style="width:100%">
                                         <thead>
                                             <tr>
                                                 <th>Title</th>
@@ -89,6 +90,7 @@
                                         ?>
                                         </tbody>
                                     </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>

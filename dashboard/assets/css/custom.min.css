@@ -20,3 +20,15 @@
 .app-menu .navbar-nav .nav-link:hover {
   color: #f97316 !important;
 }
+
+/* Header logo visibility */
+.horizontal-logo,
+.navbar-brand-box.horizontal-logo {
+  display: block !important;
+}
+
+.horizontal-logo .logo,
+.horizontal-logo img {
+  display: block !important;
+  max-height: 40px !important;
+}
