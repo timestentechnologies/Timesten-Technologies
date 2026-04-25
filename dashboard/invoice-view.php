@@ -437,6 +437,9 @@ if ($is_print || $is_pdf) {
             <div class="totals">
               <div class="box">
                 <div class="row"><div class="k">Subtotal</div><div class="v"><?php print number_format($subtotal,2); ?></div></div>
+                <?php if (!empty($discount_amount) && $discount_amount > 0) { ?>
+                <div class="row"><div class="k">Discount<?php if (!empty($discount_type)) { print ' (' . htmlspecialchars((string)$discount_type) . ')'; } ?></div><div class="v" style="color:#dc3545;">-<?php print number_format((float)$discount_amount,2); ?></div></div>
+                <?php } ?>
                 <div class="row"><div class="k">Tax<?php if (!empty($tax_exempt)) { print ' (Exempt)'; } else { print ' (' . number_format((float)$tax_rate,2) . '%)'; } ?></div><div class="v"><?php print number_format((float)$tax_amount,2); ?></div></div>
                 <div class="row"><div class="k">Total</div><div class="v" style="font-weight:900;"><?php print number_format($total,2); ?></div></div>
                 <?php if (!$is_quote) { ?>
@@ -531,6 +534,10 @@ mysqli_query($con, "CREATE TABLE IF NOT EXISTS finance_invoices (
   subtotal DECIMAL(12,2) NULL,
   total DECIMAL(12,2) NULL,
   amount_paid DECIMAL(12,2) NULL,
+  tax_rate DECIMAL(5,2) NULL,
+  tax_exempt TINYINT(1) NULL,
+  discount_type VARCHAR(10) NULL,
+  discount_value DECIMAL(12,2) NULL,
   created_at DATETIME NULL,
   UNIQUE KEY uniq_invoice_no (invoice_no)
  )");
@@ -550,6 +557,26 @@ mysqli_query($con, "CREATE TABLE IF NOT EXISTS finance_invoice_items (
  if (!$col_rs2 || mysqli_num_rows($col_rs2) < 1) {
      @mysqli_query($con, "ALTER TABLE finance_invoice_items ADD COLUMN product_id INT NULL AFTER invoice_id");
  }
+
+$col_rs3 = mysqli_query($con, "SHOW COLUMNS FROM finance_invoices LIKE 'tax_rate'");
+if (!$col_rs3 || mysqli_num_rows($col_rs3) < 1) {
+    @mysqli_query($con, "ALTER TABLE finance_invoices ADD COLUMN tax_rate DECIMAL(5,2) NULL AFTER amount_paid");
+}
+
+$col_rs4 = mysqli_query($con, "SHOW COLUMNS FROM finance_invoices LIKE 'tax_exempt'");
+if (!$col_rs4 || mysqli_num_rows($col_rs4) < 1) {
+    @mysqli_query($con, "ALTER TABLE finance_invoices ADD COLUMN tax_exempt TINYINT(1) NULL AFTER tax_rate");
+}
+
+$col_rs5 = mysqli_query($con, "SHOW COLUMNS FROM finance_invoices LIKE 'discount_type'");
+if (!$col_rs5 || mysqli_num_rows($col_rs5) < 1) {
+    @mysqli_query($con, "ALTER TABLE finance_invoices ADD COLUMN discount_type VARCHAR(10) NULL AFTER tax_exempt");
+}
+
+$col_rs6 = mysqli_query($con, "SHOW COLUMNS FROM finance_invoices LIKE 'discount_value'");
+if (!$col_rs6 || mysqli_num_rows($col_rs6) < 1) {
+    @mysqli_query($con, "ALTER TABLE finance_invoices ADD COLUMN discount_value DECIMAL(12,2) NULL AFTER discount_type");
+}
 
  mysqli_query($con, "CREATE TABLE IF NOT EXISTS finance_products (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -577,13 +604,25 @@ function finance_recalc_invoice(mysqli $con, int $invoice_id): array {
     $items_row = $items_rs ? mysqli_fetch_assoc($items_rs) : null;
     $subtotal = $items_row ? (float)$items_row['s'] : 0.0;
 
-    $tax_rs = mysqli_query($con, "SELECT tax_rate, tax_exempt, status FROM finance_invoices WHERE id=$invoice_id LIMIT 1");
+    $tax_rs = mysqli_query($con, "SELECT tax_rate, tax_exempt, discount_type, discount_value, status FROM finance_invoices WHERE id=$invoice_id LIMIT 1");
     $tax_row = $tax_rs ? mysqli_fetch_assoc($tax_rs) : null;
     $tax_rate = $tax_row && isset($tax_row['tax_rate']) ? (float)$tax_row['tax_rate'] : 0.0;
     $tax_exempt = $tax_row && !empty($tax_row['tax_exempt']) ? 1 : 0;
     if ($tax_rate < 0) { $tax_rate = 0.0; }
     if ($tax_rate > 100) { $tax_rate = 100.0; }
-    $tax_amount = $tax_exempt ? 0.0 : (($subtotal * $tax_rate) / 100.0);
+
+    $discount_type = $tax_row && isset($tax_row['discount_type']) ? (string)$tax_row['discount_type'] : '';
+    $discount_value = $tax_row && isset($tax_row['discount_value']) ? (float)$tax_row['discount_value'] : 0.0;
+    $discount_amount = 0.0;
+    if (strtolower($discount_type) === 'percentage') {
+        $discount_amount = ($subtotal * $discount_value) / 100.0;
+    } elseif (strtolower($discount_type) === 'fixed') {
+        $discount_amount = $discount_value;
+    }
+    if ($discount_amount < 0) { $discount_amount = 0.0; }
+    if ($discount_amount > $subtotal) { $discount_amount = $subtotal; }
+
+    $tax_amount = $tax_exempt ? 0.0 : ((($subtotal - $discount_amount) * $tax_rate) / 100.0);
 
     $pay_rs = mysqli_query($con, "SELECT COALESCE(SUM(amount),0) AS s FROM finance_payments WHERE invoice_id=$invoice_id");
     $pay_row = $pay_rs ? mysqli_fetch_assoc($pay_rs) : null;
@@ -591,7 +630,7 @@ function finance_recalc_invoice(mysqli $con, int $invoice_id): array {
 
     $cur_status = $tax_row ? (string)$tax_row['status'] : '';
 
-    $total = $subtotal + $tax_amount;
+    $total = $subtotal - $discount_amount + $tax_amount;
     $balance = $total - $paid;
 
     $new_status = $cur_status;
@@ -613,10 +652,13 @@ function finance_recalc_invoice(mysqli $con, int $invoice_id): array {
     $new_status_s = mysqli_real_escape_string($con, $new_status);
 
     $tax_amount_sql = (string)((float)$tax_amount);
+    $discount_amount_sql = (string)((float)$discount_amount);
+    $discount_type_s = mysqli_real_escape_string($con, $discount_type);
+    $discount_value_sql = (string)((float)$discount_value);
 
     mysqli_query(
         $con,
-        "UPDATE finance_invoices SET subtotal=$subtotal_sql, total=$total_sql, amount_paid=$paid_sql, status='$new_status_s' WHERE id=$invoice_id LIMIT 1"
+        "UPDATE finance_invoices SET subtotal=$subtotal_sql, total=$total_sql, amount_paid=$paid_sql, status='$new_status_s', discount_type='$discount_type_s', discount_value=$discount_value_sql WHERE id=$invoice_id LIMIT 1"
     );
 
     return [
@@ -627,6 +669,9 @@ function finance_recalc_invoice(mysqli $con, int $invoice_id): array {
         'tax_rate' => $tax_rate,
         'tax_exempt' => $tax_exempt,
         'tax_amount' => $tax_amount,
+        'discount_type' => $discount_type,
+        'discount_value' => $discount_value,
+        'discount_amount' => $discount_amount,
         'status' => $new_status,
     ];
 }
@@ -642,6 +687,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_tax'])) {
     mysqli_query($con, "UPDATE finance_invoices SET tax_rate=$tax_rate_sql, tax_exempt=$tax_exempt_sql WHERE id=$invoice_id LIMIT 1");
     finance_recalc_invoice($con, $invoice_id);
     $_SESSION['finance_flash_success'] = "<div class='alert alert-success alert-dismissible alert-outline fade show'>Tax updated.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+    header('Location: invoice-view.php?id=' . $invoice_id);
+    exit;
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_discount'])) {
+    $discount_type_in = (string)($_POST['discount_type'] ?? '');
+    $discount_value_in = (string)($_POST['discount_value'] ?? '0');
+    $discount_type = in_array(strtolower($discount_type_in), ['percentage', 'fixed']) ? strtolower($discount_type_in) : '';
+    $discount_value = (float)$discount_value_in;
+    if ($discount_value < 0) { $discount_value = 0.0; }
+    $discount_type_sql = mysqli_real_escape_string($con, $discount_type);
+    $discount_value_sql = (string)((float)$discount_value);
+    mysqli_query($con, "UPDATE finance_invoices SET discount_type='$discount_type_sql', discount_value=$discount_value_sql WHERE id=$invoice_id LIMIT 1");
+    finance_recalc_invoice($con, $invoice_id);
+    $_SESSION['finance_flash_success'] = "<div class='alert alert-success alert-dismissible alert-outline fade show'>Discount updated.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
     header('Location: invoice-view.php?id=' . $invoice_id);
     exit;
 }
@@ -843,11 +903,30 @@ $public_link = $base . '/invoice-view.php?id=' . $invoice_id;
                 <div class="d-flex justify-content-between"><span class="text-muted">Due Date</span><span><?php print htmlspecialchars((string)$invoice['due_date']); ?></span></div>
                 <hr>
                 <div class="d-flex justify-content-between"><span class="text-muted">Subtotal</span><span class="fw-semibold"><?php print number_format((float)$summary['subtotal'],2); ?></span></div>
+                <?php if (!empty($summary['discount_amount']) && $summary['discount_amount'] > 0) { ?>
+                <div class="d-flex justify-content-between"><span class="text-muted">Discount<?php if (!empty($summary['discount_type'])) { print ' (' . htmlspecialchars((string)$summary['discount_type']) . ')'; } ?></span><span class="fw-semibold text-danger">-<?php print number_format((float)$summary['discount_amount'],2); ?></span></div>
+                <?php } ?>
                 <div class="d-flex justify-content-between"><span class="text-muted">Tax<?php if (!empty($summary['tax_exempt'])) { print ' (Exempt)'; } elseif (isset($summary['tax_rate'])) { print ' (' . number_format((float)$summary['tax_rate'],2) . '%)'; } ?></span><span class="fw-semibold"><?php print number_format((float)($summary['tax_amount'] ?? 0),2); ?></span></div>
                 <div class="d-flex justify-content-between"><span class="text-muted">Total</span><span class="fw-semibold"><?php print number_format((float)$summary['total'],2); ?></span></div>
                 <div class="d-flex justify-content-between"><span class="text-muted">Paid</span><span class="fw-semibold"><?php print number_format((float)$summary['paid'],2); ?></span></div>
                 <div class="d-flex justify-content-between"><span class="text-muted">Balance</span><span class="fw-semibold"><?php print number_format((float)$summary['balance'],2); ?></span></div>
               </div>
+
+              <form method="post" class="mt-2 p-3 border rounded-3">
+                <input type="hidden" name="update_discount" value="1">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                  <div class="fw-semibold">Discount</div>
+                </div>
+                <div class="input-group input-group-sm mb-2">
+                  <select class="form-select" name="discount_type">
+                    <option value="">None</option>
+                    <option value="percentage" <?php if (!empty($summary['discount_type']) && $summary['discount_type'] === 'percentage') { print 'selected'; } ?>>Percentage</option>
+                    <option value="fixed" <?php if (!empty($summary['discount_type']) && $summary['discount_type'] === 'fixed') { print 'selected'; } ?>>Fixed</option>
+                  </select>
+                  <input type="number" step="0.01" class="form-control" name="discount_value" value="<?php print htmlspecialchars((string)($summary['discount_value'] ?? 0)); ?>" placeholder="0">
+                  <button class="btn btn-soft-primary" type="submit">Update</button>
+                </div>
+              </form>
 
               <form method="post" class="mt-2 p-3 border rounded-3">
                 <input type="hidden" name="update_tax" value="1">
