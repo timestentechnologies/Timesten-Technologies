@@ -21,14 +21,10 @@
   color: #f97316 !important;
 }
 
-/* Header logo visibility */
-.horizontal-logo,
-.navbar-brand-box.horizontal-logo {
-  display: block !important;
-}
-
-.horizontal-logo .logo,
-.horizontal-logo img {
-  display: block !important;
-  max-height: 40px !important;
+/* Fix missing font - use system fonts instead */
+@font-face {
+  font-family: 'HK Grotesk';
+  src: local('Arial'), local('Helvetica'), local('sans-serif');
+  font-weight: bold;
+  font-style: normal;
 }

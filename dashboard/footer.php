@@ -68,6 +68,24 @@
 
 <!-- App js -->
 <script src="assets/js/app.js"></script>
+
+<!-- Custom JS for sidebar toggle fix -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const hamburgerBtn = document.getElementById('topnav-hamburger-icon');
+    if (hamburgerBtn) {
+        hamburgerBtn.addEventListener('click', function() {
+            const html = document.documentElement;
+            const currentSize = html.getAttribute('data-sidebar-size');
+            const newSize = currentSize === 'lg' ? 'sm' : 'lg';
+            html.setAttribute('data-sidebar-size', newSize);
+            
+            // Store in sessionStorage to persist state
+            sessionStorage.setItem('data-sidebar-size', newSize);
+        });
+    }
+});
+</script>
 </body>
 
 
