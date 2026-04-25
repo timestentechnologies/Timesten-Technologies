@@ -198,7 +198,7 @@ if ($logo_rs) {
     <!-- App Css-->
     <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" />
     <!-- custom Css-->
-    <link href="assets/css/custom.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/css/custom.min.css?v=<?php echo filemtime('assets/css/custom.min.css'); ?>" rel="stylesheet" type="text/css" />
 
     <style>
         :root { --admin-topbar-offset: 80px; }

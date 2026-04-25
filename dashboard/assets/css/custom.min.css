@@ -1,18 +1,22 @@
 
 /*# sourceMappingURL=custom.min.css.map */
 
-/* Sidebar menu styling */
-.navbar-nav .nav-link {
-  font-weight: bold;
+/* Sidebar menu styling - high specificity to override theme */
+#navbar-nav .navbar-nav .nav-link,
+.app-menu .navbar-nav .nav-link {
+  font-weight: bold !important;
   color: #ffffff !important;
 }
 
-.navbar-nav .nav-link.active,
-.navbar-nav .nav-item .nav-link.active {
+#navbar-nav .navbar-nav .nav-link.active,
+.app-menu .navbar-nav .nav-link.active,
+#navbar-nav .navbar-nav .nav-item .nav-link.active,
+.app-menu .navbar-nav .nav-item .nav-link.active {
   color: #f97316 !important;
-  background-color: rgba(249, 115, 22, 0.1);
+  background-color: rgba(249, 115, 22, 0.15) !important;
 }
 
-.navbar-nav .nav-link:hover {
+#navbar-nav .navbar-nav .nav-link:hover,
+.app-menu .navbar-nav .nav-link:hover {
   color: #f97316 !important;
 }
