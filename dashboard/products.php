@@ -6,11 +6,17 @@ include "sidebar.php";
 mysqli_query($con, "CREATE TABLE IF NOT EXISTS finance_products (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(190) NOT NULL,
+  description TEXT NULL,
   unit_price DECIMAL(12,2) NOT NULL DEFAULT 0,
   active TINYINT(1) NOT NULL DEFAULT 1,
   created_at DATETIME NULL,
   updated_at DATETIME NULL
  )");
+
+$col_rs0 = mysqli_query($con, "SHOW COLUMNS FROM finance_products LIKE 'description'");
+if (!$col_rs0 || mysqli_num_rows($col_rs0) < 1) {
+    @mysqli_query($con, "ALTER TABLE finance_products ADD COLUMN description TEXT NULL AFTER name");
+}
 
 $col_rs = mysqli_query($con, "SHOW COLUMNS FROM finance_products LIKE 'active'");
 if (!$col_rs || mysqli_num_rows($col_rs) < 1) {
@@ -35,6 +41,7 @@ if (isset($_SESSION['finance_flash_error'])) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_product'])) {
     $name = trim((string)($_POST['name'] ?? ''));
+    $description = trim((string)($_POST['description'] ?? ''));
     $unit_price = (float)($_POST['unit_price'] ?? 0);
 
     if (strlen($name) < 2) {
@@ -50,9 +57,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_product'])) {
     }
 
     $name_s = mysqli_real_escape_string($con, $name);
+    $desc_s = mysqli_real_escape_string($con, $description);
     $price_sql = (string)((float)$unit_price);
 
-    mysqli_query($con, "INSERT INTO finance_products (name, unit_price, active, created_at, updated_at) VALUES ('$name_s', $price_sql, 1, NOW(), NOW())");
+    mysqli_query($con, "INSERT INTO finance_products (name, description, unit_price, active, created_at, updated_at) VALUES ('$name_s', '$desc_s', $price_sql, 1, NOW(), NOW())");
     $_SESSION['finance_flash_success'] = "<div class='alert alert-success alert-dismissible alert-outline fade show'>Product/Service added.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
     header('Location: products.php');
     exit;
@@ -61,6 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_product'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_product'])) {
     $id = (int)($_POST['id'] ?? 0);
     $name = trim((string)($_POST['name'] ?? ''));
+    $description = trim((string)($_POST['description'] ?? ''));
     $unit_price = (float)($_POST['unit_price'] ?? 0);
     $active = (int)($_POST['active'] ?? 1);
     $active = $active ? 1 : 0;
@@ -72,9 +81,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_product'])) {
     }
 
     $name_s = mysqli_real_escape_string($con, $name);
+    $desc_s = mysqli_real_escape_string($con, $description);
     $price_sql = (string)((float)$unit_price);
 
-    mysqli_query($con, "UPDATE finance_products SET name='$name_s', unit_price=$price_sql, active=$active, updated_at=NOW() WHERE id=$id LIMIT 1");
+    mysqli_query($con, "UPDATE finance_products SET name='$name_s', description='$desc_s', unit_price=$price_sql, active=$active, updated_at=NOW() WHERE id=$id LIMIT 1");
     $_SESSION['finance_flash_success'] = "<div class='alert alert-success alert-dismissible alert-outline fade show'>Product/Service updated.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
     header('Location: products.php');
     exit;
@@ -135,6 +145,7 @@ if ($rs) {
               <thead>
                 <tr>
                   <th>Name</th>
+                  <th>Description</th>
                   <th class="text-end">Unit Price</th>
                   <th>Status</th>
                   <th>Created</th>
@@ -144,11 +155,12 @@ if ($rs) {
               <tbody>
                 <?php
                 if (count($products) < 1) {
-                    print "<tr><td colspan='5' class='text-center text-muted'>No products/services yet.</td></tr>";
+                    print "<tr><td colspan='6' class='text-center text-muted'>No products/services yet.</td></tr>";
                 }
                 foreach ($products as $p) {
                     $id = (int)$p['id'];
                     $nm = htmlspecialchars((string)$p['name']);
+                    $ds = htmlspecialchars((string)($p['description'] ?? ''));
                     $up = (float)$p['unit_price'];
                     $ac = (int)($p['active'] ?? 1);
                     $dt = htmlspecialchars((string)$p['created_at']);
@@ -157,11 +169,12 @@ if ($rs) {
 
                     print "<tr>";
                     print "<td>$nm</td>";
+                    print "<td>$ds</td>";
                     print "<td class='text-end'>" . number_format($up, 2) . "</td>";
                     print "<td>$status</td>";
                     print "<td>$dt</td>";
                     print "<td class='text-end'>";
-                    print "<button type='button' class='btn btn-sm btn-soft-secondary js-prod-edit' data-id='$id' data-name='$nm' data-price='" . htmlspecialchars((string)$up) . "' data-active='$ac'>Edit</button> ";
+                    print "<button type='button' class='btn btn-sm btn-soft-secondary js-prod-edit' data-id='$id' data-name='$nm' data-description='$ds' data-price='" . htmlspecialchars((string)$up) . "' data-active='$ac'>Edit</button> ";
                     if ($ac) {
                         print "<form method='post' class='d-inline'>";
                         print "<input type='hidden' name='toggle_product' value='1'>";
@@ -206,6 +219,10 @@ if ($rs) {
                     <label class="form-label">Unit Price</label>
                     <input type="number" step="0.01" class="form-control" name="unit_price" value="0" required>
                   </div>
+                  <div class="col-12">
+                    <label class="form-label">Description</label>
+                    <textarea class="form-control" name="description" rows="2"></textarea>
+                  </div>
                 </div>
               </form>
             </div>
@@ -236,6 +253,10 @@ if ($rs) {
                   <div class="col-12 col-md-4">
                     <label class="form-label">Unit Price</label>
                     <input type="number" step="0.01" class="form-control" id="e_price" name="unit_price" required>
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label">Description</label>
+                    <textarea class="form-control" id="e_description" name="description" rows="2"></textarea>
                   </div>
                   <div class="col-12">
                     <div class="form-check">
@@ -272,6 +293,7 @@ if ($rs) {
       document.getElementById('e_id').value = btn.getAttribute('data-id') || '';
       document.getElementById('e_name').value = btn.getAttribute('data-name') || '';
       document.getElementById('e_price').value = btn.getAttribute('data-price') || '0';
+      document.getElementById('e_description').value = btn.getAttribute('data-description') || '';
       document.getElementById('e_active').checked = (btn.getAttribute('data-active') || '0') === '1';
 
       editModal.show();
