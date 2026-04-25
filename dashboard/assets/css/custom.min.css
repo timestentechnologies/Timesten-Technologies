@@ -6,6 +6,12 @@ body, * {
   font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif !important;
 }
 
+/* Sidebar section titles - bold orange */
+.menu-title span {
+  font-weight: 700 !important;
+  color: #f97316 !important;
+}
+
 /* Font fallback for missing hkgrotesk to prevent 404 errors */
 @font-face {
   font-family: 'HK Grotesk';
