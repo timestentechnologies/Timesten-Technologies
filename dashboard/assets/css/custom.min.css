@@ -80,3 +80,10 @@
 .navbar-brand-box.horizontal-logo .logo.logo-dark {
   display: block;
 }
+
+/* Avoid topbar overlapping sidebar on mobile */
+@media (max-width: 767.98px) {
+  .app-menu .navbar-menu {
+    padding-top: 70px !important;
+  }
+}
