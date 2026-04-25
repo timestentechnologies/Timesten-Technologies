@@ -21,100 +21,17 @@
   color: #f97316 !important;
 }
 
-/* Header logo visibility - completely hide horizontal logo */
-.horizontal-logo,
-.navbar-brand-box.horizontal-logo {
-  display: none !important;
+/* Keep topbar controls clickable above the sidebar overlay */
+#page-topbar {
+  z-index: 2000 !important;
 }
 
-/* Hide entire topbar/white header */
-#page-topbar,
-header#page-topbar {
-  display: none !important;
-  height: 0 !important;
-  min-height: 0 !important;
-  background: transparent !important;
-  border: none !important;
+.topnav-hamburger,
+.vertical-menu-btn {
+  position: relative;
+  z-index: 2100 !important;
 }
 
-/* Adjust layout wrapper when topbar is hidden */
-#layout-wrapper {
-  padding-top: 0 !important;
-}
-
-/* Adjust main content when topbar is hidden */
-.main-content,
-.page-content {
-  padding-top: 70px !important;
-}
-
-/* Mobile adjustments */
-@media (max-width: 991.98px) {
-  .main-content,
-  .page-content {
-    padding-top: 70px !important;
-  }
-  
-  /* Show vertical overlay for mobile sidebar toggle */
-  .vertical-overlay {
-    display: block !important;
-    z-index: 9999 !important;
-  }
-  
-  /* Show hamburger button on mobile */
-  .header-item[onclick="toggleMobileSidebar()"] {
-    display: block !important;
-  }
-}
-
-/* Sidebar logo visibility - ensure sidebar logo is always visible */
-.app-menu .navbar-brand-box,
-.navbar-brand-box {
-  display: block !important;
-}
-
-.app-menu .logo,
-.app-menu .logo-dark,
-.app-menu .logo-light,
-.app-menu .logo img {
-  display: block !important;
-}
-
-.app-menu .logo-lg,
-.app-menu .logo-sm,
-.logo-lg,
-.logo-sm {
-  display: block !important;
-}
-
-/* Force logo spans to be visible in collapsed sidebar */
-[data-sidebar-size="sm"] .logo-lg,
-[data-sidebar-size="sm"] .logo-sm,
-.vertical-collpsed .logo-lg,
-.vertical-collpsed .logo-sm {
-  display: block !important;
-}
-
-/* Mobile sidebar logo visibility */
-@media (max-width: 991.98px) {
-  .app-menu .logo,
-  .app-menu .logo-dark,
-  .app-menu .logo-light,
-  .app-menu .logo img,
-  .app-menu .logo-lg,
-  .app-menu .logo-sm {
-    display: block !important;
-    max-height: 30px !important;
-  }
-}
-
-/* Sidebar toggle button - hide the small circle button */
-#vertical-hover,
-.btn-vertical-sm-hover {
-  display: none !important;
-}
-
-/* Fallback for missing hkgrotesk font */
-* {
-  font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif !important;
+.vertical-overlay {
+  z-index: 1500 !important;
 }

@@ -35,7 +35,7 @@
 <script src="assets/libs/node-waves/waves.min.js"></script>
 <script src="assets/libs/feather-icons/feather.min.js"></script>
 <script src="assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
-<script src="assets/js/plugins.js?v=<?php echo filemtime('assets/js/plugins.js'); ?>"></script>
+<script src="assets/js/plugins.js"></script>
 
 
 
@@ -68,7 +68,6 @@
 
 <!-- App js -->
 <script src="assets/js/app.js"></script>
-
 </body>
 
 
