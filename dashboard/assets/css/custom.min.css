@@ -26,6 +26,23 @@
   z-index: 2000 !important;
 }
 
+/* Match header color to sidebar */
+#page-topbar {
+  background-color: #3f4d80 !important;
+}
+
+#page-topbar .navbar-header,
+#page-topbar .header-item,
+#page-topbar .btn,
+#page-topbar i {
+  color: #ffffff !important;
+}
+
+#page-topbar .btn:hover,
+#page-topbar .header-item:hover {
+  color: #f97316 !important;
+}
+
 .topnav-hamburger,
 .vertical-menu-btn {
   position: relative;

@@ -256,20 +256,15 @@ if ($logo_rs2) {
                     </a>
                 </div>
 
-                <button type="button" class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger"
-                    id="topnav-hamburger-icon">
-                    <span class="hamburger-icon">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </span>
-                </button>
-
                 <!-- App Search-->
 
             </div>
 
             <div class="d-flex align-items-center">
+
+                <button type="button" class="btn btn-sm px-3 fs-20 header-item vertical-menu-btn" id="topnav-hamburger-icon" aria-label="Toggle Sidebar">
+                    <i class="ri-menu-2-line"></i>
+                </button>
 
                 <div class="dropdown d-md-none topbar-head-dropdown header-item">
                     <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
