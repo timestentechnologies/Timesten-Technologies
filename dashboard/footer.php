@@ -71,8 +71,27 @@
 
 <script>
     (function () {
+        try {
+            if (window && window.matchMedia && window.matchMedia('(min-width: 768px)').matches) {
+                if (window.sessionStorage) {
+                    sessionStorage.removeItem('data-sidebar-size');
+                }
+                if (window.localStorage) {
+                    localStorage.removeItem('data-sidebar-size');
+                }
+                if (document && document.documentElement) {
+                    document.documentElement.setAttribute('data-sidebar-size', 'lg');
+                }
+            }
+        } catch (e) {}
+    })();
+</script>
+
+<script>
+    (function () {
         var btn = document.getElementById('topnav-hamburger-icon');
         if (!btn) { return; }
+
         btn.addEventListener('click', function (e) {
             if (window && window.matchMedia && !window.matchMedia('(max-width: 767.98px)').matches) {
                 return;
