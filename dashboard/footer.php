@@ -69,19 +69,32 @@
 <!-- App js -->
 <script src="assets/js/app.js"></script>
 
-<!-- Custom JS for sidebar toggle fix -->
+<!-- Custom JavaScript for sidebar toggle -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const hamburgerBtn = document.getElementById('topnav-hamburger-icon');
-    if (hamburgerBtn) {
-        hamburgerBtn.addEventListener('click', function() {
-            const html = document.documentElement;
-            const currentSize = html.getAttribute('data-sidebar-size');
-            const newSize = currentSize === 'lg' ? 'sm' : 'lg';
-            html.setAttribute('data-sidebar-size', newSize);
-            
-            // Store in sessionStorage to persist state
-            sessionStorage.setItem('data-sidebar-size', newSize);
+    var verticalHoverBtn = document.getElementById('vertical-hover');
+    var htmlElement = document.documentElement;
+    
+    if (verticalHoverBtn) {
+        verticalHoverBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var currentSize = htmlElement.getAttribute('data-sidebar-size');
+            if (currentSize === 'sm') {
+                htmlElement.setAttribute('data-sidebar-size', 'lg');
+            } else {
+                htmlElement.setAttribute('data-sidebar-size', 'sm');
+            }
+        });
+    }
+    
+    // Also fix the topnav hamburger icon
+    var topnavHamburger = document.getElementById('topnav-hamburger-icon');
+    if (topnavHamburger) {
+        topnavHamburger.addEventListener('click', function(e) {
+            e.preventDefault();
+            var body = document.body;
+            body.classList.toggle('vertical-collpsed');
+            body.classList.toggle('sidebar-enable');
         });
     }
 });

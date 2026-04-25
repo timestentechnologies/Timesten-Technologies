@@ -21,10 +21,22 @@
   color: #f97316 !important;
 }
 
-/* Fix missing font - use system fonts instead */
-@font-face {
-  font-family: 'HK Grotesk';
-  src: local('Arial'), local('Helvetica'), local('sans-serif');
-  font-weight: bold;
-  font-style: normal;
+/* Header logo visibility - only show horizontal logo when appropriate */
+[data-layout="vertical"] .horizontal-logo {
+  display: none !important;
+}
+
+[data-layout="horizontal"] .horizontal-logo {
+  display: block !important;
+}
+
+.horizontal-logo .logo,
+.horizontal-logo img {
+  display: block !important;
+  max-height: 40px !important;
+}
+
+/* Fallback for missing hkgrotesk font */
+* {
+  font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif !important;
 }
