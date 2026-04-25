@@ -29,9 +29,22 @@ $ufile = $r[0];
         <img src="uploads/logo/<?php print $ufile?>" alt="" height="30">
       </span>
     </a>
-    <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover" id="vertical-hover">
+    <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover" id="vertical-hover" onclick="toggleSidebar()">
       <i class="ri-record-circle-line"></i>
     </button>
+    <script>
+    function toggleSidebar() {
+        var body = document.body;
+        var html = document.documentElement;
+        body.classList.toggle('vertical-collpsed');
+        body.classList.toggle('sidebar-enable');
+        if (html.getAttribute('data-sidebar-size') === 'lg') {
+            html.setAttribute('data-sidebar-size', 'sm');
+        } else {
+            html.setAttribute('data-sidebar-size', 'lg');
+        }
+    }
+    </script>
   </div>
 
   <div id="scrollbar">

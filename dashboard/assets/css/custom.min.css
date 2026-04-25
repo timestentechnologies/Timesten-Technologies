@@ -36,16 +36,42 @@
   max-height: 40px !important;
 }
 
-/* Sidebar logo visibility - ensure sidebar logo is always visible in vertical layout */
+/* Sidebar logo visibility - ensure sidebar logo is always visible */
+.app-menu .navbar-brand-box,
+.navbar-brand-box {
+  display: block !important;
+}
+
 .app-menu .logo,
+.app-menu .logo-dark,
+.app-menu .logo-light,
 .app-menu .logo img {
+  display: block !important;
+}
+
+.app-menu .logo-lg,
+.app-menu .logo-sm,
+.logo-lg,
+.logo-sm {
+  display: block !important;
+}
+
+/* Force logo spans to be visible in collapsed sidebar */
+[data-sidebar-size="sm"] .logo-lg,
+[data-sidebar-size="sm"] .logo-sm,
+.vertical-collpsed .logo-lg,
+.vertical-collpsed .logo-sm {
   display: block !important;
 }
 
 /* Mobile sidebar logo visibility */
 @media (max-width: 991.98px) {
   .app-menu .logo,
-  .app-menu .logo img {
+  .app-menu .logo-dark,
+  .app-menu .logo-light,
+  .app-menu .logo img,
+  .app-menu .logo-lg,
+  .app-menu .logo-sm {
     display: block !important;
     max-height: 30px !important;
   }
@@ -59,6 +85,7 @@
   pointer-events: auto !important;
   opacity: 1 !important;
   z-index: 1000 !important;
+  position: relative !important;
 }
 
 /* Fallback for missing hkgrotesk font */

@@ -69,47 +69,6 @@
 <!-- App js -->
 <script src="assets/js/app.js"></script>
 
-<!-- Custom JavaScript for sidebar toggle -->
-<script>
-// Use window.onload to ensure theme JS has loaded first
-window.onload = function() {
-    var verticalHoverBtn = document.getElementById('vertical-hover');
-    
-    if (verticalHoverBtn) {
-        verticalHoverBtn.style.cursor = 'pointer';
-        verticalHoverBtn.style.pointerEvents = 'auto';
-        
-        verticalHoverBtn.onclick = function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            var body = document.body;
-            var html = document.documentElement;
-            
-            // Toggle between collapsed and expanded states
-            if (body.classList.contains('vertical-collpsed')) {
-                body.classList.remove('vertical-collpsed');
-                body.classList.remove('sidebar-enable');
-                html.setAttribute('data-sidebar-size', 'lg');
-            } else {
-                body.classList.add('vertical-collpsed');
-                body.classList.add('sidebar-enable');
-                html.setAttribute('data-sidebar-size', 'sm');
-            }
-        };
-    }
-    
-    // Fix the topnav hamburger icon
-    var topnavHamburger = document.getElementById('topnav-hamburger-icon');
-    if (topnavHamburger) {
-        topnavHamburger.onclick = function(e) {
-            e.preventDefault();
-            var body = document.body;
-            body.classList.toggle('vertical-collpsed');
-            body.classList.toggle('sidebar-enable');
-        };
-    }
-};
-</script>
 </body>
 
 
