@@ -68,6 +68,26 @@
 
 <!-- App js -->
 <script src="assets/js/app.js"></script>
+
+<script>
+    (function () {
+        var btn = document.getElementById('topnav-hamburger-icon');
+        if (!btn) { return; }
+        btn.addEventListener('click', function (e) {
+            try {
+                var body = document.body;
+                if (!body) { return; }
+                if (body.classList.contains('vertical-sidebar-enable') || body.classList.contains('sidebar-enable')) {
+                    body.classList.remove('vertical-sidebar-enable');
+                    body.classList.remove('sidebar-enable');
+                } else {
+                    body.classList.add('vertical-sidebar-enable');
+                    body.classList.add('sidebar-enable');
+                }
+            } catch (err) {}
+        }, true);
+    })();
+</script>
 </body>
 
 

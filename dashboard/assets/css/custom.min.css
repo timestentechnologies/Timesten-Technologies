@@ -30,6 +30,8 @@
 .vertical-menu-btn {
   position: relative;
   z-index: 2100 !important;
+  pointer-events: auto !important;
+  cursor: pointer;
 }
 
 .vertical-overlay {
@@ -46,4 +48,18 @@
 /* Overlay should block page content but not topbar */
 .vertical-overlay {
   pointer-events: auto;
+}
+
+/* Show one logo in topbar on mobile (avoid double dark/light logos) */
+.navbar-brand-box.horizontal-logo {
+  display: flex !important;
+  align-items: center;
+}
+
+.navbar-brand-box.horizontal-logo .logo {
+  display: none;
+}
+
+.navbar-brand-box.horizontal-logo .logo.logo-dark {
+  display: block;
 }
