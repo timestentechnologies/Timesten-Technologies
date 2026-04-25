@@ -1,7 +1,7 @@
 
 /*# sourceMappingURL=custom.min.css.map */
 
-/* Dark purple background for header and sidebar */
+/* Navy blue background for header and sidebar */
 #page-topbar,
 .topbar,
 .topbar-bg,
@@ -9,15 +9,22 @@
 .navbar-menu,
 .navbar-brand-box,
 .navbar-header {
-  background-color: #4c1d95 !important;
+  background-color: #1e3a8a !important;
 }
 
-/* Dark purple sidebar background */
+/* Navy blue sidebar background */
 .vertical-sidebar,
 .sidebar-menu,
 .vertical-menu,
 .sidebar {
-  background-color: #4c1d95 !important;
+  background-color: #1e3a8a !important;
+}
+
+/* Header email section consistent with header color */
+.header-profile-user,
+.dropdown-menu,
+.topbar-user-menu {
+  background-color: #1e3a8a !important;
 }
 
 /* Override HK Grotesk with system fonts to prevent 404 errors */
