@@ -42,6 +42,15 @@
   display: block !important;
 }
 
+/* Mobile sidebar logo visibility */
+@media (max-width: 991.98px) {
+  .app-menu .logo,
+  .app-menu .logo img {
+    display: block !important;
+    max-height: 30px !important;
+  }
+}
+
 /* Sidebar toggle button - ensure always visible and clickable */
 #vertical-hover,
 .btn-vertical-sm-hover {

@@ -35,7 +35,7 @@
 <script src="assets/libs/node-waves/waves.min.js"></script>
 <script src="assets/libs/feather-icons/feather.min.js"></script>
 <script src="assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
-<script src="assets/js/plugins.js"></script>
+<script src="assets/js/plugins.js?v=<?php echo filemtime('assets/js/plugins.js'); ?>"></script>
 
 
 
@@ -71,37 +71,44 @@
 
 <!-- Custom JavaScript for sidebar toggle -->
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+// Use window.onload to ensure theme JS has loaded first
+window.onload = function() {
     var verticalHoverBtn = document.getElementById('vertical-hover');
-    var htmlElement = document.documentElement;
     
     if (verticalHoverBtn) {
         verticalHoverBtn.style.cursor = 'pointer';
         verticalHoverBtn.style.pointerEvents = 'auto';
         
-        verticalHoverBtn.addEventListener('click', function(e) {
+        verticalHoverBtn.onclick = function(e) {
             e.preventDefault();
             e.stopPropagation();
-            var currentSize = htmlElement.getAttribute('data-sidebar-size');
-            if (currentSize === 'sm') {
-                htmlElement.setAttribute('data-sidebar-size', 'lg');
+            var body = document.body;
+            var html = document.documentElement;
+            
+            // Toggle between collapsed and expanded states
+            if (body.classList.contains('vertical-collpsed')) {
+                body.classList.remove('vertical-collpsed');
+                body.classList.remove('sidebar-enable');
+                html.setAttribute('data-sidebar-size', 'lg');
             } else {
-                htmlElement.setAttribute('data-sidebar-size', 'sm');
+                body.classList.add('vertical-collpsed');
+                body.classList.add('sidebar-enable');
+                html.setAttribute('data-sidebar-size', 'sm');
             }
-        });
+        };
     }
     
-    // Also fix the topnav hamburger icon
+    // Fix the topnav hamburger icon
     var topnavHamburger = document.getElementById('topnav-hamburger-icon');
     if (topnavHamburger) {
-        topnavHamburger.addEventListener('click', function(e) {
+        topnavHamburger.onclick = function(e) {
             e.preventDefault();
             var body = document.body;
             body.classList.toggle('vertical-collpsed');
             body.classList.toggle('sidebar-enable');
-        });
+        };
     }
-});
+};
 </script>
 </body>
 
