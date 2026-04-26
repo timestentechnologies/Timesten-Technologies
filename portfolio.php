@@ -335,7 +335,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                         <!-- Section Heading -->
                         <div class="section-heading text-center m-0">
                             <h2 class="text-white"><?php print $enquiry_title; ?></h2>
-                            <p class="text-white d-none d-sm-block mt-4"><?php print $enquiry_text; ?></p>
+                            <p class="text-white mt-4"><?php print $enquiry_text; ?></p>
                             <a href="#" class="btn btn-bordered-white mt-4" data-toggle="modal" data-target="#bookMeetingModal">Book a Meeting</a>
                             <!-- <a href="contact" class="btn btn-bordered-white mt-4">Contact Us</a> -->
                         </div>

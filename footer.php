@@ -1,4 +1,59 @@
-<?php include "z_db.php";?>
+<?php include "z_db.php";
+    // Fetch partners for display on all pages except index.php
+    $partners = array();
+    $has_partners_table = false;
+    $tp = mysqli_query($con, "SHOW TABLES LIKE 'partners'");
+    if ($tp && mysqli_num_rows($tp) > 0) {
+        $has_partners_table = true;
+    }
+    if ($has_partners_table) {
+        $rp = mysqli_query($con, "SELECT * FROM partners WHERE is_active = 1 ORDER BY sort_order ASC, id DESC");
+        if ($rp) {
+            while ($prow = mysqli_fetch_assoc($rp)) {
+                $partners[] = $prow;
+            }
+        }
+    }
+    $current_page = isset($_SERVER['PHP_SELF']) ? basename($_SERVER['PHP_SELF']) : '';
+?>
+
+<?php if (!empty($partners) && $current_page !== 'index.php') { ?>
+<!--====== Partners Area Start ======-->
+<section class="section ptb_80" id="partners" style="background: #f8f9fa;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-10">
+                <div class="section-heading text-center">
+                    <h2>our partners</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="partners-carousel owl-carousel">
+                    <?php foreach ($partners as $p) {
+                        $pname = isset($p['name']) ? htmlspecialchars($p['name']) : '';
+                        $plogo = isset($p['logo']) ? htmlspecialchars($p['logo']) : '';
+                        $plink = isset($p['website_url']) ? htmlspecialchars($p['website_url']) : '';
+                        if (!strlen($plogo)) continue;
+                    ?>
+                        <div class="partner-item text-center px-3 py-3">
+                            <?php if (strlen($plink)) { ?>
+                                <a href="<?php echo $plink; ?>" target="_blank" rel="noopener">
+                                    <img src="dashboard/uploads/partners/<?php echo $plogo; ?>" alt="<?php echo $pname; ?>" style="max-height:60px; max-width: 160px; width: auto;">
+                                </a>
+                            <?php } else { ?>
+                                <img src="dashboard/uploads/partners/<?php echo $plogo; ?>" alt="<?php echo $pname; ?>" style="max-height:60px; max-width: 160px; width: auto;">
+                            <?php } ?>
+                        </div>
+                    <?php } ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--====== Partners Area End ======-->
+<?php } ?>
 
   <!--====== Footer Area Start ======-->
   <footer class="section footer-area">
@@ -677,6 +732,39 @@ print "
         </script>
 
     <?php } ?>
+
+    <!-- Partners Carousel Initialization for non-home pages -->
+    <?php if ($current_page !== 'index.php' && !empty($partners)) { ?>
+    <script>
+    (function initPartnersCarouselWhenJQueryReady() {
+        if (typeof window.jQuery === 'undefined') {
+            return setTimeout(initPartnersCarouselWhenJQueryReady, 50);
+        }
+        var $ = window.jQuery;
+
+        $(document).ready(function() {
+            if ($('.partners-carousel').length && typeof $.fn.owlCarousel === 'function') {
+                $('.partners-carousel').owlCarousel({
+                    loop: true,
+                    margin: 20,
+                    nav: false,
+                    dots: false,
+                    autoplay: true,
+                    autoplayTimeout: 2500,
+                    autoplayHoverPause: true,
+                    responsive: {
+                        0: { items: 2 },
+                        576: { items: 3 },
+                        768: { items: 4 },
+                        992: { items: 5 }
+                    }
+                });
+            }
+        });
+    })();
+    </script>
+    <?php } ?>
+
 </body>
 
 

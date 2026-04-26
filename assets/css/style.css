@@ -3198,6 +3198,8 @@ body.dark,
     position: relative;
     display: inline-block;
     padding-bottom: 8px;
+    color: #ffffff;
+    font-weight: 700;
 }
 
 .footer-area .footer-title::after {
