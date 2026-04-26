@@ -3144,6 +3144,12 @@ body.dark,
 ****************************** */
 .footer-area .social-icons a {
     font-size: 22px;
+    color: #ff8c00;
+    transition: color 0.3s ease;
+}
+
+.footer-area .social-icons a:hover {
+    color: #ff7f50;
 }
 
 .dark .footer-area .copyright-area {
