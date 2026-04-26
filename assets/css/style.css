@@ -1703,6 +1703,37 @@ body.dark,
     transition: color 0.3s ease 0s;
 }
 
+/* Promo Icon Styling for Why Choose Us */
+.promo-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, #ff8c42 0%, #ff6b35 100%);
+    border-radius: 50%;
+    color: white;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 15px rgba(255, 108, 53, 0.3);
+    transition: all 0.3s ease;
+}
+
+.promo-icon i {
+    color: white;
+    font-size: 28px;
+}
+
+.promo-icon img {
+    max-height: 35px;
+    max-width: 35px;
+    object-fit: contain;
+}
+
+.single-promo:hover .promo-icon {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(255, 108, 53, 0.4);
+}
+
 .promo-wrapper {
     position: relative;
     z-index: 2;

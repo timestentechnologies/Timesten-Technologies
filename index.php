@@ -310,11 +310,25 @@ while($ro = mysqli_fetch_array($r123))
 
 	$title="$ro[title]";
 	$detail="$ro[detail]";
+	$icon_class="$ro[icon_class]";
+	$icon_type="$ro[icon_type]";
+	$icon_image="$ro[icon_image]";
+
+  // Build icon display
+  $icon_html = '';
+  if($icon_type == 'upload' && $icon_image) {
+      $icon_html = "<span class='promo-icon mb-3'><img src='dashboard/uploads/whyicons/$icon_image' alt='$title' style='max-height: 50px; max-width: 50px;'></span>";
+  } elseif($icon_class) {
+      $icon_html = "<span class='promo-icon mb-3'><i class='$icon_class fa-3x text-primary'></i></span>";
+  } else {
+      $icon_html = "<span class='promo-icon mb-3'><i class='fas fa-star fa-3x text-primary'></i></span>";
+  }
 
 print "
 <div class='col-12 col-md-6 col-lg-4 res-margin'>
 <!-- Single Promo -->
 <div class='single-promo color-1 bg-hover hover-bottom text-center p-5'>
+    $icon_html
     <h3 class='mb-3'>$title</h3>
     <p>$detail</p>
 </div>

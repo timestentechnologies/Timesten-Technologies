@@ -37,7 +37,7 @@
                                     <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
                                         <thead>
                                             <tr>
-
+                                                <th data-ordering="false">Icon</th>
                                                 <th data-ordering="false">Why Choose Us Title</th>
                                                 <th>Action</th>
                                             </tr>
@@ -56,13 +56,23 @@ while($ro = mysqli_fetch_array($r123))
 
 	$id="$ro[id]";
 	$title="$ro[title]";
+	$icon_class="$ro[icon_class]";
+	$icon_type="$ro[icon_type]";
+	$icon_image="$ro[icon_image]";
 
+  // Build icon display
+  $icon_display = '';
+  if($icon_type == 'upload' && $icon_image) {
+      $icon_display = "<img src='uploads/whyicons/$icon_image' alt='Icon' style='max-height: 40px; max-width: 40px;'>";
+  } elseif($icon_class) {
+      $icon_display = "<i class='$icon_class fa-2x text-primary'></i>";
+  } else {
+      $icon_display = "<i class='fas fa-star fa-2x text-muted'></i>";
+  }
 
   print "<tr>
-
-				  <td>
-				  $title
-				  </td>
+                  <td>$icon_display</td>
+				  <td>$title</td>
 
           <td>
                                                     <div class='dropdown d-inline-block'>
