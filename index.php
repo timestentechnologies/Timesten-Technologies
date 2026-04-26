@@ -519,7 +519,7 @@ print "
         <!-- ***** Price Plan Area End ***** -->
 
         <!-- ***** Review Area Start ***** -->
-        <section id="review" class="section review-area bg-overlay ptb_100">
+        <section id="review" class="section review-area bg-overlay ptb_80">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-12 col-md-10 col-lg-7">
