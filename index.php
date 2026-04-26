@@ -558,7 +558,7 @@ print "
                         <div class="section-heading text-center">
                             <h2 style="color: #3b1b6a;"><?php print $test_title; ?></h2>
                         </div>
-                        <p class="mt-2 text-start" style="max-width: 100%; color: #555; font-size: 16px; line-height: 1.8;"><?php print $test_text;</p>
+                        <p class="mt-2 text-start" style="max-width: 100%; color: #555; font-size: 16px; line-height: 1.8;"><?php print $test_text;?></p>
                     </div>
                 </div>
                 <div class="row">
