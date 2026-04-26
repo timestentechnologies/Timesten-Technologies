@@ -859,6 +859,61 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
         </section>
         <!--====== Contact Area End ======-->
 
+        <?php
+            $partners = array();
+            $has_partners_table = false;
+            $tp = mysqli_query($con, "SHOW TABLES LIKE 'partners'");
+            if ($tp && mysqli_num_rows($tp) > 0) {
+                $has_partners_table = true;
+            }
+            if ($has_partners_table) {
+                $rp = mysqli_query($con, "SELECT * FROM partners WHERE is_active = 1 ORDER BY sort_order ASC, id DESC");
+                if ($rp) {
+                    while ($prow = mysqli_fetch_assoc($rp)) {
+                        $partners[] = $prow;
+                    }
+                }
+            }
+        ?>
+
+        <?php if (!empty($partners)) { ?>
+        <section class="section ptb_80" id="partners">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-12 col-lg-10">
+                        <div class="section-heading text-center">
+                            <h2>our partners</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="partners-carousel owl-carousel">
+                            <?php foreach ($partners as $p) {
+                                $pname = isset($p['name']) ? htmlspecialchars($p['name']) : '';
+                                $plogo = isset($p['logo']) ? htmlspecialchars($p['logo']) : '';
+                                $plink = isset($p['website_url']) ? htmlspecialchars($p['website_url']) : '';
+                                if (!strlen($plogo)) {
+                                    continue;
+                                }
+                            ?>
+                                <div class="partner-item text-center px-3 py-3">
+                                    <?php if (strlen($plink)) { ?>
+                                        <a href="<?php echo $plink; ?>" target="_blank" rel="noopener">
+                                            <img src="dashboard/uploads/partners/<?php echo $plogo; ?>" alt="<?php echo $pname; ?>" style="max-height:60px; max-width: 160px; width: auto;">
+                                        </a>
+                                    <?php } else { ?>
+                                        <img src="dashboard/uploads/partners/<?php echo $plogo; ?>" alt="<?php echo $pname; ?>" style="max-height:60px; max-width: 160px; width: auto;">
+                                    <?php } ?>
+                                </div>
+                            <?php } ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <?php } ?>
+
         <!--====== Call To Action Area Start ======-->
         <section class="section cta-area bg-overlay orangish-gradient ptb_100">
             <div class="container">
@@ -868,6 +923,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                         <div class="section-heading text-center m-0 cta-heading">
                             <h2 class="text-white"><?php print $enquiry_title; ?></h2>
                             <p class="text-white mt-4"><?php print $enquiry_text; ?></p>
+                            <a href="#" class="btn btn-bordered-white mt-4" data-toggle="modal" data-target="#bookMeetingModal">Book a Meeting</a>
                             <a href="contact" class="btn btn-bordered-white mt-4 d-none d-sm-inline-block">Contact Us</a>
                         </div>
                     </div>
@@ -875,6 +931,125 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             </div>
         </section>
         <!--====== Call To Action Area End ======-->
+
+        <!-- Book Meeting Modal -->
+        <div class="modal fade" id="bookMeetingModal" tabindex="-1" role="dialog" aria-labelledby="bookMeetingModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 520px;">
+                <div class="modal-content" style="border: none; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+                    <div class="modal-header py-3" style="background: linear-gradient(135deg, #3b1b6a 0%, #5a2d8c 100%); color: white; border: none;">
+                        <h5 class="modal-title w-100 text-center font-weight-bold" id="bookMeetingModalLabel" style="font-size: 1.05rem;">Book a Meeting</h5>
+                        <button type="button" class="close position-absolute" style="right: 14px; top: 10px; color: white; opacity: 0.9; font-size: 1.4rem;" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" style="background: #fff; padding: 22px 22px 10px 22px;">
+                        <form id="meetingForm" method="post">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="name" placeholder="Full Name" required>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="company" placeholder="Company (Optional)">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <input type="email" class="form-control" name="email" placeholder="Email" required>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="phone" placeholder="Phone" required>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <select class="form-control" name="meeting_type" required>
+                                            <option value="" selected disabled>Meeting Type</option>
+                                            <option value="Online">Online</option>
+                                            <option value="Physical">Physical</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <input type="date" class="form-control" name="meeting_date" required>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <input type="time" class="form-control" name="meeting_time" required>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <textarea class="form-control" name="message" placeholder="Briefly tell us what you'd like to discuss" required rows="3"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-bordered active btn-block mt-2" id="meetingSubmitBtn">
+                                        <span class="text-white pr-3"><i class="fas fa-calendar-check"></i></span>Submit Request
+                                        <span class="spinner-border spinner-border-sm text-white ml-2 d-none" id="meetingLoadingSpinner" role="status" aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer justify-content-center py-3" style="border-top: none; background: #f8f9fa;">
+                        <small class="text-muted">We will confirm your meeting by email/phone.</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Meeting Success Modal -->
+        <div class="modal fade" id="meetingSuccessModal" tabindex="-1" role="dialog" aria-labelledby="meetingSuccessModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 320px;">
+                <div class="modal-content" style="border: none; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+                    <div class="modal-header py-2" style="background: linear-gradient(135deg, #ff8c42 0%, #ff6b35 100%); color: white; border: none;">
+                        <h6 class="modal-title w-100 text-center font-weight-bold" id="meetingSuccessModalLabel" style="font-size: 0.95rem;">Request Sent!</h6>
+                        <button type="button" class="close position-absolute" style="right: 12px; top: 8px; color: white; opacity: 0.9; font-size: 1.2rem;" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center py-4 px-4">
+                        <div style="width: 70px; height: 70px; background: linear-gradient(135deg, #ff8c42 0%, #ff6b35 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; box-shadow: 0 4px 15px rgba(255, 108, 53, 0.4);">
+                            <i class="fas fa-check" style="color: white; font-size: 32px;"></i>
+                        </div>
+                        <h5 class="mb-2" style="color: #3b1b6a; font-weight: 700; font-size: 1.3rem;">Thank You!</h5>
+                        <p class="mb-0" style="font-size: 0.85rem; line-height: 1.5; color: #666;">Your meeting request has been sent. We will confirm shortly.</p>
+                    </div>
+                    <div class="modal-footer justify-content-center py-3" style="border-top: none; background: #f8f9fa;">
+                        <button type="button" class="btn px-4" style="background: linear-gradient(135deg, #ff8c42 0%, #ff6b35 100%); color: white; border: none; border-radius: 25px; font-weight: 600; font-size: 0.9rem; box-shadow: 0 4px 15px rgba(255, 108, 53, 0.3);" data-dismiss="modal">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Meeting Error Modal -->
+        <div class="modal fade" id="meetingErrorModal" tabindex="-1" role="dialog" aria-labelledby="meetingErrorModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title" id="meetingErrorModalLabel">Error</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: white;">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center py-4">
+                        <i class="fas fa-exclamation-triangle fa-4x mb-3 text-danger"></i>
+                        <h4>Oops!</h4>
+                        <p id="meetingErrorMessage">Something went wrong. Please try again.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <script src="//code.tidio.co/2efw0z0gu6xh9q8ptxcjmylpn00rcwwz.js" async></script>
             <script>
                 (function () {
@@ -1146,6 +1321,24 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             
 <script>
 $(document).ready(function() {
+    if ($('.partners-carousel').length && typeof $.fn.owlCarousel === 'function') {
+        $('.partners-carousel').owlCarousel({
+            loop: true,
+            margin: 20,
+            nav: false,
+            dots: false,
+            autoplay: true,
+            autoplayTimeout: 2500,
+            autoplayHoverPause: true,
+            responsive: {
+                0: { items: 2 },
+                576: { items: 3 },
+                768: { items: 4 },
+                992: { items: 5 }
+            }
+        });
+    }
+
     $('#contactForm').on('submit', function(e) {
         e.preventDefault();
         
@@ -1182,6 +1375,39 @@ $(document).ready(function() {
                 // Show error modal
                 $('#errorMessage').html('A server error occurred. Please try again later.');
                 $('#errorModal').modal('show');
+            }
+        });
+    });
+
+    $('#meetingForm').on('submit', function(e) {
+        e.preventDefault();
+
+        $('#meetingSubmitBtn').prop('disabled', true);
+        $('#meetingLoadingSpinner').removeClass('d-none');
+
+        $.ajax({
+            type: 'POST',
+            url: 'book_meeting.php',
+            data: $(this).serialize(),
+            dataType: 'json',
+            success: function(response) {
+                $('#meetingSubmitBtn').prop('disabled', false);
+                $('#meetingLoadingSpinner').addClass('d-none');
+
+                if (response.status === 'success') {
+                    $('#bookMeetingModal').modal('hide');
+                    $('#meetingSuccessModal').modal('show');
+                    $('#meetingForm')[0].reset();
+                } else {
+                    $('#meetingErrorMessage').html(response.message);
+                    $('#meetingErrorModal').modal('show');
+                }
+            },
+            error: function() {
+                $('#meetingSubmitBtn').prop('disabled', false);
+                $('#meetingLoadingSpinner').addClass('d-none');
+                $('#meetingErrorMessage').html('A server error occurred. Please try again later.');
+                $('#meetingErrorModal').modal('show');
             }
         });
     });

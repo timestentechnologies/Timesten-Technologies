@@ -3169,6 +3169,11 @@ body.dark,
     border-radius: 2px;
 }
 
+#partners .partner-item img {
+    -webkit-filter: none !important;
+    filter: none !important;
+}
+
 .dark .footer-area .copyright-area {
     border-top: 1px solid rgba(255, 255, 255, 0.15);
 }

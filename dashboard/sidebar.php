@@ -117,6 +117,22 @@ $ufile = $r[0];
                         </li>
 
                         <li class="nav-item">
+                            <a class="nav-link menu-link" href="#sidebarPartners" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="sidebarPartners">
+                                <i class="ri-shake-hands-line"></i> <span data-key="t-landing">Manage Partners</span>
+                            </a>
+                            <div class="menu-dropdown collapse" id="sidebarPartners" style="">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="createpartner" class="nav-link"> Add Partner </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="partners" class="nav-link"> Partners List </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
                             <a href="pricing" class="nav-link">
                                 <i class="ri-price-tag-3-line"></i> <span data-key="t-landing"> Pricing Page </span>
                             </a>
@@ -269,6 +285,12 @@ $ufile = $r[0];
                         <li class="nav-item">
                             <a href="inquiries" class="nav-link">
                                 <i class="ri-mail-open-line"></i> <span data-key="t-landing"> Inquiries </span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="meetings" class="nav-link">
+                                <i class="ri-calendar-event-line"></i> <span data-key="t-landing"> Meetings </span>
                             </a>
                         </li>
 

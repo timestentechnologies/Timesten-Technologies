@@ -34,6 +34,9 @@ RewriteRule    ^slider/?$    sliderlist.php    [NC,L]
 RewriteRule    ^static/?$    static-home.php    [NC,L]
 RewriteRule    ^contact/?$    updatecontact.php    [NC,L]
 
+RewriteRule    ^partners/?$    partners.php    [NC,L]
+RewriteRule    ^createpartner/?$    add-partner.php    [NC,L]
+
 RewriteRule    ^testimony/?$    testimonylist.php    [NC,L]
 RewriteRule    ^newtestimony/?$    add-testimony.php    [NC,L]
 
@@ -47,6 +50,7 @@ RewriteRule    ^customers/?$    customers.php    [NC,L]
 RewriteRule    ^referrers/?$    referrers.php    [NC,L]
 RewriteRule    ^referred_clients/?$    referred_clients.php    [NC,L]
 RewriteRule    ^inquiries/?$    inquiries.php    [NC,L]
+RewriteRule    ^meetings/?$    meetings.php    [NC,L]
 RewriteRule    ^invoices/?$    invoices.php    [NC,L]
 RewriteRule    ^invoice/([A-Za-z0-9-]+)/?$    invoice-view.php?id=$1    [NC,L]
 RewriteRule    ^payments/?$    payments.php    [NC,L]
