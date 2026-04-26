@@ -3174,6 +3174,29 @@ body.dark,
     filter: none !important;
 }
 
+#bookMeetingModal .form-control {
+    border-radius: 14px;
+    padding: 12px 14px;
+    border: 1px solid rgba(59, 27, 106, 0.18);
+    box-shadow: none;
+}
+
+#bookMeetingModal .form-control:focus {
+    border-color: rgba(255, 140, 0, 0.7);
+    box-shadow: 0 0 0 0.15rem rgba(255, 140, 0, 0.18);
+}
+
+#bookMeetingModal select.form-control {
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, #3b1b6a 50%),
+      linear-gradient(135deg, #3b1b6a 50%, transparent 50%);
+    background-position: calc(100% - 18px) calc(50% - 2px), calc(100% - 12px) calc(50% - 2px);
+    background-size: 6px 6px, 6px 6px;
+    background-repeat: no-repeat;
+    padding-right: 40px;
+}
+
 .dark .footer-area .copyright-area {
     border-top: 1px solid rgba(255, 255, 255, 0.15);
 }

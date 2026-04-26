@@ -876,6 +876,24 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             }
         ?>
 
+        <!--====== Call To Action Area Start ======-->
+        <section class="section cta-area bg-overlay orangish-gradient ptb_100">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-12 col-lg-10">
+                        <!-- Section Heading -->
+                        <div class="section-heading text-center m-0 cta-heading">
+                            <h2 class="text-white"><?php print $enquiry_title; ?></h2>
+                            <p class="text-white mt-4"><?php print $enquiry_text; ?></p>
+                            <a href="#" class="btn btn-bordered-white mt-4" data-toggle="modal" data-target="#bookMeetingModal">Book a Meeting</a>
+                            <!-- <a href="contact" class="btn btn-bordered-white mt-4 d-none d-sm-inline-block">Contact Us</a> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--====== Call To Action Area End ======-->
+
         <?php if (!empty($partners)) { ?>
         <section class="section ptb_80" id="partners">
             <div class="container">
@@ -914,29 +932,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
         </section>
         <?php } ?>
 
-        <!--====== Call To Action Area Start ======-->
-        <section class="section cta-area bg-overlay orangish-gradient ptb_100">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-12 col-lg-10">
-                        <!-- Section Heading -->
-                        <div class="section-heading text-center m-0 cta-heading">
-                            <h2 class="text-white"><?php print $enquiry_title; ?></h2>
-                            <p class="text-white mt-4"><?php print $enquiry_text; ?></p>
-                            <a href="#" class="btn btn-bordered-white mt-4" data-toggle="modal" data-target="#bookMeetingModal">Book a Meeting</a>
-                            <a href="contact" class="btn btn-bordered-white mt-4 d-none d-sm-inline-block">Contact Us</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!--====== Call To Action Area End ======-->
-
         <!-- Book Meeting Modal -->
         <div class="modal fade" id="bookMeetingModal" tabindex="-1" role="dialog" aria-labelledby="bookMeetingModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 520px;">
                 <div class="modal-content" style="border: none; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
-                    <div class="modal-header py-3" style="background: linear-gradient(135deg, #3b1b6a 0%, #5a2d8c 100%); color: white; border: none;">
+                    <div class="modal-header py-3" style="background: linear-gradient(135deg, #ff8c42 0%, #ff6b35 100%); color: white; border: none;">
                         <h5 class="modal-title w-100 text-center font-weight-bold" id="bookMeetingModalLabel" style="font-size: 1.05rem;">Book a Meeting</h5>
                         <button type="button" class="close position-absolute" style="right: 14px; top: 10px; color: white; opacity: 0.9; font-size: 1.4rem;" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -976,12 +976,16 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                                 </div>
                                 <div class="col-12 col-md-6">
                                     <div class="form-group">
-                                        <input type="date" class="form-control" name="meeting_date" required>
+                                        <select class="form-control" name="meeting_date" id="meeting_date" required>
+                                            <option value="" selected disabled>Select Date</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6">
                                     <div class="form-group">
-                                        <input type="time" class="form-control" name="meeting_time" required>
+                                        <select class="form-control" name="meeting_time" id="meeting_time" required>
+                                            <option value="" selected disabled>Select Time</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -1339,6 +1343,59 @@ $(document).ready(function() {
         });
     }
 
+    function pad2(n) {
+        return (n < 10 ? '0' : '') + n;
+    }
+
+    function formatDateValue(d) {
+        return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
+    }
+
+    function formatDateLabel(d) {
+        var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        return d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+    }
+
+    function buildMeetingDates() {
+        var $date = $('#meeting_date');
+        if (!$date.length) return;
+        $date.find('option').not(':first').remove();
+
+        var today = new Date();
+        for (var i = 1; i <= 14; i++) {
+            var d = new Date(today.getTime());
+            d.setDate(today.getDate() + i);
+            var val = formatDateValue(d);
+            var label = formatDateLabel(d);
+            $date.append('<option value="' + val + '">' + label + '</option>');
+        }
+    }
+
+    function buildMeetingTimes() {
+        var $time = $('#meeting_time');
+        if (!$time.length) return;
+        $time.find('option').not(':first').remove();
+
+        // Times: 09:00 - 17:00 every 30 mins
+        var startH = 9;
+        var endH = 17;
+        for (var h = startH; h <= endH; h++) {
+            for (var m = 0; m < 60; m += 30) {
+                if (h === endH && m > 0) continue;
+                var val = pad2(h) + ':' + pad2(m) + ':00';
+                var label = pad2(h) + ':' + pad2(m);
+                $time.append('<option value="' + val + '">' + label + '</option>');
+            }
+        }
+    }
+
+    buildMeetingDates();
+    buildMeetingTimes();
+
+    $('#meeting_date').on('change', function() {
+        buildMeetingTimes();
+    });
+
     $('#contactForm').on('submit', function(e) {
         e.preventDefault();
         
@@ -1395,9 +1452,17 @@ $(document).ready(function() {
                 $('#meetingLoadingSpinner').addClass('d-none');
 
                 if (response.status === 'success') {
-                    $('#bookMeetingModal').modal('hide');
-                    $('#meetingSuccessModal').modal('show');
                     $('#meetingForm')[0].reset();
+                    var successHtml = '<div class="alert alert-success alert-dismissible fade show mt-3" role="alert">' + response.message + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
+                    if ($('#meetingInlineAlert').length) {
+                        $('#meetingInlineAlert').html(successHtml);
+                    } else {
+                        $('#meetingForm').append('<div id="meetingInlineAlert">' + successHtml + '</div>');
+                    }
+                    setTimeout(function() {
+                        $('#bookMeetingModal').modal('hide');
+                        $('#meetingSuccessModal').modal('show');
+                    }, 600);
                 } else {
                     $('#meetingErrorMessage').html(response.message);
                     $('#meetingErrorModal').modal('show');

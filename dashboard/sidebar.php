@@ -118,7 +118,7 @@ $ufile = $r[0];
 
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarPartners" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="sidebarPartners">
-                                <i class="ri-shake-hands-line"></i> <span data-key="t-landing">Manage Partners</span>
+                                <i class="ri-handshake-line"></i> <span data-key="t-landing">Manage Partners</span>
                             </a>
                             <div class="menu-dropdown collapse" id="sidebarPartners" style="">
                                 <ul class="nav nav-sm flex-column">
