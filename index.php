@@ -488,10 +488,10 @@ print "
                                     <?php } ?>
 
                                     <?php if (count($feature_items) > 0) { ?>
-                                        <ul class="list-unstyled text-start mb-0 px-3" style="width: 100%;">
+                                        <ul class="list-unstyled text-start mb-0 px-2" style="width: 100%;">
                                             <?php foreach ($feature_items as $fi) { ?>
-                                                <li class="mb-3 d-flex align-items-start" style="font-size: 14px; line-height: 1.5;">
-                                                    <i class="fas fa-check-circle mt-1" style="color:#f67011; margin-right: 12px; flex-shrink: 0; font-size: 16px;"></i>
+                                                <li class="mb-2 d-flex align-items-start" style="font-size: 13px; line-height: 1.4;">
+                                                    <i class="fas fa-check-circle mt-1" style="color:#f67011; margin-right: 10px; flex-shrink: 0; font-size: 14px;"></i>
                                                     <span style="color: #444;"><?php print htmlspecialchars($fi); ?></span>
                                                 </li>
                                             <?php } ?>
