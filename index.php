@@ -310,7 +310,7 @@ print "
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row g-4">
 
                 <?php
 				   $qs="SELECT * FROM  service ORDER BY id DESC LIMIT 6";
@@ -327,10 +327,10 @@ while($rod = mysqli_fetch_array($r1))
 print "
 <div class='col-12 col-md-6 col-lg-4'>
 <!-- Single Service -->
-<div class='single-service p-4'  style='border: solid 1px #788282;'>
-    <h3 class='my-3'>$serviceg</h3>
-    <p>$service_desc</p>
-    <a class='service-btn mt-3' href='servicedetail.php?id=$id'>Learn More</a>
+<div class='single-service p-5 h-100 position-relative' style='background: #fff; border-radius: 16px; border-top: 4px solid #f67011; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: all 0.3s ease;'>
+    <h3 class='mb-3' style='color: #3b1b6a; font-weight: 700; font-size: 20px;'>$serviceg</h3>
+    <p style='color: #666; line-height: 1.6; margin-bottom: 20px;'>$service_desc</p>
+    <a class='btn' style='background: linear-gradient(135deg, #f67011 0%, #ff8c42 100%); color: #fff; border-radius: 8px; padding: 10px 25px; font-weight: 600; transition: all 0.3s ease;' href='servicedetail.php?id=$id'>Learn More</a>
 </div>
 </div>
 
@@ -532,14 +532,9 @@ print "
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row g-4">
                     <!-- Client Reviews -->
-                    <div class="client-reviews owl-carousel">
-                        <!-- Single Review -->
-
-
-
-                        <?php
+                    <?php
 				   $q="SELECT * FROM  testimony ORDER BY id DESC LIMIT 6";
 
 
@@ -555,27 +550,29 @@ while($ro = mysqli_fetch_array($r123))
 
 print "
 
-<div class='single-review p-5'>
+<div class='col-12 col-md-6 col-lg-4'>
+<div class='single-review p-5 h-100' style='background: #fff; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: all 0.3s ease;'>
 <!-- Review Content -->
 <div class='review-content'>
+    <!-- Quotation Icon -->
+    <div style='color: #f67011; font-size: 40px; margin-bottom: 15px; line-height: 1;'>\"</div>
     <!-- Review Text -->
     <div class='review-text'>
-        <p>$message</p>
+        <p style='color: #555; line-height: 1.7; font-style: italic;'>$message</p>
     </div>
-    <!-- Quotation Icon -->
-
 </div>
 <!-- Reviewer -->
-<div class='reviewer media mt-3'>
+<div class='reviewer media mt-4 align-items-center'>
     <!-- Reviewer Thumb -->
-    <div class='reviewer-thumb'>
-        <img class='avatar-lg radius-100' src='dashboard/uploads/testimony/$ufile' alt='img'>
+    <div class='reviewer-thumb flex-shrink-0'>
+        <img class='avatar-lg rounded-circle' style='width: 60px; height: 60px; object-fit: cover; border: 3px solid #f67011;' src='dashboard/uploads/testimony/$ufile' alt='img'>
     </div>
     <!-- Reviewer Media -->
-    <div class='reviewer-meta media-body align-self-center ml-4'>
-        <h5 class='reviewer-name color-primary mb-2'>$name</h5>
-        <h6 class='text-secondary fw-6'>$position</h6>
+    <div class='reviewer-meta media-body align-self-center ml-3'>
+        <h5 style='color: #3b1b6a; font-weight: 700; font-size: 16px; margin-bottom: 2px;'>$name</h5>
+        <h6 style='color: #f67011; font-weight: 600; font-size: 13px; margin-bottom: 0;'>$position</h6>
     </div>
+</div>
 </div>
 </div>
 

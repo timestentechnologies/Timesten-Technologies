@@ -216,6 +216,7 @@ if (strlen(trim($impact_text)) < 1) {
     $site_about = "$r[site_about]";
     $site_footer = "$r[site_footer]";
     $follow_text = "$r[follow_text]";
+    $site_url = isset($r['site_url']) ? "$r[site_url]" : 'timestentechnologies.co.ke';
     $enable_preloader = true;
     if (isset($r['enable_preloader'])) {
         $enable_preloader = ((int)$r['enable_preloader']) === 1;
