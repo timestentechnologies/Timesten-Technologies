@@ -91,6 +91,20 @@ body, * {
   color: #ffffff !important;
 }
 
+#page-topbar .topbar-user,
+#page-topbar .topbar-user > .btn,
+#page-topbar #page-header-user-dropdown {
+  background-color: #0b1b3a !important;
+  border-color: #0b1b3a !important;
+}
+
+#page-topbar .topbar-user > .btn:focus,
+#page-topbar .topbar-user > .btn:hover,
+#page-topbar #page-header-user-dropdown:focus,
+#page-topbar #page-header-user-dropdown:hover {
+  background-color: #0b1b3a !important;
+}
+
 #page-topbar .btn:hover,
 #page-topbar .header-item:hover {
   color: #f97316 !important;
