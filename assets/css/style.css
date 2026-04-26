@@ -3152,6 +3152,23 @@ body.dark,
     color: #ff7f50;
 }
 
+.footer-area .footer-title {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 8px;
+}
+
+.footer-area .footer-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background: linear-gradient(90deg, #ff8c00 0%, #ff7f50 100%);
+    border-radius: 2px;
+}
+
 .dark .footer-area .copyright-area {
     border-top: 1px solid rgba(255, 255, 255, 0.15);
 }
