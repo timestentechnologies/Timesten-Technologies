@@ -1,4 +1,10 @@
-<?php include "header.php"; ?>
+<?php
+// Enable error reporting for debugging
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+include "header.php"; ?>
 <?php
     $static_rs = mysqli_query($con, "SELECT * FROM static WHERE id=1 LIMIT 1");
     $static_row = $static_rs ? mysqli_fetch_assoc($static_rs) : null;
