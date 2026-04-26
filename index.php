@@ -431,7 +431,7 @@ print "
                     </div>
                 </div>
 
-                <div class="row justify-content-center">
+                <div class="row justify-content-center align-items-stretch">
                     <?php foreach ($pricing_plans as $plan) {
                         $name = isset($plan['name']) ? $plan['name'] : '';
                         $price = isset($plan['price']) ? $plan['price'] : '';
@@ -450,11 +450,12 @@ print "
                             }
                         }
                     ?>
-                        <div class="col-12 col-md-6 col-lg-4 mb-4">
-                            <div class="single-price-plan text-center p-5 h-100 position-relative" style="
+                        <div class="col-12 col-md-6 col-lg-4 mb-4 d-flex">
+                            <div class="single-price-plan text-center p-5 w-100 position-relative d-flex flex-column" style="
                                 border: solid 1px #e6e6e6;
                                 border-radius: 14px;
                                 border-top: 4px solid #f67011;
+                                min-height: 100%;
                                 <?php print $featured ? 'box-shadow: 0 18px 45px rgba(246,112,17,0.15);' : ''; ?>">
                                 <?php if ($featured) { ?>
                                     <div class="popular-badge" style="
@@ -472,33 +473,36 @@ print "
                                         box-shadow: 0 4px 12px rgba(246,112,17,0.3);
                                     ">Most Popular</div>
                                 <?php } ?>
-                                <h3 class="mb-2"><?php print htmlspecialchars($name); ?></h3>
-                                <div class="my-3" style="font-size: 34px; font-weight: 800; color: #3b1b6a;">
-                                    <?php print htmlspecialchars($price); ?>
-                                </div>
-                                <?php if (strlen(trim($period)) > 0) { ?>
-                                    <div class="text-muted mb-3" style="font-size: 14px;">
-                                        <?php print htmlspecialchars($period); ?>
+                                <div class="flex-grow-1">
+                                    <h3 class="mb-2"><?php print htmlspecialchars($name); ?></h3>
+                                    <div class="my-3" style="font-size: 34px; font-weight: 800; color: #3b1b6a;">
+                                        <?php print htmlspecialchars($price); ?>
                                     </div>
-                                <?php } ?>
-                                <?php if (strlen(trim($desc)) > 0) { ?>
-                                    <p class="mb-4" style="font-size: 15px; color: #555;"><?php print htmlspecialchars($desc); ?></p>
-                                <?php } ?>
+                                    <?php if (strlen(trim($period)) > 0) { ?>
+                                        <div class="text-muted mb-3" style="font-size: 14px;">
+                                            <?php print htmlspecialchars($period); ?>
+                                        </div>
+                                    <?php } ?>
+                                    <?php if (strlen(trim($desc)) > 0) { ?>
+                                        <p class="mb-4" style="font-size: 15px; color: #555;"><?php print htmlspecialchars($desc); ?></p>
+                                    <?php } ?>
 
-                                <?php if (count($feature_items) > 0) { ?>
-                                    <ul class="list-unstyled text-start mb-4 px-3" style="width: 100%;">
-                                        <?php foreach ($feature_items as $fi) { ?>
-                                            <li class="mb-3 d-flex align-items-start" style="font-size: 14px; line-height: 1.5;">
-                                                <i class="fas fa-check-circle mt-1" style="color:#f67011; margin-right: 12px; flex-shrink: 0; font-size: 16px;"></i>
-                                                <span style="color: #444;"><?php print htmlspecialchars($fi); ?></span>
-                                            </li>
-                                        <?php } ?>
-                                    </ul>
-                                <?php } ?>
-
-                                <a href="<?php print htmlspecialchars($btn_link); ?>" class="btn btn-bordered<?php print $featured ? ' active' : ''; ?>" style="min-width: 180px;">
-                                    <?php print htmlspecialchars($btn_text); ?>
-                                </a>
+                                    <?php if (count($feature_items) > 0) { ?>
+                                        <ul class="list-unstyled text-start mb-0 px-3" style="width: 100%;">
+                                            <?php foreach ($feature_items as $fi) { ?>
+                                                <li class="mb-3 d-flex align-items-start" style="font-size: 14px; line-height: 1.5;">
+                                                    <i class="fas fa-check-circle mt-1" style="color:#f67011; margin-right: 12px; flex-shrink: 0; font-size: 16px;"></i>
+                                                    <span style="color: #444;"><?php print htmlspecialchars($fi); ?></span>
+                                                </li>
+                                            <?php } ?>
+                                        </ul>
+                                    <?php } ?>
+                                </div>
+                                <div class="mt-4">
+                                    <a href="<?php print htmlspecialchars($btn_link); ?>" class="btn btn-bordered<?php print $featured ? ' active' : ''; ?>" style="min-width: 180px;">
+                                        <?php print htmlspecialchars($btn_text); ?>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     <?php } ?>
