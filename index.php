@@ -238,10 +238,10 @@
         <!-- ***** Promo Area Start ***** -->
         <section class="section promo-area ptb_100">
             <div class="container">
-                <div class="row">
-                    <div class="col-12">
+                <div class="row justify-content-center">
+                    <div class="col-12 col-md-10 col-lg-7">
                         <!-- Section Heading -->
-                        <div class="section-heading text-left">
+                        <div class="section-heading text-center">
                             <h2><?php print $why_title; ?></h2>
                             <p class="d-none d-sm-block mt-4"><?php print $why_text; ?></p>
                         </div>
@@ -304,10 +304,10 @@ print "
                 <div class="row">
                     <div class="col-12">
                         <!-- Section Heading -->
-                        <div class="section-heading text-left">
+                        <div class="section-heading text-center">
                             <h2><?php print $service_title?></h2>
-                            <p class="d-none d-sm-block mt-4"><?php print $service_text?></p>
                         </div>
+                        <p class="mt-4 text-start" style="max-width: 100%; color: #555; font-size: 16px; line-height: 1.8;"><?php print $service_text?></p>
                     </div>
                 </div>
                 <div class="row g-4">
@@ -356,10 +356,10 @@ print "
                 <div class="row">
                     <div class="col-12">
                         <!-- Section Heading -->
-                        <div class="section-heading text-left">
+                        <div class="section-heading text-center">
                             <h2><?php print $port_title?></h2>
-                            <p class="mt-4 mb-5"><?php print $port_text?></p>
                         </div>
+                        <p class="mt-4 mb-5 text-start" style="max-width: 100%; color: #555; font-size: 16px; line-height: 1.8;"><?php print $port_text?></p>
                     </div>
                 </div>
                 <!-- Portfolio Items -->
@@ -547,10 +547,10 @@ print "
                         <!-- Section Heading -->
 
 
-                        <div class="section-heading text-left">
+                        <div class="section-heading text-center">
                             <h2 style="color: #3b1b6a;"><?php print $test_title; ?></h2>
-                            <p class="d-none d-sm-block mt-4" style="color: #555;"><?php print $test_text;?></p>
                         </div>
+                        <p class="mt-4 text-start" style="max-width: 100%; color: #555; font-size: 16px; line-height: 1.8;"><?php print $test_text;?></p>
                     </div>
                 </div>
                 <div class="row">
