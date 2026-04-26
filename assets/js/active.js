@@ -204,7 +204,12 @@
         $(this).find('.portfolio-btn').removeClass('portfolio-btn').addClass('portfolio-btn-'+count);
         
         var Shuffle = window.Shuffle;
-        var Filter  = new Shuffle(document.querySelector('.portfolio-items-'+count), {
+        var shuffleEl = document.querySelector('.portfolio-items-'+count);
+        if (!Shuffle || !shuffleEl) {
+            return;
+        }
+
+        var Filter  = new Shuffle(shuffleEl, {
             itemSelector: '.portfolio-item-'+count,
             buffer: 1,
         })

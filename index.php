@@ -315,7 +315,7 @@ print "
                         <div class="section-heading text-center">
                             <h2><?php print $service_title?></h2>
                         </div>
-                        <p class="mt-2 text-start" style="max-width: 100%; color: #555; font-size: 16px; line-height: 1.8;"><?php print $service_text?></p>
+                        <p class="mt-1 mb-5 text-start" style="max-width: 100%; color: #555; font-size: 16px; line-height: 1.8;"><?php print $service_text?></p>
                     </div>
                 </div>
                 <div class="row g-4">
@@ -367,7 +367,7 @@ print "
                         <div class="section-heading text-center">
                             <h2><?php print $port_title?></h2>
                         </div>
-                        <p class="mt-2 mb-5 text-start" style="max-width: 100%; color: #555; font-size: 16px; line-height: 1.8;"><?php print $port_text?></p>
+                        <p class="mt-1 mb-5 text-start" style="max-width: 100%; color: #555; font-size: 16px; line-height: 1.8;"><?php print $port_text?></p>
                     </div>
                 </div>
                 <!-- Portfolio Items -->
@@ -558,7 +558,7 @@ print "
                         <div class="section-heading text-center">
                             <h2 style="color: #3b1b6a;"><?php print $test_title; ?></h2>
                         </div>
-                        <p class="mt-2 text-start" style="max-width: 100%; color: #555; font-size: 16px; line-height: 1.8;"><?php print $test_text;?></p>
+                        <p class="mt-1 mb-5 text-start" style="max-width: 100%; color: #555; font-size: 16px; line-height: 1.8;"><?php print $test_text;?></p>
                     </div>
                 </div>
                 <div class="row">
