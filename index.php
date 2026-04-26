@@ -451,7 +451,27 @@ print "
                         }
                     ?>
                         <div class="col-12 col-md-6 col-lg-4 mb-4">
-                            <div class="single-price-plan text-center p-5 h-100" style="border: solid 1px #e6e6e6; border-radius: 14px; <?php print $featured ? 'box-shadow: 0 18px 45px rgba(0,0,0,0.10); border-color: rgba(246,112,17,0.35);' : ''; ?>">
+                            <div class="single-price-plan text-center p-5 h-100 position-relative" style="
+                                border: solid 1px #e6e6e6;
+                                border-radius: 14px;
+                                border-top: 4px solid #f67011;
+                                <?php print $featured ? 'box-shadow: 0 18px 45px rgba(246,112,17,0.15);' : ''; ?>">
+                                <?php if ($featured) { ?>
+                                    <div class="popular-badge" style="
+                                        position: absolute;
+                                        top: -12px;
+                                        right: 20px;
+                                        background: linear-gradient(135deg, #f67011 0%, #ff8c42 100%);
+                                        color: #fff;
+                                        font-size: 12px;
+                                        font-weight: 600;
+                                        padding: 5px 15px;
+                                        border-radius: 20px;
+                                        text-transform: uppercase;
+                                        letter-spacing: 0.5px;
+                                        box-shadow: 0 4px 12px rgba(246,112,17,0.3);
+                                    ">Most Popular</div>
+                                <?php } ?>
                                 <h3 class="mb-2"><?php print htmlspecialchars($name); ?></h3>
                                 <div class="my-3" style="font-size: 34px; font-weight: 800; color: #3b1b6a;">
                                     <?php print htmlspecialchars($price); ?>
@@ -462,13 +482,16 @@ print "
                                     </div>
                                 <?php } ?>
                                 <?php if (strlen(trim($desc)) > 0) { ?>
-                                    <p class="mb-4"><?php print htmlspecialchars($desc); ?></p>
+                                    <p class="mb-4" style="font-size: 15px; color: #555;"><?php print htmlspecialchars($desc); ?></p>
                                 <?php } ?>
 
                                 <?php if (count($feature_items) > 0) { ?>
-                                    <ul class="list-unstyled text-start mb-4" style="max-width: 320px; margin: 0 auto;">
+                                    <ul class="list-unstyled text-start mb-4 px-3" style="width: 100%;">
                                         <?php foreach ($feature_items as $fi) { ?>
-                                            <li class="mb-2"><i class="fas fa-check" style="color:#f67011; margin-right: 8px;"></i><?php print htmlspecialchars($fi); ?></li>
+                                            <li class="mb-3 d-flex align-items-start" style="font-size: 14px; line-height: 1.5;">
+                                                <i class="fas fa-check-circle mt-1" style="color:#f67011; margin-right: 12px; flex-shrink: 0; font-size: 16px;"></i>
+                                                <span style="color: #444;"><?php print htmlspecialchars($fi); ?></span>
+                                            </li>
                                         <?php } ?>
                                     </ul>
                                 <?php } ?>
