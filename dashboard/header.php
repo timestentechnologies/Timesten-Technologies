@@ -214,23 +214,16 @@ if ($logo_rs2) {
 
     <style>
         :root { --admin-topbar-offset: 80px; }
-        #page-topbar { z-index: 2000 !important; background-color: #0a192f !important; }
-        #page-topbar .navbar-header { background-color: #0a192f !important; }
-        #page-topbar .btn-ghost-secondary { color: #fff !important; }
-        #page-topbar .user-name-text { color: #fff !important; }
-        #page-topbar .hamburger-icon span { background-color: #fff !important; }
-        #page-topbar .logo-dark { display: none !important; }
-        #page-topbar .logo-light { display: block !important; }
-        .app-menu { background-color: #0a192f !important; }
-        .app-menu .navbar-nav .nav-link { color: #a8b2d1 !important; }
-        .app-menu .navbar-nav .nav-link:hover { color: #fff !important; }
-        .app-menu .menu-title { color: #64748b !important; }
-        .app-menu .navbar-brand-box { background-color: #0a192f !important; }
-        .app-menu .logo-dark { display: none !important; }
-        .app-menu .logo-light { display: block !important; }
-        .navbar-menu .navbar-nav .nav-sm .nav-link { color: #a8b2d1 !important; }
-        .navbar-menu .navbar-nav .nav-sm .nav-link:hover { color: #fff !important; }
-        .app-menu .menu-dropdown { background-color: #112240 !important; }
+        #page-topbar { z-index: 2000 !important; background-color: #1a1a2e !important; }
+        .navbar-header { background-color: #1a1a2e !important; }
+        #page-topbar .btn-ghost-secondary { color: #ffffff !important; }
+        #page-topbar .user-name-text { color: #ffffff !important; }
+        .app-menu { background-color: #16213e !important; }
+        .navbar-brand-box { background-color: #16213e !important; }
+        .navbar-nav .nav-link { color: #a8b2c1 !important; }
+        .navbar-nav .nav-link:hover { color: #ffffff !important; }
+        .menu-title { color: #6c757d !important; }
+        .sidebar-background { background-color: #16213e !important; }
         .modal-backdrop { z-index: 1040 !important; }
         .modal { z-index: 1050 !important; top: var(--admin-topbar-offset) !important; height: calc(100% - var(--admin-topbar-offset)) !important; }
         .modal-dialog { margin-top: 1rem; }
