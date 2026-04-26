@@ -207,7 +207,7 @@
                                 <p class="text-white my-4"><?php print $stext?></p>
                             <?php } ?>
                             <!-- Buttons -->
-                            <div class="button-group">
+                            <div class="button-group mb-5">
                                 <a href="portfolio.php" class="btn btn-bordered-white">Browse Projects</a>
                                 <a href="contact.php" class="btn btn-bordered-white">Contact Us</a>
                             </div>
