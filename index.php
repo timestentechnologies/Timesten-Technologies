@@ -319,9 +319,9 @@ while($ro = mysqli_fetch_array($r123))
   if($icon_type == 'upload' && $icon_image) {
       $icon_html = "<span class='promo-icon mb-3'><img src='dashboard/uploads/whyicons/$icon_image' alt='$title' style='max-height: 50px; max-width: 50px;'></span>";
   } elseif($icon_class) {
-      $icon_html = "<span class='promo-icon mb-3'><i class='$icon_class fa-3x text-primary'></i></span>";
+      $icon_html = "<span class='promo-icon mb-3'><i class='$icon_class fa-3x'></i></span>";
   } else {
-      $icon_html = "<span class='promo-icon mb-3'><i class='fas fa-star fa-3x text-primary'></i></span>";
+      $icon_html = "<span class='promo-icon mb-3'><i class='fas fa-star fa-3x'></i></span>";
   }
 
 print "
