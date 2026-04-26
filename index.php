@@ -325,7 +325,7 @@ while($rod = mysqli_fetch_array($r1))
 	$service_desc="$rod[service_desc]";
 
 print "
-<div class='col-12 col-md-6 col-lg-4'>
+<div class='col-12 col-md-6 col-lg-4 mb-4'>
 <!-- Single Service -->
 <div class='single-service p-5 h-100 position-relative' style='background: #fff; border-radius: 16px; border-top: 4px solid #f67011; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: all 0.3s ease;'>
     <h3 class='mb-3' style='color: #3b1b6a; font-weight: 700; font-size: 20px;'>$serviceg</h3>
@@ -532,9 +532,14 @@ print "
                         </div>
                     </div>
                 </div>
-                <div class="row g-4">
+                <div class="row">
                     <!-- Client Reviews -->
-                    <?php
+                    <div class="client-reviews owl-carousel">
+                        <!-- Single Review -->
+
+
+
+                        <?php
 				   $q="SELECT * FROM  testimony ORDER BY id DESC LIMIT 6";
 
 
@@ -550,8 +555,7 @@ while($ro = mysqli_fetch_array($r123))
 
 print "
 
-<div class='col-12 col-md-6 col-lg-4'>
-<div class='single-review p-5 h-100' style='background: #fff; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: all 0.3s ease;'>
+<div class='single-review p-5' style='background: #fff; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: all 0.3s ease; margin: 15px;'>
 <!-- Review Content -->
 <div class='review-content'>
     <!-- Quotation Icon -->
@@ -572,7 +576,6 @@ print "
         <h5 style='color: #3b1b6a; font-weight: 700; font-size: 16px; margin-bottom: 2px;'>$name</h5>
         <h6 style='color: #f67011; font-weight: 600; font-size: 13px; margin-bottom: 0;'>$position</h6>
     </div>
-</div>
 </div>
 </div>
 
