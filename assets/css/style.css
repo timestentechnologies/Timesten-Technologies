@@ -3423,3 +3423,26 @@ body.dark,
     -webkit-box-shadow: 0 0.313rem 0.875rem rgba(45, 49, 54, 0.12);
     box-shadow: 0 0.313rem 0.875rem rgba(45, 49, 54, 0.12);
 }
+
+/* Warm orange bottom border for portfolio cards */
+.single-case-studies {
+    border-bottom: 4px solid #ff7f50;
+}
+
+/* Warm orange bold underline for section headings */
+.section-heading h2 {
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.section-heading h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, #ff8c00 0%, #ff7f50 100%);
+    border-radius: 2px;
+}
