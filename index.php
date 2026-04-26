@@ -224,7 +224,8 @@
                     </div>
                 </div>
             </div>
-            <!-- Shape Bottom -->
+            <!-- Shape Bottom - Only show for static sliders -->
+            <?php if (!$use_slider_mode || count($slider_items) === 0) { ?>
             <div class="shape shape-bottom" style="z-index: 0;">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none" fill="#FFFFFF">
                     <path class="shape-fill" d="M421.9,6.5c22.6-2.5,51.5,0.4,75.5,5.3c23.6,4.9,70.9,23.5,100.5,35.7c75.8,32.2,133.7,44.5,192.6,49.7
@@ -232,6 +233,7 @@
         c21.2-8.1,52.2-18.2,79.7-24.2C399.3,7.9,411.6,7.5,421.9,6.5z"></path>
                 </svg>
             </div>
+            <?php } ?>
         </section>
         <!-- ***** Welcome Area End ***** -->
 
