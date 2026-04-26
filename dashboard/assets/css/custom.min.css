@@ -9,7 +9,7 @@
 .navbar-menu,
 .navbar-brand-box,
 .navbar-header {
-  background-color: #000080 !important;
+  background-color: #0b1b3a !important;
 }
 
 /* Navy blue sidebar background */
@@ -17,7 +17,7 @@
 .sidebar-menu,
 .vertical-menu,
 .sidebar {
-  background-color: #000080 !important;
+  background-color: #0b1b3a !important;
 }
 
 /* Header email section consistent with header color */
@@ -26,14 +26,14 @@
 .topbar-user-menu,
 .dropdown-item,
 .dropdown-menu .dropdown-item {
-  background-color: #000080 !important;
+  background-color: #0b1b3a !important;
   color: #ffffff !important;
 }
 
 /* White text for dropdown items */
 .dropdown-menu .dropdown-item:hover,
 .dropdown-menu .dropdown-item:focus {
-  background-color: #000080 !important;
+  background-color: #0b1b3a !important;
   color: #ffffff !important;
 }
 
@@ -81,7 +81,7 @@ body, * {
 
 /* Match header color to sidebar */
 #page-topbar {
-  background-color: #3f4d80 !important;
+  background-color: #0b1b3a !important;
 }
 
 #page-topbar .navbar-header,

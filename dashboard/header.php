@@ -180,7 +180,7 @@ if ($logo_rs2) {
 
 ?>
 <!doctype html>
-<html lang="en" data-layout="vertical" data-topbar="dark" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none">
+<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none">
 
 
 <!-- Mirrored from themesbrand.com/velzon/html/default/index.php by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 24 Jun 2022 20:35:42 GMT -->
@@ -214,18 +214,7 @@ if ($logo_rs2) {
 
     <style>
         :root { --admin-topbar-offset: 80px; }
-        :root { --admin-navy: #0b1b3a; }
-        #page-topbar { z-index: 2000 !important; background-color: var(--admin-navy) !important; }
-        #page-topbar .navbar-header { background-color: var(--admin-navy) !important; }
-        #page-topbar .header-item,
-        #page-topbar .btn,
-        #page-topbar .btn-topbar,
-        #page-topbar .btn-ghost-secondary,
-        #page-topbar .user-name-text,
-        #page-topbar i { color: #ffffff !important; }
-        .app-menu,
-        .navbar-brand-box,
-        .sidebar-background { background-color: var(--admin-navy) !important; }
+        #page-topbar { z-index: 2000 !important; }
         .modal-backdrop { z-index: 1040 !important; }
         .modal { z-index: 1050 !important; top: var(--admin-topbar-offset) !important; height: calc(100% - var(--admin-topbar-offset)) !important; }
         .modal-dialog { margin-top: 1rem; }
