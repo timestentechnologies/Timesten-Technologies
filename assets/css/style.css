@@ -1713,7 +1713,7 @@ body.dark,
 }
 
 .promo-icon i {
-    color: #ff8c00;
+    color: #ff8c00 !important;
     font-size: 48px;
 }
 
