@@ -238,10 +238,10 @@
         <!-- ***** Promo Area Start ***** -->
         <section class="section promo-area ptb_100">
             <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-12 col-md-10 col-lg-7">
+                <div class="row">
+                    <div class="col-12">
                         <!-- Section Heading -->
-                        <div class="section-heading text-center">
+                        <div class="section-heading text-left">
                             <h2><?php print $why_title; ?></h2>
                             <p class="d-none d-sm-block mt-4"><?php print $why_text; ?></p>
                         </div>
@@ -301,10 +301,10 @@ print "
                 </svg>
             </div>
             <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-12 col-md-10 col-lg-7">
+                <div class="row">
+                    <div class="col-12">
                         <!-- Section Heading -->
-                        <div class="section-heading text-center">
+                        <div class="section-heading text-left">
                             <h2><?php print $service_title?></h2>
                             <p class="d-none d-sm-block mt-4"><?php print $service_text?></p>
                         </div>
@@ -353,10 +353,10 @@ print "
         <!-- ***** Portfolio Area Start ***** -->
         <section id="portfolio" class="portfolio-area overflow-hidden ptb_100">
             <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-12 col-md-10 col-lg-7">
+                <div class="row">
+                    <div class="col-12">
                         <!-- Section Heading -->
-                        <div class="section-heading text-center">
+                        <div class="section-heading text-left">
                             <h2><?php print $port_title?></h2>
                             <p class="mt-4 mb-5"><?php print $port_text?></p>
                         </div>
@@ -542,12 +542,12 @@ print "
                 </svg>
             </div>
             <div class="container" style="position: relative; z-index: 1;">
-                <div class="row justify-content-center">
-                    <div class="col-12 col-md-10 col-lg-7">
+                <div class="row">
+                    <div class="col-12">
                         <!-- Section Heading -->
 
 
-                        <div class="section-heading text-center">
+                        <div class="section-heading text-left">
                             <h2 style="color: #3b1b6a;"><?php print $test_title; ?></h2>
                             <p class="d-none d-sm-block mt-4" style="color: #555;"><?php print $test_text;?></p>
                         </div>
