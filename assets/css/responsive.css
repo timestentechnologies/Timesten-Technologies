@@ -153,13 +153,13 @@
 
 @media(max-width: 767px) {
     header .navbar-expand .navbar-nav.action .btn {
-        padding: 5px 10px;
-        font-size: 0;
+        padding: 8px 14px;
+        font-size: 12px;
     }
 
     header .navbar-expand .navbar-nav.action .btn .contact-icon {
-        font-size: initial;
-        margin: 0;
+        font-size: 12px;
+        margin-right: 6px;
     }
 
     .navbar-brand {
