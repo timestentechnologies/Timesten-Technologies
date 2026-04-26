@@ -214,16 +214,18 @@ if ($logo_rs2) {
 
     <style>
         :root { --admin-topbar-offset: 80px; }
-        #page-topbar { z-index: 2000 !important; background-color: #1a1a2e !important; }
-        .navbar-header { background-color: #1a1a2e !important; }
-        #page-topbar .btn-ghost-secondary { color: #ffffff !important; }
-        #page-topbar .user-name-text { color: #ffffff !important; }
-        .app-menu { background-color: #16213e !important; }
-        .navbar-brand-box { background-color: #16213e !important; }
-        .navbar-nav .nav-link { color: #a8b2c1 !important; }
-        .navbar-nav .nav-link:hover { color: #ffffff !important; }
-        .menu-title { color: #6c757d !important; }
-        .sidebar-background { background-color: #16213e !important; }
+        :root { --admin-navy: #0b1b3a; }
+        #page-topbar { z-index: 2000 !important; background-color: var(--admin-navy) !important; }
+        #page-topbar .navbar-header { background-color: var(--admin-navy) !important; }
+        #page-topbar .header-item,
+        #page-topbar .btn,
+        #page-topbar .btn-topbar,
+        #page-topbar .btn-ghost-secondary,
+        #page-topbar .user-name-text,
+        #page-topbar i { color: #ffffff !important; }
+        .app-menu,
+        .navbar-brand-box,
+        .sidebar-background { background-color: var(--admin-navy) !important; }
         .modal-backdrop { z-index: 1040 !important; }
         .modal { z-index: 1050 !important; top: var(--admin-topbar-offset) !important; height: calc(100% - var(--admin-topbar-offset)) !important; }
         .modal-dialog { margin-top: 1rem; }
