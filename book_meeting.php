@@ -87,10 +87,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $response['status'] = 'success';
             $response['message'] = 'Your meeting request has been received. We will confirm shortly.';
 
-            $recipient = 'timestenkenya@gmail.com';
-            $subject = 'New Meeting Booking - TimesTen Technologies';
-            $body = "New meeting booking:\n\nName: $name\nCompany: $company\nEmail: $email\nPhone: $phone\nMeeting Type: $meeting_type\nDate: $meeting_date\nTime: $meeting_time\nMessage: $message\n";
-            @mail($recipient, $subject, $body, "From: noreply@timesten.com\r\n");
+            // Send email notification if mail function is available
+            if (function_exists('mail')) {
+                $recipient = 'timestenkenya@gmail.com';
+                $subject = 'New Meeting Booking - TimesTen Technologies';
+                $body = "New meeting booking:\n\nName: $name\nCompany: $company\nEmail: $email\nPhone: $phone\nMeeting Type: $meeting_type\nDate: $meeting_date\nTime: $meeting_time\nMessage: $message\n";
+                @mail($recipient, $subject, $body, "From: noreply@timesten.com\r\n");
+            }
         } else {
             $response['message'] = 'Failed to save your meeting. Please try again.';
         }
