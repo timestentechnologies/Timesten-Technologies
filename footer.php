@@ -97,10 +97,10 @@ print "
                     <div class="row">
                         <div class="col-12">
                             <!-- Copyright Area -->
-                            <div class="copyright-area d-flex flex-wrap justify-content-center justify-content-sm-between text-center py-4">
+                            <div class="copyright-area d-flex flex-wrap justify-content-center text-center py-4">
                                 <!-- Copyright Left -->
 
-                                <div class="copyright-left" style="font-weight:bold;">&copy; <script>document.write(new Date().getFullYear())</script> <?php print $site_footer ?></div>
+                                <div class="copyright-left" style="font-weight:bold; font-size: 12px;">&copy; <script>document.write(new Date().getFullYear())</script> <?php print $site_footer ?></div>
                                 <!-- Copyright Right -->
                                 <!--<div class="copyright-right" style="font-weight:bold;">Made with <a href="./dashboard/index.php" target="_blank"><i class="fas fa-heart"></i></a> By <a href="https://facebook.com/">Mwangi Alex Chomba</a></div>-->
                             </div>
