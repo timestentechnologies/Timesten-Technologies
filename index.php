@@ -898,88 +898,83 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
 
                         var currentTypingTimeout = null;
 
-                        function animateTyping($element, finalHtml, speed) {
+                        // Typing animation for highlighted words only
+                        function animateHighlightWords($element, finalHtml, speed) {
                             // Clear any existing animation
                             if (currentTypingTimeout) {
                                 clearTimeout(currentTypingTimeout);
                             }
 
-                            // Create a temp container to parse the HTML
+                            // Parse and prepare: show non-highlighted text, hide highlighted text
                             var tempDiv = document.createElement('div');
                             tempDiv.innerHTML = finalHtml;
 
-                            // Extract text nodes and their styles
                             var segments = [];
-                            function extractSegments(node, styles) {
+                            function extractSegments(node, parentIsHighlight) {
                                 if (node.nodeType === 3) { // Text node
                                     if (node.textContent) {
-                                        segments.push({ text: node.textContent, style: styles });
+                                        segments.push({
+                                            text: node.textContent,
+                                            isHighlight: parentIsHighlight,
+                                            style: parentIsHighlight ? node.parentNode.getAttribute('style') : null
+                                        });
                                     }
                                 } else if (node.nodeType === 1) { // Element node
-                                    var newStyles = styles;
-                                    if (node.tagName === 'SPAN' && node.className === 'highlight-word') {
-                                        newStyles = ' style="' + node.getAttribute('style') + '"';
-                                    }
+                                    var isHighlight = node.tagName === 'SPAN' && node.className === 'highlight-word';
                                     for (var i = 0; i < node.childNodes.length; i++) {
-                                        extractSegments(node.childNodes[i], newStyles);
+                                        extractSegments(node.childNodes[i], isHighlight);
                                     }
                                 }
                             }
-                            extractSegments(tempDiv, '');
+                            extractSegments(tempDiv, false);
 
-                            // Build the result character by character
-                            var currentIndex = 0;
-                            var currentSegment = 0;
-                            var currentChar = 0;
-                            var builtHtml = '';
-                            var currentSegmentHtml = '';
-
-                            function typeNextChar() {
-                                if (currentSegment >= segments.length) {
-                                    return; // Done
-                                }
-
-                                var seg = segments[currentSegment];
-                                if (currentChar === 0 && seg.style) {
-                                    currentSegmentHtml = '<span' + seg.style + '>';
-                                }
-
-                                if (currentChar < seg.text.length) {
-                                    currentSegmentHtml += seg.text[currentChar];
-                                    currentChar++;
-                                }
-
-                                // Close tag if segment is done
-                                if (currentChar >= seg.text.length && seg.style) {
-                                    currentSegmentHtml += '</span>';
-                                }
-
-                                // Build full HTML
-                                builtHtml = '';
-                                for (var i = 0; i < currentSegment; i++) {
-                                    var s = segments[i];
-                                    if (s.style) {
-                                        builtHtml += '<span' + s.style + '>' + s.text + '</span>';
-                                    } else {
-                                        builtHtml += s.text;
-                                    }
-                                }
-                                builtHtml += currentSegmentHtml;
-
-                                $element.html(builtHtml);
-
-                                if (currentChar >= seg.text.length) {
-                                    currentSegment++;
-                                    currentChar = 0;
-                                    currentSegmentHtml = '';
-                                }
-
-                                if (currentSegment < segments.length) {
-                                    currentTypingTimeout = setTimeout(typeNextChar, speed);
+                            // Build initial HTML with non-highlighted text shown, highlighted text empty
+                            var initialHtml = '';
+                            var highlightSegments = [];
+                            for (var i = 0; i < segments.length; i++) {
+                                var seg = segments[i];
+                                if (seg.isHighlight) {
+                                    initialHtml += '<span class="highlight-word" style="' + seg.style + '"></span>';
+                                    highlightSegments.push({ index: i, text: seg.text, style: seg.style, current: 0 });
+                                } else {
+                                    initialHtml += seg.text;
                                 }
                             }
 
-                            typeNextChar();
+                            if (highlightSegments.length === 0) {
+                                // No highlights, just show the text
+                                $element.html(finalHtml);
+                                return;
+                            }
+
+                            $element.html(initialHtml);
+
+                            // Get all highlight spans
+                            var $highlights = $element.find('.highlight-word');
+                            var currentHighlight = 0;
+
+                            function typeNextHighlight() {
+                                if (currentHighlight >= highlightSegments.length) return;
+
+                                var hl = highlightSegments[currentHighlight];
+                                hl.current++;
+
+                                var typedText = hl.text.substring(0, hl.current);
+                                $highlights.eq(currentHighlight).text(typedText);
+
+                                if (hl.current < hl.text.length) {
+                                    // Continue typing current highlight word
+                                    currentTypingTimeout = setTimeout(typeNextHighlight, speed);
+                                } else {
+                                    // Move to next highlight word
+                                    currentHighlight++;
+                                    if (currentHighlight < highlightSegments.length) {
+                                        currentTypingTimeout = setTimeout(typeNextHighlight, speed + 20);
+                                    }
+                                }
+                            }
+
+                            typeNextHighlight();
                         }
 
                         function updateHeroFromActiveSlide() {
@@ -995,9 +990,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                                 var titleHtml = t_highlighted.length ? t_highlighted : (t.length ? t : <?php echo json_encode($stitle); ?>);
 
                                 if (typing === '1' && t_highlighted.length) {
-                                    // Enable typing effect - animate letter by letter
-                                    $('#heroSlideTitle').html('');
-                                    animateTyping($('#heroSlideTitle'), titleHtml, 50);
+                                    // Enable typing effect - animate highlighted words only
+                                    animateHighlightWords($('#heroSlideTitle'), titleHtml, 80);
                                 } else {
                                     // Clear any pending animation and show full text
                                     if (currentTypingTimeout) {
@@ -1060,7 +1054,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             </script>
 
 <script>
-// Typing effect for first slide on page load
+// Typing effect for first slide on page load - only highlights words
 (function() {
     function initFirstSlideTyping() {
         var $title = $('#heroSlideTitle');
@@ -1072,79 +1066,74 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
         var finalHtml = $title.html();
         if (!finalHtml) return;
 
-        // Parse HTML to extract segments
+        // Parse and prepare: show non-highlighted text, hide highlighted text
         var tempDiv = document.createElement('div');
         tempDiv.innerHTML = finalHtml;
 
         var segments = [];
-        function extractSegments(node, styles) {
-            if (node.nodeType === 3) {
+        function extractSegments(node, parentIsHighlight) {
+            if (node.nodeType === 3) { // Text node
                 if (node.textContent) {
-                    segments.push({ text: node.textContent, style: styles });
+                    segments.push({
+                        text: node.textContent,
+                        isHighlight: parentIsHighlight,
+                        style: parentIsHighlight ? node.parentNode.getAttribute('style') : null
+                    });
                 }
-            } else if (node.nodeType === 1) {
-                var newStyles = styles;
-                if (node.tagName === 'SPAN' && node.className === 'highlight-word') {
-                    newStyles = ' style="' + node.getAttribute('style') + '"';
-                }
+            } else if (node.nodeType === 1) { // Element node
+                var isHighlight = node.tagName === 'SPAN' && node.className === 'highlight-word';
                 for (var i = 0; i < node.childNodes.length; i++) {
-                    extractSegments(node.childNodes[i], newStyles);
+                    extractSegments(node.childNodes[i], isHighlight);
                 }
             }
         }
-        extractSegments(tempDiv, '');
+        extractSegments(tempDiv, false);
 
-        // Build character by character
-        var currentSegment = 0;
-        var currentChar = 0;
-        var currentSegmentHtml = '';
+        // Build initial HTML with non-highlighted text shown, highlighted text empty
+        var initialHtml = '';
+        var highlightSegments = [];
+        for (var i = 0; i < segments.length; i++) {
+            var seg = segments[i];
+            if (seg.isHighlight) {
+                initialHtml += '<span class="highlight-word" style="' + seg.style + '"></span>';
+                highlightSegments.push({ index: i, text: seg.text, style: seg.style, current: 0 });
+            } else {
+                initialHtml += seg.text;
+            }
+        }
+
+        if (highlightSegments.length === 0) return; // No highlights to animate
+
+        $title.html(initialHtml);
+
+        // Get all highlight spans
+        var $highlights = $title.find('.highlight-word');
+        var currentHighlight = 0;
         var typingTimeout = null;
 
-        $title.html('');
+        function typeNextHighlight() {
+            if (currentHighlight >= highlightSegments.length) return;
 
-        function typeNextChar() {
-            if (currentSegment >= segments.length) return;
+            var hl = highlightSegments[currentHighlight];
+            hl.current++;
 
-            var seg = segments[currentSegment];
-            if (currentChar === 0 && seg.style) {
-                currentSegmentHtml = '<span' + seg.style + '>';
-            }
+            var typedText = hl.text.substring(0, hl.current);
+            $highlights.eq(currentHighlight).text(typedText);
 
-            if (currentChar < seg.text.length) {
-                currentSegmentHtml += seg.text[currentChar];
-                currentChar++;
-            }
-
-            if (currentChar >= seg.text.length && seg.style) {
-                currentSegmentHtml += '</span>';
-            }
-
-            var builtHtml = '';
-            for (var i = 0; i < currentSegment; i++) {
-                var s = segments[i];
-                if (s.style) {
-                    builtHtml += '<span' + s.style + '>' + s.text + '</span>';
-                } else {
-                    builtHtml += s.text;
+            if (hl.current < hl.text.length) {
+                // Continue typing current highlight word
+                typingTimeout = setTimeout(typeNextHighlight, 80);
+            } else {
+                // Move to next highlight word
+                currentHighlight++;
+                if (currentHighlight < highlightSegments.length) {
+                    typingTimeout = setTimeout(typeNextHighlight, 100);
                 }
-            }
-            builtHtml += currentSegmentHtml;
-
-            $title.html(builtHtml);
-
-            if (currentChar >= seg.text.length) {
-                currentSegment++;
-                currentChar = 0;
-                currentSegmentHtml = '';
-            }
-
-            if (currentSegment < segments.length) {
-                typingTimeout = setTimeout(typeNextChar, 50);
             }
         }
 
         // Start typing animation after a short delay
-        setTimeout(typeNextChar, 300);
+        setTimeout(typeNextHighlight, 400);
     }
 
     if (document.readyState === 'complete') {
