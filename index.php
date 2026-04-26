@@ -224,7 +224,7 @@
                     </div>
                 </div>
             </div>
-            <!-- Shape Bottom - only show for static slider from admin -->
+            <!-- Shape Bottom - Only show for static sliders, not when using slider mode -->
             <?php if (!$use_slider_mode) { ?>
             <div class="shape shape-bottom" style="z-index: 0;">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none" fill="#FFFFFF">
