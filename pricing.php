@@ -13,15 +13,23 @@ $cta_text = $settings && isset($settings['cta_text']) ? $settings['cta_text'] : 
 $cta_link = $settings && isset($settings['cta_link']) ? $settings['cta_link'] : 'contact';
 ?>
 
-<section class="section ptb_100 bg-grey">
-    <!-- Shape Top -->
-    <div class="shape shape-top">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none" fill="#FFFFFF">
-            <path class="shape-fill" d="M421.9,6.5c22.6-2.5,51.5,0.4,75.5,5.3c23.6,4.9,70.9,23.5,100.5,35.7c75.8,32.2,133.7,44.5,192.6,49.7
-            c23.6,2.1,48.7,3.5,103.4-2.5c54.7-6,106.2-25.6,106.2-25.6V0H0v30.3c0,0,72,32.6,158.4,30.5c39.2-0.7,92.8-6.7,134-22.4
-            c21.2-8.1,52.2-18.2,79.7-24.2C399.3,7.9,411.6,7.5,421.9,6.5z"></path>
-        </svg>
+<section class="section breadcrumb-area overlay-dark d-flex align-items-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb-content d-flex flex-column align-items-center text-center">
+                    <h2 class="text-white text-uppercase mb-3">Pricing</h2>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a class="text-uppercase text-white" href="index.php">Home</a></li>
+                        <li class="breadcrumb-item text-white active">Pricing</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
     </div>
+</section>
+
+<section class="section ptb_100">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12 col-md-10 col-lg-7">
@@ -94,14 +102,6 @@ $cta_link = $settings && isset($settings['cta_link']) ? $settings['cta_link'] : 
                 </a>
             </div>
         </div>
-    </div>
-    <!-- Shape Bottom -->
-    <div class="shape shape-bottom">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none" fill="#FFFFFF">
-            <path class="shape-fill" d="M421.9,6.5c22.6-2.5,51.5,0.4,75.5,5.3c23.6,4.9,70.9,23.5,100.5,35.7c75.8,32.2,133.7,44.5,192.6,49.7
-        c23.6,2.1,48.7,3.5,103.4-2.5c54.7-6,106.2-25.6,106.2-25.6V0H0v30.3c0,0,72,32.6,158.4,30.5c39.2-0.7,92.8-6.7,134-22.4
-        c21.2-8.1,52.2-18.2,79.7-24.2C399.3,7.9,411.6,7.5,421.9,6.5z"></path>
-        </svg>
     </div>
 </section>
 
