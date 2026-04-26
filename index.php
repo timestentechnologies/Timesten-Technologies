@@ -867,8 +867,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                         <!-- Section Heading -->
                         <div class="section-heading text-center m-0 cta-heading">
                             <h2 class="text-white"><?php print $enquiry_title; ?></h2>
-                            <p class="text-white d-none d-sm-block mt-4"><?php print $enquiry_text; ?></p>
-                            <a href="contact" class="btn btn-bordered-white mt-4">Contact Us</a>
+                            <p class="text-white mt-4"><?php print $enquiry_text; ?></p>
+                            <a href="contact" class="btn btn-bordered-white mt-4 d-none d-sm-inline-block">Contact Us</a>
                         </div>
                     </div>
                 </div>
