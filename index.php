@@ -418,7 +418,7 @@ print "
             $pricing_heading = $pricing_settings && isset($pricing_settings['heading']) ? $pricing_settings['heading'] : 'Pricing Plans';
             $pricing_subheading = $pricing_settings && isset($pricing_settings['subheading']) ? $pricing_settings['subheading'] : '';
         ?>
-        <section id="pricing" class="section bg-grey ptb_150">
+        <section id="pricing" class="section bg-grey ptb_150 position-relative overflow-hidden">
             <div class="shape shape-top">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none" fill="#FFFFFF">
                     <path class="shape-fill" d="M421.9,6.5c22.6-2.5,51.5,0.4,75.5,5.3c23.6,4.9,70.9,23.5,100.5,35.7c75.8,32.2,133.7,44.5,192.6,49.7
