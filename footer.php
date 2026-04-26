@@ -734,7 +734,9 @@ print "
     <?php } ?>
 
     <!-- Partners Carousel Initialization for non-home pages -->
-    <?php if ($current_page !== 'index.php' && !empty($partners)) { ?>
+    <?php if ($current_page !== 'index.php' && !empty($partners)) {
+        $partners_count = count($partners);
+    ?>
     <script>
     (function initPartnersCarouselWhenJQueryReady() {
         if (typeof window.jQuery === 'undefined') {
@@ -744,19 +746,25 @@ print "
 
         $(document).ready(function() {
             if ($('.partners-carousel').length && typeof $.fn.owlCarousel === 'function') {
+                var partnerCount = <?php echo (int)$partners_count; ?>;
+                // Only enable loop if we have more than 5 partners to avoid duplication
+                var enableLoop = partnerCount > 5;
+
                 $('.partners-carousel').owlCarousel({
-                    loop: true,
+                    loop: enableLoop,
                     margin: 20,
                     nav: false,
-                    dots: false,
+                    dots: partnerCount > 3,
                     autoplay: true,
-                    autoplayTimeout: 2500,
+                    autoplayTimeout: 2000,
+                    autoplaySpeed: 800,
                     autoplayHoverPause: true,
+                    slideTransition: 'linear',
                     responsive: {
-                        0: { items: 2 },
-                        576: { items: 3 },
-                        768: { items: 4 },
-                        992: { items: 5 }
+                        0: { items: Math.min(2, partnerCount) },
+                        576: { items: Math.min(3, partnerCount) },
+                        768: { items: Math.min(4, partnerCount) },
+                        992: { items: Math.min(5, partnerCount) }
                     }
                 });
             }
