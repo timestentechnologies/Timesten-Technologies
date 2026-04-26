@@ -1712,7 +1712,7 @@ body.dark,
     transition: all 0.3s ease;
 }
 
-.promo-icon i {
+.single-promo .promo-icon i {
     color: #ff8c00 !important;
     font-size: 48px;
 }
