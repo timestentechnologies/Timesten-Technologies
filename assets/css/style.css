@@ -2787,12 +2787,26 @@ body.dark,
 :: 19.0 BREADCRUMB AREA CSS
 ****************************** */
 .breadcrumb-area {
-    height: 400px;
+    height: 260px;
     z-index: 1;
 }
 
 .breadcrumb-content {
-    padding-top: 120px;
+    padding-top: 80px;
+}
+
+@media (max-width: 767.98px) {
+    .breadcrumb-area {
+        height: 200px;
+    }
+
+    .breadcrumb-content {
+        padding-top: 60px;
+    }
+
+    .breadcrumb-content > h2 {
+        font-size: 34px;
+    }
 }
 
 .breadcrumb-content > h2 {
@@ -3142,6 +3156,34 @@ body.dark,
 /* ******************************
 :: 23.0 FOOTER AREA CSS
 ****************************** */
+.footer-area,
+.footer-area .footer-top,
+.footer-area .footer-bottom {
+    background: #3b1b6a;
+    color: rgba(255, 255, 255, 0.92);
+}
+
+.footer-area p,
+.footer-area li,
+.footer-area small,
+.footer-area .copyright-left {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.footer-area a,
+.footer-area a.text-black-50 {
+    color: rgba(255, 255, 255, 0.82) !important;
+}
+
+.footer-area a:hover,
+.footer-area a.text-black-50:hover {
+    color: #ff8c00 !important;
+}
+
+.footer-area .copyright-area {
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
 .footer-area .social-icons a {
     font-size: 22px;
     color: #ff8c00;
@@ -3179,6 +3221,7 @@ body.dark,
     padding: 12px 14px;
     border: 1px solid rgba(59, 27, 106, 0.18);
     box-shadow: none;
+    background-color: #fff;
 }
 
 #bookMeetingModal .form-control:focus {
@@ -3195,6 +3238,16 @@ body.dark,
     background-size: 6px 6px, 6px 6px;
     background-repeat: no-repeat;
     padding-right: 40px;
+    cursor: pointer;
+    border-radius: 18px;
+}
+
+#bookMeetingModal select.form-control:invalid {
+    color: #8a8a8a;
+}
+
+#bookMeetingModal select.form-control option {
+    color: #222;
 }
 
 .dark .footer-area .copyright-area {

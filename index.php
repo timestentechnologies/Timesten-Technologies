@@ -937,7 +937,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 520px;">
                 <div class="modal-content" style="border: none; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
                     <div class="modal-header py-3" style="background: linear-gradient(135deg, #ff8c42 0%, #ff6b35 100%); color: white; border: none;">
-                        <h5 class="modal-title w-100 text-center font-weight-bold" id="bookMeetingModalLabel" style="font-size: 1.05rem;">Book a Meeting</h5>
+                        <h5 class="modal-title w-100 text-center font-weight-bold" id="bookMeetingModalLabel" style="font-size: 1.05rem; color: #fff; font-weight: 800;">Book a Meeting</h5>
                         <button type="button" class="close position-absolute" style="right: 14px; top: 10px; color: white; opacity: 0.9; font-size: 1.4rem;" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -1324,77 +1324,84 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
 </script>
             
 <script>
-$(document).ready(function() {
-    if ($('.partners-carousel').length && typeof $.fn.owlCarousel === 'function') {
-        $('.partners-carousel').owlCarousel({
-            loop: true,
-            margin: 20,
-            nav: false,
-            dots: false,
-            autoplay: true,
-            autoplayTimeout: 2500,
-            autoplayHoverPause: true,
-            responsive: {
-                0: { items: 2 },
-                576: { items: 3 },
-                768: { items: 4 },
-                992: { items: 5 }
-            }
-        });
+
+(function initIndexScriptsWhenJQueryReady() {
+    if (typeof window.jQuery === 'undefined') {
+        return setTimeout(initIndexScriptsWhenJQueryReady, 50);
     }
+    var $ = window.jQuery;
 
-    function pad2(n) {
-        return (n < 10 ? '0' : '') + n;
-    }
-
-    function formatDateValue(d) {
-        return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
-    }
-
-    function formatDateLabel(d) {
-        var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-        return d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
-    }
-
-    function buildMeetingDates() {
-        var $date = $('#meeting_date');
-        if (!$date.length) return;
-        $date.find('option').not(':first').remove();
-
-        var today = new Date();
-        for (var i = 1; i <= 14; i++) {
-            var d = new Date(today.getTime());
-            d.setDate(today.getDate() + i);
-            var val = formatDateValue(d);
-            var label = formatDateLabel(d);
-            $date.append('<option value="' + val + '">' + label + '</option>');
+    $(document).ready(function() {
+        if ($('.partners-carousel').length && typeof $.fn.owlCarousel === 'function') {
+            $('.partners-carousel').owlCarousel({
+                loop: true,
+                margin: 20,
+                nav: false,
+                dots: false,
+                autoplay: true,
+                autoplayTimeout: 2500,
+                autoplayHoverPause: true,
+                responsive: {
+                    0: { items: 2 },
+                    576: { items: 3 },
+                    768: { items: 4 },
+                    992: { items: 5 }
+                }
+            });
         }
-    }
 
-    function buildMeetingTimes() {
-        var $time = $('#meeting_time');
-        if (!$time.length) return;
-        $time.find('option').not(':first').remove();
+        function pad2(n) {
+            return (n < 10 ? '0' : '') + n;
+        }
 
-        // Times: 09:00 - 17:00 every 30 mins
-        var startH = 9;
-        var endH = 17;
-        for (var h = startH; h <= endH; h++) {
-            for (var m = 0; m < 60; m += 30) {
-                if (h === endH && m > 0) continue;
-                var val = pad2(h) + ':' + pad2(m) + ':00';
-                var label = pad2(h) + ':' + pad2(m);
-                $time.append('<option value="' + val + '">' + label + '</option>');
+        function formatDateValue(d) {
+            return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
+        }
+
+        function formatDateLabel(d) {
+            var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+            return d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+        }
+
+        function buildMeetingDates() {
+            var $date = $('#meeting_date');
+            if (!$date.length) return;
+            $date.find('option').not(':first').remove();
+
+            var today = new Date();
+            for (var i = 1; i <= 14; i++) {
+                var d = new Date(today.getTime());
+                d.setDate(today.getDate() + i);
+                var val = formatDateValue(d);
+                var label = formatDateLabel(d);
+                $date.append('<option value="' + val + '">' + label + '</option>');
             }
         }
-    }
 
-    buildMeetingDates();
-    buildMeetingTimes();
+        function buildMeetingTimes() {
+            var $time = $('#meeting_time');
+            if (!$time.length) return;
+            $time.find('option').not(':first').remove();
 
-    $('#meeting_date').on('change', function() {
+            // Times: 09:00 - 17:00 every 30 mins
+            var startH = 9;
+            var endH = 17;
+            for (var h = startH; h <= endH; h++) {
+                for (var m = 0; m < 60; m += 30) {
+                    if (h === endH && m > 0) continue;
+                    var val = pad2(h) + ':' + pad2(m) + ':00';
+                    var label = pad2(h) + ':' + pad2(m);
+                    $time.append('<option value="' + val + '">' + label + '</option>');
+                }
+            }
+        }
+
+        buildMeetingDates();
         buildMeetingTimes();
-    });
+
+        $('#meeting_date').on('change', function() {
+            buildMeetingTimes();
+        });
 
     $('#contactForm').on('submit', function(e) {
         e.preventDefault();
@@ -1476,7 +1483,8 @@ $(document).ready(function() {
             }
         });
     });
-});
+    });
+})();
 </script>
       
       <?php include "footer.php"; ?>

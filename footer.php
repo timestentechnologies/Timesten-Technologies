@@ -449,6 +449,234 @@ print "
     </script>
 
     <?php include 'smart-chat.php'; ?>
+
+    <?php
+        $current_page = isset($_SERVER['PHP_SELF']) ? basename($_SERVER['PHP_SELF']) : '';
+        if ($current_page !== 'index.php') {
+    ?>
+
+        <!-- Book Meeting Modal -->
+        <div class="modal fade" id="bookMeetingModal" tabindex="-1" role="dialog" aria-labelledby="bookMeetingModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 520px;">
+                <div class="modal-content" style="border: none; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+                    <div class="modal-header py-3" style="background: linear-gradient(135deg, #ff8c42 0%, #ff6b35 100%); color: white; border: none;">
+                        <h5 class="modal-title w-100 text-center font-weight-bold" id="bookMeetingModalLabel" style="font-size: 1.05rem; color: #fff; font-weight: 800;">Book a Meeting</h5>
+                        <button type="button" class="close position-absolute" style="right: 14px; top: 10px; color: white; opacity: 0.9; font-size: 1.4rem;" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" style="background: #fff; padding: 22px 22px 10px 22px;">
+                        <form id="meetingForm" method="post">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="name" placeholder="Full Name" required>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="company" placeholder="Company (Optional)">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <input type="email" class="form-control" name="email" placeholder="Email" required>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="phone" placeholder="Phone" required>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <select class="form-control" name="meeting_type" required>
+                                            <option value="" selected disabled>Meeting Type</option>
+                                            <option value="Online">Online</option>
+                                            <option value="Physical">Physical</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <select class="form-control" name="meeting_date" id="meeting_date" required>
+                                            <option value="" selected disabled>Select Date</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <select class="form-control" name="meeting_time" id="meeting_time" required>
+                                            <option value="" selected disabled>Select Time</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <textarea class="form-control" name="message" placeholder="Briefly tell us what you'd like to discuss" required rows="3"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-bordered active btn-block mt-2" id="meetingSubmitBtn">
+                                        <span class="text-white pr-3"><i class="fas fa-calendar-check"></i></span>Submit Request
+                                        <span class="spinner-border spinner-border-sm text-white ml-2 d-none" id="meetingLoadingSpinner" role="status" aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer justify-content-center py-3" style="border-top: none; background: #f8f9fa;">
+                        <small class="text-muted">We will confirm your meeting by email/phone.</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Meeting Success Modal -->
+        <div class="modal fade" id="meetingSuccessModal" tabindex="-1" role="dialog" aria-labelledby="meetingSuccessModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 320px;">
+                <div class="modal-content" style="border: none; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+                    <div class="modal-header py-2" style="background: linear-gradient(135deg, #ff8c42 0%, #ff6b35 100%); color: white; border: none;">
+                        <h6 class="modal-title w-100 text-center font-weight-bold" id="meetingSuccessModalLabel" style="font-size: 0.95rem;">Request Sent!</h6>
+                        <button type="button" class="close position-absolute" style="right: 12px; top: 8px; color: white; opacity: 0.9; font-size: 1.2rem;" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center py-4 px-4">
+                        <div style="width: 70px; height: 70px; background: linear-gradient(135deg, #ff8c42 0%, #ff6b35 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; box-shadow: 0 4px 15px rgba(255, 108, 53, 0.4);">
+                            <i class="fas fa-check" style="color: white; font-size: 32px;"></i>
+                        </div>
+                        <h5 class="mb-2" style="color: #3b1b6a; font-weight: 700; font-size: 1.3rem;">Thank You!</h5>
+                        <p class="mb-0" style="font-size: 0.85rem; line-height: 1.5; color: #666;">Your meeting request has been sent. We will confirm shortly.</p>
+                    </div>
+                    <div class="modal-footer justify-content-center py-3" style="border-top: none; background: #f8f9fa;">
+                        <button type="button" class="btn px-4" style="background: linear-gradient(135deg, #ff8c42 0%, #ff6b35 100%); color: white; border: none; border-radius: 25px; font-weight: 600; font-size: 0.9rem; box-shadow: 0 4px 15px rgba(255, 108, 53, 0.3);" data-dismiss="modal">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Meeting Error Modal -->
+        <div class="modal fade" id="meetingErrorModal" tabindex="-1" role="dialog" aria-labelledby="meetingErrorModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title" id="meetingErrorModalLabel">Error</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: white;">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center py-4">
+                        <i class="fas fa-exclamation-triangle fa-4x mb-3 text-danger"></i>
+                        <h4>Oops!</h4>
+                        <p id="meetingErrorMessage">Something went wrong. Please try again.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+        (function initMeetingScriptsWhenJQueryReady() {
+            if (typeof window.jQuery === 'undefined') {
+                return setTimeout(initMeetingScriptsWhenJQueryReady, 50);
+            }
+            var $ = window.jQuery;
+
+            $(document).ready(function() {
+                function pad2(n) {
+                    return (n < 10 ? '0' : '') + n;
+                }
+
+                function formatDateValue(d) {
+                    return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
+                }
+
+                function formatDateLabel(d) {
+                    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+                    return d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+                }
+
+                function buildMeetingDates() {
+                    var $date = $('#meeting_date');
+                    if (!$date.length) return;
+                    $date.find('option').not(':first').remove();
+
+                    var today = new Date();
+                    for (var i = 1; i <= 14; i++) {
+                        var d = new Date(today.getTime());
+                        d.setDate(today.getDate() + i);
+                        var val = formatDateValue(d);
+                        var label = formatDateLabel(d);
+                        $date.append('<option value="' + val + '">' + label + '</option>');
+                    }
+                }
+
+                function buildMeetingTimes() {
+                    var $time = $('#meeting_time');
+                    if (!$time.length) return;
+                    $time.find('option').not(':first').remove();
+
+                    var startH = 9;
+                    var endH = 17;
+                    for (var h = startH; h <= endH; h++) {
+                        for (var m = 0; m < 60; m += 30) {
+                            if (h === endH && m > 0) continue;
+                            var val = pad2(h) + ':' + pad2(m) + ':00';
+                            var label = pad2(h) + ':' + pad2(m);
+                            $time.append('<option value="' + val + '">' + label + '</option>');
+                        }
+                    }
+                }
+
+                buildMeetingDates();
+                buildMeetingTimes();
+
+                $('#meeting_date').on('change', function() {
+                    buildMeetingTimes();
+                });
+
+                $('#meetingForm').on('submit', function(e) {
+                    e.preventDefault();
+
+                    $('#meetingSubmitBtn').prop('disabled', true);
+                    $('#meetingLoadingSpinner').removeClass('d-none');
+
+                    $.ajax({
+                        type: 'POST',
+                        url: 'book_meeting.php',
+                        data: $(this).serialize(),
+                        dataType: 'json',
+                        success: function(response) {
+                            $('#meetingSubmitBtn').prop('disabled', false);
+                            $('#meetingLoadingSpinner').addClass('d-none');
+
+                            if (response.status === 'success') {
+                                $('#meetingForm')[0].reset();
+                                setTimeout(function() {
+                                    $('#bookMeetingModal').modal('hide');
+                                    $('#meetingSuccessModal').modal('show');
+                                }, 200);
+                            } else {
+                                $('#meetingErrorMessage').html(response.message);
+                                $('#meetingErrorModal').modal('show');
+                            }
+                        },
+                        error: function() {
+                            $('#meetingSubmitBtn').prop('disabled', false);
+                            $('#meetingLoadingSpinner').addClass('d-none');
+                            $('#meetingErrorMessage').html('A server error occurred. Please try again later.');
+                            $('#meetingErrorModal').modal('show');
+                        }
+                    });
+                });
+            });
+        })();
+        </script>
+
+    <?php } ?>
 </body>
 
 
