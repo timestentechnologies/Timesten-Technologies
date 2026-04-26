@@ -3232,9 +3232,52 @@ body.dark,
     box-shadow: 0 0 0 0.15rem rgba(255, 140, 0, 0.18);
 }
 
-#bookMeetingModal select.form-control,
+/* Native date/time inputs - styled to match selects */
 #bookMeetingModal input[type="date"].form-control,
 #bookMeetingModal input[type="time"].form-control {
+    position: relative;
+    border-radius: 14px;
+    font-size: 15px;
+    height: 60px;
+    padding: 12px 14px;
+    border: 1px solid rgba(59, 27, 106, 0.18);
+    background-color: #fff;
+    color: #222;
+}
+
+/* Placeholder color for empty date/time */
+#bookMeetingModal input[type="date"].form-control:placeholder-shown,
+#bookMeetingModal input[type="time"].form-control:placeholder-shown,
+#bookMeetingModal input[type="date"].form-control:not(:valid),
+#bookMeetingModal input[type="time"].form-control:not(:valid) {
+    color: #8a8a8a;
+}
+
+/* Webkit browsers - style the calendar/clock icon */
+#bookMeetingModal input[type="date"]::-webkit-calendar-picker-indicator,
+#bookMeetingModal input[type="time"]::-webkit-calendar-picker-indicator {
+    background-color: transparent;
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 4px;
+    filter: invert(24%) sepia(17%) saturate(3235%) hue-rotate(232deg) brightness(96%) contrast(95%);
+    opacity: 0.6;
+}
+
+#bookMeetingModal input[type="date"]::-webkit-calendar-picker-indicator:hover,
+#bookMeetingModal input[type="time"]::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+    background-color: rgba(59, 27, 106, 0.1);
+}
+
+/* Firefox styling */
+#bookMeetingModal input[type="date"].form-control::-moz-calendar-picker-indicator,
+#bookMeetingModal input[type="time"].form-control::-moz-calendar-picker-indicator {
+    filter: invert(24%) sepia(17%) saturate(3235%) hue-rotate(232deg) brightness(96%) contrast(95%);
+}
+
+/* Select dropdown with custom arrow */
+#bookMeetingModal select.form-control {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -3245,26 +3288,48 @@ body.dark,
     background-repeat: no-repeat;
     padding-right: 32px;
     cursor: pointer;
-    border-radius: 18px;
 }
 
-#bookMeetingModal input[type="date"].form-control::-webkit-calendar-picker-indicator,
-#bookMeetingModal input[type="time"].form-control::-webkit-calendar-picker-indicator {
-    opacity: 0;
+/* Date/Time inputs - keep native picker but style consistently */
+#bookMeetingModal input[type="date"].form-control,
+#bookMeetingModal input[type="time"].form-control {
+    -webkit-appearance: auto;
+    -moz-appearance: auto;
+    appearance: auto;
+    padding-right: 14px;
     cursor: pointer;
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
 }
 
-#bookMeetingModal select.form-control:invalid {
+/* Placeholder color for empty date/time */
+#bookMeetingModal input[type="date"]:placeholder-shown,
+#bookMeetingModal input[type="time"]:placeholder-shown,
+#bookMeetingModal input[type="date"]:not(:valid),
+#bookMeetingModal input[type="time"]:not(:valid) {
     color: #8a8a8a;
 }
 
-#bookMeetingModal select.form-control option {
-    color: #222;
+/* Webkit calendar/clock icon styling */
+#bookMeetingModal input[type="date"]::-webkit-calendar-picker-indicator,
+#bookMeetingModal input[type="time"]::-webkit-calendar-picker-indicator {
+    opacity: 0.6;
+    cursor: pointer;
+    padding: 8px;
+    margin-right: 4px;
+}
+
+#bookMeetingModal input[type="date"]::-webkit-calendar-picker-indicator:hover,
+#bookMeetingModal input[type="time"]::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+    background-color: rgba(59, 27, 106, 0.1);
+    border-radius: 4px;
+}
+
+.blog .footer-area {
+    background: #191919;
+}
+
+.blog .footer-area {
+    background: #191919;
 }
 
 .dark .footer-area .copyright-area {

@@ -976,12 +976,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                                 </div>
                                 <div class="col-12 col-md-6">
                                     <div class="form-group">
-                                        <input type="date" class="form-control" name="meeting_date" id="meeting_date" required style="appearance: auto; -webkit-appearance: auto;">
+                                        <input type="date" class="form-control" name="meeting_date" id="meeting_date" required placeholder="Select Date">
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6">
                                     <div class="form-group">
-                                        <input type="time" class="form-control" name="meeting_time" id="meeting_time" required min="08:00" max="17:00" style="appearance: auto; -webkit-appearance: auto;">
+                                        <input type="time" class="form-control" name="meeting_time" id="meeting_time" required min="08:00" max="17:00" placeholder="Select Time">
                                     </div>
                                 </div>
                                 <div class="col-12">
