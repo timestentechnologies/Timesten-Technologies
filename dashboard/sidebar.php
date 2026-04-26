@@ -115,6 +115,12 @@ $ufile = $r[0];
                                 </ul>
                             </div>
                         </li>
+
+                        <li class="nav-item">
+                            <a href="pricing" class="nav-link">
+                                <i class="ri-price-tag-3-line"></i> <span data-key="t-landing"> Pricing Page </span>
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarX" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="sidebarLanding">
                                 <i class="ri-chrome-fill"></i> <span data-key="t-landing">Manage Social</span>
