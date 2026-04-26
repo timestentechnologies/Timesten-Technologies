@@ -6,8 +6,8 @@ error_reporting(E_ALL);
 
 include "header.php"; ?>
 <?php
-// Helper function to highlight words in text
-function highlight_words($text, $highlight_words) {
+// Helper function to highlight words in text with custom color
+function highlight_words($text, $highlight_words, $color = '#ff8c00') {
     if (empty($highlight_words)) {
         return htmlspecialchars($text);
     }
@@ -23,8 +23,8 @@ function highlight_words($text, $highlight_words) {
     $result = $text;
     foreach ($words as $word) {
         $escaped_word = preg_quote($word, '/');
-        $result = preg_replace_callback('/(' . $escaped_word . ')/i', function($matches) {
-            return '<span style="color: #ff8c00;">' . $matches[1] . '</span>';
+        $result = preg_replace_callback('/(' . $escaped_word . ')/i', function($matches) use ($color) {
+            return '<span class="highlight-word" style="color: ' . $color . ';">' . $matches[1] . '</span>';
         }, $result);
     }
     return $result;
@@ -113,14 +113,18 @@ function highlight_words_js($text, $highlight_words) {
                             $slide_title = isset($srow['slide_title']) ? $srow['slide_title'] : '';
                             $slide_text = isset($srow['slide_text']) ? $srow['slide_text'] : '';
                             $highlight_words = isset($srow['highlight_words']) ? $srow['highlight_words'] : '';
+                            $highlight_color = isset($srow['highlight_color']) ? $srow['highlight_color'] : '#ff8c00';
+                            $typing_effect = isset($srow['typing_effect']) ? (int)$srow['typing_effect'] : 0;
                             $text_align = (isset($srow['text_align']) && $srow['text_align'] === 'right') ? 'right' : 'left';
                             $show_cartoon = (isset($srow['show_cartoon']) && (int)$srow['show_cartoon'] === 0) ? '0' : '1';
                             $data_title = htmlspecialchars($slide_title, ENT_QUOTES);
                             $data_text = htmlspecialchars($slide_text, ENT_QUOTES);
                             $data_highlight = htmlspecialchars($highlight_words, ENT_QUOTES);
-                            $title_highlighted = highlight_words($slide_title, $highlight_words);
+                            $data_color = htmlspecialchars($highlight_color, ENT_QUOTES);
+                            $data_typing = $typing_effect;
+                            $title_highlighted = highlight_words($slide_title, $highlight_words, $highlight_color);
                             $data_title_highlighted = htmlspecialchars($title_highlighted, ENT_QUOTES);
-                            print "<div class='welcome-slide' data-slide-title='$data_title' data-slide-text='$data_text' data-highlight-words='$data_highlight' data-text-align='$text_align' data-show-cartoon='$show_cartoon' data-title-highlighted='$data_title_highlighted' style=\"width:100%;height:100%;background-image:url('dashboard/uploads/slider/$bg');background-size:cover;background-position:center;\"></div>";
+                            print "<div class='welcome-slide' data-slide-title='$data_title' data-slide-text='$data_text' data-highlight-words='$data_highlight' data-highlight-color='$data_color' data-typing-effect='$data_typing' data-text-align='$text_align' data-show-cartoon='$show_cartoon' data-title-highlighted='$data_title_highlighted' style=\"width:100%;height:100%;background-image:url('dashboard/uploads/slider/$bg');background-size:cover;background-position:center;\"></div>";
                         }
                     ?>
                 </div>
@@ -239,9 +243,11 @@ function highlight_words_js($text, $highlight_words) {
                                     $first_title = isset($first_slide['slide_title']) && strlen(trim($first_slide['slide_title'])) > 0 ? $first_slide['slide_title'] : $stitle;
                                     $first_text = isset($first_slide['slide_text']) && strlen(trim($first_slide['slide_text'])) > 0 ? $first_slide['slide_text'] : $stext;
                                     $first_highlight = isset($first_slide['highlight_words']) ? $first_slide['highlight_words'] : '';
-                                    $first_title_highlighted = highlight_words($first_title, $first_highlight);
+                                    $first_color = isset($first_slide['highlight_color']) ? $first_slide['highlight_color'] : '#ff8c00';
+                                    $first_typing = isset($first_slide['typing_effect']) ? (int)$first_slide['typing_effect'] : 0;
+                                    $first_title_highlighted = highlight_words($first_title, $first_highlight, $first_color);
                                 ?>
-                                <h1 class="text-white" id="heroSlideTitle"><?php print $first_title_highlighted; ?></h1>
+                                <h1 class="text-white" id="heroSlideTitle" data-typing-enabled="<?php echo $first_typing; ?>"><?php print $first_title_highlighted; ?></h1>
                                 <p class="text-white my-4" id="heroSlideText"><?php print htmlspecialchars($first_text); ?></p>
                             <?php } else { ?>
                                 <h1 class="text-white"><?php print $stitle?></h1>
@@ -890,6 +896,92 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                         }
                         $slider.data('owl-initialized', true);
 
+                        var currentTypingTimeout = null;
+
+                        function animateTyping($element, finalHtml, speed) {
+                            // Clear any existing animation
+                            if (currentTypingTimeout) {
+                                clearTimeout(currentTypingTimeout);
+                            }
+
+                            // Create a temp container to parse the HTML
+                            var tempDiv = document.createElement('div');
+                            tempDiv.innerHTML = finalHtml;
+
+                            // Extract text nodes and their styles
+                            var segments = [];
+                            function extractSegments(node, styles) {
+                                if (node.nodeType === 3) { // Text node
+                                    if (node.textContent) {
+                                        segments.push({ text: node.textContent, style: styles });
+                                    }
+                                } else if (node.nodeType === 1) { // Element node
+                                    var newStyles = styles;
+                                    if (node.tagName === 'SPAN' && node.className === 'highlight-word') {
+                                        newStyles = ' style="' + node.getAttribute('style') + '"';
+                                    }
+                                    for (var i = 0; i < node.childNodes.length; i++) {
+                                        extractSegments(node.childNodes[i], newStyles);
+                                    }
+                                }
+                            }
+                            extractSegments(tempDiv, '');
+
+                            // Build the result character by character
+                            var currentIndex = 0;
+                            var currentSegment = 0;
+                            var currentChar = 0;
+                            var builtHtml = '';
+                            var currentSegmentHtml = '';
+
+                            function typeNextChar() {
+                                if (currentSegment >= segments.length) {
+                                    return; // Done
+                                }
+
+                                var seg = segments[currentSegment];
+                                if (currentChar === 0 && seg.style) {
+                                    currentSegmentHtml = '<span' + seg.style + '>';
+                                }
+
+                                if (currentChar < seg.text.length) {
+                                    currentSegmentHtml += seg.text[currentChar];
+                                    currentChar++;
+                                }
+
+                                // Close tag if segment is done
+                                if (currentChar >= seg.text.length && seg.style) {
+                                    currentSegmentHtml += '</span>';
+                                }
+
+                                // Build full HTML
+                                builtHtml = '';
+                                for (var i = 0; i < currentSegment; i++) {
+                                    var s = segments[i];
+                                    if (s.style) {
+                                        builtHtml += '<span' + s.style + '>' + s.text + '</span>';
+                                    } else {
+                                        builtHtml += s.text;
+                                    }
+                                }
+                                builtHtml += currentSegmentHtml;
+
+                                $element.html(builtHtml);
+
+                                if (currentChar >= seg.text.length) {
+                                    currentSegment++;
+                                    currentChar = 0;
+                                    currentSegmentHtml = '';
+                                }
+
+                                if (currentSegment < segments.length) {
+                                    currentTypingTimeout = setTimeout(typeNextChar, speed);
+                                }
+                            }
+
+                            typeNextChar();
+                        }
+
                         function updateHeroFromActiveSlide() {
                             var $active = $slider.find('.owl-item.active .welcome-slide').first();
                             var t = ($active.attr('data-slide-title') || '').trim();
@@ -897,10 +989,22 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                             var x = ($active.attr('data-slide-text') || '').trim();
                             var a = ($active.attr('data-text-align') || 'left').trim();
                             var c = ($active.attr('data-show-cartoon') || '1').trim();
+                            var typing = ($active.attr('data-typing-effect') || '0').trim();
 
                             if ($('#heroSlideTitle').length) {
                                 var titleHtml = t_highlighted.length ? t_highlighted : (t.length ? t : <?php echo json_encode($stitle); ?>);
-                                $('#heroSlideTitle').html(titleHtml);
+
+                                if (typing === '1' && t_highlighted.length) {
+                                    // Enable typing effect - animate letter by letter
+                                    $('#heroSlideTitle').html('');
+                                    animateTyping($('#heroSlideTitle'), titleHtml, 50);
+                                } else {
+                                    // Clear any pending animation and show full text
+                                    if (currentTypingTimeout) {
+                                        clearTimeout(currentTypingTimeout);
+                                    }
+                                    $('#heroSlideTitle').html(titleHtml);
+                                }
                             }
                             if ($('#heroSlideText').length) {
                                 $('#heroSlideText').text(x.length ? x : <?php echo json_encode($stext); ?>);
@@ -954,6 +1058,102 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                     }
                 })();
             </script>
+
+<script>
+// Typing effect for first slide on page load
+(function() {
+    function initFirstSlideTyping() {
+        var $title = $('#heroSlideTitle');
+        if (!$title.length) return;
+
+        var typingEnabled = $title.attr('data-typing-enabled') === '1';
+        if (!typingEnabled) return;
+
+        var finalHtml = $title.html();
+        if (!finalHtml) return;
+
+        // Parse HTML to extract segments
+        var tempDiv = document.createElement('div');
+        tempDiv.innerHTML = finalHtml;
+
+        var segments = [];
+        function extractSegments(node, styles) {
+            if (node.nodeType === 3) {
+                if (node.textContent) {
+                    segments.push({ text: node.textContent, style: styles });
+                }
+            } else if (node.nodeType === 1) {
+                var newStyles = styles;
+                if (node.tagName === 'SPAN' && node.className === 'highlight-word') {
+                    newStyles = ' style="' + node.getAttribute('style') + '"';
+                }
+                for (var i = 0; i < node.childNodes.length; i++) {
+                    extractSegments(node.childNodes[i], newStyles);
+                }
+            }
+        }
+        extractSegments(tempDiv, '');
+
+        // Build character by character
+        var currentSegment = 0;
+        var currentChar = 0;
+        var currentSegmentHtml = '';
+        var typingTimeout = null;
+
+        $title.html('');
+
+        function typeNextChar() {
+            if (currentSegment >= segments.length) return;
+
+            var seg = segments[currentSegment];
+            if (currentChar === 0 && seg.style) {
+                currentSegmentHtml = '<span' + seg.style + '>';
+            }
+
+            if (currentChar < seg.text.length) {
+                currentSegmentHtml += seg.text[currentChar];
+                currentChar++;
+            }
+
+            if (currentChar >= seg.text.length && seg.style) {
+                currentSegmentHtml += '</span>';
+            }
+
+            var builtHtml = '';
+            for (var i = 0; i < currentSegment; i++) {
+                var s = segments[i];
+                if (s.style) {
+                    builtHtml += '<span' + s.style + '>' + s.text + '</span>';
+                } else {
+                    builtHtml += s.text;
+                }
+            }
+            builtHtml += currentSegmentHtml;
+
+            $title.html(builtHtml);
+
+            if (currentChar >= seg.text.length) {
+                currentSegment++;
+                currentChar = 0;
+                currentSegmentHtml = '';
+            }
+
+            if (currentSegment < segments.length) {
+                typingTimeout = setTimeout(typeNextChar, 50);
+            }
+        }
+
+        // Start typing animation after a short delay
+        setTimeout(typeNextChar, 300);
+    }
+
+    if (document.readyState === 'complete') {
+        initFirstSlideTyping();
+    } else {
+        window.addEventListener('load', initFirstSlideTyping);
+    }
+})();
+</script>
             
 <script>
 $(document).ready(function() {

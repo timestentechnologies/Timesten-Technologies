@@ -12,6 +12,8 @@ if (isset($_POST['save']) && $row) {
     $slide_title = mysqli_real_escape_string($con, $_POST['slide_title']);
     $slide_text = mysqli_real_escape_string($con, $_POST['slide_text']);
     $highlight_words = mysqli_real_escape_string($con, $_POST['highlight_words']);
+    $highlight_color = mysqli_real_escape_string($con, $_POST['highlight_color']);
+    $typing_effect = isset($_POST['typing_effect']) ? 1 : 0;
 
     $text_align = isset($_POST['text_align']) ? $_POST['text_align'] : 'left';
     $text_align = ($text_align === 'right') ? 'right' : 'left';
@@ -75,7 +77,19 @@ if (isset($_POST['save']) && $row) {
             $highlight_sql = ", highlight_words='$highlight_words'";
         }
 
-        $qb = mysqli_query($con, "UPDATE slider SET slide_title='$slide_title', slide_text='$slide_text'$file_sql$align_sql$cartoon_sql$highlight_sql WHERE id='$todo'");
+        $color_sql = "";
+        $col_rs4 = mysqli_query($con, "SHOW COLUMNS FROM slider LIKE 'highlight_color'");
+        if ($col_rs4 && mysqli_num_rows($col_rs4) > 0) {
+            $color_sql = ", highlight_color='$highlight_color'";
+        }
+
+        $typing_sql = "";
+        $col_rs5 = mysqli_query($con, "SHOW COLUMNS FROM slider LIKE 'typing_effect'");
+        if ($col_rs5 && mysqli_num_rows($col_rs5) > 0) {
+            $typing_sql = ", typing_effect='$typing_effect'";
+        }
+
+        $qb = mysqli_query($con, "UPDATE slider SET slide_title='$slide_title', slide_text='$slide_text'$file_sql$align_sql$cartoon_sql$highlight_sql$color_sql$typing_sql WHERE id='$todo'");
         if ($qb) {
             $errormsg = "<div class='alert alert-success alert-dismissible alert-outline fade show'>Slider updated successfully.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
             $query = mysqli_query($con, "SELECT * FROM slider WHERE id='$todo' LIMIT 1");
@@ -118,6 +132,8 @@ if (isset($_POST['save']) && $row) {
                                 <?php $text_align_db = isset($row['text_align']) && $row['text_align'] === 'right' ? 'right' : 'left'; ?>
                                 <?php $show_cartoon_db = !isset($row['show_cartoon']) ? 1 : (int)$row['show_cartoon']; ?>
                                 <?php $highlight_words_db = isset($row['highlight_words']) ? $row['highlight_words'] : ''; ?>
+                                <?php $highlight_color_db = isset($row['highlight_color']) ? $row['highlight_color'] : '#ff8c00'; ?>
+                                <?php $typing_effect_db = isset($row['typing_effect']) ? (int)$row['typing_effect'] : 0; ?>
                                 <form action="" method="post" enctype="multipart/form-data">
                                     <div class="row">
                                         <div class="col-lg-6">
@@ -169,7 +185,23 @@ if (isset($_POST['save']) && $row) {
                                             <div class="mb-3">
                                                 <label class="form-label">Highlight Words (comma separated)</label>
                                                 <input type="text" class="form-control" name="highlight_words" value="<?php echo htmlspecialchars($highlight_words_db); ?>" placeholder="e.g., digital, solutions, innovative">
-                                                <small class="text-muted">Words to highlight in warm orange color in the title</small>
+                                                <small class="text-muted">Words to highlight in the title</small>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Highlight Color</label>
+                                                <input type="color" class="form-control form-control-color" name="highlight_color" value="<?php echo htmlspecialchars($highlight_color_db); ?>" title="Choose highlight color">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="typingEffect" name="typing_effect" value="1" <?php if ($typing_effect_db) { echo 'checked'; } ?>>
+                                                    <label class="form-check-label" for="typingEffect">Enable typing effect for highlighted words</label>
+                                                </div>
                                             </div>
                                         </div>
 
