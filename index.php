@@ -209,7 +209,7 @@
                             <!-- Buttons -->
                             <div class="button-group">
                                 <a href="portfolio.php" class="btn btn-bordered-white">Browse Projects</a>
-                                <a href="contact.php" class="btn btn-bordered-white d-none d-sm-inline-block">Contact Us</a>
+                                <a href="contact.php" class="btn btn-bordered-white">Contact Us</a>
                             </div>
                         </div>
                     </div>
