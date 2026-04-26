@@ -123,7 +123,8 @@ if ($rs) {
                             <h5 class="card-title mb-0">All Contact Inquiries</h5>
                         </div>
                         <div class="card-body">
-                            <table id="inquiries-table" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
+                            <div class="table-responsive">
+                                <table id="inquiries-table" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
@@ -173,6 +174,7 @@ if ($rs) {
                                     <?php endif; ?>
                                 </tbody>
                             </table>
+                            </div>
                         </div>
                     </div>
                 </div>
