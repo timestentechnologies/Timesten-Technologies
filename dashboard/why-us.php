@@ -65,9 +65,9 @@ while($ro = mysqli_fetch_array($r123))
   if($icon_type == 'upload' && $icon_image) {
       $icon_display = "<img src='uploads/whyicons/$icon_image' alt='Icon' style='max-height: 40px; max-width: 40px;'>";
   } elseif($icon_class) {
-      $icon_display = "<i class='$icon_class fa-2x text-primary'></i>";
+      $icon_display = "<i class='$icon_class fa-2x' style='color: #ff8c00;'></i>";
   } else {
-      $icon_display = "<i class='fas fa-star fa-2x text-muted'></i>";
+      $icon_display = "<i class='fas fa-star fa-2x' style='color: #ff8c00;'></i>";
   }
 
   print "<tr>
