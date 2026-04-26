@@ -162,8 +162,35 @@ $ufile = $r[0];
                                 </ul>
                             </div>
                         </li>
-
-        <li class="menu-title"><span data-key="t-hr">HR</span></li>
+   <li class="menu-title"><span data-key="t-management">ACCOUNTING</span></li>
+        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#sidebarFinance" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="sidebarFinance">
+                                <i class="ri-money-dollar-circle-line"></i> <span data-key="t-landing">Finance</span>
+                            </a>
+                            <div class="menu-dropdown collapse" id="sidebarFinance" style="">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="customers" class="nav-link"> Customers </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="invoices" class="nav-link"> Invoices </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="products" class="nav-link"> Products </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="payments" class="nav-link"> Payments </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="expenses" class="nav-link"> Expenses </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="statement" class="nav-link"> Statement </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+        <li class="menu-title"><span data-key="t-hr">HR & EMPLOYEES</span></li>
         <li class="nav-item">
                             <a class="nav-link" href="employees.php" data-key="t-analytics">  <i class="ri-team-line"></i> <span> Employees </span></a>
                         </li>
@@ -216,32 +243,6 @@ $ufile = $r[0];
 
         <li class="menu-title"><span data-key="t-management">Management</span></li>
         <li class="nav-item">
-                            <a class="nav-link menu-link" href="#sidebarFinance" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="sidebarFinance">
-                                <i class="ri-money-dollar-circle-line"></i> <span data-key="t-landing">Finance</span>
-                            </a>
-                            <div class="menu-dropdown collapse" id="sidebarFinance" style="">
-                                <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item">
-                                        <a href="customers" class="nav-link"> Customers </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="invoices" class="nav-link"> Invoices </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="products" class="nav-link"> Products </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="payments" class="nav-link"> Payments </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="expenses" class="nav-link"> Expenses </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="statement" class="nav-link"> Statement </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
 
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarReferrals" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="sidebarReferrals">

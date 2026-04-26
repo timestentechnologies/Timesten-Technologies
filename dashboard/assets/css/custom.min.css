@@ -91,6 +91,11 @@ body, * {
   color: #ffffff !important;
 }
 
+#page-topbar .user-name-text,
+#page-topbar .topbar-user .user-name-text {
+  color: #ffffff !important;
+}
+
 #page-topbar .topbar-user,
 #page-topbar .topbar-user > .btn,
 #page-topbar #page-header-user-dropdown {
