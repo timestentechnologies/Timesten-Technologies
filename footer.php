@@ -684,10 +684,14 @@ print "
                                 $('#meetingErrorModal').modal('show');
                             }
                         },
-                        error: function() {
+                        error: function(xhr, status, error) {
                             $('#meetingSubmitBtn').prop('disabled', false);
                             $('#meetingLoadingSpinner').addClass('d-none');
-                            $('#meetingErrorMessage').html('A server error occurred. Please try again later.');
+                            var errorMsg = 'A server error occurred. Please try again later.';
+                            if (xhr.responseText) {
+                                errorMsg += '<br><small>Debug: ' + xhr.responseText.substring(0, 200) + '</small>';
+                            }
+                            $('#meetingErrorMessage').html(errorMsg);
                             $('#meetingErrorModal').modal('show');
                         }
                     });
