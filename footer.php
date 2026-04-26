@@ -167,16 +167,10 @@ print "
                                         <a href="portfolio" class="nav-link">Portfolio</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="pricing" class="nav-link">Pricing</a>
-                                    </li>
-                                    <li class="nav-item">
                                         <a href="blog" class="nav-link">Blog</a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="careers" class="nav-link">Careers</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="refer" class="nav-link" style="color: #f67011; font-weight: bold;">Refer & Earn</a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="contact" class="nav-link">Contact Us</a>
