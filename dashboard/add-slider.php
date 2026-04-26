@@ -52,6 +52,7 @@ $msg="";
            if(ISSET($_POST['save'])){
 $slide_title = mysqli_real_escape_string($con,$_POST['slide_title']);
 $slide_text = mysqli_real_escape_string($con,$_POST['slide_text']);
+$highlight_words = mysqli_real_escape_string($con,$_POST['highlight_words']);
 
 $text_align = isset($_POST['text_align']) ? $_POST['text_align'] : 'left';
 $text_align = ($text_align === 'right') ? 'right' : 'left';
@@ -94,7 +95,20 @@ if ($col_rs2 && mysqli_num_rows($col_rs2) > 0) {
     $has_cartoon_col = true;
 }
 
-if ($has_align_col && $has_cartoon_col) {
+$has_highlight_col = false;
+$col_rs3 = mysqli_query($con, "SHOW COLUMNS FROM slider LIKE 'highlight_words'");
+if ($col_rs3 && mysqli_num_rows($col_rs3) > 0) {
+    $has_highlight_col = true;
+}
+
+$highlight_sql = '';
+if ($has_highlight_col) {
+    $highlight_sql = ", highlight_words='$highlight_words'";
+}
+
+if ($has_align_col && $has_cartoon_col && $has_highlight_col) {
+    $qb=mysqli_query($con,"INSERT INTO slider (slide_title, slide_text, ufile, text_align, show_cartoon, highlight_words) VALUES ('$slide_title', '$slide_text', '$new_file_name', '$text_align_sql', '$show_cartoon', '$highlight_words')");
+} elseif ($has_align_col && $has_cartoon_col) {
     $qb=mysqli_query($con,"INSERT INTO slider (slide_title, slide_text, ufile, text_align, show_cartoon) VALUES ('$slide_title', '$slide_text', '$new_file_name', '$text_align_sql', '$show_cartoon')");
 } elseif ($has_align_col && !$has_cartoon_col) {
     $qb=mysqli_query($con,"INSERT INTO slider (slide_title, slide_text, ufile, text_align) VALUES ('$slide_title', '$slide_text', '$new_file_name', '$text_align_sql')");
@@ -188,6 +202,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                                                                 <input class="form-check-input" type="checkbox" id="show_cartoon" name="show_cartoon" value="1" checked>
                                                                 <label class="form-check-label" for="show_cartoon">Show cartoon on homepage</label>
                                                             </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-3">
+                                                            <label for="highlightWordsInput" class="form-label">Highlight Words (comma separated)</label>
+                                                            <input type="text" class="form-control" id="highlightWordsInput" name="highlight_words" placeholder="e.g., digital, solutions, innovative">
+                                                            <small class="text-muted">Words to highlight in warm orange color in the title</small>
                                                         </div>
                                                     </div>
                                                     <!--end col-->

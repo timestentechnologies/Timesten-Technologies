@@ -11,6 +11,7 @@ $errormsg = "";
 if (isset($_POST['save']) && $row) {
     $slide_title = mysqli_real_escape_string($con, $_POST['slide_title']);
     $slide_text = mysqli_real_escape_string($con, $_POST['slide_text']);
+    $highlight_words = mysqli_real_escape_string($con, $_POST['highlight_words']);
 
     $text_align = isset($_POST['text_align']) ? $_POST['text_align'] : 'left';
     $text_align = ($text_align === 'right') ? 'right' : 'left';
@@ -68,7 +69,13 @@ if (isset($_POST['save']) && $row) {
             $cartoon_sql = ", show_cartoon='$show_cartoon'";
         }
 
-        $qb = mysqli_query($con, "UPDATE slider SET slide_title='$slide_title', slide_text='$slide_text'$file_sql$align_sql$cartoon_sql WHERE id='$todo'");
+        $highlight_sql = "";
+        $col_rs3 = mysqli_query($con, "SHOW COLUMNS FROM slider LIKE 'highlight_words'");
+        if ($col_rs3 && mysqli_num_rows($col_rs3) > 0) {
+            $highlight_sql = ", highlight_words='$highlight_words'";
+        }
+
+        $qb = mysqli_query($con, "UPDATE slider SET slide_title='$slide_title', slide_text='$slide_text'$file_sql$align_sql$cartoon_sql$highlight_sql WHERE id='$todo'");
         if ($qb) {
             $errormsg = "<div class='alert alert-success alert-dismissible alert-outline fade show'>Slider updated successfully.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
             $query = mysqli_query($con, "SELECT * FROM slider WHERE id='$todo' LIMIT 1");
@@ -110,6 +117,7 @@ if (isset($_POST['save']) && $row) {
                             <?php } else { ?>
                                 <?php $text_align_db = isset($row['text_align']) && $row['text_align'] === 'right' ? 'right' : 'left'; ?>
                                 <?php $show_cartoon_db = !isset($row['show_cartoon']) ? 1 : (int)$row['show_cartoon']; ?>
+                                <?php $highlight_words_db = isset($row['highlight_words']) ? $row['highlight_words'] : ''; ?>
                                 <form action="" method="post" enctype="multipart/form-data">
                                     <div class="row">
                                         <div class="col-lg-6">
@@ -154,6 +162,14 @@ if (isset($_POST['save']) && $row) {
                                                     <input class="form-check-input" type="checkbox" id="show_cartoon" name="show_cartoon" value="1" <?php if (!empty($show_cartoon_db)) { echo 'checked'; } ?>>
                                                     <label class="form-check-label" for="show_cartoon">Show cartoon on homepage</label>
                                                 </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Highlight Words (comma separated)</label>
+                                                <input type="text" class="form-control" name="highlight_words" value="<?php echo htmlspecialchars($highlight_words_db); ?>" placeholder="e.g., digital, solutions, innovative">
+                                                <small class="text-muted">Words to highlight in warm orange color in the title</small>
                                             </div>
                                         </div>
 

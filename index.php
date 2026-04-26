@@ -6,6 +6,35 @@ error_reporting(E_ALL);
 
 include "header.php"; ?>
 <?php
+// Helper function to highlight words in text
+function highlight_words($text, $highlight_words) {
+    if (empty($highlight_words)) {
+        return htmlspecialchars($text);
+    }
+    $words = array_map('trim', explode(',', $highlight_words));
+    $words = array_filter($words);
+    if (empty($words)) {
+        return htmlspecialchars($text);
+    }
+    // Sort by length descending to avoid partial replacements
+    usort($words, function($a, $b) {
+        return strlen($b) - strlen($a);
+    });
+    $result = $text;
+    foreach ($words as $word) {
+        $escaped_word = preg_quote($word, '/');
+        $result = preg_replace_callback('/(' . $escaped_word . ')/i', function($matches) {
+            return '<span style="color: #ff8c00;">' . $matches[1] . '</span>';
+        }, $result);
+    }
+    return $result;
+}
+
+function highlight_words_js($text, $highlight_words) {
+    // Same as above but returns JSON-encoded string for JavaScript
+    return json_encode(highlight_words($text, $highlight_words));
+}
+
     $static_rs = mysqli_query($con, "SELECT * FROM static WHERE id=1 LIMIT 1");
     $static_row = $static_rs ? mysqli_fetch_assoc($static_rs) : null;
     $stitle = $static_row && isset($static_row['stitle']) ? $static_row['stitle'] : '';
@@ -83,11 +112,15 @@ include "header.php"; ?>
                             $bg = htmlspecialchars($ufile);
                             $slide_title = isset($srow['slide_title']) ? $srow['slide_title'] : '';
                             $slide_text = isset($srow['slide_text']) ? $srow['slide_text'] : '';
+                            $highlight_words = isset($srow['highlight_words']) ? $srow['highlight_words'] : '';
                             $text_align = (isset($srow['text_align']) && $srow['text_align'] === 'right') ? 'right' : 'left';
                             $show_cartoon = (isset($srow['show_cartoon']) && (int)$srow['show_cartoon'] === 0) ? '0' : '1';
                             $data_title = htmlspecialchars($slide_title, ENT_QUOTES);
                             $data_text = htmlspecialchars($slide_text, ENT_QUOTES);
-                            print "<div class='welcome-slide' data-slide-title='$data_title' data-slide-text='$data_text' data-text-align='$text_align' data-show-cartoon='$show_cartoon' style=\"width:100%;height:100%;background-image:url('dashboard/uploads/slider/$bg');background-size:cover;background-position:center;\"></div>";
+                            $data_highlight = htmlspecialchars($highlight_words, ENT_QUOTES);
+                            $title_highlighted = highlight_words($slide_title, $highlight_words);
+                            $data_title_highlighted = htmlspecialchars($title_highlighted, ENT_QUOTES);
+                            print "<div class='welcome-slide' data-slide-title='$data_title' data-slide-text='$data_text' data-highlight-words='$data_highlight' data-text-align='$text_align' data-show-cartoon='$show_cartoon' data-title-highlighted='$data_title_highlighted' style=\"width:100%;height:100%;background-image:url('dashboard/uploads/slider/$bg');background-size:cover;background-position:center;\"></div>";
                         }
                     ?>
                 </div>
@@ -205,8 +238,10 @@ include "header.php"; ?>
                                     $first_slide = $slider_items[0];
                                     $first_title = isset($first_slide['slide_title']) && strlen(trim($first_slide['slide_title'])) > 0 ? $first_slide['slide_title'] : $stitle;
                                     $first_text = isset($first_slide['slide_text']) && strlen(trim($first_slide['slide_text'])) > 0 ? $first_slide['slide_text'] : $stext;
+                                    $first_highlight = isset($first_slide['highlight_words']) ? $first_slide['highlight_words'] : '';
+                                    $first_title_highlighted = highlight_words($first_title, $first_highlight);
                                 ?>
-                                <h1 class="text-white" id="heroSlideTitle"><?php print htmlspecialchars($first_title); ?></h1>
+                                <h1 class="text-white" id="heroSlideTitle"><?php print $first_title_highlighted; ?></h1>
                                 <p class="text-white my-4" id="heroSlideText"><?php print htmlspecialchars($first_text); ?></p>
                             <?php } else { ?>
                                 <h1 class="text-white"><?php print $stitle?></h1>
@@ -858,12 +893,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                         function updateHeroFromActiveSlide() {
                             var $active = $slider.find('.owl-item.active .welcome-slide').first();
                             var t = ($active.attr('data-slide-title') || '').trim();
+                            var t_highlighted = ($active.attr('data-title-highlighted') || '').trim();
                             var x = ($active.attr('data-slide-text') || '').trim();
                             var a = ($active.attr('data-text-align') || 'left').trim();
                             var c = ($active.attr('data-show-cartoon') || '1').trim();
 
                             if ($('#heroSlideTitle').length) {
-                                $('#heroSlideTitle').text(t.length ? t : <?php echo json_encode($stitle); ?>);
+                                var titleHtml = t_highlighted.length ? t_highlighted : (t.length ? t : <?php echo json_encode($stitle); ?>);
+                                $('#heroSlideTitle').html(titleHtml);
                             }
                             if ($('#heroSlideText').length) {
                                 $('#heroSlideText').text(x.length ? x : <?php echo json_encode($stext); ?>);
