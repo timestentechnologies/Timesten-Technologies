@@ -3446,3 +3446,8 @@ body.dark,
     background: linear-gradient(90deg, #ff8c00 0%, #ff7f50 100%);
     border-radius: 2px;
 }
+
+/* Dark purple underline for CTA/enquiry section on orange background */
+.cta-heading h2::after {
+    background: linear-gradient(90deg, #3b1b6a 0%, #2a124d 100%);
+}

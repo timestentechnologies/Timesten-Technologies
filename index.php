@@ -556,7 +556,7 @@ print "
 
 
                         <div class="section-heading text-center">
-                            <h2 style="color: #3b1b6a;"><?php print $test_title; ?></h2>
+                            <h2><?php print $test_title; ?></h2>
                         </div>
                         <p class="mt-1 mb-5 text-start" style="max-width: 100%; color: #555; font-size: 16px; line-height: 1.8;"><?php print $test_text;?></p>
                     </div>
@@ -824,7 +824,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                 <div class="row justify-content-center">
                     <div class="col-12 col-lg-10">
                         <!-- Section Heading -->
-                        <div class="section-heading text-center m-0">
+                        <div class="section-heading text-center m-0 cta-heading">
                             <h2 class="text-white"><?php print $enquiry_title; ?></h2>
                             <p class="text-white d-none d-sm-block mt-4"><?php print $enquiry_text; ?></p>
                             <a href="contact" class="btn btn-bordered-white mt-4">Contact Us</a>
