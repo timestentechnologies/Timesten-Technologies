@@ -120,9 +120,9 @@
                                 <h4 class="mb-3" style="color: #3b1b6a; font-weight: 600; font-size: 20px; border-bottom: 2px solid #f67011; padding-bottom: 8px; display: inline-block;">8. Contact Us</h4>
                                 <p style="color: #666; line-height: 1.8; margin-top: 15px;">If you have any questions about this Cookie Policy or our use of cookies, please contact us:</p>
                                 <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 15px;">
-                                    <p style="color: #666; line-height: 1.8; margin-bottom: 8px;"><strong>Email:</strong> timestenkenya@gmail.com</p>
-                                    <p style="color: #666; line-height: 1.8; margin-bottom: 8px;"><strong>Phone:</strong> +254718883983</p>
-                                    <p style="color: #666; line-height: 1.8;"><strong>Website:</strong> timestentechnologies.co.ke</p>
+                                    <p style="color: #666; line-height: 1.8; margin-bottom: 8px;"><strong>Email:</strong> <?php print htmlspecialchars($email1); ?></p>
+                                    <p style="color: #666; line-height: 1.8; margin-bottom: 8px;"><strong>Phone:</strong> <?php print htmlspecialchars($phone1); ?></p>
+                                    <p style="color: #666; line-height: 1.8;"><strong>Website:</strong> <?php print htmlspecialchars($site_url); ?></p>
                                 </div>
                             </div>
                         </div>
