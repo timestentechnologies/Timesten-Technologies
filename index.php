@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 include "header.php"; ?>
 <?php
 // Helper function to highlight words in text
-function highlight_words($text, $highlight_words) {
+function highlight_words($text, $highlight_words, $color = '#ff8c00', $typing_effect = false) {
     if (empty($highlight_words)) {
         return htmlspecialchars($text);
     }
@@ -21,18 +21,19 @@ function highlight_words($text, $highlight_words) {
         return strlen($b) - strlen($a);
     });
     $result = $text;
+    $typing_class = $typing_effect ? ' typing-effect' : '';
     foreach ($words as $word) {
         $escaped_word = preg_quote($word, '/');
-        $result = preg_replace_callback('/(' . $escaped_word . ')/i', function($matches) {
-            return '<span style="color: #ff8c00;">' . $matches[1] . '</span>';
+        $result = preg_replace_callback('/(' . $escaped_word . ')/i', function($matches) use ($color, $typing_class) {
+            return '<span class="highlight-word' . $typing_class . '" style="color: ' . $color . ';">' . $matches[1] . '</span>';
         }, $result);
     }
     return $result;
 }
 
-function highlight_words_js($text, $highlight_words) {
+function highlight_words_js($text, $highlight_words, $color = '#ff8c00', $typing_effect = false) {
     // Same as above but returns JSON-encoded string for JavaScript
-    return json_encode(highlight_words($text, $highlight_words));
+    return json_encode(highlight_words($text, $highlight_words, $color, $typing_effect));
 }
 
     $static_rs = mysqli_query($con, "SELECT * FROM static WHERE id=1 LIMIT 1");
@@ -113,14 +114,18 @@ function highlight_words_js($text, $highlight_words) {
                             $slide_title = isset($srow['slide_title']) ? $srow['slide_title'] : '';
                             $slide_text = isset($srow['slide_text']) ? $srow['slide_text'] : '';
                             $highlight_words = isset($srow['highlight_words']) ? $srow['highlight_words'] : '';
+                            $highlight_color = isset($srow['highlight_color']) ? $srow['highlight_color'] : '#ff8c00';
+                            $typing_effect = isset($srow['typing_effect']) ? (int)$srow['typing_effect'] : 0;
                             $text_align = (isset($srow['text_align']) && $srow['text_align'] === 'right') ? 'right' : 'left';
                             $show_cartoon = (isset($srow['show_cartoon']) && (int)$srow['show_cartoon'] === 0) ? '0' : '1';
                             $data_title = htmlspecialchars($slide_title, ENT_QUOTES);
                             $data_text = htmlspecialchars($slide_text, ENT_QUOTES);
                             $data_highlight = htmlspecialchars($highlight_words, ENT_QUOTES);
-                            $title_highlighted = highlight_words($slide_title, $highlight_words);
+                            $data_color = htmlspecialchars($highlight_color, ENT_QUOTES);
+                            $data_typing = $typing_effect;
+                            $title_highlighted = highlight_words($slide_title, $highlight_words, $highlight_color, $typing_effect);
                             $data_title_highlighted = htmlspecialchars($title_highlighted, ENT_QUOTES);
-                            print "<div class='welcome-slide' data-slide-title='$data_title' data-slide-text='$data_text' data-highlight-words='$data_highlight' data-text-align='$text_align' data-show-cartoon='$show_cartoon' data-title-highlighted='$data_title_highlighted' style=\"width:100%;height:100%;background-image:url('dashboard/uploads/slider/$bg');background-size:cover;background-position:center;\"></div>";
+                            print "<div class='welcome-slide' data-slide-title='$data_title' data-slide-text='$data_text' data-highlight-words='$data_highlight' data-highlight-color='$data_color' data-typing-effect='$data_typing' data-text-align='$text_align' data-show-cartoon='$show_cartoon' data-title-highlighted='$data_title_highlighted' style=\"width:100%;height:100%;background-image:url('dashboard/uploads/slider/$bg');background-size:cover;background-position:center;\"></div>";
                         }
                     ?>
                 </div>
@@ -239,7 +244,9 @@ function highlight_words_js($text, $highlight_words) {
                                     $first_title = isset($first_slide['slide_title']) && strlen(trim($first_slide['slide_title'])) > 0 ? $first_slide['slide_title'] : $stitle;
                                     $first_text = isset($first_slide['slide_text']) && strlen(trim($first_slide['slide_text'])) > 0 ? $first_slide['slide_text'] : $stext;
                                     $first_highlight = isset($first_slide['highlight_words']) ? $first_slide['highlight_words'] : '';
-                                    $first_title_highlighted = highlight_words($first_title, $first_highlight);
+                                    $first_color = isset($first_slide['highlight_color']) ? $first_slide['highlight_color'] : '#ff8c00';
+                                    $first_typing = isset($first_slide['typing_effect']) ? (int)$first_slide['typing_effect'] : 0;
+                                    $first_title_highlighted = highlight_words($first_title, $first_highlight, $first_color, $first_typing);
                                 ?>
                                 <h1 class="text-white" id="heroSlideTitle"><?php print $first_title_highlighted; ?></h1>
                                 <p class="text-white my-4" id="heroSlideText"><?php print htmlspecialchars($first_text); ?></p>

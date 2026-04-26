@@ -53,6 +53,8 @@ $msg="";
 $slide_title = mysqli_real_escape_string($con,$_POST['slide_title']);
 $slide_text = mysqli_real_escape_string($con,$_POST['slide_text']);
 $highlight_words = mysqli_real_escape_string($con,$_POST['highlight_words']);
+$highlight_color = mysqli_real_escape_string($con,$_POST['highlight_color']);
+$typing_effect = isset($_POST['typing_effect']) ? 1 : 0;
 
 $text_align = isset($_POST['text_align']) ? $_POST['text_align'] : 'left';
 $text_align = ($text_align === 'right') ? 'right' : 'left';
@@ -101,12 +103,26 @@ if ($col_rs3 && mysqli_num_rows($col_rs3) > 0) {
     $has_highlight_col = true;
 }
 
+$has_highlight_color_col = false;
+$col_rs4 = mysqli_query($con, "SHOW COLUMNS FROM slider LIKE 'highlight_color'");
+if ($col_rs4 && mysqli_num_rows($col_rs4) > 0) {
+    $has_highlight_color_col = true;
+}
+
+$has_typing_effect_col = false;
+$col_rs5 = mysqli_query($con, "SHOW COLUMNS FROM slider LIKE 'typing_effect'");
+if ($col_rs5 && mysqli_num_rows($col_rs5) > 0) {
+    $has_typing_effect_col = true;
+}
+
 $highlight_sql = '';
 if ($has_highlight_col) {
     $highlight_sql = ", highlight_words='$highlight_words'";
 }
 
-if ($has_align_col && $has_cartoon_col && $has_highlight_col) {
+if ($has_align_col && $has_cartoon_col && $has_highlight_col && $has_highlight_color_col && $has_typing_effect_col) {
+    $qb=mysqli_query($con,"INSERT INTO slider (slide_title, slide_text, ufile, text_align, show_cartoon, highlight_words, highlight_color, typing_effect) VALUES ('$slide_title', '$slide_text', '$new_file_name', '$text_align_sql', '$show_cartoon', '$highlight_words', '$highlight_color', '$typing_effect')");
+} elseif ($has_align_col && $has_cartoon_col && $has_highlight_col) {
     $qb=mysqli_query($con,"INSERT INTO slider (slide_title, slide_text, ufile, text_align, show_cartoon, highlight_words) VALUES ('$slide_title', '$slide_text', '$new_file_name', '$text_align_sql', '$show_cartoon', '$highlight_words')");
 } elseif ($has_align_col && $has_cartoon_col) {
     $qb=mysqli_query($con,"INSERT INTO slider (slide_title, slide_text, ufile, text_align, show_cartoon) VALUES ('$slide_title', '$slide_text', '$new_file_name', '$text_align_sql', '$show_cartoon')");
@@ -209,7 +225,25 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                                                         <div class="mb-3">
                                                             <label for="highlightWordsInput" class="form-label">Highlight Words (comma separated)</label>
                                                             <input type="text" class="form-control" id="highlightWordsInput" name="highlight_words" placeholder="e.g., digital, solutions, innovative">
-                                                            <small class="text-muted">Words to highlight in warm orange color in the title</small>
+                                                            <small class="text-muted">Words to highlight in the title</small>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-3">
+                                                        <div class="mb-3">
+                                                            <label for="highlightColorInput" class="form-label">Highlight Color</label>
+                                                            <input type="color" class="form-control form-control-color" id="highlightColorInput" name="highlight_color" value="#ff8c00" title="Choose highlight color">
+                                                            <small class="text-muted">Default: warm orange</small>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-3">
+                                                        <div class="mb-3">
+                                                            <div class="form-check mt-4">
+                                                                <input class="form-check-input" type="checkbox" id="typingEffect" name="typing_effect" value="1">
+                                                                <label class="form-check-label" for="typingEffect">Enable Typing Effect</label>
+                                                            </div>
+                                                            <small class="text-muted">Animated typing for highlighted words</small>
                                                         </div>
                                                     </div>
                                                     <!--end col-->

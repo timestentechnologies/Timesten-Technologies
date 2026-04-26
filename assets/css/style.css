@@ -3451,3 +3451,43 @@ body.dark,
 .cta-heading h2::after {
     background: linear-gradient(90deg, #3b1b6a 0%, #2a124d 100%);
 }
+
+/* Typing effect for highlighted words */
+.highlight-word {
+    font-weight: 600;
+}
+
+.highlight-word.typing-effect {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 3px solid transparent;
+    animation: typing-blink 0.8s infinite;
+}
+
+@keyframes typing-blink {
+    0%, 50% { border-right-color: currentColor; }
+    51%, 100% { border-right-color: transparent; }
+}
+
+/* Typing animation for cursor effect */
+.typing-effect {
+    position: relative;
+}
+
+.typing-effect::after {
+    content: '';
+    position: absolute;
+    right: -3px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 1em;
+    background-color: currentColor;
+    animation: cursor-blink 1s infinite;
+}
+
+@keyframes cursor-blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
