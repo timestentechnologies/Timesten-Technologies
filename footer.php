@@ -554,16 +554,12 @@ print "
                                 </div>
                                 <div class="col-12 col-md-6">
                                     <div class="form-group">
-                                        <select class="form-control" name="meeting_date" id="meeting_date" required>
-                                            <option value="" selected disabled>Select Date</option>
-                                        </select>
+                                        <input type="date" class="form-control" name="meeting_date" id="meeting_date" required style="appearance: auto; -webkit-appearance: auto;">
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6">
                                     <div class="form-group">
-                                        <select class="form-control" name="meeting_time" id="meeting_time" required>
-                                            <option value="" selected disabled>Select Time</option>
-                                        </select>
+                                        <input type="time" class="form-control" name="meeting_time" id="meeting_time" required min="08:00" max="17:00" style="appearance: auto; -webkit-appearance: auto;">
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -654,44 +650,13 @@ print "
                     return d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
                 }
 
-                function buildMeetingDates() {
-                    var $date = $('#meeting_date');
-                    if (!$date.length) return;
-                    $date.find('option').not(':first').remove();
-
-                    var today = new Date();
-                    for (var i = 1; i <= 14; i++) {
-                        var d = new Date(today.getTime());
-                        d.setDate(today.getDate() + i);
-                        var val = formatDateValue(d);
-                        var label = formatDateLabel(d);
-                        $date.append('<option value="' + val + '">' + label + '</option>');
-                    }
+                // Set min date to tomorrow for date picker
+                var $date = $('#meeting_date');
+                if ($date.length) {
+                    var tomorrow = new Date();
+                    tomorrow.setDate(tomorrow.getDate() + 1);
+                    $date.attr('min', formatDateValue(tomorrow));
                 }
-
-                function buildMeetingTimes() {
-                    var $time = $('#meeting_time');
-                    if (!$time.length) return;
-                    $time.find('option').not(':first').remove();
-
-                    var startH = 9;
-                    var endH = 17;
-                    for (var h = startH; h <= endH; h++) {
-                        for (var m = 0; m < 60; m += 30) {
-                            if (h === endH && m > 0) continue;
-                            var val = pad2(h) + ':' + pad2(m) + ':00';
-                            var label = pad2(h) + ':' + pad2(m);
-                            $time.append('<option value="' + val + '">' + label + '</option>');
-                        }
-                    }
-                }
-
-                buildMeetingDates();
-                buildMeetingTimes();
-
-                $('#meeting_date').on('change', function() {
-                    buildMeetingTimes();
-                });
 
                 $('#meetingForm').on('submit', function(e) {
                     e.preventDefault();

@@ -3159,7 +3159,7 @@ body.dark,
 .footer-area,
 .footer-area .footer-top,
 .footer-area .footer-bottom {
-    background: linear-gradient(-45deg, #3b1b6a 0%, #2a124d 100%);
+    background: #2a124d;
     color: rgba(255, 255, 255, 0.92);
 }
 
@@ -3232,17 +3232,31 @@ body.dark,
     box-shadow: 0 0 0 0.15rem rgba(255, 140, 0, 0.18);
 }
 
-#bookMeetingModal select.form-control {
+#bookMeetingModal select.form-control,
+#bookMeetingModal input[type="date"].form-control,
+#bookMeetingModal input[type="time"].form-control {
     -webkit-appearance: none;
+    -moz-appearance: none;
     appearance: none;
     background-image: linear-gradient(45deg, transparent 50%, #3b1b6a 50%),
-      linear-gradient(135deg, #3b1b6a 50%, transparent 50%);
-    background-position: calc(100% - 18px) calc(50% - 2px), calc(100% - 12px) calc(50% - 2px);
+                      linear-gradient(135deg, #3b1b6a 50%, transparent 50%);
+    background-position: calc(100% - 16px) 50%, calc(100% - 10px) 50%;
     background-size: 6px 6px, 6px 6px;
     background-repeat: no-repeat;
-    padding-right: 40px;
+    padding-right: 32px;
     cursor: pointer;
     border-radius: 18px;
+}
+
+#bookMeetingModal input[type="date"].form-control::-webkit-calendar-picker-indicator,
+#bookMeetingModal input[type="time"].form-control::-webkit-calendar-picker-indicator {
+    opacity: 0;
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
 }
 
 #bookMeetingModal select.form-control:invalid {

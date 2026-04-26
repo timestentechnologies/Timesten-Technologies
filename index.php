@@ -976,16 +976,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                                 </div>
                                 <div class="col-12 col-md-6">
                                     <div class="form-group">
-                                        <select class="form-control" name="meeting_date" id="meeting_date" required>
-                                            <option value="" selected disabled>Select Date</option>
-                                        </select>
+                                        <input type="date" class="form-control" name="meeting_date" id="meeting_date" required style="appearance: auto; -webkit-appearance: auto;">
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6">
                                     <div class="form-group">
-                                        <select class="form-control" name="meeting_time" id="meeting_time" required>
-                                            <option value="" selected disabled>Select Time</option>
-                                        </select>
+                                        <input type="time" class="form-control" name="meeting_time" id="meeting_time" required min="08:00" max="17:00" style="appearance: auto; -webkit-appearance: auto;">
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -1333,19 +1329,24 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
 
     $(document).ready(function() {
         if ($('.partners-carousel').length && typeof $.fn.owlCarousel === 'function') {
+            var partnerCount = $('.partners-carousel .partner-item').length;
+            var enableLoop = partnerCount > 5;
+
             $('.partners-carousel').owlCarousel({
-                loop: true,
+                loop: enableLoop,
                 margin: 20,
                 nav: false,
-                dots: false,
+                dots: partnerCount > 3,
                 autoplay: true,
-                autoplayTimeout: 2500,
+                autoplayTimeout: 2000,
+                autoplaySpeed: 800,
                 autoplayHoverPause: true,
+                slideTransition: 'linear',
                 responsive: {
-                    0: { items: 2 },
-                    576: { items: 3 },
-                    768: { items: 4 },
-                    992: { items: 5 }
+                    0: { items: Math.min(2, partnerCount) },
+                    576: { items: Math.min(3, partnerCount) },
+                    768: { items: Math.min(4, partnerCount) },
+                    992: { items: Math.min(5, partnerCount) }
                 }
             });
         }
@@ -1363,45 +1364,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             return d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
         }
 
-        function buildMeetingDates() {
-            var $date = $('#meeting_date');
-            if (!$date.length) return;
-            $date.find('option').not(':first').remove();
-
-            var today = new Date();
-            for (var i = 1; i <= 14; i++) {
-                var d = new Date(today.getTime());
-                d.setDate(today.getDate() + i);
-                var val = formatDateValue(d);
-                var label = formatDateLabel(d);
-                $date.append('<option value="' + val + '">' + label + '</option>');
-            }
+        // Set min date to tomorrow for date picker
+        var $date = $('#meeting_date');
+        if ($date.length) {
+            var tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            $date.attr('min', formatDateValue(tomorrow));
         }
-
-        function buildMeetingTimes() {
-            var $time = $('#meeting_time');
-            if (!$time.length) return;
-            $time.find('option').not(':first').remove();
-
-            // Times: 09:00 - 17:00 every 30 mins
-            var startH = 9;
-            var endH = 17;
-            for (var h = startH; h <= endH; h++) {
-                for (var m = 0; m < 60; m += 30) {
-                    if (h === endH && m > 0) continue;
-                    var val = pad2(h) + ':' + pad2(m) + ':00';
-                    var label = pad2(h) + ':' + pad2(m);
-                    $time.append('<option value="' + val + '">' + label + '</option>');
-                }
-            }
-        }
-
-        buildMeetingDates();
-        buildMeetingTimes();
-
-        $('#meeting_date').on('change', function() {
-            buildMeetingTimes();
-        });
 
     $('#contactForm').on('submit', function(e) {
         e.preventDefault();
