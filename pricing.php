@@ -29,7 +29,7 @@ $cta_link = $settings && isset($settings['cta_link']) ? $settings['cta_link'] : 
     </div>
 </section>
 
-<section class="section ptb_100">
+<section class="section ptb_100 bg-grey">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12 col-md-10 col-lg-7">
@@ -45,7 +45,7 @@ $cta_link = $settings && isset($settings['cta_link']) ? $settings['cta_link'] : 
             </div>
         </div>
 
-        <div class="row justify-content-center">
+        <div class="row justify-content-center align-items-stretch">
             <?php foreach ($plans as $plan) {
                 $name = isset($plan['name']) ? $plan['name'] : '';
                 $price = isset($plan['price']) ? $plan['price'] : '';
@@ -64,32 +64,59 @@ $cta_link = $settings && isset($settings['cta_link']) ? $settings['cta_link'] : 
                     }
                 }
             ?>
-                <div class="col-12 col-md-6 col-lg-4 mb-4">
-                    <div class="single-price-plan text-center p-5 h-100" style="border: solid 1px #e6e6e6; border-radius: 14px; <?php print $featured ? 'box-shadow: 0 18px 45px rgba(0,0,0,0.10); border-color: rgba(246,112,17,0.35);' : ''; ?>">
-                        <h3 class="mb-2"><?php print htmlspecialchars($name); ?></h3>
-                        <div class="my-3" style="font-size: 34px; font-weight: 800; color: #3b1b6a;">
-                            <?php print htmlspecialchars($price); ?>
-                        </div>
-                        <?php if (strlen(trim($period)) > 0) { ?>
-                            <div class="text-muted mb-3" style="font-size: 14px;">
-                                <?php print htmlspecialchars($period); ?>
+                <div class="col-12 col-md-6 col-lg-4 mb-4 d-flex">
+                    <div class="single-price-plan text-center p-5 w-100 position-relative d-flex flex-column" style="
+                        border: solid 1px #e6e6e6;
+                        border-radius: 14px;
+                        border-top: 4px solid #f67011;
+                        min-height: 100%;
+                        <?php print $featured ? 'box-shadow: 0 18px 45px rgba(246,112,17,0.15);' : ''; ?>">
+                        <?php if ($featured) { ?>
+                            <div class="popular-badge" style="
+                                position: absolute;
+                                top: -12px;
+                                right: 20px;
+                                background: linear-gradient(135deg, #f67011 0%, #ff8c42 100%);
+                                color: #fff;
+                                font-size: 12px;
+                                font-weight: 600;
+                                padding: 5px 15px;
+                                border-radius: 20px;
+                                text-transform: uppercase;
+                                letter-spacing: 0.5px;
+                                box-shadow: 0 4px 12px rgba(246,112,17,0.3);
+                            ">Most Popular</div>
+                        <?php } ?>
+                        <div class="flex-grow-1">
+                            <h3 class="mb-2"><?php print htmlspecialchars($name); ?></h3>
+                            <div class="my-3" style="font-size: 34px; font-weight: 800; color: #3b1b6a;">
+                                <?php print htmlspecialchars($price); ?>
                             </div>
-                        <?php } ?>
-                        <?php if (strlen(trim($desc)) > 0) { ?>
-                            <p class="mb-4"><?php print htmlspecialchars($desc); ?></p>
-                        <?php } ?>
+                            <?php if (strlen(trim($period)) > 0) { ?>
+                                <div class="text-muted mb-3" style="font-size: 14px;">
+                                    <?php print htmlspecialchars($period); ?>
+                                </div>
+                            <?php } ?>
+                            <?php if (strlen(trim($desc)) > 0) { ?>
+                                <p class="mb-4" style="font-size: 15px; color: #555;"><?php print htmlspecialchars($desc); ?></p>
+                            <?php } ?>
 
-                        <?php if (count($feature_items) > 0) { ?>
-                            <ul class="list-unstyled text-start mb-4" style="max-width: 320px; margin: 0 auto;">
-                                <?php foreach ($feature_items as $fi) { ?>
-                                    <li class="mb-2"><i class="fas fa-check" style="color:#f67011; margin-right: 8px;"></i><?php print htmlspecialchars($fi); ?></li>
-                                <?php } ?>
-                            </ul>
-                        <?php } ?>
-
-                        <a href="<?php print htmlspecialchars($btn_link); ?>" class="btn btn-bordered<?php print $featured ? ' active' : ''; ?>" style="min-width: 180px;">
-                            <?php print htmlspecialchars($btn_text); ?>
-                        </a>
+                            <?php if (count($feature_items) > 0) { ?>
+                                <ul class="list-unstyled text-start mb-0 px-2" style="width: 100%;">
+                                    <?php foreach ($feature_items as $fi) { ?>
+                                        <li class="mb-2 d-flex align-items-start" style="font-size: 13px; line-height: 1.4;">
+                                            <i class="fas fa-check-circle mt-1" style="color:#f67011; margin-right: 10px; flex-shrink: 0; font-size: 14px;"></i>
+                                            <span style="color: #444;"><?php print htmlspecialchars($fi); ?></span>
+                                        </li>
+                                    <?php } ?>
+                                </ul>
+                            <?php } ?>
+                        </div>
+                        <div class="mt-4">
+                            <a href="<?php print htmlspecialchars($btn_link); ?>" class="btn btn-bordered<?php print $featured ? ' active' : ''; ?>" style="min-width: 180px;">
+                                <?php print htmlspecialchars($btn_text); ?>
+                            </a>
+                        </div>
                     </div>
                 </div>
             <?php } ?>
