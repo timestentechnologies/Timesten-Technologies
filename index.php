@@ -490,13 +490,12 @@ print "
 
         <?php if (!empty($clients)) { ?>
         <!-- ***** Our Clients Area Start ***** -->
-        <section class="section ptb_100" style="background: #f8f9fa;">
+        <section class="section ptb_80" style="background: #f8f9fa;">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-12 col-lg-10">
                         <div class="section-heading text-center">
                             <h2>Our Clients</h2>
-                            <p class="d-none d-sm-block mt-4">Trusted by leading organizations across Africa and beyond.</p>
                         </div>
                     </div>
                 </div>
@@ -504,24 +503,19 @@ print "
                     <div class="col-12">
                         <div class="clients-carousel owl-carousel">
                             <?php foreach ($clients as $c) {
-                                $cname = isset($c['name']) ? htmlspecialchars($c['name']) : '';
                                 $clogo = isset($c['logo']) ? htmlspecialchars($c['logo']) : '';
                                 $clink = isset($c['website_url']) ? htmlspecialchars($c['website_url']) : '';
                                 if (!strlen($clogo)) {
                                     continue;
                                 }
                             ?>
-                                <div class="client-item text-center px-4 py-4">
+                                <div class="partner-item text-center px-3 py-3">
                                     <?php if (strlen($clink)) { ?>
-                                        <a href="<?php echo $clink; ?>" target="_blank" rel="noopener" class="d-block" style="background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); transition: all 0.3s ease;">
-                                            <img src="dashboard/uploads/clients/<?php echo $clogo; ?>" alt="<?php echo $cname; ?>" style="max-height: 80px; max-width: 180px; width: auto; transition: all 0.3s ease;">
-                                            <p class="mt-2 mb-0" style="font-size: 13px; color: #666;"><?php echo $cname; ?></p>
+                                        <a href="<?php echo $clink; ?>" target="_blank" rel="noopener">
+                                            <img src="dashboard/uploads/clients/<?php echo $clogo; ?>" alt="client logo" style="max-height:60px; max-width: 160px; width: auto;">
                                         </a>
                                     <?php } else { ?>
-                                        <div class="d-block" style="background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
-                                            <img src="dashboard/uploads/clients/<?php echo $clogo; ?>" alt="<?php echo $cname; ?>" style="max-height: 80px; max-width: 180px; width: auto;">
-                                            <p class="mt-2 mb-0" style="font-size: 13px; color: #666;"><?php echo $cname; ?></p>
-                                        </div>
+                                        <img src="dashboard/uploads/clients/<?php echo $clogo; ?>" alt="client logo" style="max-height:60px; max-width: 160px; width: auto;">
                                     <?php } ?>
                                 </div>
                             <?php } ?>
