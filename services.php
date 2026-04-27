@@ -92,75 +92,82 @@ print "
 
 
         <!-- ***** Review Area Start ***** -->
-        <section id="review" class="section review-area bg-overlay ptb_100">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-12 col-md-10 col-lg-7">
-                        <!-- Section Heading -->
+        <section id="review" class="section review-area bg-grey ptb_100 position-relative" style="padding: 65px 0; background-color: #f4f4f4 !important;">
+             <div class="shape shape-top" style="z-index: 0;">
+                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none" fill="#f4f4f4">
+                     <path class="shape-fill" d="M421.9,6.5c22.6-2.5,51.5,0.4,75.5,5.3c23.6,4.9,70.9,23.5,100.5,35.7c75.8,32.2,133.7,44.5,192.6,49.7
+                 c23.6,2.1,48.7,3.5,103.4-2.5c54.7-6,106.2-25.6,106.2-25.6V0H0v30.3c0,0,72,32.6,158.4,30.5c39.2-0.7,92.8-6.7,134-22.4
+                 c21.2-8.1,52.2-18.2,79.7-24.2C399.3,7.9,411.6,7.5,421.9,6.5z"></path>
+                 </svg>
+             </div>
+             <div class="container" style="position: relative; z-index: 1;">
+                 <div class="row">
+                     <div class="col-12">
+                         <div class="section-heading text-center">
+                             <h2><?php print $test_title; ?></h2>
+                         </div>
+                         <p class="mt-1 mb-5 text-start" style="max-width: 100%; color: #555; font-size: 16px; line-height: 1.8;"><?php print $test_text;?></p>
+                     </div>
+                 </div>
+                 <div class="row">
+                     <div class="client-reviews owl-carousel">
+                         <?php
+ 				   $q="SELECT * FROM  testimony ORDER BY id DESC LIMIT 6";
+ 
+ 
+  $r123 = mysqli_query($con,$q);
+ 
+ while($ro = mysqli_fetch_array($r123))
+ {
+ 
+ 	$name="$ro[name]";
+ 	$position="$ro[position]";
+     $message="$ro[message]";
+     $ufile="$ro[ufile]";
+ 
+ print "
+ 
+ <div class='single-review p-5' style='background: #fff; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: all 0.3s ease; margin: 15px;'>
+ <!-- Review Content -->
+ <div class='review-content'>
+     <!-- Quotation Icon -->
+     <div style='color: #f67011; font-size: 40px; margin-bottom: 15px; line-height: 1;'>\"</div>
+     <!-- Review Text -->
+     <div class='review-text'>
+         <p style='color: #555; line-height: 1.7; font-style: italic;'>$message</p>
+     </div>
+ </div>
+ <!-- Reviewer -->
+ <div class='reviewer media mt-4 align-items-center'>
+     <!-- Reviewer Thumb -->
+     <div class='reviewer-thumb flex-shrink-0'>
+         <img class='avatar-lg rounded-circle' style='width: 60px; height: 60px; object-fit: cover; border: 3px solid #f67011;' src='dashboard/uploads/testimony/$ufile' alt='img'>
+     </div>
+     <!-- Reviewer Media -->
+     <div class='reviewer-meta media-body align-self-center ml-3'>
+         <h5 style='color: #3b1b6a; font-weight: 700; font-size: 16px; margin-bottom: 2px;'>$name</h5>
+         <h6 style='color: #f67011; font-weight: 600; font-size: 13px; margin-bottom: 0;'>$position</h6>
+     </div>
+ </div>
+ </div>
+ 
+ 
+ ";
+ }
+ ?>
+                     </div>
+                 </div>
+             </div>
+             <div class="shape shape-bottom" style="z-index: 0;">
+                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none" fill="#FFFFFF">
+                     <path class="shape-fill" d="M421.9,6.5c22.6-2.5,51.5,0.4,75.5,5.3c23.6,4.9,70.9,23.5,100.5,35.7c75.8,32.2,133.7,44.5,192.6,49.7
+         c23.6,2.1,48.7,3.5,103.4-2.5c54.7-6,106.2-25.6,106.2-25.6V0H0v30.3c0,0,72,32.6,158.4,30.5c39.2-0.7,92.8-6.7,134-22.4
+         c21.2-8.1,52.2-18.2,79.7-24.2C399.3,7.9,411.6,7.5,421.9,6.5z"></path>
+                 </svg>
+             </div>
+         </section>
+         <!-- ***** Review Area End ***** -->
 
-
-                        <div class="section-heading text-center">
-                            <h2 class="text-white"><?php print $test_title; ?></h2>
-                            <p class="text-white d-none d-sm-block mt-4"><?php print $test_text;?></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <!-- Client Reviews -->
-                    <div class="client-reviews owl-carousel">
-                        <!-- Single Review -->
-
-
-
-                        <?php
-				   $q="SELECT * FROM  testimony ORDER BY id DESC LIMIT 6";
-
-
- $r123 = mysqli_query($con,$q);
-
-while($ro = mysqli_fetch_array($r123))
-{
-
-	$name="$ro[name]";
-	$position="$ro[position]";
-    $message="$ro[message]";
-    $ufile="$ro[ufile]";
-
-print "
-
-<div class='single-review p-5'>
-<!-- Review Content -->
-<div class='review-content'>
-    <!-- Review Text -->
-    <div class='review-text'>
-        <p>$message</p>
-    </div>
-    <!-- Quotation Icon -->
-
-</div>
-<!-- Reviewer -->
-<div class='reviewer media mt-3'>
-    <!-- Reviewer Thumb -->
-    <div class='reviewer-thumb'>
-        <img class='avatar-lg radius-100' src='dashboard/uploads/testimony/$ufile' alt='img'>
-    </div>
-    <!-- Reviewer Media -->
-    <div class='reviewer-meta media-body align-self-center ml-4'>
-        <h5 class='reviewer-name color-primary mb-2'>$name</h5>
-        <h6 class='text-secondary fw-6'>$position</h6>
-    </div>
-</div>
-</div>
-
-
-";
-}
-?>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- ***** Review Area End ***** -->
 
         <!--====== Contact Area Start ======-->
         <section id="contact" class="contact-area ptb_100">
