@@ -48,7 +48,7 @@
             <div class="container">
                 <div class="row g-4">
                     <!-- Vision Card -->
-                    <div class="col-12 col-md-6">
+                    <div class="col-12 col-md-6 mb-4">
                         <div class="h-100 p-4" style="background: #fff; border-radius: 16px; border-top: 4px solid #f67011; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: all 0.3s ease;">
                             <div class="d-flex align-items-center mb-3">
                                 <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #f67011 0%, #ff8c42 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
@@ -61,7 +61,7 @@
                     </div>
 
                     <!-- Mission Card -->
-                    <div class="col-12 col-md-6">
+                    <div class="col-12 col-md-6 mb-4">
                         <div class="h-100 p-4" style="background: #fff; border-radius: 16px; border-top: 4px solid #f67011; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: all 0.3s ease;">
                             <div class="d-flex align-items-center mb-3">
                                 <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #f67011 0%, #ff8c42 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
@@ -74,7 +74,7 @@
                     </div>
 
                     <!-- Core Values Card -->
-                    <div class="col-12 col-md-6">
+                    <div class="col-12 col-md-6 mb-4">
                         <div class="h-100 p-4" style="background: #fff; border-radius: 16px; border-top: 4px solid #f67011; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: all 0.3s ease;">
                             <div class="d-flex align-items-center mb-3">
                                 <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #f67011 0%, #ff8c42 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
@@ -111,7 +111,7 @@
                     </div>
 
                     <!-- Impact Card -->
-                    <div class="col-12 col-md-6">
+                    <div class="col-12 col-md-6 mb-4">
                         <div class="h-100 p-4" style="background: #fff; border-radius: 16px; border-top: 4px solid #f67011; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: all 0.3s ease;">
                             <div class="d-flex align-items-center mb-3">
                                 <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #f67011 0%, #ff8c42 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
