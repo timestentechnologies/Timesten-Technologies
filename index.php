@@ -909,7 +909,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
         <!--====== Call To Action Area End ======-->
 
         <?php if (!empty($partners)) { ?>
-        <section class="section ptb_80" id="partners">
+        <section class="section ptb_80" id="partners" style="margin-top: 80px;">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-12 col-lg-10">

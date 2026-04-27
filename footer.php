@@ -19,7 +19,7 @@
 
 <?php if (!empty($partners) && $current_page !== 'index.php') { ?>
 <!--====== Partners Area Start ======-->
-<section class="section ptb_80" id="partners" style="background: #f8f9fa;">
+<section class="section ptb_80" id="partners" style="background: #f8f9fa; margin-top: 80px;">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12 col-lg-10">

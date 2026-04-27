@@ -39,10 +39,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row g-4">
 
                 <?php
-				   $qs="SELECT * FROM  service ORDER BY id DESC";
+				   $qs="SELECT * FROM service ORDER BY id DESC";
 
 
  $r1 = mysqli_query($con,$qs);
@@ -52,15 +52,24 @@ while($rod = mysqli_fetch_array($r1))
 	$id="$rod[id]";
 	$serviceg="$rod[service_title]";
 	$service_desc="$rod[service_desc]";
+    $ufile="$rod[ufile]";
+
+    $image_path = !empty($ufile) ? "dashboard/uploads/services/$ufile" : "assets/images/placeholder.jpg";
 
 print "
-<div class='col-12 col-md-6 col-lg-4'>
-<!-- Single Service -->
-<div class='single-service p-4'  style='border: solid 1px #788282;'>
-    <h3 class='my-3'>$serviceg</h3>
-    <p>$service_desc</p>
-    <a class='service-btn mt-3' href='servicedetail.php?id=$id'>Learn More</a>
-</div>
+<div class='col-12 col-sm-6 col-lg-4'>
+    <!-- Single Service -->
+    <div class='single-case-studies h-100'>
+        <!-- Service Thumb -->
+        <a href='servicedetail.php?id=$id' class='d-block position-relative overflow-hidden rounded-3'>
+            <img src='$image_path' alt='$serviceg' class='w-100 h-100 object-fit-cover' style='aspect-ratio: 16/9;'>
+        </a>
+        <!-- Service Title Below Card -->
+        <div class='text-center mt-2 px-2 pb-3'>
+            <h5 class='fw-bold mb-1'>$serviceg</h5>
+            <p class='mb-0 small'>$service_desc</p>
+        </div>
+    </div>
 </div>
 
 ";
