@@ -388,12 +388,12 @@ while($rod = mysqli_fetch_array($r1))
 	$service_desc="$rod[service_desc]";
 
 print "
-<div class='col-12 col-md-6 col-lg-4 mb-4'>
+<div class='col-6 col-lg-3 mb-4'>
 <!-- Single Service -->
-<div class='single-service p-5 h-100 position-relative' style='background: #fff; border-radius: 16px; border-top: 4px solid #f67011; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: all 0.3s ease;'>
-    <h3 class='mb-3' style='color: #3b1b6a; font-weight: 700; font-size: 20px;'>$serviceg</h3>
-    <p style='color: #666; line-height: 1.6; margin-bottom: 20px;'>$service_desc</p>
-    <a class='btn' style='background: linear-gradient(135deg, #f67011 0%, #ff8c42 100%); color: #fff; border-radius: 8px; padding: 10px 25px; font-weight: 600; transition: all 0.3s ease;' href='servicedetail.php?id=$id'>Learn More</a>
+<div class='single-service p-4 h-100 position-relative' style='background: #fff; border-radius: 14px; border-top: 4px solid #f67011; box-shadow: 0 4px 15px rgba(0,0,0,0.08); transition: all 0.3s ease;'>
+    <h3 class='mb-2' style='color: #3b1b6a; font-weight: 700; font-size: 17px;'>$serviceg</h3>
+    <p style='color: #666; line-height: 1.55; margin-bottom: 16px; font-size: 14px;'>$service_desc</p>
+    <a class='btn' style='background: linear-gradient(135deg, #f67011 0%, #ff8c42 100%); color: #fff; border-radius: 8px; padding: 8px 20px; font-weight: 600; font-size: 14px; transition: all 0.3s ease;' href='servicedetail.php?id=$id'>Learn More</a>
 </div>
 </div>
 
@@ -444,14 +444,14 @@ print "
                             $ufile="$ro[ufile]";
 
                         print "
-                        <div class='col-12 col-sm-6 col-lg-4 mb-4'>
+                        <div class='col-6 col-lg-3 mb-4'>
                             <div class='single-case-studies h-100'>
                                 <a href='portdetail.php?id=$id' class='d-block position-relative overflow-hidden rounded-3'>
                                     <img src='dashboard/uploads/portfolio/$ufile' alt='$port_title' class='w-100 h-100 object-fit-cover' style='aspect-ratio: 16/9;'>
                                 </a>
-                                <div class='text-center mt-2 px-2 pb-3'>
-                                    <h5 class='fw-bold mb-1'>$port_title</h5>
-                                    <p class='mb-0 small'>$port_desc</p>
+                                <div class='text-center mt-2 px-2 pb-2'>
+                                    <h5 class='fw-bold mb-1' style='font-size: 15px;'>$port_title</h5>
+                                    <p class='mb-0 small' style='font-size: 13px;'>$port_desc</p>
                                 </div>
                             </div>
                         </div>
@@ -1030,14 +1030,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                         </button>
                     </div>
                     <div class="modal-body text-center py-4 px-4">
-                        <div style="width: 70px; height: 70px; background: linear-gradient(135deg, #ff8c42 0%, #ff6b35 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; box-shadow: 0 4px 15px rgba(255, 108, 53, 0.4);">
-                            <i class="fas fa-check" style="color: white; font-size: 32px;"></i>
+                        <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #ff8c42 0%, #ff6b35 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; box-shadow: 0 4px 15px rgba(255, 108, 53, 0.35);">
+                            <i class="fas fa-check" style="color: white; font-size: 24px; line-height: 1;"></i>
                         </div>
-                        <h5 class="mb-2" style="color: #3b1b6a; font-weight: 700; font-size: 1.3rem;">Thank You!</h5>
-                        <p class="mb-0" style="font-size: 0.85rem; line-height: 1.5; color: #666;">Your meeting request has been sent. We will confirm shortly.</p>
+                        <h5 class="mb-2" style="color: #3b1b6a; font-weight: 700; font-size: 1.2rem;">Thank You!</h5>
+                        <p class="mb-0" style="font-size: 0.85rem; line-height: 1.55; color: #666;">Your meeting request has been sent. We will confirm shortly.</p>
                     </div>
                     <div class="modal-footer justify-content-center py-3" style="border-top: none; background: #f8f9fa;">
-                        <button type="button" class="btn px-4" style="background: linear-gradient(135deg, #ff8c42 0%, #ff6b35 100%); color: white; border: none; border-radius: 25px; font-weight: 600; font-size: 0.9rem; box-shadow: 0 4px 15px rgba(255, 108, 53, 0.3);" data-dismiss="modal">OK</button>
+                        <button type="button" class="btn px-4" style="background: linear-gradient(135deg, #ff8c42 0%, #ff6b35 100%); color: white; border: none; border-radius: 999px; font-weight: 700; font-size: 0.85rem; padding: 10px 24px; box-shadow: 0 4px 15px rgba(255, 108, 53, 0.25);" data-dismiss="modal">OK</button>
                     </div>
                 </div>
             </div>

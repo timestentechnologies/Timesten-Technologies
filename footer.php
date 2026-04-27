@@ -594,14 +594,14 @@ print "
                         </button>
                     </div>
                     <div class="modal-body text-center py-4 px-4">
-                        <div style="width: 70px; height: 70px; background: linear-gradient(135deg, #ff8c42 0%, #ff6b35 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; box-shadow: 0 4px 15px rgba(255, 108, 53, 0.4);">
-                            <i class="fas fa-check" style="color: white; font-size: 32px;"></i>
+                        <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #ff8c42 0%, #ff6b35 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; box-shadow: 0 4px 15px rgba(255, 108, 53, 0.35);">
+                            <i class="fas fa-check" style="color: white; font-size: 24px; line-height: 1;"></i>
                         </div>
-                        <h5 class="mb-2" style="color: #3b1b6a; font-weight: 700; font-size: 1.3rem;">Thank You!</h5>
-                        <p class="mb-0" style="font-size: 0.85rem; line-height: 1.5; color: #666;">Your meeting request has been sent. We will confirm shortly.</p>
+                        <h5 class="mb-2" style="color: #3b1b6a; font-weight: 700; font-size: 1.2rem;">Thank You!</h5>
+                        <p class="mb-0" style="font-size: 0.85rem; line-height: 1.55; color: #666;">Your meeting request has been sent. We will confirm shortly.</p>
                     </div>
                     <div class="modal-footer justify-content-center py-3" style="border-top: none; background: #f8f9fa;">
-                        <button type="button" class="btn px-4" style="background: linear-gradient(135deg, #ff8c42 0%, #ff6b35 100%); color: white; border: none; border-radius: 25px; font-weight: 600; font-size: 0.9rem; box-shadow: 0 4px 15px rgba(255, 108, 53, 0.3);" data-dismiss="modal">OK</button>
+                        <button type="button" class="btn px-4" style="background: linear-gradient(135deg, #ff8c42 0%, #ff6b35 100%); color: white; border: none; border-radius: 999px; font-weight: 700; font-size: 0.85rem; padding: 10px 24px; box-shadow: 0 4px 15px rgba(255, 108, 53, 0.25);" data-dismiss="modal">OK</button>
                     </div>
                 </div>
             </div>
