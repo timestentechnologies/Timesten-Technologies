@@ -142,7 +142,7 @@ $ufile = $r[0];
                                         <a href="add-client.php" class="nav-link"> Add Client </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="clients" class="nav-link"> Clients List </a>
+                                        <a href="clients.php" class="nav-link"> Clients List </a>
                                     </li>
                                 </ul>
                             </div>
