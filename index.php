@@ -300,7 +300,7 @@ function highlight_words_js($text, $highlight_words) {
 
 
                 <?php
-				   $q="SELECT * FROM  why_us ORDER BY id DESC LIMIT 3";
+				   $q="SELECT * FROM  why_us ORDER BY id DESC LIMIT 4";
 
 
  $r123 = mysqli_query($con,$q);
@@ -325,12 +325,12 @@ while($ro = mysqli_fetch_array($r123))
   }
 
 print "
-<div class='col-12 col-md-6 col-lg-4 res-margin'>
+<div class='col-6 col-md-6 col-lg-3 mb-4'>
 <!-- Single Promo -->
-<div class='single-promo color-1 bg-hover hover-bottom text-center p-5'>
+<div class='single-promo color-1 bg-hover hover-bottom text-center p-4 h-100' style='border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); transition: all 0.3s ease;'>
     $icon_html
-    <h3 class='mb-3'>$title</h3>
-    <p>$detail</p>
+    <h5 class='mb-2' style='font-size: 16px; font-weight: 700; color: #3b1b6a;'>$title</h5>
+    <p style='font-size: 14px; line-height: 1.6; color: #666; margin-bottom: 0;'>$detail</p>
 </div>
 </div>
 ";
@@ -388,12 +388,12 @@ while($rod = mysqli_fetch_array($r1))
 	$service_desc="$rod[service_desc]";
 
 print "
-<div class='col-6 col-lg-3 mb-4'>
+<div class='col-12 col-md-6 col-lg-4 mb-4'>
 <!-- Single Service -->
-<div class='single-service p-4 h-100 position-relative' style='background: #fff; border-radius: 14px; border-top: 4px solid #f67011; box-shadow: 0 4px 15px rgba(0,0,0,0.08); transition: all 0.3s ease;'>
-    <h3 class='mb-2' style='color: #3b1b6a; font-weight: 700; font-size: 17px;'>$serviceg</h3>
-    <p style='color: #666; line-height: 1.55; margin-bottom: 16px; font-size: 14px;'>$service_desc</p>
-    <a class='btn' style='background: linear-gradient(135deg, #f67011 0%, #ff8c42 100%); color: #fff; border-radius: 8px; padding: 8px 20px; font-weight: 600; font-size: 14px; transition: all 0.3s ease;' href='servicedetail.php?id=$id'>Learn More</a>
+<div class='single-service p-5 h-100 position-relative' style='background: #fff; border-radius: 16px; border-top: 4px solid #f67011; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: all 0.3s ease;'>
+    <h3 class='mb-3' style='color: #3b1b6a; font-weight: 700; font-size: 20px;'>$serviceg</h3>
+    <p style='color: #666; line-height: 1.6; margin-bottom: 20px;'>$service_desc</p>
+    <a class='btn' style='background: linear-gradient(135deg, #f67011 0%, #ff8c42 100%); color: #fff; border-radius: 8px; padding: 10px 25px; font-weight: 600; transition: all 0.3s ease;' href='servicedetail.php?id=$id'>Learn More</a>
 </div>
 </div>
 
@@ -444,14 +444,14 @@ print "
                             $ufile="$ro[ufile]";
 
                         print "
-                        <div class='col-6 col-lg-3 mb-4'>
+                        <div class='col-12 col-sm-6 col-lg-4 mb-4'>
                             <div class='single-case-studies h-100'>
                                 <a href='portdetail.php?id=$id' class='d-block position-relative overflow-hidden rounded-3'>
                                     <img src='dashboard/uploads/portfolio/$ufile' alt='$port_title' class='w-100 h-100 object-fit-cover' style='aspect-ratio: 16/9;'>
                                 </a>
-                                <div class='text-center mt-2 px-2 pb-2'>
-                                    <h5 class='fw-bold mb-1' style='font-size: 15px;'>$port_title</h5>
-                                    <p class='mb-0 small' style='font-size: 13px;'>$port_desc</p>
+                                <div class='text-center mt-2 px-2 pb-3'>
+                                    <h5 class='fw-bold mb-1'>$port_title</h5>
+                                    <p class='mb-0 small'>$port_desc</p>
                                 </div>
                             </div>
                         </div>
