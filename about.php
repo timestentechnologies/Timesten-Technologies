@@ -43,71 +43,89 @@
         </section>
         <!-- ***** About Area End ***** -->
 
-        <section class="section pt-50 pb_100">
+        <!-- ***** About Cards Area Start ***** -->
+        <section class="section pt-50 pb_100" style="background: #f8f9fa;">
             <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-12">
-                        <div class="row g-4">
-                            <div class="col-12 col-lg-6">
-                                <div class="single-service p-4 h-100">
-                                    <h3 class="mb-3">Vision</h3>
-                                    <p><?php print $vision_text; ?></p>
+                <div class="row g-4">
+                    <!-- Vision Card -->
+                    <div class="col-12 col-md-6">
+                        <div class="h-100 p-4" style="background: #fff; border-radius: 16px; border-top: 4px solid #f67011; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: all 0.3s ease;">
+                            <div class="d-flex align-items-center mb-3">
+                                <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #f67011 0%, #ff8c42 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                                    <i class="fas fa-eye" style="color: white; font-size: 22px;"></i>
                                 </div>
+                                <h4 class="mb-0" style="color: #3b1b6a; font-weight: 700; font-size: 20px;">Vision</h4>
                             </div>
+                            <p style="color: #555; line-height: 1.7; margin-bottom: 0;"><?php print $vision_text; ?></p>
+                        </div>
+                    </div>
 
-                            <div class="col-12 col-lg-6">
-                                <div class="single-service p-4 h-100">
-                                    <h3 class="mb-3">Mission</h3>
-                                    <p><?php print $mission_text; ?></p>
+                    <!-- Mission Card -->
+                    <div class="col-12 col-md-6">
+                        <div class="h-100 p-4" style="background: #fff; border-radius: 16px; border-top: 4px solid #f67011; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: all 0.3s ease;">
+                            <div class="d-flex align-items-center mb-3">
+                                <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #f67011 0%, #ff8c42 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                                    <i class="fas fa-rocket" style="color: white; font-size: 22px;"></i>
                                 </div>
+                                <h4 class="mb-0" style="color: #3b1b6a; font-weight: 700; font-size: 20px;">Mission</h4>
                             </div>
+                            <p style="color: #555; line-height: 1.7; margin-bottom: 0;"><?php print $mission_text; ?></p>
+                        </div>
+                    </div>
 
-                            <div class="col-12 col-lg-6">
-                                <div class="single-service p-4 h-100">
-                                    <h3 class="mb-3">Core Values</h3>
+                    <!-- Core Values Card -->
+                    <div class="col-12 col-md-6">
+                        <div class="h-100 p-4" style="background: #fff; border-radius: 16px; border-top: 4px solid #f67011; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: all 0.3s ease;">
+                            <div class="d-flex align-items-center mb-3">
+                                <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #f67011 0%, #ff8c42 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                                    <i class="fas fa-star" style="color: white; font-size: 22px;"></i>
+                                </div>
+                                <h4 class="mb-0" style="color: #3b1b6a; font-weight: 700; font-size: 20px;">Core Values</h4>
+                            </div>
+                            <?php
+                                $values_lines = preg_split("/\r\n|\r|\n/", trim($values_text));
+                                $values_items = array();
+                                foreach ($values_lines as $line) {
+                                    $line = trim($line);
+                                    if (strlen($line) < 1) {
+                                        continue;
+                                    }
+                                    $values_items[] = $line;
+                                }
+                            ?>
+                            <ul class="list-unstyled mb-0">
+                                <?php foreach ($values_items as $item) { ?>
                                     <?php
-                                        $values_lines = preg_split("/\r\n|\r|\n/", trim($values_text));
-                                        $values_items = array();
-                                        foreach ($values_lines as $line) {
-                                            $line = trim($line);
-                                            if (strlen($line) < 1) {
-                                                continue;
-                                            }
-                                            $values_items[] = $line;
-                                        }
+                                        $item_clean = preg_replace('/^\d+\.?\s*/', '', $item);
+                                        $parts = explode(' - ', $item_clean, 2);
+                                        $label = trim($parts[0]);
+                                        $desc = isset($parts[1]) ? trim($parts[1]) : '';
                                     ?>
-                                    <ol class="core-values-list mb-0">
-                                        <?php $value_index = 1; ?>
-                                        <?php foreach ($values_items as $item) { ?>
-                                            <?php
-                                                $item_clean = preg_replace('/^\d+\.?\s*/', '', $item);
-                                                $parts = explode(' - ', $item_clean, 2);
-                                                $label = trim($parts[0]);
-                                                $desc = isset($parts[1]) ? trim($parts[1]) : '';
-                                            ?>
-                                            <li class="core-values-item">
-                                                <span class="core-values-number"><?php print $value_index; ?></span>
-                                                <span class="core-values-content">
-                                                    <strong><?php print $label; ?></strong><?php if (strlen($desc) > 0) { ?> - <?php print $desc; ?><?php } ?>
-                                                </span>
-                                            </li>
-                                            <?php $value_index++; ?>
-                                        <?php } ?>
-                                    </ol>
-                                </div>
-                            </div>
+                                    <li class="mb-2 d-flex align-items-start" style="font-size: 14px; color: #555; line-height: 1.5;">
+                                        <span style="width: 24px; height: 24px; background: #f67011; color: white; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; margin-right: 10px; flex-shrink: 0;"><?php print array_search($item, $values_items) + 1; ?></span>
+                                        <span><strong style="color: #3b1b6a;"><?php print $label; ?></strong><?php if (strlen($desc) > 0) { ?> - <?php print $desc; ?><?php } ?></span>
+                                    </li>
+                                <?php } ?>
+                            </ul>
+                        </div>
+                    </div>
 
-                            <div class="col-12 col-lg-6">
-                                <div class="single-service p-4 h-100">
-                                    <h3 class="mb-3">Impact</h3>
-                                    <p><?php print $impact_text; ?></p>
+                    <!-- Impact Card -->
+                    <div class="col-12 col-md-6">
+                        <div class="h-100 p-4" style="background: #fff; border-radius: 16px; border-top: 4px solid #f67011; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: all 0.3s ease;">
+                            <div class="d-flex align-items-center mb-3">
+                                <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #f67011 0%, #ff8c42 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                                    <i class="fas fa-chart-line" style="color: white; font-size: 22px;"></i>
                                 </div>
+                                <h4 class="mb-0" style="color: #3b1b6a; font-weight: 700; font-size: 20px;">Impact</h4>
                             </div>
+                            <p style="color: #555; line-height: 1.7; margin-bottom: 0;"><?php print $impact_text; ?></p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
+        <!-- ***** About Cards Area End ***** -->
 
 
         <!-- ***** Our Goal Area End ***** -->
