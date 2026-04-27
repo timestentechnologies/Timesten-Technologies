@@ -39,7 +39,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row g-4">
+                <div class="row g-5">
 
                 <?php
 				   $qs="SELECT * FROM service ORDER BY id DESC";
