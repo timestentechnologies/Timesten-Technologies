@@ -471,6 +471,68 @@ print "
         </section>
         <!-- ***** Portfolio Area End ***** -->
 
+        <?php
+            $clients = array();
+            $has_clients_table = false;
+            $tc = mysqli_query($con, "SHOW TABLES LIKE 'clients'");
+            if ($tc && mysqli_num_rows($tc) > 0) {
+                $has_clients_table = true;
+            }
+            if ($has_clients_table) {
+                $rc = mysqli_query($con, "SELECT * FROM clients WHERE is_active = 1 ORDER BY sort_order ASC, id DESC");
+                if ($rc) {
+                    while ($crow = mysqli_fetch_assoc($rc)) {
+                        $clients[] = $crow;
+                    }
+                }
+            }
+        ?>
+
+        <?php if (!empty($clients)) { ?>
+        <!-- ***** Our Clients Area Start ***** -->
+        <section class="section ptb_100" style="background: #f8f9fa;">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-12 col-lg-10">
+                        <div class="section-heading text-center">
+                            <h2>Our Clients</h2>
+                            <p class="d-none d-sm-block mt-4">Trusted by leading organizations across Africa and beyond.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="clients-carousel owl-carousel">
+                            <?php foreach ($clients as $c) {
+                                $cname = isset($c['name']) ? htmlspecialchars($c['name']) : '';
+                                $clogo = isset($c['logo']) ? htmlspecialchars($c['logo']) : '';
+                                $clink = isset($c['website_url']) ? htmlspecialchars($c['website_url']) : '';
+                                if (!strlen($clogo)) {
+                                    continue;
+                                }
+                            ?>
+                                <div class="client-item text-center px-4 py-4">
+                                    <?php if (strlen($clink)) { ?>
+                                        <a href="<?php echo $clink; ?>" target="_blank" rel="noopener" class="d-block" style="background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); transition: all 0.3s ease;">
+                                            <img src="dashboard/uploads/clients/<?php echo $clogo; ?>" alt="<?php echo $cname; ?>" style="max-height: 80px; max-width: 180px; width: auto; transition: all 0.3s ease;">
+                                            <p class="mt-2 mb-0" style="font-size: 13px; color: #666;"><?php echo $cname; ?></p>
+                                        </a>
+                                    <?php } else { ?>
+                                        <div class="d-block" style="background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
+                                            <img src="dashboard/uploads/clients/<?php echo $clogo; ?>" alt="<?php echo $cname; ?>" style="max-height: 80px; max-width: 180px; width: auto;">
+                                            <p class="mt-2 mb-0" style="font-size: 13px; color: #666;"><?php echo $cname; ?></p>
+                                        </div>
+                                    <?php } ?>
+                                </div>
+                            <?php } ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ***** Our Clients Area End ***** -->
+        <?php } ?>
+
         <!-- ***** Price Plan Area Start ***** (COMMENTED OUT)
 
         <?php

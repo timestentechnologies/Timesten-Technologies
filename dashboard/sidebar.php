@@ -133,6 +133,22 @@ $ufile = $r[0];
                         </li>
 
                         <li class="nav-item">
+                            <a class="nav-link menu-link" href="#sidebarClients" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="sidebarClients">
+                                <i class="ri-building-line"></i> <span data-key="t-landing">Manage Clients</span>
+                            </a>
+                            <div class="menu-dropdown collapse" id="sidebarClients" style="">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="add-client.php" class="nav-link"> Add Client </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="clients" class="nav-link"> Clients List </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
                             <a href="pricing" class="nav-link">
                                 <i class="ri-price-tag-3-line"></i> <span data-key="t-landing"> Pricing Page </span>
                             </a>
