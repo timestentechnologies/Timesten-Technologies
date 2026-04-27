@@ -490,17 +490,17 @@ print "
 
         <?php if (!empty($clients)) { ?>
         <!-- ***** Our Clients Area Start ***** -->
-        <section class="section ptb_80" style="background: #f8f9fa;">
+        <section class="section ptb_80" style="background: #fff;">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-12 col-lg-10">
-                        <div class="section-heading text-center">
+                        <div class="section-heading text-center" style="margin-top: 30px;">
                             <h2>Our Clients</h2>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-12">
+                    <div class="col-12" style="margin-bottom: 30px;">
                         <div class="clients-carousel owl-carousel">
                             <?php foreach ($clients as $c) {
                                 $clogo = isset($c['logo']) ? htmlspecialchars($c['logo']) : '';
