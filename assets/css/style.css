@@ -3668,9 +3668,9 @@ body.dark,
 
 /* Detail Title - Keep on one line where possible */
 .detail-title {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
     display: block;
     width: 100%;
 }
@@ -3780,17 +3780,11 @@ body.dark,
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(255, 140, 0, 0.85);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: all 0.3s ease;
-    border-radius: 12px;
+    display: none;
 }
 
 .media-item:hover .media-overlay {
-    opacity: 1;
+    opacity: 0;
 }
 
 .media-overlay i {
