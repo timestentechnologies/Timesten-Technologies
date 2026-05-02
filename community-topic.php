@@ -86,15 +86,15 @@ $created_at = !empty($topic['created_at']) ? date('M d, Y H:i', strtotime($topic
 
                     <form id="sendForm" class="mt-3">
                         <input type="hidden" id="topicId" value="<?php echo intval($topic_id); ?>">
-                        <div class="d-flex flex-column flex-md-row gap-2">
-                            <div style="flex: 0 0 200px;">
+                        <div class="d-flex flex-column flex-md-row align-items-stretch">
+                            <div class="mb-2 mb-md-0" style="flex: 0 0 220px; margin-right: 12px;">
                                 <input type="text" id="guestName" class="form-control" placeholder="Your name" maxlength="80" required>
                             </div>
-                            <div class="flex-grow-1">
+                            <div class="mb-2 mb-md-0" style="flex: 1 1 auto; margin-right: 12px;">
                                 <input type="text" id="message" class="form-control" placeholder="Write a message..." required>
                             </div>
-                            <div style="flex: 0 0 auto;">
-                                <button type="submit" class="btn btn-primary btn-sm" style="background:linear-gradient(135deg,#ff8c00 0%,#ff7f50 100%);border:none;border-radius:12px;font-weight:900;padding:10px 16px;">Send</button>
+                            <div style="flex: 0 0 auto; display: flex;">
+                                <button type="submit" class="btn btn-primary btn-sm" style="background:linear-gradient(135deg,#ff8c00 0%,#ff7f50 100%);border:none;border-radius:12px;font-weight:900;padding:10px 16px;min-height: calc(1.5em + .75rem + 2px);display:flex;align-items:center;">Send</button>
                             </div>
                         </div>
                     </form>
