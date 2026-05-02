@@ -3770,6 +3770,31 @@ body.dark,
     transition: transform 0.4s ease;
 }
 
+.media-video-thumb {
+    background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+}
+
+.media-video-play {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.media-video-play i {
+    width: 58px;
+    height: 58px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(4px);
+    color: #fff;
+    font-size: 20px;
+}
+
 .media-item:hover .media-image-wrapper img {
     transform: scale(1.08);
 }

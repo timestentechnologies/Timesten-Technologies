@@ -166,6 +166,17 @@
                 controls: 0
             }
         });
+
+        $('[data-fancybox]').fancybox({
+            loop: true,
+            buttons: [
+                'zoom',
+                'slideShow',
+                'fullScreen',
+                'thumbs',
+                'close'
+            ]
+        });
     }
 
     // :: 12.0 CIRCLE ANIMATION ACTIVE CODE

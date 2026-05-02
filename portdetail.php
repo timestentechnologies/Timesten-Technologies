@@ -120,11 +120,11 @@ if ($has_portfolio_media_table) {
                                         $full_url = "dashboard/uploads/portfolio/" . $mpath_safe;
 
                                         if ($mtype === 'image') {
-                                            print "<div class='media-item'><a href='$full_url' target='_blank' class='media-link'><div class='media-image-wrapper'><img src='$full_url' alt='media'></div><div class='media-overlay'><i class='fas fa-expand'></i></div></a></div>";
+                                            print "<div class='media-item'><a href='$full_url' data-fancybox='portfolio-media' class='media-link'><div class='media-image-wrapper'><img src='$full_url' alt='media'></div><div class='media-overlay'><i class='fas fa-expand'></i></div></a></div>";
                                         } elseif ($mtype === 'video') {
-                                            print "<div class='media-item video-item'><video controls class='media-video'><source src='$full_url'></video></div>";
+                                            print "<div class='media-item'><a href='$full_url' data-fancybox='portfolio-media' data-type='video' class='media-link'><div class='media-image-wrapper media-video-thumb'><div class='media-video-play'><i class='fas fa-play'></i></div></div></a></div>";
                                         } else {
-                                            print "<div class='media-item'><a class='media-document' href='$full_url' target='_blank' rel='noopener noreferrer'><i class='fas fa-file-alt fa-3x'></i><span>Open Document</span></a></div>";
+                                            print "<div class='media-item'><a class='media-document' href='$full_url' data-fancybox='portfolio-media' data-type='iframe' rel='noopener noreferrer'><i class='fas fa-file-alt fa-3x'></i><span>Open Document</span></a></div>";
                                         }
                                     } ?>
                                 </div>
