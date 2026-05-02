@@ -86,15 +86,15 @@ $created_at = !empty($topic['created_at']) ? date('M d, Y H:i', strtotime($topic
 
                     <form id="sendForm" class="mt-3">
                         <input type="hidden" id="topicId" value="<?php echo intval($topic_id); ?>">
-                        <div class="row g-2">
-                            <div class="col-12 col-md-4">
+                        <div class="d-flex flex-column flex-md-row gap-2">
+                            <div style="flex: 0 0 200px;">
                                 <input type="text" id="guestName" class="form-control" placeholder="Your name" maxlength="80" required>
                             </div>
-                            <div class="col-12 col-md-8">
+                            <div class="flex-grow-1">
                                 <input type="text" id="message" class="form-control" placeholder="Write a message..." required>
                             </div>
-                            <div class="col-12">
-                                <button type="submit" class="btn btn-primary w-100" style="background:linear-gradient(135deg,#ff8c00 0%,#ff7f50 100%);border:none;border-radius:14px;font-weight:900;">Send</button>
+                            <div style="flex: 0 0 auto;">
+                                <button type="submit" class="btn btn-primary btn-sm" style="background:linear-gradient(135deg,#ff8c00 0%,#ff7f50 100%);border:none;border-radius:12px;font-weight:900;padding:10px 16px;">Send</button>
                             </div>
                         </div>
                     </form>
