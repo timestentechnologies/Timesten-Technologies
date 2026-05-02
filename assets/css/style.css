@@ -4223,13 +4223,13 @@ body.dark,
 
 .blog-detail-content p:first-of-type::first-letter {
     float: left;
-    font-size: 5rem;
-    line-height: 4rem;
-    padding: 0.1rem 0.5rem 0 0;
-    margin: 0 0.5rem 0 0;
+    font-size: 3.5rem;
+    line-height: 3rem;
+    padding: 0.2rem 0.3rem 0 0;
+    margin: 0 0.2rem 0.1rem 0;
     font-weight: 700;
     color: #ff8c00;
-    text-shadow: 2px 2px 4px rgba(255, 140, 0, 0.2);
+    text-shadow: 1px 1px 3px rgba(255, 140, 0, 0.2);
 }
 
 .blog-detail-content ul,
@@ -4293,13 +4293,13 @@ body.dark,
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) rotate(-45deg);
-    width: 300px;
-    height: 300px;
-    background-image: url('assets/images/logo.png');
+    width: 250px;
+    height: 250px;
+    background-image: url('assets/img/logo/logo.png');
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
-    opacity: 0.05;
+    opacity: 0.08;
     pointer-events: none;
     z-index: 1;
 }
