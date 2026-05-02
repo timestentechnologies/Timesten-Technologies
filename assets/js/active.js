@@ -226,28 +226,35 @@
 
     // :: 15.0 MEDIA CAROUSEL ACTIVE CODE (for Portfolio & Service Detail Pages)
     $('.media-carousel').owlCarousel({
-        loop: false,
+        loop: true,
         margin: 20,
         nav: true,
         dots: true,
         smartSpeed: 800,
-        autoplay: false,
+        autoplay: true,
+        autoplayTimeout: 3000,
+        autoplayHoverPause: true,
+        slideBy: 1,
         responsive: {
             0: {
                 items: 1,
                 nav: false
             },
             576: {
-                items: 2
+                items: 2,
+                nav: true
             },
             768: {
-                items: 3
+                items: 3,
+                nav: true
             },
             992: {
-                items: 4
+                items: 4,
+                nav: true
             },
             1200: {
-                items: 4
+                items: 4,
+                nav: true
             }
         }
     });
