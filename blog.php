@@ -57,7 +57,7 @@
                         print "
                         <div class='col-12 col-sm-6 col-lg-4 blog-item mb-4' data-view='grid'>
                             <!-- Grid View -->
-                            <div class='blog-card grid-view' style='border-top: 4px solid #ff8c00;'>
+                            <div class='blog-card grid-view'>
                                 <div class='blog-image'>
                                     <a href='blogdetail.php?id=$id'>
                                         <img src='dashboard/uploads/blog/$ufile' alt='$blog_title' class='img-fluid'>
@@ -73,7 +73,7 @@
                             </div>
                             
                             <!-- List View -->
-                            <div class='blog-card list-view d-none' style='border-top: 4px solid #ff8c00;'>
+                            <div class='blog-card list-view d-none'>
                                 <div class='row no-gutters'>
                                     <div class='col-md-4'>
                                         <div class='blog-image'>

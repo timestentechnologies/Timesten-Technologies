@@ -6,74 +6,66 @@ $todo = mysqli_real_escape_string($con, $_GET["id"]);
 <style>
 /* Blog Detail Specific Styles */
 .blog-main-title {
-    font-size: 1.8rem;
+    font-size: 2rem;
     font-weight: 700;
-    color: #2c3e50;
+    color: #333;
     word-wrap: break-word;
     word-break: break-word;
     hyphens: auto;
-    line-height: 1.3;
-    margin-bottom: 1.5rem;
-    text-align: center;
+    line-height: 1.2;
+    margin-bottom: 1rem;
 }
 
 .blog-subtitle {
-    font-size: 1.1rem;
-    font-weight: 500;
+    font-size: 1.2rem;
+    font-weight: 400;
     color: #666;
     word-wrap: break-word;
     word-break: break-word;
     hyphens: auto;
-    line-height: 1.5;
+    line-height: 1.4;
     margin-bottom: 1.5rem;
     font-style: italic;
-    text-align: center;
 }
 
 .blog-content {
-    font-size: 1.05rem;
-    line-height: 1.7;
-    color: #333;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #444;
     margin-top: 2rem;
-    max-width: 100%;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    word-break: break-word;
 }
 
 .blog-content p {
-    margin-bottom: 1.2rem;
-    text-align: justify;
+    margin-bottom: 1.5rem;
 }
 
 .about-thumb {
     max-width: 100%;
     overflow: hidden;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    border: 1px solid #f0f0f0;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
 .about-thumb img {
     width: 100%;
-    height: 300px;
+    height: auto;
     object-fit: cover;
-    border-radius: 12px;
+    border-radius: 8px;
     transition: transform 0.3s ease;
 }
 
 .about-thumb:hover img {
-    transform: scale(1.02);
+    transform: scale(1.05);
 }
 
 /* Responsive adjustments */
 @media (max-width: 1199px) {
     .blog-main-title {
-        font-size: 1.6rem;
+        font-size: 1.8rem;
     }
     
     .blog-subtitle {
-        font-size: 1rem;
+        font-size: 1.1rem;
     }
 }
 
@@ -93,26 +85,22 @@ $todo = mysqli_real_escape_string($con, $_GET["id"]);
     }
     
     .blog-main-title {
-        font-size: 1.4rem;
+        font-size: 1.6rem;
     }
     
     .blog-subtitle {
-        font-size: 0.95rem;
+        font-size: 1rem;
     }
 }
 
 @media (max-width: 768px) {
     .blog-main-title {
-        font-size: 1.3rem;
+        font-size: 1.4rem;
         line-height: 1.3;
     }
     
     .blog-subtitle {
-        font-size: 0.9rem;
-    }
-    
-    .about-thumb {
-        margin-bottom: 1.5rem;
+        font-size: 0.95rem;
     }
     
     .blog-metadata {
@@ -158,87 +146,6 @@ $todo = mysqli_real_escape_string($con, $_GET["id"]);
 .blog-metadata-item i {
     color: #3b1b6a;
 }
-
-/* Blog Detail Layout Styles */
-.blog-detail-area {
-    background: #f8f9fa !important;
-}
-
-.blog-header {
-    background: #fff;
-    padding: 3rem 2rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-    margin-bottom: 2rem;
-}
-
-.blog-featured-image {
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    border: 1px solid #e6e6e6;
-}
-
-.blog-featured-image img {
-    width: 100%;
-    height: 400px;
-    object-fit: cover;
-    border-radius: 12px;
-    transition: transform 0.3s ease;
-}
-
-.blog-featured-image:hover img {
-    transform: scale(1.02);
-}
-
-.blog-content-wrapper {
-    background: #fff;
-    padding: 3rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-    line-height: 1.8;
-}
-
-.blog-content {
-    font-size: 1.05rem;
-    line-height: 1.8;
-    color: #333;
-    text-align: justify;
-}
-
-.blog-content p {
-    margin-bottom: 1.5rem;
-    text-indent: 0;
-}
-
-.blog-content p:first-child::first-letter {
-    font-size: 3rem;
-    font-weight: bold;
-    color: #ff8c00;
-    float: left;
-    line-height: 1;
-    margin-right: 8px;
-    margin-top: -4px;
-}
-
-@media (max-width: 768px) {
-    .blog-header {
-        padding: 2rem 1.5rem;
-        margin-bottom: 1.5rem;
-    }
-    
-    .blog-featured-image img {
-        height: 250px;
-    }
-    
-    .blog-content-wrapper {
-        padding: 2rem 1.5rem;
-    }
-    
-    .blog-content p:first-child::first-letter {
-        font-size: 2rem;
-    }
-}
 </style>
 
 <!-- ***** Breadcrumb Area Start ***** -->
@@ -270,16 +177,27 @@ $ufile = $tr['ufile'];
 ?>
 
 <!-- ***** Blog Detail Area Start ***** -->
-<section class="section blog-detail-area ptb_100" style="background: #f8f9fa;">
+<section class="section about-area ptb_100">
     <div class="container">
-        <!-- Blog Header -->
-        <div class="row mb-5">
-            <div class="col-12">
-                <div class="blog-header text-center">
+        <!-- Top section with image and title -->
+        <div class="row justify-content-between align-items-start mb-4">
+            <div class="col-12 col-lg-6">
+                <!-- Blog Image -->
+                <div class="about-thumb text-center">
+                    <img src="dashboard/uploads/blog/<?php echo htmlspecialchars($ufile); ?>" 
+                         alt="<?php echo htmlspecialchars($blog_title); ?>" 
+                         class="img-fluid">
+                </div>
+            </div>
+            <div class="col-12 col-lg-6">
+                <!-- Blog Title and Description -->
+                <div class="about-content section-heading text-center text-lg-left pl-md-4">
                     <!-- Blog Title -->
                     <h1 class="blog-main-title">
                         <?php echo htmlspecialchars($blog_title); ?>
                     </h1>
+                    
+                   
                     
                     <!-- Blog Description (if different from title) -->
                     <?php if (!empty($blog_desc) && $blog_desc !== $blog_title): ?>
@@ -288,8 +206,8 @@ $ufile = $tr['ufile'];
                         </h3>
                     <?php endif; ?>
 
-                    <!-- Blog Metadata -->
-                    <div class="blog-metadata justify-content-center">
+                     <!-- Blog Metadata -->
+                    <div class="blog-metadata">
                         <div class="blog-metadata-item">
                             <i class="fas fa-eye"></i>
                             <span>10.5K Views</span>
@@ -313,31 +231,12 @@ $ufile = $tr['ufile'];
             </div>
         </div>
         
-        <!-- Featured Image -->
-        <div class="row mb-5">
-            <div class="col-lg-10 mx-auto">
-                <div class="blog-featured-image">
-                    <img src="dashboard/uploads/blog/<?php echo htmlspecialchars($ufile); ?>" 
-                         alt="<?php echo htmlspecialchars($blog_title); ?>" 
-                         class="img-fluid">
-                </div>
-            </div>
-        </div>
-        
-        <!-- Blog Content -->
+        <!-- Full width content section -->
         <div class="row">
-            <div class="col-lg-10 mx-auto">
-                <div class="blog-content-wrapper">
-                    <div class="blog-content">
-                        <?php 
-                        // Convert newlines to paragraphs for better formatting
-                        $content = nl2br(htmlspecialchars($blog_detail));
-                        // Replace double newlines with paragraph breaks
-                        $content = preg_replace('/<br\s*?\/>\s*?<br\s*?\/>/', '</p><p class="mb-4">', $content);
-                        // Wrap in paragraph tags
-                        echo '<p class="mb-4">' . $content . '</p>';
-                        ?>
-                    </div>
+            <div class="col-12">
+                <!-- Blog Content -->
+                <div class="blog-content">
+                    <?php echo nl2br(htmlspecialchars($blog_detail)); ?>
                 </div>
             </div>
         </div>
