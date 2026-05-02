@@ -3,11 +3,11 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-6">
-                    <script>document.write(new Date().getFullYear())</script> © Timesten.
+                    <script>document.write(new Date().getFullYear())</script> © Timesten Technologies.
                 </div>
                 <div class="col-sm-6">
                     <div class="text-sm-end d-none d-sm-block">
-                        Designed & Developed by TimestenKenya LLC.
+                        Designed & Developed by Timesten Technologies.
                     </div>
                 </div>
             </div>
