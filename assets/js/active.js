@@ -224,7 +224,35 @@
         })
     });
 
-    // :: 15.0 CONTACT FORM ACTIVE CODE
+    // :: 15.0 MEDIA CAROUSEL ACTIVE CODE (for Portfolio & Service Detail Pages)
+    $('.media-carousel').owlCarousel({
+        loop: false,
+        margin: 20,
+        nav: true,
+        dots: true,
+        smartSpeed: 800,
+        autoplay: false,
+        responsive: {
+            0: {
+                items: 1,
+                nav: false
+            },
+            576: {
+                items: 2
+            },
+            768: {
+                items: 3
+            },
+            992: {
+                items: 4
+            },
+            1200: {
+                items: 4
+            }
+        }
+    });
+
+    // :: 16.0 CONTACT FORM ACTIVE CODE
     // Get the form.
     var form = $('#contact-form');
     // Get the messages div.
