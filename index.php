@@ -314,27 +314,45 @@ while($ro = mysqli_fetch_array($r123))
 	$icon_type="$ro[icon_type]";
 	$icon_image="$ro[icon_image]";
 
-  // Build icon display for horizontal cards
-  $icon_html = '';
+  // Build mobile icon (small)
+  $mobile_icon = '';
   if($icon_type == 'upload' && $icon_image) {
-      $icon_html = "<img src='dashboard/uploads/whyicons/$icon_image' alt='$title' style='max-height: 28px; max-width: 28px;'>";
+      $mobile_icon = "<img src='dashboard/uploads/whyicons/$icon_image' alt='$title' style='max-height: 28px; max-width: 28px;'>";
   } elseif($icon_class) {
-      $icon_html = "<i class='$icon_class fa-lg' style='color: #ff8c00;'></i>";
+      $mobile_icon = "<i class='$icon_class fa-lg' style='color: #ff8c00;'></i>";
   } else {
-      $icon_html = "<i class='fas fa-star fa-lg' style='color: #ff8c00;'></i>";
+      $mobile_icon = "<i class='fas fa-star fa-lg' style='color: #ff8c00;'></i>";
+  }
+
+  // Build desktop icon (large)
+  $desktop_icon = '';
+  if($icon_type == 'upload' && $icon_image) {
+      $desktop_icon = "<span class='promo-icon mb-3'><img src='dashboard/uploads/whyicons/$icon_image' alt='$title' style='max-height: 50px; max-width: 50px;'></span>";
+  } elseif($icon_class) {
+      $desktop_icon = "<span class='promo-icon mb-3'><i class='$icon_class fa-3x' style='color: #ff8c00;'></i></span>";
+  } else {
+      $desktop_icon = "<span class='promo-icon mb-3'><i class='fas fa-star fa-3x' style='color: #ff8c00;'></i></span>";
   }
 
 print "
-<div class='col-12 mb-3'>
-<!-- Single Promo - Horizontal Card -->
+<div class='col-12 d-md-none mb-3'>
+<!-- Single Promo - Horizontal Card (Mobile Only) -->
 <div class='single-promo color-1 bg-hover hover-bottom d-flex align-items-center p-3' style='border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); transition: all 0.3s ease; background: #fff;'>
     <div class='promo-icon-wrapper flex-shrink-0 d-flex align-items-center justify-content-center' style='width: 44px; height: 44px; background: linear-gradient(135deg, #fff5eb 0%, #ffe4d1 100%); border-radius: 10px; margin-right: 20px;'>
-        $icon_html
+        $mobile_icon
     </div>
     <div class='promo-content flex-grow-1 text-start'>
         <h5 class='mb-1' style='font-size: 15px; font-weight: 700; color: #3b1b6a;'>$title</h5>
         <p style='font-size: 13px; line-height: 1.5; color: #666; margin-bottom: 0;'>$detail</p>
     </div>
+</div>
+</div>
+<div class='col-6 col-lg-3 d-none d-md-block mb-4'>
+<!-- Single Promo - Grid Card (Desktop) -->
+<div class='single-promo color-1 bg-hover hover-bottom text-center p-4 h-100' style='border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); transition: all 0.3s ease;'>
+    $desktop_icon
+    <h5 class='mb-2' style='font-size: 16px; font-weight: 700; color: #3b1b6a;'>$title</h5>
+    <p style='font-size: 14px; line-height: 1.6; color: #666; margin-bottom: 0;'>$detail</p>
 </div>
 </div>
 ";
