@@ -194,6 +194,28 @@
         }
     });
 
+    // :: 13.1 MORE MEDIA CAROUSEL (DETAIL PAGES)
+    $('.more-media-carousel.owl-carousel').owlCarousel({
+        loop: true,
+        margin: 16,
+        nav: true,
+        dots: false,
+        smartSpeed: 600,
+        autoplay: false,
+        navText: ['<span class="more-media-nav more-media-nav--prev"><i class="fas fa-chevron-left"></i></span>', '<span class="more-media-nav more-media-nav--next"><i class="fas fa-chevron-right"></i></span>'],
+        responsive: {
+            0: {
+                items: 1
+            },
+            576: {
+                items: 2
+            },
+            992: {
+                items: 3
+            }
+        }
+    });
+
     // :: 14.0 PORTFOLIO ACTIVE CODE
     $('.portfolio-area').each(function(index) {
 
