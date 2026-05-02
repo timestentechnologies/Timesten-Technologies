@@ -6,66 +6,74 @@ $todo = mysqli_real_escape_string($con, $_GET["id"]);
 <style>
 /* Blog Detail Specific Styles */
 .blog-main-title {
-    font-size: 2rem;
+    font-size: 1.8rem;
     font-weight: 700;
-    color: #333;
+    color: #2c3e50;
     word-wrap: break-word;
     word-break: break-word;
     hyphens: auto;
-    line-height: 1.2;
-    margin-bottom: 1rem;
+    line-height: 1.3;
+    margin-bottom: 1.5rem;
+    text-align: center;
 }
 
 .blog-subtitle {
-    font-size: 1.2rem;
-    font-weight: 400;
+    font-size: 1.1rem;
+    font-weight: 500;
     color: #666;
     word-wrap: break-word;
     word-break: break-word;
     hyphens: auto;
-    line-height: 1.4;
+    line-height: 1.5;
     margin-bottom: 1.5rem;
     font-style: italic;
+    text-align: center;
 }
 
 .blog-content {
-    font-size: 1.1rem;
-    line-height: 1.8;
-    color: #444;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: #333;
     margin-top: 2rem;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
 }
 
 .blog-content p {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.2rem;
+    text-align: justify;
 }
 
 .about-thumb {
     max-width: 100%;
     overflow: hidden;
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    border: 1px solid #f0f0f0;
 }
 
 .about-thumb img {
     width: 100%;
-    height: auto;
+    height: 300px;
     object-fit: cover;
-    border-radius: 8px;
+    border-radius: 12px;
     transition: transform 0.3s ease;
 }
 
 .about-thumb:hover img {
-    transform: scale(1.05);
+    transform: scale(1.02);
 }
 
 /* Responsive adjustments */
 @media (max-width: 1199px) {
     .blog-main-title {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
     }
     
     .blog-subtitle {
-        font-size: 1.1rem;
+        font-size: 1rem;
     }
 }
 
@@ -85,22 +93,26 @@ $todo = mysqli_real_escape_string($con, $_GET["id"]);
     }
     
     .blog-main-title {
-        font-size: 1.6rem;
+        font-size: 1.4rem;
     }
     
     .blog-subtitle {
-        font-size: 1rem;
+        font-size: 0.95rem;
     }
 }
 
 @media (max-width: 768px) {
     .blog-main-title {
-        font-size: 1.4rem;
+        font-size: 1.3rem;
         line-height: 1.3;
     }
     
     .blog-subtitle {
-        font-size: 0.95rem;
+        font-size: 0.9rem;
+    }
+    
+    .about-thumb {
+        margin-bottom: 1.5rem;
     }
     
     .blog-metadata {

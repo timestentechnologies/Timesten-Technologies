@@ -57,7 +57,7 @@
                         print "
                         <div class='col-12 col-sm-6 col-lg-4 blog-item mb-4' data-view='grid'>
                             <!-- Grid View -->
-                            <div class='blog-card grid-view'>
+                            <div class='blog-card grid-view border-top border-orange'>
                                 <div class='blog-image'>
                                     <a href='blogdetail.php?id=$id'>
                                         <img src='dashboard/uploads/blog/$ufile' alt='$blog_title' class='img-fluid'>
