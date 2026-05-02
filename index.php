@@ -328,7 +328,7 @@ print "
 <div class='col-12 mb-3'>
 <!-- Single Promo - Horizontal Card -->
 <div class='single-promo color-1 bg-hover hover-bottom d-flex align-items-center p-3' style='border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); transition: all 0.3s ease; background: #fff;'>
-    <div class='promo-icon-wrapper flex-shrink-0 me-3 d-flex align-items-center justify-content-center' style='width: 44px; height: 44px; background: linear-gradient(135deg, #fff5eb 0%, #ffe4d1 100%); border-radius: 10px;'>
+    <div class='promo-icon-wrapper flex-shrink-0 d-flex align-items-center justify-content-center' style='width: 44px; height: 44px; background: linear-gradient(135deg, #fff5eb 0%, #ffe4d1 100%); border-radius: 10px; margin-right: 20px;'>
         $icon_html
     </div>
     <div class='promo-content flex-grow-1 text-start'>
