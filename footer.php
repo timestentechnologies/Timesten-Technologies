@@ -228,6 +228,9 @@ print "
                                         <a href="blog" class="nav-link">Blog</a>
                                     </li>
                                     <li class="nav-item">
+                                        <a href="community" class="nav-link">Community</a>
+                                    </li>
+                                    <li class="nav-item">
                                         <a href="careers" class="nav-link">Careers</a>
                                     </li>
                                     <li class="nav-item">

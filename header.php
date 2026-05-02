@@ -549,6 +549,10 @@ if (strlen(trim($impact_text)) < 1) {
                         </li>
 
                         <li class="nav-item">
+                            <a href="community" class="nav-link">Community</a>
+                        </li>
+
+                        <li class="nav-item">
                             <a href="careers" class="nav-link">Careers</a>
                         </li>
                         
