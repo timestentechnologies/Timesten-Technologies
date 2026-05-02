@@ -4042,3 +4042,38 @@ body.dark,
     font-size: 12px;
     border-radius: 14px;
 }
+
+/* ************************************************************
+:: Why Choose Us - Horizontal Cards
+************************************************************ */
+
+.single-promo.d-flex {
+    border: 1px solid transparent;
+}
+
+.single-promo.d-flex:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1) !important;
+    border-color: rgba(255, 140, 0, 0.2);
+}
+
+.promo-icon-wrapper img {
+    object-fit: contain;
+}
+
+@media (min-width: 768px) {
+    .single-promo.d-flex {
+        padding: 20px !important;
+    }
+    .promo-icon-wrapper {
+        width: 52px !important;
+        height: 52px !important;
+        margin-right: 20px !important;
+    }
+    .promo-content h5 {
+        font-size: 16px !important;
+    }
+    .promo-content p {
+        font-size: 14px !important;
+    }
+}

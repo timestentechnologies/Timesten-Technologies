@@ -314,23 +314,27 @@ while($ro = mysqli_fetch_array($r123))
 	$icon_type="$ro[icon_type]";
 	$icon_image="$ro[icon_image]";
 
-  // Build icon display
+  // Build icon display for horizontal cards
   $icon_html = '';
   if($icon_type == 'upload' && $icon_image) {
-      $icon_html = "<span class='promo-icon mb-3'><img src='dashboard/uploads/whyicons/$icon_image' alt='$title' style='max-height: 50px; max-width: 50px;'></span>";
+      $icon_html = "<img src='dashboard/uploads/whyicons/$icon_image' alt='$title' style='max-height: 28px; max-width: 28px;'>";
   } elseif($icon_class) {
-      $icon_html = "<span class='promo-icon mb-3'><i class='$icon_class fa-3x' style='color: #ff8c00;'></i></span>";
+      $icon_html = "<i class='$icon_class fa-lg' style='color: #ff8c00;'></i>";
   } else {
-      $icon_html = "<span class='promo-icon mb-3'><i class='fas fa-star fa-3x' style='color: #ff8c00;'></i></span>";
+      $icon_html = "<i class='fas fa-star fa-lg' style='color: #ff8c00;'></i>";
   }
 
 print "
-<div class='col-6 col-md-6 col-lg-3 mb-4'>
-<!-- Single Promo -->
-<div class='single-promo color-1 bg-hover hover-bottom text-center p-4 h-100' style='border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); transition: all 0.3s ease;'>
-    $icon_html
-    <h5 class='mb-2' style='font-size: 16px; font-weight: 700; color: #3b1b6a;'>$title</h5>
-    <p style='font-size: 14px; line-height: 1.6; color: #666; margin-bottom: 0;'>$detail</p>
+<div class='col-12 mb-3'>
+<!-- Single Promo - Horizontal Card -->
+<div class='single-promo color-1 bg-hover hover-bottom d-flex align-items-center p-3' style='border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); transition: all 0.3s ease; background: #fff;'>
+    <div class='promo-icon-wrapper flex-shrink-0 me-3 d-flex align-items-center justify-content-center' style='width: 44px; height: 44px; background: linear-gradient(135deg, #fff5eb 0%, #ffe4d1 100%); border-radius: 10px;'>
+        $icon_html
+    </div>
+    <div class='promo-content flex-grow-1 text-start'>
+        <h5 class='mb-1' style='font-size: 15px; font-weight: 700; color: #3b1b6a;'>$title</h5>
+        <p style='font-size: 13px; line-height: 1.5; color: #666; margin-bottom: 0;'>$detail</p>
+    </div>
 </div>
 </div>
 ";
