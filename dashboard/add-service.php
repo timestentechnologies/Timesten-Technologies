@@ -57,6 +57,9 @@
                             $service_desc = mysqli_real_escape_string($con, $_POST['service_desc']);
                             $service_detail = mysqli_real_escape_string($con, $_POST['service_detail']);
                             $service_url = mysqli_real_escape_string($con, $_POST['service_url']);
+                            $tags = mysqli_real_escape_string($con, $_POST['tags']);
+                            $tag_colors = mysqli_real_escape_string($con, $_POST['tag_colors']);
+                            $display_order = isset($_POST['display_order']) && is_numeric($_POST['display_order']) ? intval($_POST['display_order']) : 0;
 
                             if (strlen($service_title) < 5) {
                                 $msg .= "Service Title Must Be More Than 5 Char Length.<br>";
@@ -73,6 +76,10 @@
 
                             if (strlen($service_url) > 255) {
                                 $msg .= "Service URL Must Be Less Than 255 Char Length.<br>";
+                                $status = "NOTOK";
+                            }
+                            if (strlen($tags) > 255) {
+                                $msg .= "Tags Must Be Less Than 255 Char Length.<br>";
                                 $status = "NOTOK";
                             }
 
@@ -92,7 +99,7 @@
                             }
 
                             if ($status == "OK") {
-                                $query = "INSERT INTO service (service_title, service_desc, service_detail, service_url, ufile) VALUES ('$service_title', '$service_desc', '$service_detail', '$service_url', '$new_file_name')";
+                                $query = "INSERT INTO service (service_title, service_desc, service_detail, ufile, service_url, tags, tag_colors, display_order) VALUES ('$service_title', '$service_desc', '$service_detail', '$new_file_name', '$service_url', '$tags', '$tag_colors', '$display_order')";
                                 $qb = mysqli_query($con, $query);
 
                                 if ($qb) {
@@ -207,6 +214,31 @@
                                                 <div class="mb-3">
                                                     <label class="form-label">More Media (images / video / documents)</label>
                                                     <input type="file" class="form-control" name="media_files[]" multiple>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+                                                    <label for="tagsInput" class="form-label">Tags <small class="text-muted">(comma separated, e.g. Web Design, SEO, Marketing)</small></label>
+                                                    <input type="text" class="form-control" id="tagsInput" name="tags" placeholder="Enter tags separated by commas" onchange="updateTagColors()">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+                                                    <label for="displayOrderInput" class="form-label">Display Order <small class="text-muted">(lower number shows first)</small></label>
+                                                    <input type="number" class="form-control" id="displayOrderInput" name="display_order" value="0" min="0">
+                                                </div>
+                                            </div>
+
+                                            <!-- Tag Color Selection -->
+                                            <div class="col-lg-12">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Tag Colors <small class="text-muted">(select color for each tag)</small></label>
+                                                    <div id="tagColorContainer" class="d-flex flex-wrap gap-3">
+                                                        <!-- Color selectors will be dynamically added here -->
+                                                    </div>
+                                                    <input type="hidden" id="tagColorsInput" name="tag_colors" value="">
                                                 </div>
                                             </div>
 

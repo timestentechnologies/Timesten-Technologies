@@ -14,6 +14,9 @@ $service_title  = $row['service_title'];
 $service_desc   = $row['service_desc'];
 $service_detail = $row['service_detail'];
 $service_url    = isset($row['service_url']) ? $row['service_url'] : '';
+$tags           = isset($row['tags']) ? $row['tags'] : '';
+$tag_colors     = isset($row['tag_colors']) ? $row['tag_colors'] : '';
+$display_order  = isset($row['display_order']) ? $row['display_order'] : 0;
 $existing_file  = $row['ufile'];
 
 $status   = "OK";
@@ -26,6 +29,9 @@ if (isset($_POST['save'])) {
     $service_desc   = mysqli_real_escape_string($con, $_POST['service_desc']);
     $service_detail = mysqli_real_escape_string($con, $_POST['service_detail']);
     $service_url    = mysqli_real_escape_string($con, $_POST['service_url']);
+    $tags           = mysqli_real_escape_string($con, $_POST['tags']);
+    $tag_colors     = mysqli_real_escape_string($con, $_POST['tag_colors']);
+    $display_order  = isset($_POST['display_order']) && is_numeric($_POST['display_order']) ? intval($_POST['display_order']) : 0;
 
     $update_image_sql = "";
     $new_file_name    = "";
@@ -55,7 +61,7 @@ if (isset($_POST['save'])) {
 
     // Run update query
     if ($status == "OK") {
-        $sql = "UPDATE service SET service_title='$service_title', service_desc='$service_desc', service_detail='$service_detail', service_url='$service_url' $update_image_sql WHERE id='$todo'";
+        $sql = "UPDATE service SET service_title='$service_title', service_desc='$service_desc', service_detail='$service_detail', service_url='$service_url', tags='$tags', tag_colors='$tag_colors', display_order='$display_order' $update_image_sql WHERE id='$todo'";
         $qb  = mysqli_query($con, $sql);
 
         if ($qb) {
@@ -213,6 +219,31 @@ if ($tm_rs2 && mysqli_num_rows($tm_rs2) > 0) {
                                                 </div>
                                             </div>
 
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+                                                    <label for="tagsInput" class="form-label">Tags <small class="text-muted">(comma separated, e.g. Web Design, SEO, Marketing)</small></label>
+                                                    <input type="text" class="form-control" id="tagsInput" name="tags" value="<?php echo htmlspecialchars($tags); ?>" placeholder="Enter tags separated by commas" onchange="updateTagColors()">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+                                                    <label for="displayOrderInput" class="form-label">Display Order <small class="text-muted">(lower number shows first)</small></label>
+                                                    <input type="number" class="form-control" id="displayOrderInput" name="display_order" value="<?php echo intval($display_order); ?>" min="0">
+                                                </div>
+                                            </div>
+
+                                            <!-- Tag Color Selection -->
+                                            <div class="col-lg-12">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Tag Colors <small class="text-muted">(select color for each tag)</small></label>
+                                                    <div id="tagColorContainer" class="d-flex flex-wrap gap-3">
+                                                        <!-- Color selectors will be dynamically added here -->
+                                                    </div>
+                                                    <input type="hidden" id="tagColorsInput" name="tag_colors" value="<?php echo htmlspecialchars($tag_colors); ?>">
+                                                </div>
+                                            </div>
+
                                             <!-- ===== Existing Media Gallery ===== -->
                                             <?php if (!empty($existing_media)): ?>
                                             <div class="col-lg-12">
@@ -307,4 +338,75 @@ document.querySelectorAll('.remove-media-btn').forEach(function(btn) {
         });
     });
 });
+
+// Tag color options
+const colorOptions = [
+    { value: 'orange', label: 'Orange', class: 'bg-orange' },
+    { value: 'purple', label: 'Purple', class: 'bg-purple' },
+    { value: 'blue', label: 'Blue', class: 'bg-blue' },
+    { value: 'green', label: 'Green', class: 'bg-green' },
+    { value: 'teal', label: 'Teal', class: 'bg-teal' },
+    { value: 'red', label: 'Red', class: 'bg-red' },
+    { value: 'yellow', label: 'Yellow', class: 'bg-yellow' },
+    { value: 'pink', label: 'Pink', class: 'bg-pink' },
+    { value: 'cyan', label: 'Cyan', class: 'bg-cyan' },
+    { value: 'indigo', label: 'Indigo', class: 'bg-indigo' }
+];
+
+// Parse existing tag colors
+const existingTagColors = '<?php echo htmlspecialchars($tag_colors); ?>'.split(',').filter(c => c);
+
+function updateTagColors() {
+    const tagsInput = document.getElementById('tagsInput').value;
+    const tags = tagsInput.split(',').map(t => t.trim()).filter(t => t);
+    const container = document.getElementById('tagColorContainer');
+    const colorsInput = document.getElementById('tagColorsInput');
+
+    // Preserve existing selections
+    const existingSelections = {};
+    container.querySelectorAll('.tag-color-item').forEach(item => {
+        const tagName = item.dataset.tag;
+        const select = item.querySelector('select');
+        if (select) {
+            existingSelections[tagName] = select.value;
+        }
+    });
+
+    container.innerHTML = '';
+
+    tags.forEach((tag, index) => {
+        const colorItem = document.createElement('div');
+        colorItem.className = 'tag-color-item';
+        colorItem.dataset.tag = tag;
+
+        // Use saved color, or existing from DB, or default based on index
+        const savedColor = existingSelections[tag] || existingTagColors[index] || colorOptions[index % colorOptions.length].value;
+
+        let colorOptionsHtml = colorOptions.map(opt =>
+            `<option value="${opt.value}" ${opt.value === savedColor ? 'selected' : ''}>${opt.label}</option>`
+        ).join('');
+
+        colorItem.innerHTML = `
+            <div class="d-flex align-items-center gap-2">
+                <span class="badge bg-light text-dark" style="min-width: 80px;">${tag}</span>
+                <select class="form-select form-select-sm tag-color-select" data-tag="${tag}" style="width: 120px;" onchange="updateTagColorsInput()">
+                    ${colorOptionsHtml}
+                </select>
+            </div>
+        `;
+
+        container.appendChild(colorItem);
+    });
+
+    updateTagColorsInput();
+}
+
+function updateTagColorsInput() {
+    const selects = document.querySelectorAll('.tag-color-select');
+    const colors = Array.from(selects).map(s => s.value);
+    document.getElementById('tagColorsInput').value = colors.join(',');
+}
+
+// Initialize on page load
+updateTagColors();
 </script>

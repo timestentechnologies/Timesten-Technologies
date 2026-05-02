@@ -376,7 +376,7 @@ print "
                 <div class="row g-4">
 
                 <?php
-				   $qs="SELECT * FROM  service ORDER BY id DESC LIMIT 6";
+				   $qs="SELECT * FROM service ORDER BY display_order ASC, id DESC LIMIT 6";
 
 
  $r1 = mysqli_query($con,$qs);
@@ -386,12 +386,33 @@ while($rod = mysqli_fetch_array($r1))
 	$id="$rod[id]";
 	$serviceg="$rod[service_title]";
 	$service_desc="$rod[service_desc]";
+	$tags="$rod[tags]";
+	$tag_colors="$rod[tag_colors]";
+
+	// Process tags with colors
+	$tag_html = '';
+	if (!empty($tags)) {
+		$tag_array = array_map('trim', explode(',', $tags));
+		$color_array = array_map('trim', explode(',', $tag_colors));
+		$default_classes = ['tag-orange', 'tag-purple', 'tag-blue', 'tag-green', 'tag-teal', 'tag-red', 'tag-yellow', 'tag-pink', 'tag-cyan', 'tag-indigo'];
+		$tag_html .= "<div class='tag-container'>";
+		foreach ($tag_array as $i => $tag) {
+			if (!empty($tag) && $i < 3) { // Show max 3 tags on cards
+				// Use saved color or default
+				$saved_color = isset($color_array[$i]) && !empty($color_array[$i]) ? $color_array[$i] : '';
+				$class = !empty($saved_color) ? 'tag-' . $saved_color : $default_classes[$i % count($default_classes)];
+				$tag_html .= "<span class='tag-btn $class'>" . htmlspecialchars($tag) . "</span>";
+			}
+		}
+		$tag_html .= "</div>";
+	}
 
 print "
 <div class='col-12 col-md-6 col-lg-4 mb-4'>
 <!-- Single Service -->
 <div class='single-service p-5 h-100 position-relative' style='background: #fff; border-radius: 16px; border-top: 4px solid #f67011; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: all 0.3s ease;'>
     <h3 class='mb-3' style='color: #3b1b6a; font-weight: 700; font-size: 20px;'>$serviceg</h3>
+    $tag_html
     <p style='color: #666; line-height: 1.6; margin-bottom: 20px;'>$service_desc</p>
     <a class='btn' style='background: linear-gradient(135deg, #f67011 0%, #ff8c42 100%); color: #fff; border-radius: 8px; padding: 10px 25px; font-weight: 600; transition: all 0.3s ease;' href='servicedetail.php?id=$id'>Learn More</a>
 </div>
@@ -431,7 +452,7 @@ print "
                         <div class="row g-5">
 
                         <?php
-                           $q="SELECT * FROM  portfolio ORDER BY id DESC LIMIT 6";
+                           $q="SELECT * FROM portfolio ORDER BY display_order ASC, id DESC LIMIT 6";
 
                         $r123 = mysqli_query($con,$q);
 
@@ -442,6 +463,26 @@ print "
                             $port_title="$ro[port_title]";
                             $port_desc="$ro[port_desc]";
                             $ufile="$ro[ufile]";
+                            $tags="$ro[tags]";
+                            $tag_colors="$ro[tag_colors]";
+
+                            // Process tags with colors
+                            $tag_html = '';
+                            if (!empty($tags)) {
+                                $tag_array = array_map('trim', explode(',', $tags));
+                                $color_array = array_map('trim', explode(',', $tag_colors));
+                                $default_classes = ['tag-orange', 'tag-purple', 'tag-blue', 'tag-green', 'tag-teal', 'tag-red'];
+                                $tag_html .= "<div class='tag-container justify-content-center'>";
+                                foreach ($tag_array as $i => $tag) {
+                                    if (!empty($tag) && $i < 2) { // Show max 2 tags on cards
+                                        // Use saved color or default
+                                        $saved_color = isset($color_array[$i]) && !empty($color_array[$i]) ? $color_array[$i] : '';
+                                        $class = !empty($saved_color) ? 'tag-' . $saved_color : $default_classes[$i % count($default_classes)];
+                                        $tag_html .= "<span class='tag-btn $class'>" . htmlspecialchars($tag) . "</span>";
+                                    }
+                                }
+                                $tag_html .= "</div>";
+                            }
 
                         print "
                         <div class='col-12 col-sm-6 col-lg-4 mb-4'>
@@ -450,6 +491,7 @@ print "
                                     <img src='dashboard/uploads/portfolio/$ufile' alt='$port_title' class='w-100 h-100 object-fit-cover' style='aspect-ratio: 16/9;'>
                                 </a>
                                 <div class='text-center mt-2 px-2 pb-3'>
+                                    $tag_html
                                     <h5 class='fw-bold mb-1'>$port_title</h5>
                                     <p class='mb-0 small'>$port_desc</p>
                                 </div>

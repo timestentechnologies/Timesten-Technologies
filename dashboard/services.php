@@ -36,7 +36,7 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <?php
-                                        $q="SELECT * FROM service ORDER BY id DESC";
+                                        $q="SELECT * FROM service ORDER BY display_order ASC, id DESC";
                                         $r123 = mysqli_query($con,$q);
 
                                         while($ro = mysqli_fetch_array($r123))
@@ -46,8 +46,37 @@
                                             $service_desc="$ro[service_desc]";
                                             $ufile="$ro[ufile]";
                                             $service_url="$ro[service_url]";
+                                            $tags="$ro[tags]";
+                                            $tag_colors="$ro[tag_colors]";
+                                            $display_order="$ro[display_order]";
 
                                             $image_path = !empty($ufile) ? "uploads/services/$ufile" : "assets/images/placeholder.jpg";
+
+                                            // Process tags with colors for display
+                                            $tag_badges = '';
+                                            if (!empty($tags)) {
+                                                $tag_array = array_map('trim', explode(',', $tags));
+                                                $color_array = array_map('trim', explode(',', $tag_colors));
+                                                $default_bootstrap_colors = ['primary', 'success', 'info', 'warning', 'danger', 'secondary'];
+                                                foreach ($tag_array as $i => $tag) {
+                                                    if (!empty($tag)) {
+                                                        // Use saved color or default bootstrap color
+                                                        $saved_color = isset($color_array[$i]) && !empty($color_array[$i]) ? $color_array[$i] : '';
+                                                        if (!empty($saved_color)) {
+                                                            // Map our color names to bootstrap badge colors
+                                                            $color_map = [
+                                                                'orange' => 'warning', 'purple' => 'secondary', 'blue' => 'primary',
+                                                                'green' => 'success', 'teal' => 'info', 'red' => 'danger',
+                                                                'yellow' => 'warning', 'pink' => 'danger', 'cyan' => 'info', 'indigo' => 'primary'
+                                                            ];
+                                                            $badge_color = isset($color_map[$saved_color]) ? $color_map[$saved_color] : 'primary';
+                                                        } else {
+                                                            $badge_color = $default_bootstrap_colors[$i % count($default_bootstrap_colors)];
+                                                        }
+                                                        $tag_badges .= '<span class="badge bg-' . $badge_color . ' me-1">' . htmlspecialchars($tag) . '</span>';
+                                                    }
+                                                }
+                                            }
                                             ?>
 
                                             <div class="col-xl-4 col-md-6">
@@ -62,6 +91,10 @@
                                                                 <?php if(!empty($service_desc)): ?>
                                                                     <p class="card-text text-muted mb-2" style="font-size: 0.875rem;"><?php echo htmlspecialchars(substr($service_desc, 0, 100)) . (strlen($service_desc) > 100 ? '...' : ''); ?></p>
                                                                 <?php endif; ?>
+                                                                <?php if(!empty($tag_badges)): ?>
+                                                                    <div class="mb-1"><?php echo $tag_badges; ?></div>
+                                                                <?php endif; ?>
+                                                                <small class="text-muted">Order: <?php echo intval($display_order); ?></small>
                                                             </div>
                                                         </div>
                                                         <div class="d-flex justify-content-end mt-3">

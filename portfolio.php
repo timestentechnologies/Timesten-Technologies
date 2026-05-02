@@ -27,7 +27,7 @@
                         <div class="row g-4">
 
                         <?php
-                           $q="SELECT * FROM  portfolio ORDER BY id DESC";
+                           $q="SELECT * FROM portfolio ORDER BY display_order ASC, id DESC";
 
                         $r123 = mysqli_query($con,$q);
 
@@ -38,6 +38,26 @@
                             $port_title="$ro[port_title]";
                             $port_desc="$ro[port_desc]";
                             $ufile="$ro[ufile]";
+                            $tags="$ro[tags]";
+                            $tag_colors="$ro[tag_colors]";
+
+                            // Process tags with colors
+                            $tag_html = '';
+                            if (!empty($tags)) {
+                                $tag_array = array_map('trim', explode(',', $tags));
+                                $color_array = array_map('trim', explode(',', $tag_colors));
+                                $default_classes = ['tag-orange', 'tag-purple', 'tag-blue', 'tag-green', 'tag-teal', 'tag-red'];
+                                $tag_html .= "<div class='tag-container justify-content-center'>";
+                                foreach ($tag_array as $i => $tag) {
+                                    if (!empty($tag) && $i < 3) { // Show max 3 tags on cards
+                                        // Use saved color or default
+                                        $saved_color = isset($color_array[$i]) && !empty($color_array[$i]) ? $color_array[$i] : '';
+                                        $class = !empty($saved_color) ? 'tag-' . $saved_color : $default_classes[$i % count($default_classes)];
+                                        $tag_html .= "<span class='tag-btn $class'>" . htmlspecialchars($tag) . "</span>";
+                                    }
+                                }
+                                $tag_html .= "</div>";
+                            }
 
                         print "
                         <div class='col-12 col-sm-6 col-lg-4 mb-4'>
@@ -49,6 +69,7 @@
                                 </a>
                                 <!-- Portfolio Title Below Card -->
                                 <div class='text-center mt-2 px-2 pb-3'>
+                                    $tag_html
                                     <h5 class='fw-bold mb-1'>$port_title</h5>
                                     <p class='mb-0 small'>$port_desc</p>
                                 </div>

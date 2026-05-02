@@ -60,6 +60,26 @@ if ($has_service_media_table) {
     $service_url = "$tr[service_url]";
     $updated_at = "$tr[updated_at]";
     $ufile = "$tr[ufile]";
+    $tags = isset($tr['tags']) ? $tr['tags'] : '';
+    $tag_colors = isset($tr['tag_colors']) ? $tr['tag_colors'] : '';
+
+    // Process tags with colors for display
+    $tags_html = '';
+    if (!empty($tags)) {
+        $tag_array = array_map('trim', explode(',', $tags));
+        $color_array = array_map('trim', explode(',', $tag_colors));
+        $default_classes = ['tag-orange', 'tag-purple', 'tag-blue', 'tag-green', 'tag-teal', 'tag-red', 'tag-yellow', 'tag-pink', 'tag-cyan', 'tag-indigo'];
+        $tags_html .= "<div class='detail-tags tag-container'>";
+        foreach ($tag_array as $i => $tag) {
+            if (!empty($tag)) {
+                // Use saved color or default
+                $saved_color = isset($color_array[$i]) && !empty($color_array[$i]) ? $color_array[$i] : '';
+                $class = !empty($saved_color) ? 'tag-' . $saved_color : $default_classes[$i % count($default_classes)];
+                $tags_html .= "<span class='tag-btn $class'>" . htmlspecialchars($tag) . "</span>";
+            }
+        }
+        $tags_html .= "</div>";
+    }
 
     $service_detail_display = $service_detail;
     $service_detail_display = stripcslashes($service_detail_display);
@@ -85,6 +105,7 @@ if ($has_service_media_table) {
                         <!-- About Content -->
                         <div class="about-content section-heading text-center text-lg-left pl-md-4 mt-5 mt-lg-0 mb-0">
                             <h2 class="mb-3 detail-title"><?php print $service_title?></h2>
+                            <?php if(!empty($tags_html)) print $tags_html; ?>
                             <p><?php print $service_detail_display;?></p>
                             <?php if(!empty($service_url)) { ?>
                                 <a class="btn btn-orange mt-4" href="<?php print $service_url; ?>" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt mr-2"></i>Visit Website</a>

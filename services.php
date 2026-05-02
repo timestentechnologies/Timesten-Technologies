@@ -42,7 +42,7 @@
                 <div class="row g-5">
 
                 <?php
-				   $qs="SELECT * FROM service ORDER BY id DESC";
+				   $qs="SELECT * FROM service ORDER BY display_order ASC, id DESC";
 
 
  $r1 = mysqli_query($con,$qs);
@@ -53,8 +53,28 @@ while($rod = mysqli_fetch_array($r1))
 	$serviceg="$rod[service_title]";
 	$service_desc="$rod[service_desc]";
     $ufile="$rod[ufile]";
+    $tags="$rod[tags]";
+    $tag_colors="$rod[tag_colors]";
 
     $image_path = !empty($ufile) ? "dashboard/uploads/services/$ufile" : "assets/images/placeholder.jpg";
+
+    // Process tags with colors
+    $tag_html = '';
+    if (!empty($tags)) {
+        $tag_array = array_map('trim', explode(',', $tags));
+        $color_array = array_map('trim', explode(',', $tag_colors));
+        $default_classes = ['tag-orange', 'tag-purple', 'tag-blue', 'tag-green', 'tag-teal', 'tag-red'];
+        $tag_html .= "<div class='tag-container justify-content-center'>";
+        foreach ($tag_array as $i => $tag) {
+            if (!empty($tag) && $i < 3) { // Show max 3 tags on cards
+                // Use saved color or default
+                $saved_color = isset($color_array[$i]) && !empty($color_array[$i]) ? $color_array[$i] : '';
+                $class = !empty($saved_color) ? 'tag-' . $saved_color : $default_classes[$i % count($default_classes)];
+                $tag_html .= "<span class='tag-btn $class'>" . htmlspecialchars($tag) . "</span>";
+            }
+        }
+        $tag_html .= "</div>";
+    }
 
 print "
 <div class='col-12 col-sm-6 col-lg-4 mb-4'>
@@ -66,6 +86,7 @@ print "
         </a>
         <!-- Service Title Below Card -->
         <div class='text-center mt-2 px-2 pb-3'>
+            $tag_html
             <h5 class='fw-bold mb-1'>$serviceg</h5>
             <p class='mb-0 small'>$service_desc</p>
         </div>

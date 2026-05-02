@@ -53,7 +53,10 @@ $msg="";
 $port_title = mysqli_real_escape_string($con,$_POST['port_title']);
 $port_desc = mysqli_real_escape_string($con,$_POST['port_desc']);
 $port_detail = mysqli_real_escape_string($con,$_POST['port_detail']);
- $port_url = mysqli_real_escape_string($con,$_POST['port_url']);
+$port_url = mysqli_real_escape_string($con,$_POST['port_url']);
+$tags = mysqli_real_escape_string($con,$_POST['tags']);
+$tag_colors = mysqli_real_escape_string($con,$_POST['tag_colors']);
+$display_order = isset($_POST['display_order']) && is_numeric($_POST['display_order']) ? intval($_POST['display_order']) : 0;
 
  if ( strlen($port_title) < 5 ){
 $msg=$msg."Portfolio Title Must Be More Than 5 Char Length.<BR>";
@@ -69,8 +72,9 @@ if ( strlen($port_detail) < 15 ){
  if ( strlen($port_url) > 255 ){
    $msg=$msg."Portfolio URL Must Be Less Than 255 Char Length.<BR>";
    $status= "NOTOK";}
-
-
+ if ( strlen($tags) > 255 ){
+   $msg=$msg."Tags Must Be Less Than 255 Char Length.<BR>";
+   $status= "NOTOK";}
 
 $uploads_dir = 'uploads/portfolio';
 
@@ -85,7 +89,7 @@ $uploads_dir = 'uploads/portfolio';
 
 if($status=="OK")
 {
-$qb=mysqli_query($con,"INSERT INTO portfolio (port_title, port_desc, port_detail, port_url, ufile) VALUES ('$port_title', '$port_desc', '$port_detail', '$port_url', '$new_file_name')");
+$qb=mysqli_query($con,"INSERT INTO portfolio (port_title, port_desc, port_detail, port_url, ufile, tags, tag_colors, display_order) VALUES ('$port_title', '$port_desc', '$port_detail', '$port_url', '$new_file_name', '$tags', '$tag_colors', '$display_order')");
 
 
 		if($qb){
@@ -156,7 +160,6 @@ $qb=mysqli_query($con,"INSERT INTO portfolio (port_title, port_desc, port_detail
            ?>
 
 
-
                                 <div class="card-body p-4">
                                     <div class="tab-content">
                                         <div class="tab-pane active" id="personalDetails" role="tabpanel">
@@ -209,8 +212,33 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
 
                                                     <div class="col-lg-6">
                                                         <div class="mb-3">
-                                                            <label class="form-label">More Media (images / video / documents)</label>
+                                                            <label class="form-label">Add More Media (images / video / documents)</label>
                                                             <input type="file" class="form-control" name="media_files[]" multiple>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-3">
+                                                            <label for="tagsInput" class="form-label">Tags <small class="text-muted">(comma separated, e.g. Web Design, SEO, Marketing)</small></label>
+                                                            <input type="text" class="form-control" id="tagsInput" name="tags" placeholder="Enter tags separated by commas" onchange="updateTagColors()">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-3">
+                                                            <label for="displayOrderInput" class="form-label">Display Order <small class="text-muted">(lower number shows first)</small></label>
+                                                            <input type="number" class="form-control" id="displayOrderInput" name="display_order" value="0" min="0">
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Tag Color Selection -->
+                                                    <div class="col-lg-12">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Tag Colors <small class="text-muted">(select color for each tag)</small></label>
+                                                            <div id="tagColorContainer" class="d-flex flex-wrap gap-3">
+                                                                <!-- Color selectors will be dynamically added here -->
+                                                            </div>
+                                                            <input type="hidden" id="tagColorsInput" name="tag_colors" value="">
                                                         </div>
                                                     </div>
                                                     <!--end col-->

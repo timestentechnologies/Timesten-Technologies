@@ -3947,3 +3947,94 @@ body.dark,
         flex-basis: 85%;
     }
 }
+
+/* ************************************************************
+:: Tag Buttons Styles for Services and Portfolio
+************************************************************ */
+
+.tag-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.tag-btn {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: default;
+}
+
+/* Tag Color Variations */
+.tag-btn.tag-orange {
+    background: linear-gradient(135deg, #ff8c00 0%, #ff7f50 100%);
+    color: #fff;
+}
+
+.tag-btn.tag-purple {
+    background: linear-gradient(135deg, #3b1b6a 0%, #6b2c91 100%);
+    color: #fff;
+}
+
+.tag-btn.tag-blue {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    color: #fff;
+}
+
+.tag-btn.tag-green {
+    background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+    color: #fff;
+}
+
+.tag-btn.tag-teal {
+    background: linear-gradient(135deg, #20c997 0%, #138496 100%);
+    color: #fff;
+}
+
+.tag-btn.tag-red {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    color: #fff;
+}
+
+.tag-btn.tag-yellow {
+    background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);
+    color: #212529;
+}
+
+.tag-btn.tag-pink {
+    background: linear-gradient(135deg, #e83e8c 0%, #d91a72 100%);
+    color: #fff;
+}
+
+.tag-btn.tag-cyan {
+    background: linear-gradient(135deg, #17a2b8 0%, #117a8b 100%);
+    color: #fff;
+}
+
+.tag-btn.tag-indigo {
+    background: linear-gradient(135deg, #6610f2 0%, #4b0cb8 100%);
+    color: #fff;
+}
+
+.tag-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Detail Page Tags */
+.detail-tags {
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+.detail-tags .tag-btn {
+    padding: 6px 16px;
+    font-size: 13px;
+}
