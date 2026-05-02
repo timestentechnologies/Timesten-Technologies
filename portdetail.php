@@ -82,10 +82,10 @@ if ($has_portfolio_media_table) {
                     <div class="col-12 col-lg-6">
                         <!-- About Content -->
                         <div class="about-content section-heading text-center text-lg-left pl-md-4 mt-5 mt-lg-0 mb-0">
-                            <h2 class="mb-3 detail-title"><?php print $port_title?></h2>
+                            <h2 class="mb-3"><?php print $port_title?></h2>
                             <p><?php print $port_detail_display;?></p>
                             <?php if(!empty($port_url)) { ?>
-                                <a class="btn btn-bordered btn-sm btn-warm-orange mt-4 detail-website-btn" href="<?php print $port_url; ?>" target="_blank" rel="noopener noreferrer">Visit Website</a>
+                                <a class="btn btn-bordered mt-4" href="<?php print $port_url; ?>" target="_blank" rel="noopener noreferrer">Visit Website</a>
                             <?php } ?>
                             <?php if ($prev_port_id > 0 || $next_port_id > 0) { ?>
                                 <div class="d-flex justify-content-between align-items-center gap-2 mt-4">
@@ -112,7 +112,7 @@ if ($has_portfolio_media_table) {
                         <div class="col-12">
                             <div class="single-service p-4" style="border: solid 1px #788282;">
                                 <h3 class="mb-3">More Media</h3>
-                                <div class="more-media-carousel owl-carousel">
+                                <div class="row">
                                     <?php foreach ($portfolio_media_items as $mitem) {
                                         $mtype = isset($mitem['media_type']) ? $mitem['media_type'] : '';
                                         $mpath = isset($mitem['file_path']) ? $mitem['file_path'] : '';
@@ -120,11 +120,11 @@ if ($has_portfolio_media_table) {
                                         $full_url = "dashboard/uploads/portfolio/" . $mpath_safe;
 
                                         if ($mtype === 'image') {
-                                            print "<div class='more-media-item'><a href='$full_url' target='_blank' rel='noopener noreferrer'><img src='$full_url' alt='media'></a></div>";
+                                            print "<div class='col-12 col-md-6 col-lg-4 mb-3'><a href='$full_url' target='_blank'><img src='$full_url' alt='media' style='width:100%;height:200px;object-fit:cover;border-radius:12px;display:block;'></a></div>";
                                         } elseif ($mtype === 'video') {
-                                            print "<div class='more-media-item'><video controls><source src='$full_url'></video></div>";
+                                            print "<div class='col-12 col-lg-6 mb-3'><video controls style='width:100%;border-radius:12px;'><source src='$full_url'></video></div>";
                                         } else {
-                                            print "<div class='more-media-item'><a class='btn btn-bordered w-100' href='$full_url' target='_blank' rel='noopener noreferrer'>Open Document</a></div>";
+                                            print "<div class='col-12 col-md-6 col-lg-4 mb-3'><a class='btn btn-bordered w-100' href='$full_url' target='_blank' rel='noopener noreferrer'>Open Document</a></div>";
                                         }
                                     } ?>
                                 </div>
