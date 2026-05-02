@@ -3907,3 +3907,24 @@ body.dark,
     background: linear-gradient(135deg, #ff8c00 0%, #ff7f50 100%);
     transform: scale(1.2);
 }
+
+/* Fallback horizontal layout if Owl Carousel fails to initialize */
+.media-carousel:not(.owl-loaded) {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 10px;
+}
+
+.media-carousel:not(.owl-loaded) .media-item {
+    flex: 0 0 320px;
+    scroll-snap-align: start;
+}
+
+@media (max-width: 575px) {
+    .media-carousel:not(.owl-loaded) .media-item {
+        flex-basis: 85%;
+    }
+}

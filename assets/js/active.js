@@ -133,10 +133,14 @@
     });
 
     // :: 7.0 AOS ACTIVE CODE
-    AOS.init();
+    if (window.AOS && typeof window.AOS.init === 'function') {
+        AOS.init();
+    }
 
     // :: 8.0 WOW ACTIVE CODE
-    new WOW().init();
+    if (window.WOW && typeof window.WOW === 'function') {
+        new WOW().init();
+    }
 
     // :: 9.0 PREVENT DEFAULT ACTIVE CODE
     $("a[href='#']").on('click', function ($) {
@@ -144,21 +148,25 @@
     });
 
     // :: 10.0 COUNTERUP ACTIVE CODE
-    $('.counter').counterUp({
-        delay: 10,
-        time: 1000
-    });
+    if ($.fn && typeof $.fn.counterUp === 'function') {
+        $('.counter').counterUp({
+            delay: 10,
+            time: 1000
+        });
+    }
 
     // :: 11.0 FANCYBOX VIDEO POPUP ACTIVE CODE
-    $(".play-btn").fancybox({
-        animationEffect: "zoom-in-out",
-        transitionEffect: "circular",
-        maxWidth: 800,
-        maxHeight: 600,
-        youtube: {
-            controls: 0
-        }
-    });
+    if ($.fn && typeof $.fn.fancybox === 'function') {
+        $(".play-btn").fancybox({
+            animationEffect: "zoom-in-out",
+            transitionEffect: "circular",
+            maxWidth: 800,
+            maxHeight: 600,
+            youtube: {
+                controls: 0
+            }
+        });
+    }
 
     // :: 12.0 CIRCLE ANIMATION ACTIVE CODE
     $(window).on("load", function () {
@@ -225,38 +233,94 @@
     });
 
     // :: 15.0 MEDIA CAROUSEL ACTIVE CODE (for Portfolio & Service Detail Pages)
-    $('.media-carousel').owlCarousel({
-        loop: true,
-        margin: 20,
-        nav: true,
-        dots: true,
-        smartSpeed: 800,
-        autoplay: true,
-        autoplayTimeout: 3000,
-        autoplayHoverPause: true,
-        slideBy: 1,
-        responsive: {
-            0: {
-                items: 1,
-                nav: false
-            },
-            576: {
-                items: 2,
-                nav: true
-            },
-            768: {
-                items: 3,
-                nav: true
-            },
-            992: {
-                items: 4,
-                nav: true
-            },
-            1200: {
-                items: 4,
-                nav: true
-            }
+    function initMediaCarousel() {
+        var $carousel = $('.media-carousel');
+        if (!$carousel.length) {
+            return;
         }
+        if (!$.fn || typeof $.fn.owlCarousel !== 'function') {
+            return;
+        }
+        $carousel.each(function () {
+            var $c = $(this);
+            if ($c.hasClass('owl-loaded')) {
+                return;
+            }
+            $c.owlCarousel({
+                loop: true,
+                margin: 20,
+                nav: true,
+                dots: true,
+                smartSpeed: 800,
+                autoplay: true,
+                autoplayTimeout: 3000,
+                autoplayHoverPause: true,
+                slideBy: 1,
+                responsive: {
+                    0: {
+                        items: 1,
+                        nav: false
+                    },
+                    576: {
+                        items: 2,
+                        nav: true
+                    },
+                    768: {
+                        items: 3,
+                        nav: true
+                    },
+                    992: {
+                        items: 4,
+                        nav: true
+                    },
+                    1200: {
+                        items: 4,
+                        nav: true
+                    }
+                }
+            });
+        });
+    }
+
+    function initMediaCarouselFallbackScroll() {
+        var $carousels = $('.media-carousel').not('.owl-loaded');
+        if (!$carousels.length) {
+            return;
+        }
+
+        $carousels.each(function () {
+            var el = this;
+            if (el.__mediaScrollTimer) {
+                return;
+            }
+
+            var step = 1;
+            el.__mediaScrollTimer = setInterval(function () {
+                if ($(el).hasClass('owl-loaded')) {
+                    clearInterval(el.__mediaScrollTimer);
+                    el.__mediaScrollTimer = null;
+                    return;
+                }
+
+                el.scrollLeft += step;
+                if (el.scrollLeft + el.clientWidth >= el.scrollWidth - 2) {
+                    el.scrollLeft = 0;
+                }
+            }, 30);
+        });
+    }
+
+    // Run after DOM is ready + a short delay (covers slower plugin loads)
+    $(function () {
+        initMediaCarousel();
+        setTimeout(initMediaCarousel, 250);
+        setTimeout(initMediaCarousel, 1000);
+        setTimeout(initMediaCarouselFallbackScroll, 1500);
+    });
+
+    $window.on('load', function () {
+        initMediaCarousel();
+        setTimeout(initMediaCarouselFallbackScroll, 500);
     });
 
     // :: 16.0 CONTACT FORM ACTIVE CODE
