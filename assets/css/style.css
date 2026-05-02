@@ -4044,6 +4044,21 @@ body.dark,
 }
 
 /* ************************************************************
+:: Blog Page Container Width
+************************************************************ */
+
+.blog-area .container {
+    max-width: 100%;
+    padding: 0 15px;
+}
+
+@media (min-width: 1200px) {
+    .blog-area .container {
+        max-width: 1140px;
+    }
+}
+
+/* ************************************************************
 :: Blog Cards with Orange Top Edge
 ************************************************************ */
 
@@ -4145,8 +4160,15 @@ body.dark,
 ************************************************************ */
 
 .blog-detail-container {
-    max-width: 900px;
+    max-width: 100%;
     margin: 0 auto;
+    padding: 0 15px;
+}
+
+@media (min-width: 1200px) {
+    .blog-detail-container {
+        max-width: 1140px;
+    }
 }
 
 .blog-detail-header {
