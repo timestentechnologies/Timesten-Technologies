@@ -4185,6 +4185,12 @@ body.dark,
     border-radius: 16px;
     padding: 40px;
     box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    position: relative;
+    background-image: url('assets/img/logo/logo.png'), #fff;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 200px auto;
+    background-attachment: fixed;
 }
 
 .blog-detail-content h1,
@@ -4283,23 +4289,19 @@ body.dark,
 }
 
 /* Blog Watermark */
-.blog-detail-content {
-    position: relative;
-}
-
 .blog-detail-content::before {
     content: '';
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) rotate(-45deg);
-    width: 250px;
-    height: 250px;
+    width: 200px;
+    height: 200px;
     background-image: url('assets/img/logo/logo.png');
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
-    opacity: 0.08;
+    opacity: 0.06;
     pointer-events: none;
     z-index: 1;
 }
