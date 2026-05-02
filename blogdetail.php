@@ -177,67 +177,73 @@ $ufile = $tr['ufile'];
 ?>
 
 <!-- ***** Blog Detail Area Start ***** -->
-<section class="section about-area ptb_100">
+<section class="section ptb_100" style="background: #f8f9fa;">
     <div class="container">
-        <!-- Top section with image and title -->
-        <div class="row justify-content-between align-items-start mb-4">
-            <div class="col-12 col-lg-6">
-                <!-- Blog Image -->
-                <div class="about-thumb text-center">
-                    <img src="dashboard/uploads/blog/<?php echo htmlspecialchars($ufile); ?>" 
-                         alt="<?php echo htmlspecialchars($blog_title); ?>" 
-                         class="img-fluid">
-                </div>
-            </div>
-            <div class="col-12 col-lg-6">
-                <!-- Blog Title and Description -->
-                <div class="about-content section-heading text-center text-lg-left pl-md-4">
-                    <!-- Blog Title -->
-                    <h1 class="blog-main-title">
-                        <?php echo htmlspecialchars($blog_title); ?>
-                    </h1>
-                    
-                   
-                    
-                    <!-- Blog Description (if different from title) -->
-                    <?php if (!empty($blog_desc) && $blog_desc !== $blog_title): ?>
-                        <h3 class="blog-subtitle">
-                            <?php echo htmlspecialchars($blog_desc); ?>
-                        </h3>
-                    <?php endif; ?>
+        <div class="blog-detail-container">
+            <!-- Blog Header with Image and Title -->
+            <div class="blog-detail-header">
+                <div class="row align-items-center">
+                    <div class="col-12 col-lg-5">
+                        <!-- Blog Image -->
+                        <div class="blog-image-wrapper">
+                            <img src="dashboard/uploads/blog/<?php echo htmlspecialchars($ufile); ?>" 
+                                 alt="<?php echo htmlspecialchars($blog_title); ?>" 
+                                 class="img-fluid rounded-3 shadow-sm"
+                                 style="width: 100%; height: auto; object-fit: cover;">
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-7">
+                        <!-- Blog Title and Metadata -->
+                        <div class="blog-header-content">
+                            <!-- Blog Title -->
+                            <h1 class="blog-main-title mb-3">
+                                <?php echo htmlspecialchars($blog_title); ?>
+                            </h1>
+                            
+                            <!-- Blog Description (if different from title) -->
+                            <?php if (!empty($blog_desc) && $blog_desc !== $blog_title): ?>
+                                <h3 class="blog-subtitle mb-4">
+                                    <?php echo htmlspecialchars($blog_desc); ?>
+                                </h3>
+                            <?php endif; ?>
 
-                     <!-- Blog Metadata -->
-                    <div class="blog-metadata">
-                        <div class="blog-metadata-item">
-                            <i class="fas fa-eye"></i>
-                            <span>10.5K Views</span>
-                        </div>
-                        <div class="blog-metadata-item">
-                            <i class="far fa-calendar-alt"></i>
-                            <span>Created: <?php 
-                                $created_date = !empty($tr['created_at']) ? date('M d, Y', strtotime($tr['created_at'])) : 'N/A';
-                                echo htmlspecialchars($created_date); 
-                            ?></span>
-                        </div>
-                        <div class="blog-metadata-item">
-                            <i class="fas fa-clock"></i>
-                            <span>Updated: <?php 
-                                $updated_date = !empty($tr['updated_at']) ? date('M d, Y', strtotime($tr['updated_at'])) : 'N/A';
-                                echo htmlspecialchars($updated_date); 
-                            ?></span>
+                            <!-- Blog Metadata -->
+                            <div class="blog-metadata mb-0">
+                                <div class="blog-metadata-item">
+                                    <i class="fas fa-eye"></i>
+                                    <span>10.5K Views</span>
+                                </div>
+                                <div class="blog-metadata-item">
+                                    <i class="far fa-calendar-alt"></i>
+                                    <span>Created: <?php 
+                                        $created_date = !empty($tr['created_at']) ? date('M d, Y', strtotime($tr['created_at'])) : 'N/A';
+                                        echo htmlspecialchars($created_date); 
+                                    ?></span>
+                                </div>
+                                <div class="blog-metadata-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span>Updated: <?php 
+                                        $updated_date = !empty($tr['updated_at']) ? date('M d, Y', strtotime($tr['updated_at'])) : 'N/A';
+                                        echo htmlspecialchars($updated_date); 
+                                    ?></span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <!-- Full width content section -->
-        <div class="row">
-            <div class="col-12">
-                <!-- Blog Content -->
-                <div class="blog-content">
-                    <?php echo nl2br(htmlspecialchars($blog_detail)); ?>
-                </div>
+            
+            <!-- Blog Content Section -->
+            <div class="blog-detail-content">
+                <?php 
+                // Process blog content to handle line breaks and basic HTML
+                $content = nl2br(htmlspecialchars($blog_detail));
+                // Convert double line breaks to paragraphs for better formatting
+                $content = preg_replace('/<br\s*?\/?>\s*?<br\s*?\/?>/i', '</p><p>', $content);
+                // Wrap in paragraphs
+                $content = '<p>' . $content . '</p>';
+                echo $content;
+                ?>
             </div>
         </div>
     </div>
