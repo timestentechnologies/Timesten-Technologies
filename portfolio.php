@@ -49,7 +49,7 @@
                                 $default_classes = ['tag-orange', 'tag-purple', 'tag-blue', 'tag-green', 'tag-teal', 'tag-red'];
                                 $tag_html .= "<div class='tag-container justify-content-center'>";
                                 foreach ($tag_array as $i => $tag) {
-                                    if (!empty($tag) && $i < 3) { // Show max 3 tags on cards
+                                    if (!empty($tag) && $i < 4) { // Show max 4 tags on cards
                                         // Use saved color or default
                                         $saved_color = isset($color_array[$i]) && !empty($color_array[$i]) ? $color_array[$i] : '';
                                         $class = !empty($saved_color) ? 'tag-' . $saved_color : $default_classes[$i % count($default_classes)];
